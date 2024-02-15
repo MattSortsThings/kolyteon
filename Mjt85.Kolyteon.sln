@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{43CE6713-5334-4107-978F-4C19098EBB91}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{39B76AEC-F143-4AFA-910C-4129F422DC23}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mjt85.Kolyteon", "src\Mjt85.Kolyteon\Mjt85.Kolyteon.csproj", "{F6A49910-3C53-46D9-8D3D-E7C45976D8BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mjt85.Kolyteon.UnitTests", "tests\Mjt85.Kolyteon.UnitTests\Mjt85.Kolyteon.UnitTests.csproj", "{E4269B92-D95D-4B92-8928-4B3E41343056}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mjt85.Kolyteon.IntegrationTests", "tests\Mjt85.Kolyteon.IntegrationTests\Mjt85.Kolyteon.IntegrationTests.csproj", "{A383D370-8927-4B9F-A5AE-6DB8D4A52B18}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mjt85.Kolyteon.FeatureTests", "tests\Mjt85.Kolyteon.FeatureTests\Mjt85.Kolyteon.FeatureTests.csproj", "{76B47DCF-B73E-40C8-B1EE-AC186849373F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F6A49910-3C53-46D9-8D3D-E7C45976D8BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6A49910-3C53-46D9-8D3D-E7C45976D8BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6A49910-3C53-46D9-8D3D-E7C45976D8BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6A49910-3C53-46D9-8D3D-E7C45976D8BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4269B92-D95D-4B92-8928-4B3E41343056}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4269B92-D95D-4B92-8928-4B3E41343056}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4269B92-D95D-4B92-8928-4B3E41343056}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4269B92-D95D-4B92-8928-4B3E41343056}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A383D370-8927-4B9F-A5AE-6DB8D4A52B18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A383D370-8927-4B9F-A5AE-6DB8D4A52B18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A383D370-8927-4B9F-A5AE-6DB8D4A52B18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A383D370-8927-4B9F-A5AE-6DB8D4A52B18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76B47DCF-B73E-40C8-B1EE-AC186849373F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76B47DCF-B73E-40C8-B1EE-AC186849373F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76B47DCF-B73E-40C8-B1EE-AC186849373F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76B47DCF-B73E-40C8-B1EE-AC186849373F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F6A49910-3C53-46D9-8D3D-E7C45976D8BB} = {43CE6713-5334-4107-978F-4C19098EBB91}
+		{E4269B92-D95D-4B92-8928-4B3E41343056} = {39B76AEC-F143-4AFA-910C-4129F422DC23}
+		{A383D370-8927-4B9F-A5AE-6DB8D4A52B18} = {39B76AEC-F143-4AFA-910C-4129F422DC23}
+		{76B47DCF-B73E-40C8-B1EE-AC186849373F} = {39B76AEC-F143-4AFA-910C-4129F422DC23}
+	EndGlobalSection
+EndGlobal
