@@ -369,7 +369,7 @@ public sealed class NQueensPuzzleTests
             // Arrange
             NQueensPuzzle original = NQueensPuzzle.FromN(n);
 
-            JsonSerializerOptions jsonOptions = Invariants.JsonSerializerOptions();
+            JsonSerializerOptions jsonOptions = Invariants.GetJsonSerializerOptions();
 
             // Act
             var json = JsonSerializer.Serialize(original, jsonOptions);

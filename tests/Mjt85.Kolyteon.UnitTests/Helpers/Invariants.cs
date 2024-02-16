@@ -8,7 +8,7 @@ namespace Mjt85.Kolyteon.UnitTests.Helpers;
 /// </summary>
 internal static class Invariants
 {
-    public static JsonSerializerOptions JsonSerializerOptions() => new()
+    public static JsonSerializerOptions GetJsonSerializerOptions() => new()
     {
         DefaultIgnoreCondition = JsonIgnoreCondition.Never,
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,

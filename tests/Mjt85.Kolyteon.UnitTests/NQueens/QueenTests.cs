@@ -485,7 +485,7 @@ public sealed class QueenTests
             // Arrange
             Queen original = new(column, row);
 
-            JsonSerializerOptions jsonOptions = Invariants.JsonSerializerOptions();
+            JsonSerializerOptions jsonOptions = Invariants.GetJsonSerializerOptions();
 
             // Act
             var json = JsonSerializer.Serialize(original, jsonOptions);
