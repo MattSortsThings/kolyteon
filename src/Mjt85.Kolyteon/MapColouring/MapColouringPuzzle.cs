@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using Mjt85.Kolyteon.MapColouring.Internals;
 
 namespace Mjt85.Kolyteon.MapColouring;
@@ -132,6 +133,44 @@ public sealed record MapColouringPuzzle
     public override int GetHashCode() => HashCode.Combine(RegionData, NeighbourPairs);
 
     /// <summary>
+    ///     Determines whether the proposed solution is valid for the Map Colouring puzzle represented by this instance.
+    /// </summary>
+    /// <remarks>
+    ///     This method applies the following validation checks to the <paramref name="solution" /> parameter sequentially and
+    ///     returns on the first validation error encountered (if any):
+    ///     <list type="number">
+    ///         <item>
+    ///             The number of key-value pairs in the <paramref name="solution" /> is equal to the number of items in
+    ///             <see cref="RegionData" />.
+    ///         </item>
+    ///         <item>
+    ///             For every region datum in in <see cref="RegionData" />, the region is assigned one of its permitted
+    ///             colours.
+    ///         </item>
+    ///         <item>
+    ///             For every pair of neighbouring regions in <see cref="NeighbourPairs" />, each region in the pair is
+    ///             assigned a different colour.
+    ///         </item>
+    ///     </list>
+    /// </remarks>
+    /// <param name="solution">
+    ///     A dictionary in which each key is a <see cref="Region" /> instance and its value is its assigned
+    ///     <see cref="Colour" /> value. The proposed solution to the puzzle.
+    /// </param>
+    /// <returns>
+    ///     <see cref="ValidationResult.Success" /> (i.e. <c>null</c>) if the <paramref name="solution" /> parameter is a
+    ///     valid solution; otherwise, a <see cref="ValidationResult" /> instance with an error message reporting the first
+    ///     validation error encountered.
+    /// </returns>
+    /// <exception cref="ArgumentNullException"><paramref name="solution" /> is <c>null</c>.</exception>
+    public ValidationResult? ValidSolution(IReadOnlyDictionary<Region, Colour> solution)
+    {
+        _ = solution ?? throw new ArgumentNullException(nameof(solution));
+
+        return ApplyChainedValidators(solution);
+    }
+
+    /// <summary>
     ///     Begins the process of creating a <see cref="MapColouringPuzzle" /> using the fluent builder API.
     /// </summary>
     /// <remarks>
@@ -140,4 +179,50 @@ public sealed record MapColouringPuzzle
     /// </remarks>
     /// <returns>A new fluent builder instance, to which method invocations can be chained.</returns>
     public static IMapColouringPuzzleBuilder Create() => new MapColouringPuzzleBuilder();
+
+    private ValidationResult? ApplyChainedValidators(IReadOnlyDictionary<Region, Colour> solution) =>
+        SolutionHasCorrectSize(solution);
+
+    private ValidationResult? SolutionHasCorrectSize(IReadOnlyDictionary<Region, Colour> solution) =>
+        solution.Count != RegionData.Count
+            ? new ValidationResult($"Solution size is {solution.Count}, should be {RegionData.Count}.")
+            : EveryRegionAssignedOneOfItsPermittedColours(solution);
+
+    private ValidationResult? EveryRegionAssignedOneOfItsPermittedColours(IReadOnlyDictionary<Region, Colour> solution)
+    {
+        foreach ((Region region, IReadOnlyCollection<Colour> permittedColours) in RegionData)
+        {
+            if (solution.TryGetValue(region, out Colour colour))
+            {
+                if (permittedColours.Contains(colour))
+                {
+                    continue;
+                }
+
+                return new ValidationResult($"Region {region} assigned colour ({colour}) outside its permitted colours.");
+            }
+
+            return new ValidationResult($"Region {region} not present as solution key.");
+        }
+
+        return NoPairOfNeighbouringRegionsAssignedSameColour(solution);
+    }
+
+    private ValidationResult? NoPairOfNeighbouringRegionsAssignedSameColour(IReadOnlyDictionary<Region, Colour> solution)
+    {
+        foreach ((Region region1, Region region2) in NeighbourPairs)
+        {
+            Colour colour1 = solution[region1];
+            Colour colour2 = solution[region2];
+
+            if (colour1 != colour2)
+            {
+                continue;
+            }
+
+            return new ValidationResult($"Neighbouring regions {region1} and {region2} assigned same colour ({colour1}).");
+        }
+
+        return ValidationResult.Success;
+    }
 }

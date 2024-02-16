@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
 using FluentAssertions.Execution;
 using Mjt85.Kolyteon.MapColouring;
 using Mjt85.Kolyteon.UnitTests.Helpers;
@@ -105,6 +106,313 @@ public sealed class MapColouringPuzzleTests
 
             // Assert
             result.Should().BeFalse();
+        }
+    }
+
+    [UnitTest]
+    public sealed class ValidSolution_Method
+    {
+        [Theory]
+        [ClassData(typeof(TestCases))]
+        public void ValidSolution_ReturnsSuccess(MapColouringPuzzle sut, IReadOnlyDictionary<Region, Colour> solution)
+        {
+            // Act
+            ValidationResult? result = sut.ValidSolution(solution);
+
+            // Assert
+            result.Should().Be(ValidationResult.Success);
+        }
+
+        [Fact]
+        [Category("ClearBoxTest")]
+        public void SolutionSizeIsTooSmall_ReturnsFailure()
+        {
+            // Arrange
+            MapColouringPuzzle sut = MapColouringPuzzle.Create()
+                .WithGlobalColours(Colour.Black)
+                .AddRegions([R0, R1])
+                .Build();
+
+            Dictionary<Region, Colour> solution = new()
+            {
+                [R0] = Colour.Black
+            };
+
+            // Act
+            ValidationResult? result = sut.ValidSolution(solution);
+
+            // Assert
+            result.Should().BeOfType<ValidationResult>()
+                .Which.ErrorMessage.Should().Be("Solution size is 1, should be 2.");
+        }
+
+
+        [Fact]
+        [Category("ClearBoxTest")]
+        public void SolutionSizeIsTooLarge_ReturnsFailure()
+        {
+            // Arrange
+            MapColouringPuzzle sut = MapColouringPuzzle.Create()
+                .WithGlobalColours(Colour.Black)
+                .AddRegions([R0, R1])
+                .Build();
+
+            Dictionary<Region, Colour> solution = new()
+            {
+                [R0] = Colour.Black,
+                [R1] = Colour.Black,
+                [R2] = Colour.Black
+            };
+
+            // Act
+            ValidationResult? result = sut.ValidSolution(solution);
+
+            // Assert
+            result.Should().BeOfType<ValidationResult>()
+                .Which.ErrorMessage.Should().Be("Solution size is 3, should be 2.");
+        }
+
+        [Fact]
+        public void SolutionArgIsNull_Throws()
+        {
+            // Arrange
+            MapColouringPuzzle sut = MapColouringPuzzle.Create()
+                .WithGlobalColours(Colour.Black)
+                .AddRegion(R0)
+                .Build();
+
+            // Act
+            Action act = () => sut.ValidSolution(null!);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>()
+                .WithMessage("Value cannot be null. (Parameter 'solution')");
+        }
+
+        [Fact]
+        [Category("ClearBoxTest")]
+        public void RegionNotPresentAsSolutionKey_ReturnsFailure()
+        {
+            // Arrange
+            MapColouringPuzzle sut = MapColouringPuzzle.Create()
+                .WithGlobalColours(Colour.Black)
+                .AddRegions([R0, R1, R2])
+                .Build();
+
+            Dictionary<Region, Colour> solution = new()
+            {
+                [R0] = Colour.Black,
+                [R3] = Colour.Black,
+                [R2] = Colour.Black
+            };
+
+            // Act
+            ValidationResult? result = sut.ValidSolution(solution);
+
+            // Assert
+            result.Should().BeOfType<ValidationResult>()
+                .Which.ErrorMessage.Should().Be("Region R1 not present as solution key.");
+        }
+
+        [Fact]
+        [Category("ClearBoxTest")]
+        public void RegionAssignedIllegalColour_ReturnsFailure()
+        {
+            // Arrange
+            MapColouringPuzzle sut = MapColouringPuzzle.Create()
+                .WithRegionSpecificColours()
+                .AddRegionWithColours(R0, Colour.Black, Colour.White)
+                .AddRegionWithColours(R1, Colour.White)
+                .Build();
+
+            Dictionary<Region, Colour> solution = new()
+            {
+                [R0] = Colour.Blue,
+                [R1] = Colour.White
+            };
+
+            // Act
+            ValidationResult? result = sut.ValidSolution(solution);
+
+            // Assert
+            result.Should().BeOfType<ValidationResult>()
+                .Which.ErrorMessage.Should().Be("Region R0 assigned colour (Blue) outside its permitted colours.");
+        }
+
+        [Fact]
+        [Category("ClearBoxTest")]
+        public void NeighbouringRegionsAssignedSameColour_ReturnsFailure()
+        {
+            // Arrange
+            MapColouringPuzzle sut = MapColouringPuzzle.Create()
+                .WithGlobalColours(Colour.Black)
+                .AddRegions([R0, R1, R2])
+                .SetAsNeighbours(R1, R2)
+                .Build();
+
+            Dictionary<Region, Colour> solution = new()
+            {
+                [R0] = Colour.Black,
+                [R1] = Colour.Black,
+                [R2] = Colour.Black
+            };
+
+            // Act
+            ValidationResult? result = sut.ValidSolution(solution);
+
+            // Assert
+            result.Should().BeOfType<ValidationResult>()
+                .Which.ErrorMessage.Should().Be("Neighbouring regions R1 and R2 assigned same colour (Black).");
+        }
+
+        private sealed class TestCases : TheoryData<MapColouringPuzzle, IReadOnlyDictionary<Region, Colour>>
+        {
+            public TestCases()
+            {
+                Add(MapColouringPuzzle.Create()
+                    .WithRegionSpecificColours()
+                    .AddRegionWithColours(R0, Colour.Black)
+                    .AddRegionWithColours(R1, Colour.Black, Colour.White)
+                    .Build(), new Dictionary<Region, Colour>
+                {
+                    [R0] = Colour.Black,
+                    [R1] = Colour.Black
+                });
+
+                Add(MapColouringPuzzle.Create()
+                    .WithRegionSpecificColours()
+                    .AddRegionWithColours(R0, Colour.Black)
+                    .AddRegionWithColours(R1, Colour.Black, Colour.White)
+                    .Build(), new Dictionary<Region, Colour>
+                {
+                    [R0] = Colour.Black,
+                    [R1] = Colour.White
+                });
+
+                Add(MapColouringPuzzle.Create()
+                    .WithRegionSpecificColours()
+                    .AddRegionWithColours(R0, Colour.Black)
+                    .AddRegionWithColours(R1, Colour.Black, Colour.White)
+                    .SetAsNeighbours(R0, R1)
+                    .Build(), new Dictionary<Region, Colour>
+                {
+                    [R0] = Colour.Black,
+                    [R1] = Colour.White
+                });
+
+                Add(MapColouringPuzzle.Create()
+                    .WithGlobalColours(Colour.Red, Colour.Green, Colour.Blue)
+                    .AddRegions([R0, R1, R2, R3])
+                    .SetAsNeighbours(R0, R1)
+                    .SetAsNeighbours(R1, R2)
+                    .Build(), new Dictionary<Region, Colour>
+                {
+                    [R0] = Colour.Red,
+                    [R1] = Colour.Green,
+                    [R2] = Colour.Red,
+                    [R3] = Colour.Red
+                });
+
+                Add(MapColouringPuzzle.Create()
+                    .WithGlobalColours(Colour.Red, Colour.Green, Colour.Blue)
+                    .AddRegions([R0, R1, R2, R3])
+                    .SetAsNeighbours(R0, R1)
+                    .SetAsNeighbours(R1, R2)
+                    .Build(), new Dictionary<Region, Colour>
+                {
+                    [R0] = Colour.Red,
+                    [R1] = Colour.Blue,
+                    [R2] = Colour.Red,
+                    [R3] = Colour.Red
+                });
+
+                Add(MapColouringPuzzle.Create()
+                    .WithGlobalColours(Colour.Red, Colour.Green, Colour.Blue)
+                    .AddRegions([R0, R1, R2, R3])
+                    .SetAsNeighbours(R0, R1)
+                    .SetAsNeighbours(R1, R2)
+                    .Build(), new Dictionary<Region, Colour>
+                {
+                    [R0] = Colour.Red,
+                    [R1] = Colour.Green,
+                    [R2] = Colour.Blue,
+                    [R3] = Colour.Red
+                });
+
+                Add(MapColouringPuzzle.Create()
+                    .WithGlobalColours(Colour.Red, Colour.Green, Colour.Blue)
+                    .AddRegions([R0, R1, R2, R3])
+                    .SetAsNeighbours(R0, R1)
+                    .SetAsNeighbours(R1, R2)
+                    .Build(), new Dictionary<Region, Colour>
+                {
+                    [R0] = Colour.Red,
+                    [R1] = Colour.Green,
+                    [R2] = Colour.Blue,
+                    [R3] = Colour.Green
+                });
+
+                Add(MapColouringPuzzle.Create()
+                    .WithGlobalColours(Colour.Red, Colour.Green, Colour.Blue)
+                    .AddRegions([R0, R1, R2, R3])
+                    .SetAsNeighbours(R0, R1)
+                    .SetAsNeighbours(R1, R2)
+                    .Build(), new Dictionary<Region, Colour>
+                {
+                    [R0] = Colour.Red,
+                    [R1] = Colour.Green,
+                    [R2] = Colour.Blue,
+                    [R3] = Colour.Blue
+                });
+
+                Add(MapColouringPuzzle.Create()
+                    .WithGlobalColours(Colour.Red, Colour.Green, Colour.Blue, Colour.Yellow)
+                    .AddRegions([R0, R1, R2, R3])
+                    .SetAsNeighbours(R0, R1)
+                    .SetAsNeighbours(R1, R2)
+                    .SetAsNeighbours(R0, R3)
+                    .SetAsNeighbours(R1, R3)
+                    .SetAsNeighbours(R2, R3)
+                    .Build(), new Dictionary<Region, Colour>
+                {
+                    [R0] = Colour.Red,
+                    [R1] = Colour.Green,
+                    [R2] = Colour.Blue,
+                    [R3] = Colour.Yellow
+                });
+
+                Add(MapColouringPuzzle.Create()
+                    .WithGlobalColours(Colour.Red, Colour.Green, Colour.Blue, Colour.Yellow)
+                    .AddRegions([R0, R1, R2, R3])
+                    .SetAsNeighbours(R0, R1)
+                    .SetAsNeighbours(R1, R2)
+                    .SetAsNeighbours(R0, R3)
+                    .SetAsNeighbours(R1, R3)
+                    .SetAsNeighbours(R2, R3)
+                    .Build(), new Dictionary<Region, Colour>
+                {
+                    [R0] = Colour.Blue,
+                    [R1] = Colour.Green,
+                    [R2] = Colour.Red,
+                    [R3] = Colour.Yellow
+                });
+
+                Add(MapColouringPuzzle.Create()
+                    .WithGlobalColours(Colour.Red, Colour.Green, Colour.Blue, Colour.Yellow)
+                    .AddRegions([R0, R1, R2, R3])
+                    .SetAsNeighbours(R0, R1)
+                    .SetAsNeighbours(R1, R2)
+                    .SetAsNeighbours(R0, R3)
+                    .SetAsNeighbours(R1, R3)
+                    .SetAsNeighbours(R2, R3)
+                    .Build(), new Dictionary<Region, Colour>
+                {
+                    [R0] = Colour.Yellow,
+                    [R1] = Colour.Green,
+                    [R2] = Colour.Red,
+                    [R3] = Colour.Blue
+                });
+            }
         }
     }
 

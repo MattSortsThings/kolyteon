@@ -10,6 +10,8 @@ public sealed class MapColouringHooks
     public static void RegisterValueRetrievers()
     {
         Service.Instance.ValueRetrievers.Register(new ColourArrayValueRetriever());
+        Service.Instance.ValueRetrievers.Register(new ColourValueRetriever());
         Service.Instance.ValueRetrievers.Register(new PresetMapValueRetriever());
+        Service.Instance.ValueRetrievers.Register(new RegionValueRetriever());
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
 using Mjt85.Kolyteon.FeatureTests.Helpers;
 using Mjt85.Kolyteon.MapColouring;
 using TechTalk.SpecFlow.Assist;
@@ -37,6 +38,15 @@ public sealed class MapColouringSteps
         _scenarioContext.Add(Invariants.JSON, json);
     }
 
+    [Given("I have obtained the following region/colour dictionary as a proposed solution to the Map Colouring puzzle")]
+    public void GivenIHaveObtainedTheFollowingRegionColourDictionaryAsAProposedSolutionToTheMapColouringPuzzle(Table table)
+    {
+        IReadOnlyDictionary<Region, Colour> proposedSolution = table.CreateSet<(Region Region, Colour Colour)>()
+            .ToDictionary(item => item.Region, item => item.Colour);
+
+        _scenarioContext.Add(Invariants.PROPOSED_SOLUTION, proposedSolution);
+    }
+
     [When("I deserialize a Map Colouring puzzle from the JSON")]
     public void WhenIDeserializeAMapColouringPuzzleFromTheJson()
     {
@@ -45,6 +55,18 @@ public sealed class MapColouringSteps
         var deserializedPuzzle = JsonSerializer.Deserialize<MapColouringPuzzle>(json, Invariants.JsonSerializerOptions());
 
         _scenarioContext.Add(Invariants.DESERIALIZED_PUZZLE, deserializedPuzzle);
+    }
+
+    [When("I ask the Map Colouring puzzle to validate the proposed solution")]
+    public void WhenIAskTheMapColouringPuzzleToValidateTheProposedSolution()
+    {
+        var puzzle = _scenarioContext.Get<MapColouringPuzzle>(Invariants.PUZZLE);
+        IReadOnlyDictionary<Region, Colour>? proposedSolution =
+            _scenarioContext.Get<IReadOnlyDictionary<Region, Colour>>(Invariants.PROPOSED_SOLUTION);
+
+        ValidationResult? validationResult = puzzle.ValidSolution(proposedSolution);
+
+        _scenarioContext.Add(Invariants.VALIDATION_RESULT, validationResult);
     }
 
     [Then("the deserialized Map Colouring puzzle should be the same as the original puzzle")]

@@ -124,6 +124,74 @@ namespace Mjt85.Kolyteon.FeatureTests.Features
             this.ScenarioCleanup();
         }
         
+        [Xunit.SkippableFactAttribute(DisplayName="Confirm a proposed solution is valid")]
+        [Xunit.TraitAttribute("FeatureTitle", "Map Colouring")]
+        [Xunit.TraitAttribute("Description", "Confirm a proposed solution is valid")]
+        public void ConfirmAProposedSolutionIsValid()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Confirm a proposed solution is valid", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 13
+    this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+                TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Field",
+                            "Value"});
+                table2.AddRow(new string[] {
+                            "PresetMap",
+                            "Australia"});
+                table2.AddRow(new string[] {
+                            "GlobalColours",
+                            "Red,Blue,Green"});
+#line 14
+        testRunner.Given("I have created a Map Colouring puzzle as follows", ((string)(null)), table2, "Given ");
+#line hidden
+                TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Region",
+                            "Colour"});
+                table3.AddRow(new string[] {
+                            "WA",
+                            "Red"});
+                table3.AddRow(new string[] {
+                            "NT",
+                            "Green"});
+                table3.AddRow(new string[] {
+                            "SA",
+                            "Blue"});
+                table3.AddRow(new string[] {
+                            "Q",
+                            "Red"});
+                table3.AddRow(new string[] {
+                            "NSW",
+                            "Green"});
+                table3.AddRow(new string[] {
+                            "V",
+                            "Red"});
+                table3.AddRow(new string[] {
+                            "T",
+                            "Green"});
+#line 18
+        testRunner.And("I have obtained the following region/colour dictionary as a proposed solution to " +
+                        "the Map Colouring puzzle", ((string)(null)), table3, "And ");
+#line hidden
+#line 27
+        testRunner.When("I ask the Map Colouring puzzle to validate the proposed solution", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 28
+        testRunner.Then("the validation result should be successful", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
         [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.9.0.0")]
         [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
         public class FixtureData : System.IDisposable
