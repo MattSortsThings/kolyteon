@@ -115,6 +115,68 @@ namespace Mjt85.Kolyteon.FeatureTests.Features
             this.ScenarioCleanup();
         }
         
+        [Xunit.SkippableFactAttribute(DisplayName="Confirm a proposed solution is valid")]
+        [Xunit.TraitAttribute("FeatureTitle", "N-Queens")]
+        [Xunit.TraitAttribute("Description", "Confirm a proposed solution is valid")]
+        public void ConfirmAProposedSolutionIsValid()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Confirm a proposed solution is valid", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 10
+    this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 11
+        testRunner.Given("I have created an N-Queens puzzle in which N = 8", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+                TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Column",
+                            "Row"});
+                table1.AddRow(new string[] {
+                            "0",
+                            "6"});
+                table1.AddRow(new string[] {
+                            "1",
+                            "4"});
+                table1.AddRow(new string[] {
+                            "2",
+                            "2"});
+                table1.AddRow(new string[] {
+                            "3",
+                            "0"});
+                table1.AddRow(new string[] {
+                            "4",
+                            "5"});
+                table1.AddRow(new string[] {
+                            "5",
+                            "7"});
+                table1.AddRow(new string[] {
+                            "6",
+                            "1"});
+                table1.AddRow(new string[] {
+                            "7",
+                            "3"});
+#line 12
+        testRunner.And("I have obtained the following list of queens as a proposed solution to the N-Quee" +
+                        "ns puzzle", ((string)(null)), table1, "And ");
+#line hidden
+#line 22
+        testRunner.When("I ask the N-Queens puzzle to validate the proposed solution", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 23
+        testRunner.Then("the validation result should be successful", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
         [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.9.0.0")]
         [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
         public class FixtureData : System.IDisposable

@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Mjt85.Kolyteon.NQueens;
 
@@ -79,6 +80,35 @@ public sealed record NQueensPuzzle
     public override int GetHashCode() => N;
 
     /// <summary>
+    ///     Determines whether the proposed solution is valid for the <i>N</i>-Queens puzzle represented by this instance.
+    /// </summary>
+    /// <remarks>
+    ///     This method applies the following validation checks to the <paramref name="solution" /> parameter sequentially and
+    ///     returns on the first validation error encountered (if any):
+    ///     <list type="number">
+    ///         <item>
+    ///             The number of <see cref="Queen" /> instances in the <paramref name="solution" /> is equal to
+    ///             <see cref="N" />.
+    ///         </item>
+    ///         <item>No individual queen occupies a square outside the chess board's dimensions.</item>
+    ///         <item>No pair of queens can capture each other.</item>
+    ///     </list>
+    /// </remarks>
+    /// <param name="solution">A list of <see cref="Queen" /> instances. The proposed solution to the puzzle.</param>
+    /// <returns>
+    ///     <see cref="ValidationResult.Success" /> (i.e. <c>null</c>) if the <paramref name="solution" /> parameter is a
+    ///     valid solution; otherwise, a <see cref="ValidationResult" /> instance with an error message reporting the first
+    ///     validation error encountered.
+    /// </returns>
+    /// <exception cref="ArgumentNullException"><paramref name="solution" /> is <c>null</c>.</exception>
+    public ValidationResult? ValidSolution(IReadOnlyList<Queen> solution)
+    {
+        _ = solution ?? throw new ArgumentNullException(nameof(solution));
+
+        return ApplyChainedValidators(solution);
+    }
+
+    /// <summary>
     ///     Creates and returns a new <see cref="NQueensPuzzle" /> instance with the specified <see cref="N" /> value.
     /// </summary>
     /// <remarks>
@@ -91,4 +121,46 @@ public sealed record NQueensPuzzle
     public static NQueensPuzzle FromN(int n) => n >= 1
         ? new NQueensPuzzle(n)
         : throw new ArgumentOutOfRangeException(nameof(n), n, "Value of N must be greater than or equal to 1.");
+
+    private ValidationResult? ApplyChainedValidators(IReadOnlyList<Queen> solution) => SolutionHasCorrectSize(solution);
+
+    private ValidationResult? SolutionHasCorrectSize(IReadOnlyList<Queen> solution) => solution.Count != N
+        ? new ValidationResult($"Solution size is {solution.Count}, should be {N}.")
+        : NoQueenOutsideChessBoard(solution);
+
+    private ValidationResult? NoQueenOutsideChessBoard(IReadOnlyList<Queen> solution)
+    {
+        var inclusiveUpperBound = N - 1;
+        foreach (Queen queen in solution)
+        {
+            if (queen.Column <= inclusiveUpperBound && queen.Row <= inclusiveUpperBound)
+            {
+                continue;
+            }
+
+            return new ValidationResult($"Queen {queen} outside chess board.");
+        }
+
+        return NoPairOfQueensCanCaptureEachOther(solution);
+    }
+
+    private static ValidationResult? NoPairOfQueensCanCaptureEachOther(IReadOnlyList<Queen> solution)
+    {
+        for (var i = 0; i < solution.Count; i++)
+        {
+            Queen queenAtI = solution[i];
+            for (var j = i + 1; j < solution.Count; j++)
+            {
+                Queen queenAtJ = solution[j];
+                if (!queenAtI.CanCapture(queenAtJ))
+                {
+                    continue;
+                }
+
+                return new ValidationResult($"Queens {queenAtI} and {queenAtJ} can capture each other.");
+            }
+        }
+
+        return ValidationResult.Success;
+    }
 }
