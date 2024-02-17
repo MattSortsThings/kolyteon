@@ -14,7 +14,7 @@ internal static class Invariants
     public const string PUZZLE = "PUZZLE";
     public const string VALIDATION_RESULT = "VALIDATION_RESULT";
 
-    public static JsonSerializerOptions JsonSerializerOptions() => new()
+    public static JsonSerializerOptions GetJsonSerializerOptions() => new()
     {
         DefaultIgnoreCondition = JsonIgnoreCondition.Never,
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,

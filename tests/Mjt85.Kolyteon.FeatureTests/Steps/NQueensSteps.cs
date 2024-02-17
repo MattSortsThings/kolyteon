@@ -29,7 +29,7 @@ public sealed class NQueensSteps
     {
         var puzzle = _scenarioContext.Get<NQueensPuzzle>(Invariants.PUZZLE);
 
-        var json = JsonSerializer.Serialize(puzzle, Invariants.JsonSerializerOptions());
+        var json = JsonSerializer.Serialize(puzzle, Invariants.GetJsonSerializerOptions());
 
         _scenarioContext.Add(Invariants.JSON, json);
     }
@@ -49,7 +49,7 @@ public sealed class NQueensSteps
     {
         var json = _scenarioContext.Get<string>(Invariants.JSON);
 
-        var deserializedPuzzle = JsonSerializer.Deserialize<NQueensPuzzle>(json, Invariants.JsonSerializerOptions());
+        var deserializedPuzzle = JsonSerializer.Deserialize<NQueensPuzzle>(json, Invariants.GetJsonSerializerOptions());
 
         _scenarioContext.Add(Invariants.DESERIALIZED_PUZZLE, deserializedPuzzle);
     }

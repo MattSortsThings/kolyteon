@@ -33,7 +33,7 @@ public sealed class MapColouringSteps
     {
         var puzzle = _scenarioContext.Get<MapColouringPuzzle>(Invariants.PUZZLE);
 
-        var json = JsonSerializer.Serialize(puzzle, Invariants.JsonSerializerOptions());
+        var json = JsonSerializer.Serialize(puzzle, Invariants.GetJsonSerializerOptions());
 
         _scenarioContext.Add(Invariants.JSON, json);
     }
@@ -52,7 +52,7 @@ public sealed class MapColouringSteps
     {
         var json = _scenarioContext.Get<string>(Invariants.JSON);
 
-        var deserializedPuzzle = JsonSerializer.Deserialize<MapColouringPuzzle>(json, Invariants.JsonSerializerOptions());
+        var deserializedPuzzle = JsonSerializer.Deserialize<MapColouringPuzzle>(json, Invariants.GetJsonSerializerOptions());
 
         _scenarioContext.Add(Invariants.DESERIALIZED_PUZZLE, deserializedPuzzle);
     }
