@@ -115,6 +115,71 @@ namespace Mjt85.Kolyteon.FeatureTests.Features
             this.ScenarioCleanup();
         }
         
+        [Xunit.SkippableFactAttribute(DisplayName="Confirm a proposed solution is valid")]
+        [Xunit.TraitAttribute("FeatureTitle", "Shikaku")]
+        [Xunit.TraitAttribute("Description", "Confirm a proposed solution is valid")]
+        public void ConfirmAProposedSolutionIsValid()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Confirm a proposed solution is valid", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 17
+    this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 18
+        testRunner.Given("I have created a Shikaku puzzle from the following grid", "05 __ __ __ __\r\n__ 05 __ __ __\r\n__ __ 09 __ __\r\n__ __ __ __ 03\r\n03 __ __ __ __", ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+                TechTalk.SpecFlow.Table table5 = new TechTalk.SpecFlow.Table(new string[] {
+                            "OriginColumn",
+                            "OriginRow",
+                            "WidthInCells",
+                            "HeightInCells"});
+                table5.AddRow(new string[] {
+                            "0",
+                            "0",
+                            "5",
+                            "1"});
+                table5.AddRow(new string[] {
+                            "0",
+                            "1",
+                            "5",
+                            "1"});
+                table5.AddRow(new string[] {
+                            "0",
+                            "2",
+                            "1",
+                            "3"});
+                table5.AddRow(new string[] {
+                            "1",
+                            "2",
+                            "3",
+                            "3"});
+                table5.AddRow(new string[] {
+                            "4",
+                            "2",
+                            "1",
+                            "3"});
+#line 26
+        testRunner.And("I have obtained the following list of rectangles as a proposed solution to the Sh" +
+                        "ikaku puzzle", ((string)(null)), table5, "And ");
+#line hidden
+#line 33
+        testRunner.When("I ask the Shikaku puzzle to validate the proposed solution", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 34
+        testRunner.Then("the validation result should be successful", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
         [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.9.0.0")]
         [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
         public class FixtureData : System.IDisposable

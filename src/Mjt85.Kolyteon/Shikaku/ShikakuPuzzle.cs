@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using Mjt85.Kolyteon.Shikaku.Internals;
 
 namespace Mjt85.Kolyteon.Shikaku;
@@ -101,6 +102,38 @@ public sealed record ShikakuPuzzle
     public override int GetHashCode() => Hints.GetHashCode();
 
     /// <summary>
+    ///     Determines whether the proposed solution is valid for the Shikaku puzzle represented by this instance.
+    /// </summary>
+    /// <remarks>
+    ///     This method applies the following validation checks to the <paramref name="solution" /> parameter sequentially and
+    ///     returns on the first validation error encountered (if any):
+    ///     <list type="number">
+    ///         <item>
+    ///             The number of <see cref="Rectangle" /> instances in the <paramref name="solution" /> is equal to the number
+    ///             of <see cref="Hint" /> instances in <see cref="Hints" />.
+    ///         </item>
+    ///         <item>The sum of the areas of the rectangles is equal to the puzzle grid area.</item>
+    ///         <item>No rectangle is partially or entirely outside the grid.</item>
+    ///         <item>No pair of rectangles overlap.</item>
+    ///         <item>Every rectangle encloses exactly one hint.</item>
+    ///         <item>Every rectangle's area is equal to the number of the hint it encloses.</item>
+    ///     </list>
+    /// </remarks>
+    /// <param name="solution">A list of <see cref="Rectangle" /> instances. The proposed solution to the puzzle.</param>
+    /// <returns>
+    ///     <see cref="ValidationResult.Success" /> (i.e. <c>null</c>) if the <paramref name="solution" /> parameter is a
+    ///     valid solution; otherwise, a <see cref="ValidationResult" /> instance with an error message reporting the first
+    ///     validation error encountered.
+    /// </returns>
+    /// <exception cref="ArgumentNullException"><paramref name="solution" /> is <c>null</c>.</exception>
+    public ValidationResult? ValidSolution(IReadOnlyList<Rectangle> solution)
+    {
+        _ = solution ?? throw new ArgumentNullException(nameof(solution));
+
+        return ApplyChainedValidators(solution);
+    }
+
+    /// <summary>
     ///     Creates and returns a new <see cref="ShikakuPuzzle" /> from the specified grid.
     /// </summary>
     /// <remarks>
@@ -131,6 +164,88 @@ public sealed record ShikakuPuzzle
         return puzzle;
     }
 
+    private ValidationResult? ApplyChainedValidators(IReadOnlyList<Rectangle> solution) => SolutionHasCorrectSize(solution);
+
+    private ValidationResult? SolutionHasCorrectSize(IReadOnlyList<Rectangle> solution) => solution.Count != Hints.Count
+        ? new ValidationResult($"Solution size is {solution.Count}, should be {Hints.Count}.")
+        : RectangleAreasSumToGridArea(solution);
+
+    private ValidationResult? RectangleAreasSumToGridArea(IReadOnlyList<Rectangle> solution)
+    {
+        var gridArea = GridSideLength * GridSideLength;
+        var sumRectangleAreas = solution.Sum(r => r.AreaInCells);
+
+        return sumRectangleAreas != gridArea
+            ? new ValidationResult($"Sum of rectangle areas is {sumRectangleAreas}, grid area is {gridArea}.")
+            : NoRectangleOutsideGrid(solution);
+    }
+
+    private ValidationResult? NoRectangleOutsideGrid(IReadOnlyList<Rectangle> solution)
+    {
+        IEnumerable<ValidationResult> errorQuery = from rectangle in solution
+            where OutsideGrid(rectangle)
+            select new ValidationResult($"Rectangle {rectangle} outside grid.");
+
+        ValidationResult? firstError = errorQuery.FirstOrDefault();
+
+        return firstError ?? NoPairOfRectanglesOverlap(solution);
+    }
+
+    private bool OutsideGrid(in Rectangle rectangle)
+    {
+        var (originColumn, originRow, widthInCells, heightInCells) = rectangle;
+
+        return originColumn >= GridSideLength
+               || originRow >= GridSideLength
+               || originColumn + widthInCells > GridSideLength
+               || originRow + heightInCells > GridSideLength;
+    }
+
+    private ValidationResult? NoPairOfRectanglesOverlap(IReadOnlyList<Rectangle> solution)
+    {
+        IEnumerable<OverlapQueryItem> pairQuery = solution.SelectMany((_, i) =>
+            solution.Take(i), (rectangleAtI, rectangleAtH) =>
+            new OverlapQueryItem(rectangleAtH, rectangleAtI));
+
+        IEnumerable<ValidationResult> errorQuery = from item in pairQuery
+            where item.FirstRectangle.Overlaps(item.SecondRectangle)
+            select new ValidationResult($"Rectangles {item.FirstRectangle} and {item.SecondRectangle} overlap.");
+
+        ValidationResult? firstError = errorQuery.FirstOrDefault();
+
+        return firstError ?? EveryRectangleEnclosesExactlyOneHint(solution);
+    }
+
+    private ValidationResult? EveryRectangleEnclosesExactlyOneHint(IReadOnlyList<Rectangle> solution)
+    {
+        IEnumerable<CountQueryItem> countQuery = from rectangle in solution
+            let enclosedHintsCount = (from h in Hints where rectangle.Encloses(h) select h.Number).Take(2)
+            select new CountQueryItem(rectangle, enclosedHintsCount.Count());
+
+        IEnumerable<ValidationResult> errorQuery = from item in countQuery
+            where item.EnclosedHintsCount != 1
+            select item.EnclosedHintsCount == 0
+                ? new ValidationResult($"Rectangle {item.Rectangle} encloses zero hints.")
+                : new ValidationResult($"Rectangle {item.Rectangle} encloses multiple hints.");
+
+        ValidationResult? firstError = errorQuery.FirstOrDefault();
+
+        return firstError ?? EveryRectangleHasAreaEqualToItsEnclosedHintNumber(solution);
+    }
+
+    private ValidationResult? EveryRectangleHasAreaEqualToItsEnclosedHintNumber(IEnumerable<Rectangle> solution)
+    {
+        IEnumerable<AreaQueryItem> areaQuery = from rectangle in solution
+            let enclosedHint = (from h in Hints where rectangle.Encloses(h) select h).Single()
+            select new AreaQueryItem(rectangle, enclosedHint);
+
+        IEnumerable<ValidationResult> errorQuery = from item in areaQuery
+            where item.Rectangle.AreaInCells != item.EnclosedHint.Number
+            select new ValidationResult($"Rectangle {item.Rectangle} encloses hint {item.EnclosedHint} with incorrect number.");
+
+        return errorQuery.FirstOrDefault(ValidationResult.Success);
+    }
+
     private static ShikakuPuzzle Create(int?[,] squareGrid)
     {
         var gridSideLength = squareGrid.GetLength(0);
@@ -157,4 +272,10 @@ public sealed record ShikakuPuzzle
 
         return new ShikakuPuzzle(gridSideLength, hints.ToArray());
     }
+
+    private readonly record struct AreaQueryItem(Rectangle Rectangle, Hint EnclosedHint);
+
+    private readonly record struct CountQueryItem(Rectangle Rectangle, int EnclosedHintsCount);
+
+    private readonly record struct OverlapQueryItem(Rectangle FirstRectangle, Rectangle SecondRectangle);
 }

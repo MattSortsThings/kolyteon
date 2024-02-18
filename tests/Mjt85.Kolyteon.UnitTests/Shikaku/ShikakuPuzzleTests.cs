@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
 using FluentAssertions.Execution;
 using Mjt85.Kolyteon.Shikaku;
 using Mjt85.Kolyteon.UnitTests.Helpers;
@@ -103,6 +104,427 @@ public sealed class ShikakuPuzzleTests
 
             // Assert
             result.Should().BeFalse();
+        }
+    }
+
+    [UnitTest]
+    public sealed class ValidSolution_Method
+    {
+        [Theory]
+        [ClassData(typeof(TestCases))]
+        public void ValidSolution_ReturnsSuccess(int?[,] grid, IReadOnlyList<Rectangle> solution)
+        {
+            // Arrange
+            ShikakuPuzzle sut = ShikakuPuzzle.FromGrid(grid);
+
+            // Act
+            ValidationResult? result = sut.ValidSolution(solution);
+
+            // Assert
+            result.Should().Be(ValidationResult.Success);
+        }
+
+        [Fact]
+        [Category("ClearBoxTest")]
+        public void SolutionHasTooFewItems_ReturnsFailure()
+        {
+            // Arrange
+            ShikakuPuzzle sut = ShikakuPuzzle.FromGrid(new int?[,]
+            {
+                { 25, null, null, null, null },
+                { null, null, null, null, null },
+                { null, null, null, null, null },
+                { null, null, null, null, null },
+                { null, null, null, null, null }
+            });
+
+            IReadOnlyList<Rectangle> solution = Array.Empty<Rectangle>();
+
+            // Act
+            ValidationResult? result = sut.ValidSolution(solution);
+
+            // Assert
+            result.Should().BeOfType<ValidationResult>()
+                .Which.ErrorMessage.Should().Be("Solution size is 0, should be 1.");
+        }
+
+        [Fact]
+        [Category("ClearBoxTest")]
+        public void SolutionHasTooManyItems_ReturnsFailure()
+        {
+            // Arrange
+            ShikakuPuzzle sut = ShikakuPuzzle.FromGrid(new int?[,]
+            {
+                { 25, null, null, null, null },
+                { null, null, null, null, null },
+                { null, null, null, null, null },
+                { null, null, null, null, null },
+                { null, null, null, null, null }
+            });
+
+            IReadOnlyList<Rectangle> solution =
+            [
+                new Rectangle(0, 0, 5, 5),
+                new Rectangle(0, 0, 5, 5)
+            ];
+
+            // Act
+            ValidationResult? result = sut.ValidSolution(solution);
+
+            // Assert
+            result.Should().BeOfType<ValidationResult>()
+                .Which.ErrorMessage.Should().Be("Solution size is 2, should be 1.");
+        }
+
+        [Fact]
+        [Category("ClearBoxTest")]
+        public void RectangleAreasSumToLessThanGridArea_ReturnsFailure()
+        {
+            // Arrange
+            ShikakuPuzzle sut = ShikakuPuzzle.FromGrid(new int?[,]
+            {
+                { 10, null, null, null, null },
+                { null, null, null, null, null },
+                { null, null, null, null, null },
+                { null, null, null, null, null },
+                { null, null, null, null, 15 }
+            });
+
+            IReadOnlyList<Rectangle> solution =
+            [
+                new Rectangle(0, 0, 5, 1),
+                new Rectangle(5, 0, 1, 5)
+            ];
+            // Act
+            ValidationResult? result = sut.ValidSolution(solution);
+
+            // Assert
+            result.Should().BeOfType<ValidationResult>()
+                .Which.ErrorMessage.Should().Be("Sum of rectangle areas is 10, grid area is 25.");
+        }
+
+        [Fact]
+        [Category("ClearBoxTest")]
+        public void RectangleAreasSumToMoreThanGridArea_ReturnsFailure()
+        {
+            // Arrange
+            ShikakuPuzzle sut = ShikakuPuzzle.FromGrid(new int?[,]
+            {
+                { 10, null, null, null, null },
+                { null, null, null, null, null },
+                { null, null, null, null, null },
+                { null, null, null, null, null },
+                { null, null, null, null, 15 }
+            });
+
+            IReadOnlyList<Rectangle> solution =
+            [
+                new Rectangle(0, 0, 5, 2),
+                new Rectangle(0, 1, 4, 5)
+            ];
+            // Act
+            ValidationResult? result = sut.ValidSolution(solution);
+
+            // Assert
+            result.Should().BeOfType<ValidationResult>()
+                .Which.ErrorMessage.Should().Be("Sum of rectangle areas is 30, grid area is 25.");
+        }
+
+        [Fact]
+        [Category("ClearBoxTest")]
+        public void RectangleOutsideGrid_ReturnsFailure()
+        {
+            // Arrange
+            ShikakuPuzzle sut = ShikakuPuzzle.FromGrid(new int?[,]
+            {
+                { 10, null, null, null, null },
+                { null, null, null, null, null },
+                { null, null, null, null, null },
+                { null, null, null, null, null },
+                { null, null, null, null, 15 }
+            });
+
+            IReadOnlyList<Rectangle> solution =
+            [
+                new Rectangle(0, 0, 5, 2),
+                new Rectangle(4, 4, 3, 5)
+            ];
+
+            // Act
+            ValidationResult? result = sut.ValidSolution(solution);
+
+            // Assert
+            result.Should().BeOfType<ValidationResult>()
+                .Which.ErrorMessage.Should().Be("Rectangle (4,4) [3x5] outside grid.");
+        }
+
+        [Fact]
+        [Category("ClearBoxTest")]
+        public void RectanglesOverlap_ReturnsFailure()
+        {
+            // Arrange
+            ShikakuPuzzle sut = ShikakuPuzzle.FromGrid(new int?[,]
+            {
+                { 10, null, null, null, null },
+                { null, null, null, null, null },
+                { null, null, null, null, null },
+                { null, null, null, null, null },
+                { null, null, null, null, 15 }
+            });
+
+            IReadOnlyList<Rectangle> solution =
+            [
+                new Rectangle(0, 0, 5, 2),
+                new Rectangle(2, 0, 3, 5)
+            ];
+
+            // Act
+            ValidationResult? result = sut.ValidSolution(solution);
+
+            // Assert
+            result.Should().BeOfType<ValidationResult>()
+                .Which.ErrorMessage.Should().Be("Rectangles (0,0) [5x2] and (2,0) [3x5] overlap.");
+        }
+
+        [Fact]
+        [Category("ClearBoxTest")]
+        public void RectangleEnclosesZeroHints_ReturnsFailure()
+        {
+            // Arrange
+            ShikakuPuzzle sut = ShikakuPuzzle.FromGrid(new int?[,]
+            {
+                { null, null, null, null, null },
+                { null, null, null, null, null },
+                { null, null, null, null, null },
+                { null, null, null, null, null },
+                { null, null, 10, null, 15 }
+            });
+
+            IReadOnlyList<Rectangle> solution =
+            [
+                new Rectangle(0, 0, 5, 2),
+                new Rectangle(0, 2, 5, 3)
+            ];
+
+            // Act
+            ValidationResult? result = sut.ValidSolution(solution);
+
+            // Assert
+            result.Should().BeOfType<ValidationResult>()
+                .Which.ErrorMessage.Should().Be("Rectangle (0,0) [5x2] encloses zero hints.");
+        }
+
+        [Fact]
+        [Category("ClearBoxTest")]
+        public void RectangleEnclosesMultipleHints_ReturnsFailure()
+        {
+            // Arrange
+            ShikakuPuzzle sut = ShikakuPuzzle.FromGrid(new int?[,]
+            {
+                { 10, null, 15, null, null },
+                { null, null, null, null, null },
+                { null, null, null, null, null },
+                { null, null, null, null, null },
+                { null, null, null, null, null }
+            });
+
+            IReadOnlyList<Rectangle> solution =
+            [
+                new Rectangle(0, 0, 5, 2),
+                new Rectangle(0, 2, 5, 3)
+            ];
+
+            // Act
+            ValidationResult? result = sut.ValidSolution(solution);
+
+            // Assert
+            result.Should().BeOfType<ValidationResult>()
+                .Which.ErrorMessage.Should().Be("Rectangle (0,0) [5x2] encloses multiple hints.");
+        }
+
+        [Fact]
+        [Category("ClearBoxTest")]
+        public void RectangleAreaNotEqualToEnclosedHintNumber_ReturnsFailure()
+        {
+            // Arrange
+            ShikakuPuzzle sut = ShikakuPuzzle.FromGrid(new int?[,]
+            {
+                { 15, null, null, null, null },
+                { null, null, null, null, null },
+                { null, null, null, null, null },
+                { null, null, null, null, null },
+                { null, null, null, null, 10 }
+            });
+
+            IReadOnlyList<Rectangle> solution =
+            [
+                new Rectangle(0, 0, 5, 2),
+                new Rectangle(0, 2, 5, 3)
+            ];
+
+            // Act
+            ValidationResult? result = sut.ValidSolution(solution);
+
+            // Assert
+            result.Should().BeOfType<ValidationResult>()
+                .Which.ErrorMessage.Should().Be("Rectangle (0,0) [5x2] encloses hint (0,0) [15] with incorrect number.");
+        }
+
+        [Fact]
+        public void SolutionArgIsNull_Throws()
+        {
+            // Arrange
+            ShikakuPuzzle sut = ShikakuPuzzle.FromGrid(new int?[,]
+            {
+                { 25, null, null, null, null },
+                { null, null, null, null, null },
+                { null, null, null, null, null },
+                { null, null, null, null, null },
+                { null, null, null, null, null }
+            });
+
+            // Act
+            Action act = () => sut.ValidSolution(null!);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>()
+                .WithMessage("Value cannot be null. (Parameter 'solution')");
+        }
+
+        private sealed class TestCases : TheoryData<int?[,], IReadOnlyList<Rectangle>>
+        {
+            public TestCases()
+            {
+                Add(new int?[,]
+                {
+                    { null, null, null, null, null },
+                    { null, null, null, null, null },
+                    { null, null, 25, null, null },
+                    { null, null, null, null, null },
+                    { null, null, null, null, null }
+                }, [
+                    new Rectangle(0, 0, 5, 5)
+                ]);
+
+                Add(new int?[,]
+                {
+                    { 25, null, null, null, null },
+                    { null, null, null, null, null },
+                    { null, null, null, null, null },
+                    { null, null, null, null, null },
+                    { null, null, null, null, null }
+                }, [
+                    new Rectangle(0, 0, 5, 5)
+                ]);
+
+                Add(new int?[,]
+                {
+                    { 5, null, null, null, null },
+                    { null, null, null, null, null },
+                    { null, null, null, null, null },
+                    { null, null, null, null, null },
+                    { null, null, null, null, 20 }
+                }, [
+                    new Rectangle(0, 0, 5, 1),
+                    new Rectangle(0, 1, 5, 4)
+                ]);
+
+                Add(new int?[,]
+                {
+                    { 5, null, null, null, null },
+                    { null, null, null, null, null },
+                    { null, null, null, null, null },
+                    { null, null, null, null, null },
+                    { null, null, null, null, 20 }
+                }, [
+                    new Rectangle(0, 0, 1, 5),
+                    new Rectangle(1, 0, 4, 5)
+                ]);
+
+                Add(new int?[,]
+                {
+                    { null, null, 5, null, null },
+                    { null, null, 20, null, null },
+                    { null, null, null, null, null },
+                    { null, null, null, null, null },
+                    { null, null, null, null, null }
+                }, [
+                    new Rectangle(0, 0, 5, 1),
+                    new Rectangle(0, 1, 5, 4)
+                ]);
+
+                Add(new int?[,]
+                {
+                    { 5, null, null, null, null },
+                    { null, null, null, null, null },
+                    { null, null, null, null, 10 },
+                    { null, null, null, null, null },
+                    { null, null, null, null, 10 }
+                }, [
+                    new Rectangle(0, 0, 5, 1),
+                    new Rectangle(0, 1, 5, 2),
+                    new Rectangle(0, 3, 5, 2)
+                ]);
+
+                Add(new int?[,]
+                {
+                    { null, null, 5, null, null },
+                    { null, null, null, null, null },
+                    { 4, null, null, null, 6 },
+                    { null, null, null, null, null },
+                    { null, null, 10, null, null }
+                }, [
+                    new Rectangle(0, 0, 5, 1),
+                    new Rectangle(0, 1, 2, 2),
+                    new Rectangle(2, 1, 3, 2),
+                    new Rectangle(0, 3, 5, 2)
+                ]);
+
+                Add(new int?[,]
+                {
+                    { 5, null, null, null, null },
+                    { null, 5, null, null, null },
+                    { null, null, 5, null, null },
+                    { null, null, null, 5, null },
+                    { null, null, null, null, 5 }
+                }, [
+                    new Rectangle(0, 0, 5, 1),
+                    new Rectangle(0, 1, 5, 1),
+                    new Rectangle(0, 2, 5, 1),
+                    new Rectangle(0, 3, 5, 1),
+                    new Rectangle(0, 4, 5, 1)
+                ]);
+
+                Add(new int?[,]
+                {
+                    { 5, null, null, null, null },
+                    { null, 5, null, null, null },
+                    { null, null, 5, null, null },
+                    { null, null, null, 5, null },
+                    { null, null, null, null, 5 }
+                }, [
+                    new Rectangle(0, 0, 1, 5),
+                    new Rectangle(1, 0, 1, 5),
+                    new Rectangle(2, 0, 1, 5),
+                    new Rectangle(3, 0, 1, 5),
+                    new Rectangle(4, 0, 1, 5)
+                ]);
+
+                Add(new int?[,]
+                {
+                    { 5, null, null, null, null },
+                    { null, 3, null, null, null },
+                    { null, null, null, null, 9 },
+                    { null, 2, null, null, null },
+                    { null, null, null, null, 6 }
+                }, [
+                    new Rectangle(0, 0, 1, 5),
+                    new Rectangle(1, 0, 1, 3),
+                    new Rectangle(1, 3, 1, 2),
+                    new Rectangle(2, 0, 3, 3),
+                    new Rectangle(2, 3, 3, 2)
+                ]);
+            }
         }
     }
 
