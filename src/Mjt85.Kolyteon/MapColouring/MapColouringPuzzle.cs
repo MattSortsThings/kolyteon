@@ -143,13 +143,10 @@ public sealed record MapColouringPuzzle
     ///             The number of key-value pairs in the <paramref name="solution" /> is equal to the number of items in
     ///             <see cref="RegionData" />.
     ///         </item>
+    ///         <item>Every region in the map is present as a key in the solution.</item>
+    ///         <item>Every region is assigned one of its permitted colours.</item>
     ///         <item>
-    ///             For every region datum in in <see cref="RegionData" />, the region is assigned one of its permitted
-    ///             colours.
-    ///         </item>
-    ///         <item>
-    ///             For every pair of neighbouring regions in <see cref="NeighbourPairs" />, each region in the pair is
-    ///             assigned a different colour.
+    ///             For every pair of neighbouring regions, each region in the pair is assigned a different colour.
     ///         </item>
     ///     </list>
     /// </remarks>
@@ -186,43 +183,54 @@ public sealed record MapColouringPuzzle
     private ValidationResult? SolutionHasCorrectSize(IReadOnlyDictionary<Region, Colour> solution) =>
         solution.Count != RegionData.Count
             ? new ValidationResult($"Solution size is {solution.Count}, should be {RegionData.Count}.")
-            : EveryRegionAssignedOneOfItsPermittedColours(solution);
+            : EveryRegionPresentAsSolutionKey(solution);
+
+    private ValidationResult? EveryRegionPresentAsSolutionKey(IReadOnlyDictionary<Region, Colour> solution)
+    {
+        IEnumerable<ValidationResult> errorQuery = from region in
+                (from d in RegionData select d.Region).Except(solution.Keys)
+            select new ValidationResult($"Region {region} not present as solution key.");
+
+        ValidationResult? firstError = errorQuery.FirstOrDefault();
+
+        return firstError ?? EveryRegionAssignedOneOfItsPermittedColours(solution);
+    }
 
     private ValidationResult? EveryRegionAssignedOneOfItsPermittedColours(IReadOnlyDictionary<Region, Colour> solution)
     {
-        foreach ((Region region, IReadOnlyCollection<Colour> permittedColours) in RegionData)
-        {
-            if (solution.TryGetValue(region, out Colour colour))
-            {
-                if (permittedColours.Contains(colour))
-                {
-                    continue;
-                }
+        IEnumerable<SingleQueryItem> singleQuery = from d in RegionData
+            join kv in solution on d.Region equals kv.Key
+            select new SingleQueryItem(d.Region, kv.Value, d.Colours);
 
-                return new ValidationResult($"Region {region} assigned colour ({colour}) outside its permitted colours.");
-            }
+        IEnumerable<ValidationResult> errorQuery = from item in singleQuery
+            where !item.PermittedColours.Contains(item.Colour)
+            select new ValidationResult($"Region {item.Region} assigned colour ({item.Colour}) outside its permitted colours.");
 
-            return new ValidationResult($"Region {region} not present as solution key.");
-        }
+        ValidationResult? firstError = errorQuery.FirstOrDefault();
 
-        return NoPairOfNeighbouringRegionsAssignedSameColour(solution);
+        return firstError ?? NoPairOfNeighbouringRegionsAssignedSameColour(solution);
     }
 
     private ValidationResult? NoPairOfNeighbouringRegionsAssignedSameColour(IReadOnlyDictionary<Region, Colour> solution)
     {
-        foreach ((Region region1, Region region2) in NeighbourPairs)
-        {
-            Colour colour1 = solution[region1];
-            Colour colour2 = solution[region2];
+        IEnumerable<PairQueryItem> pairQuery = from p in NeighbourPairs
+            let c1 = solution[p.First]
+            let c2 = solution[p.Second]
+            select new PairQueryItem(p.First, c1, p.Second, c2);
 
-            if (colour1 != colour2)
-            {
-                continue;
-            }
+        IEnumerable<ValidationResult> errorQuery = from item in pairQuery
+            where item.FirstColour == item.SecondColour
+            select new ValidationResult($"Neighbouring regions {item.FirstRegion} and {item.SecondRegion} " +
+                                        $"assigned same colour ({item.FirstColour}).");
 
-            return new ValidationResult($"Neighbouring regions {region1} and {region2} assigned same colour ({colour1}).");
-        }
-
-        return ValidationResult.Success;
+        return errorQuery.FirstOrDefault(ValidationResult.Success);
     }
+
+    private readonly record struct SingleQueryItem(Region Region, Colour Colour, IReadOnlyCollection<Colour> PermittedColours);
+
+    private readonly record struct PairQueryItem(
+        Region FirstRegion,
+        Colour FirstColour,
+        Region SecondRegion,
+        Colour SecondColour);
 }
