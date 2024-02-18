@@ -171,7 +171,7 @@ public readonly record struct Queen : IComparable<Queen>
     /// <summary>
     ///     Creates and returns the string representation of this instance.
     /// </summary>
-    /// <remarks>A <see cref="Queen" /> instance is represented by a string in the format <c>"({Row},{Column})."</c></remarks>
+    /// <remarks>A <see cref="Queen" /> instance is represented by a string in the format <c>"({Row},{Column})"</c>.</remarks>
     /// <example>
     ///     <code>
     /// class Example

@@ -130,37 +130,27 @@ public sealed record NQueensPuzzle
 
     private ValidationResult? NoQueenOutsideChessBoard(IReadOnlyList<Queen> solution)
     {
-        var inclusiveUpperBound = N - 1;
-        foreach (Queen queen in solution)
-        {
-            if (queen.Column <= inclusiveUpperBound && queen.Row <= inclusiveUpperBound)
-            {
-                continue;
-            }
+        IEnumerable<ValidationResult> errorQuery = from queen in solution
+            where queen.Column >= N || queen.Row >= N
+            select new ValidationResult($"Queen {queen} outside chess board.");
 
-            return new ValidationResult($"Queen {queen} outside chess board.");
-        }
+        ValidationResult? firstError = errorQuery.FirstOrDefault();
 
-        return NoPairOfQueensCanCaptureEachOther(solution);
+        return firstError ?? NoPairOfQueensCanCaptureEachOther(solution);
     }
 
     private static ValidationResult? NoPairOfQueensCanCaptureEachOther(IReadOnlyList<Queen> solution)
     {
-        for (var i = 0; i < solution.Count; i++)
-        {
-            Queen queenAtI = solution[i];
-            for (var j = i + 1; j < solution.Count; j++)
-            {
-                Queen queenAtJ = solution[j];
-                if (!queenAtI.CanCapture(queenAtJ))
-                {
-                    continue;
-                }
+        IEnumerable<CaptureQueryItem> pairQuery = solution.SelectMany((_, i) =>
+            solution.Take(i), (queenAtI, queenAtH) =>
+            new CaptureQueryItem(queenAtH, queenAtI));
 
-                return new ValidationResult($"Queens {queenAtI} and {queenAtJ} can capture each other.");
-            }
-        }
+        IEnumerable<ValidationResult> errorQuery = from item in pairQuery
+            where item.FirstQueen.CanCapture(item.SecondQueen)
+            select new ValidationResult($"Queens {item.FirstQueen} and {item.SecondQueen} can capture each other.");
 
-        return ValidationResult.Success;
+        return errorQuery.FirstOrDefault(ValidationResult.Success);
     }
+
+    private readonly record struct CaptureQueryItem(Queen FirstQueen, Queen SecondQueen);
 }
