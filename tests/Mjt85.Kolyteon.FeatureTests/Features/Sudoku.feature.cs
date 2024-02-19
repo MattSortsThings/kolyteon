@@ -117,6 +117,115 @@ namespace Mjt85.Kolyteon.FeatureTests.Features
             this.ScenarioCleanup();
         }
         
+        [Xunit.SkippableFactAttribute(DisplayName="Confirm a proposed solution is valid")]
+        [Xunit.TraitAttribute("FeatureTitle", "Sudoku")]
+        [Xunit.TraitAttribute("Description", "Confirm a proposed solution is valid")]
+        public void ConfirmAProposedSolutionIsValid()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Confirm a proposed solution is valid", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 21
+    this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 22
+        testRunner.Given("I have created a Sudoku puzzle from the following grid", "_ 9 8 1 5 2 6 3 _\r\n6 _ 3 8 4 7 2 _ 9\r\n2 7 _ 3 6 9 _ 8 5\r\n1 3 4 _ 7 _ 8 9 2\r\n8 2 9" +
+                        " 4 _ 1 7 5 6\r\n7 6 5 _ 2 _ 1 4 3\r\n5 8 _ 6 9 4 _ 2 1\r\n9 _ 2 7 1 3 5 _ 8\r\n_ 1 6 2 8" +
+                        " 5 9 7 _", ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+                TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Column",
+                            "Row",
+                            "Number"});
+                table6.AddRow(new string[] {
+                            "0",
+                            "0",
+                            "4"});
+                table6.AddRow(new string[] {
+                            "0",
+                            "8",
+                            "3"});
+                table6.AddRow(new string[] {
+                            "1",
+                            "1",
+                            "5"});
+                table6.AddRow(new string[] {
+                            "1",
+                            "7",
+                            "4"});
+                table6.AddRow(new string[] {
+                            "2",
+                            "2",
+                            "1"});
+                table6.AddRow(new string[] {
+                            "2",
+                            "6",
+                            "7"});
+                table6.AddRow(new string[] {
+                            "3",
+                            "3",
+                            "5"});
+                table6.AddRow(new string[] {
+                            "3",
+                            "5",
+                            "9"});
+                table6.AddRow(new string[] {
+                            "4",
+                            "4",
+                            "3"});
+                table6.AddRow(new string[] {
+                            "5",
+                            "3",
+                            "6"});
+                table6.AddRow(new string[] {
+                            "5",
+                            "5",
+                            "8"});
+                table6.AddRow(new string[] {
+                            "6",
+                            "2",
+                            "4"});
+                table6.AddRow(new string[] {
+                            "6",
+                            "6",
+                            "3"});
+                table6.AddRow(new string[] {
+                            "7",
+                            "1",
+                            "1"});
+                table6.AddRow(new string[] {
+                            "7",
+                            "7",
+                            "6"});
+                table6.AddRow(new string[] {
+                            "8",
+                            "0",
+                            "7"});
+                table6.AddRow(new string[] {
+                            "8",
+                            "8",
+                            "4"});
+#line 34
+        testRunner.And("I have obtained the following list of filled cells as a proposed solution to the " +
+                        "Sudoku puzzle", ((string)(null)), table6, "And ");
+#line hidden
+#line 53
+        testRunner.When("I ask the Sudoku puzzle to validate the proposed solution", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 54
+        testRunner.Then("the validation result should be successful", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
         [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.9.0.0")]
         [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
         public class FixtureData : System.IDisposable

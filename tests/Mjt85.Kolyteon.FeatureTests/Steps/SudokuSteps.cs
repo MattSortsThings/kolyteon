@@ -1,6 +1,8 @@
-﻿using System.Text.Json;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
 using Mjt85.Kolyteon.FeatureTests.Helpers;
 using Mjt85.Kolyteon.Sudoku;
+using TechTalk.SpecFlow.Assist;
 
 namespace Mjt85.Kolyteon.FeatureTests.Steps;
 
@@ -31,6 +33,16 @@ public sealed class SudokuSteps
         _scenarioContext.Add(Invariants.JSON, json);
     }
 
+    [Given("I have obtained the following list of filled cells as a proposed solution to the Sudoku puzzle")]
+    public void GivenIHaveObtainedTheFollowingListOfFilledCellsAsAProposedSolutionToTheSudokuPuzzle(Table table)
+    {
+        IReadOnlyList<FilledCell> proposedSolution = table.CreateSet<(int Column, int Row, int Number)>()
+            .Select(item => new FilledCell(item.Column, item.Row, item.Number))
+            .ToArray();
+
+        _scenarioContext.Add(Invariants.PROPOSED_SOLUTION, proposedSolution);
+    }
+
     [When("I deserialize a Sudoku puzzle from the JSON")]
     public void WhenIDeserializeASudokuPuzzleFromTheJson()
     {
@@ -39,6 +51,18 @@ public sealed class SudokuSteps
         var deserializedPuzzle = JsonSerializer.Deserialize<SudokuPuzzle>(json, Invariants.GetJsonSerializerOptions());
 
         _scenarioContext.Add(Invariants.DESERIALIZED_PUZZLE, deserializedPuzzle);
+    }
+
+    [When("I ask the Sudoku puzzle to validate the proposed solution")]
+    public void WhenIAskTheSudokuPuzzleToValidateTheProposedSolution()
+    {
+        var puzzle = _scenarioContext.Get<SudokuPuzzle>(Invariants.PUZZLE);
+        IReadOnlyList<FilledCell>? proposedSolution =
+            _scenarioContext.Get<IReadOnlyList<FilledCell>>(Invariants.PROPOSED_SOLUTION);
+
+        ValidationResult? validationResult = puzzle.ValidSolution(proposedSolution);
+
+        _scenarioContext.Add(Invariants.VALIDATION_RESULT, validationResult);
     }
 
     [Then("the deserialized Sudoku puzzle should be the same as the original puzzle")]

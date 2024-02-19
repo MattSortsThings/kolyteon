@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using Mjt85.Kolyteon.Sudoku.Internals;
 
 namespace Mjt85.Kolyteon.Sudoku;
@@ -101,6 +102,38 @@ public sealed record SudokuPuzzle
     public override int GetHashCode() => FilledCells.GetHashCode();
 
     /// <summary>
+    ///     Determines whether the proposed solution is valid for the Sudoku puzzle represented by this instance.
+    /// </summary>
+    /// <remarks>
+    ///     This method applies the following validation checks to the <paramref name="solution" /> parameter sequentially and
+    ///     returns on the first validation error encountered (if any):
+    ///     <list type="number">
+    ///         <item>
+    ///             The number of <see cref="FilledCell" /> instances in the <paramref name="solution" /> is equal to the
+    ///             number of <see cref="FilledCell" /> instances in <see cref="FilledCells" /> subtracted from 81 (i.e. the
+    ///             number of empty cells in the puzzle).
+    ///         </item>
+    ///         <item>No pair of filled cells in the solution is in the same cell.</item>
+    ///         <item>No pair of filled cells in the solution obstruct each other.</item>
+    ///         <item>No filled cell in the solution is in the same cell as any filled cell in the puzzle.</item>
+    ///         <item>No filled cell in the solution obstructs any filled cell in the puzzle.</item>
+    ///     </list>
+    /// </remarks>
+    /// <param name="solution">A list of <see cref="FilledCell" /> instances. The proposed solution to the puzzle.</param>
+    /// <returns>
+    ///     <see cref="ValidationResult.Success" /> (i.e. <c>null</c>) if the <paramref name="solution" /> parameter is a
+    ///     valid solution; otherwise, a <see cref="ValidationResult" /> instance with an error message reporting the first
+    ///     validation error encountered.
+    /// </returns>
+    /// <exception cref="ArgumentNullException"><paramref name="solution" /> is <c>null</c>.</exception>
+    public ValidationResult? ValidSolution(IReadOnlyList<FilledCell> solution)
+    {
+        _ = solution ?? throw new ArgumentNullException(nameof(solution));
+
+        return ApplyChainedValidators(solution);
+    }
+
+    /// <summary>
     ///     Creates and returns a new <see cref="SudokuPuzzle" /> from the specified grid.
     /// </summary>
     /// <remarks>
@@ -131,6 +164,87 @@ public sealed record SudokuPuzzle
         return puzzle;
     }
 
+    private ValidationResult? ApplyChainedValidators(IReadOnlyList<FilledCell> solution) => SolutionHasCorrectSize(solution);
+
+    private ValidationResult? SolutionHasCorrectSize(IReadOnlyList<FilledCell> solution)
+    {
+        var totalEmptyCells = GridSideLength * GridSideLength - FilledCells.Count;
+
+        return solution.Count != totalEmptyCells
+            ? new ValidationResult($"Solution size is {solution.Count}, should be {totalEmptyCells}.")
+            : SolutionHasNoPairOfFilledCellsInSameCell(solution);
+    }
+
+    private ValidationResult? SolutionHasNoPairOfFilledCellsInSameCell(IReadOnlyList<FilledCell> solution)
+    {
+        IEnumerable<PairQueryItem> pairQuery = solution.SelectMany((_, i) =>
+            solution.Take(i), (filledCellAtI, filledCellAtH) =>
+            new PairQueryItem(filledCellAtH, filledCellAtI));
+
+        IEnumerable<ValidationResult> errorQuery = from item in pairQuery
+            let f1 = item.FirstFilledCell
+            let f2 = item.SecondFilledCell
+            where f1.Column == f2.Column && f1.Row == f2.Row
+            select new ValidationResult($"Solution filled cells {f1} and {f2} are in same cell.");
+
+        ValidationResult? firstError = errorQuery.FirstOrDefault();
+
+        return firstError ?? SolutionHasNoPairOfObstructingFilledCells(solution);
+    }
+
+    private ValidationResult? SolutionHasNoPairOfObstructingFilledCells(IReadOnlyList<FilledCell> solution)
+    {
+        IEnumerable<PairQueryItem> pairQuery = solution.SelectMany((_, i) =>
+            solution.Take(i), (filledCellAtI, filledCellAtH) =>
+            new PairQueryItem(filledCellAtH, filledCellAtI));
+
+        IEnumerable<ValidationResult> errorQuery = from item in pairQuery
+            let f1 = item.FirstFilledCell
+            let f2 = item.SecondFilledCell
+            where f1.Obstructs(f2)
+            select new ValidationResult($"Solution filled cells {f1} and {f2} obstruct each other.");
+
+        ValidationResult? firstError = errorQuery.FirstOrDefault();
+
+        return firstError ?? SolutionHasNoFilledCellInSameCellAsPuzzleFilledCell(solution);
+    }
+
+    private ValidationResult? SolutionHasNoFilledCellInSameCellAsPuzzleFilledCell(IReadOnlyList<FilledCell> solution)
+    {
+        IEnumerable<PuzzleQueryItem> puzzleQuery = from solutionFilledCell in solution
+            from puzzleFilledCell in FilledCells
+            select new PuzzleQueryItem(solutionFilledCell, puzzleFilledCell);
+
+        IEnumerable<ValidationResult> errorQuery = from item in puzzleQuery
+            let solutionFilledCell = item.SolutionFilledCell
+            let puzzleFilledCell = item.PuzzleFilledCell
+            where solutionFilledCell.Column == puzzleFilledCell.Column && solutionFilledCell.Row == puzzleFilledCell.Row
+            select new ValidationResult($"Solution filled cell {solutionFilledCell} " +
+                                        $"and puzzle filled cell {puzzleFilledCell} are in same cell.");
+
+        ValidationResult? firstError = errorQuery.FirstOrDefault();
+
+        return firstError ?? SolutionHasNoFilledCellObstructingPuzzleFilledCell(solution);
+    }
+
+    private ValidationResult? SolutionHasNoFilledCellObstructingPuzzleFilledCell(IReadOnlyList<FilledCell> solution)
+    {
+        IEnumerable<PuzzleQueryItem> puzzleQuery = from solutionFilledCell in solution
+            from puzzleFilledCell in FilledCells
+            select new PuzzleQueryItem(solutionFilledCell, puzzleFilledCell);
+
+        IEnumerable<ValidationResult> errorQuery = from item in puzzleQuery
+            let solutionFilledCell = item.SolutionFilledCell
+            let puzzleFilledCell = item.PuzzleFilledCell
+            where solutionFilledCell.Obstructs(puzzleFilledCell)
+            select new ValidationResult($"Solution filled cell {solutionFilledCell} " +
+                                        $"obstructs puzzle filled cell {puzzleFilledCell}.");
+
+        ValidationResult? firstError = errorQuery.FirstOrDefault();
+
+        return firstError ?? ValidationResult.Success;
+    }
+
     private static IEnumerable<FilledCell> EnumerateFilledCells(int?[,] squareGrid)
     {
         for (var column = 0; column < GridSideLength; column++)
@@ -154,4 +268,8 @@ public sealed record SudokuPuzzle
             }
         }
     }
+
+    private readonly record struct PairQueryItem(FilledCell FirstFilledCell, FilledCell SecondFilledCell);
+
+    private readonly record struct PuzzleQueryItem(FilledCell SolutionFilledCell, FilledCell PuzzleFilledCell);
 }
