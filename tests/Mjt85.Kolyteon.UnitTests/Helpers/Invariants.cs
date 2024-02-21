@@ -8,6 +8,8 @@ namespace Mjt85.Kolyteon.UnitTests.Helpers;
 /// </summary>
 internal static class Invariants
 {
+    public static readonly double SixDecimalPlacesPrecision = 0.000001;
+
     public static JsonSerializerOptions GetJsonSerializerOptions() => new()
     {
         DefaultIgnoreCondition = JsonIgnoreCondition.Never,
