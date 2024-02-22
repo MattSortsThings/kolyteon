@@ -180,6 +180,109 @@ namespace Mjt85.Kolyteon.FeatureTests.Features
             this.ScenarioCleanup();
         }
         
+        [Xunit.SkippableFactAttribute(DisplayName="Model a puzzle as a binary CSP")]
+        [Xunit.TraitAttribute("FeatureTitle", "Shikaku")]
+        [Xunit.TraitAttribute("Description", "Model a puzzle as a binary CSP")]
+        public void ModelAPuzzleAsABinaryCSP()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Model a puzzle as a binary CSP", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 36
+    this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 37
+        testRunner.Given("I have created a Shikaku puzzle from the following grid", "__ __ 09 __ __\r\n__ __ __ __ 10\r\n__ __ __ __ __\r\n__ 04 02 __ __\r\n__ __ __ __ __", ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 45
+        testRunner.And("I have modelled the Shikaku puzzle as a binary CSP", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 46
+        testRunner.When("I request the binary CSP metrics for the Shikaku puzzle", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+                TechTalk.SpecFlow.Table table15 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Field",
+                            "Value"});
+                table15.AddRow(new string[] {
+                            "Variables",
+                            "4"});
+                table15.AddRow(new string[] {
+                            "Constraints",
+                            "5"});
+                table15.AddRow(new string[] {
+                            "ConstraintDensity",
+                            "0.833333"});
+                table15.AddRow(new string[] {
+                            "ConstraintTightness",
+                            "0.5"});
+#line 47
+        testRunner.Then("the binary CSP problem metrics should be as follows", ((string)(null)), table15, "Then ");
+#line hidden
+                TechTalk.SpecFlow.Table table16 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Field",
+                            "Value"});
+                table16.AddRow(new string[] {
+                            "MinimumValue",
+                            "2"});
+                table16.AddRow(new string[] {
+                            "MeanValue",
+                            "2.75"});
+                table16.AddRow(new string[] {
+                            "MaximumValue",
+                            "4"});
+                table16.AddRow(new string[] {
+                            "DistinctValues",
+                            "3"});
+#line 53
+        testRunner.And("the binary CSP variable domain size statistics should be as follows", ((string)(null)), table16, "And ");
+#line hidden
+                TechTalk.SpecFlow.Table table17 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Field",
+                            "Value"});
+                table17.AddRow(new string[] {
+                            "MinimumValue",
+                            "2"});
+                table17.AddRow(new string[] {
+                            "MeanValue",
+                            "2.5"});
+                table17.AddRow(new string[] {
+                            "MaximumValue",
+                            "3"});
+                table17.AddRow(new string[] {
+                            "DistinctValues",
+                            "2"});
+#line 59
+        testRunner.And("the binary CSP variable degree statistics should be as follows", ((string)(null)), table17, "And ");
+#line hidden
+                TechTalk.SpecFlow.Table table18 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Field",
+                            "Value"});
+                table18.AddRow(new string[] {
+                            "MinimumValue",
+                            "0.666667"});
+                table18.AddRow(new string[] {
+                            "MeanValue",
+                            "1.270833"});
+                table18.AddRow(new string[] {
+                            "MaximumValue",
+                            "1.833333"});
+                table18.AddRow(new string[] {
+                            "DistinctValues",
+                            "4"});
+#line 65
+        testRunner.And("the binary CSP variable sum tightness statistics should be as follows", ((string)(null)), table18, "And ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
         [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.9.0.0")]
         [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
         public class FixtureData : System.IDisposable

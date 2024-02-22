@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 using Mjt85.Kolyteon.FeatureTests.Helpers;
+using Mjt85.Kolyteon.Modelling;
 using Mjt85.Kolyteon.Shikaku;
 using TechTalk.SpecFlow.Assist;
 
@@ -9,11 +10,13 @@ namespace Mjt85.Kolyteon.FeatureTests.Steps;
 [Binding]
 public sealed class ShikakuSteps
 {
+    private readonly IModellingBinaryCsp<ShikakuPuzzle, Hint, Rectangle> _binaryCsp;
     private readonly ScenarioContext _scenarioContext;
 
-    public ShikakuSteps(ScenarioContext scenarioContext)
+    public ShikakuSteps(ScenarioContext scenarioContext, IModellingBinaryCsp<ShikakuPuzzle, Hint, Rectangle> binaryCsp)
     {
-        _scenarioContext = scenarioContext;
+        _scenarioContext = scenarioContext ?? throw new ArgumentNullException(nameof(scenarioContext));
+        _binaryCsp = binaryCsp ?? throw new ArgumentNullException(nameof(binaryCsp));
     }
 
     [Given("I have created a Shikaku puzzle from the following grid")]
@@ -42,6 +45,14 @@ public sealed class ShikakuSteps
         _scenarioContext.Add(Invariants.PROPOSED_SOLUTION, proposedSolution);
     }
 
+    [Given("I have modelled the Shikaku puzzle as a binary CSP")]
+    public void GivenIHaveModelledTheShikakuPuzzleAsABinaryCsp()
+    {
+        var puzzle = _scenarioContext.Get<ShikakuPuzzle>(Invariants.PUZZLE);
+        _binaryCsp.Model(puzzle);
+    }
+
+
     [When("I deserialize a Shikaku puzzle from the JSON")]
     public void WhenIDeserializeAShikakuPuzzleFromTheJson()
     {
@@ -62,6 +73,20 @@ public sealed class ShikakuSteps
         ValidationResult? validationResult = puzzle.ValidSolution(proposedSolution);
 
         _scenarioContext.Add(Invariants.VALIDATION_RESULT, validationResult);
+    }
+
+    [When("I request the binary CSP metrics for the Shikaku puzzle")]
+    public void WhenIRequestTheBinaryCspMetricsForTheShikakuPuzzle()
+    {
+        ProblemMetrics problemMetrics = _binaryCsp.GetProblemMetrics();
+        DomainSizeStatistics domainSizeStatistics = _binaryCsp.GetDomainSizeStatistics();
+        DegreeStatistics degreeStatistics = _binaryCsp.GetDegreeStatistics();
+        SumTightnessStatistics sumTightnessStatistics = _binaryCsp.GetSumTightnessStatistics();
+
+        _scenarioContext.Add(Invariants.PROBLEM_METRICS, problemMetrics);
+        _scenarioContext.Add(Invariants.DOMAIN_SIZE_STATISTICS, domainSizeStatistics);
+        _scenarioContext.Add(Invariants.DEGREE_STATISTICS, degreeStatistics);
+        _scenarioContext.Add(Invariants.SUM_TIGHTNESS_STATISTICS, sumTightnessStatistics);
     }
 
     [Then("the deserialized Shikaku puzzle should be the same as the original puzzle")]

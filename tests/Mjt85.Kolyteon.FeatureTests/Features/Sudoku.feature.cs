@@ -140,81 +140,81 @@ namespace Mjt85.Kolyteon.FeatureTests.Features
                         " 4 _ 1 7 5 6\r\n7 6 5 _ 2 _ 1 4 3\r\n5 8 _ 6 9 4 _ 2 1\r\n9 _ 2 7 1 3 5 _ 8\r\n_ 1 6 2 8" +
                         " 5 9 7 _", ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-                TechTalk.SpecFlow.Table table15 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table19 = new TechTalk.SpecFlow.Table(new string[] {
                             "Column",
                             "Row",
                             "Number"});
-                table15.AddRow(new string[] {
+                table19.AddRow(new string[] {
                             "0",
                             "0",
                             "4"});
-                table15.AddRow(new string[] {
+                table19.AddRow(new string[] {
                             "0",
                             "8",
                             "3"});
-                table15.AddRow(new string[] {
+                table19.AddRow(new string[] {
                             "1",
                             "1",
                             "5"});
-                table15.AddRow(new string[] {
+                table19.AddRow(new string[] {
                             "1",
                             "7",
                             "4"});
-                table15.AddRow(new string[] {
+                table19.AddRow(new string[] {
                             "2",
                             "2",
                             "1"});
-                table15.AddRow(new string[] {
+                table19.AddRow(new string[] {
                             "2",
                             "6",
                             "7"});
-                table15.AddRow(new string[] {
+                table19.AddRow(new string[] {
                             "3",
                             "3",
                             "5"});
-                table15.AddRow(new string[] {
+                table19.AddRow(new string[] {
                             "3",
                             "5",
                             "9"});
-                table15.AddRow(new string[] {
+                table19.AddRow(new string[] {
                             "4",
                             "4",
                             "3"});
-                table15.AddRow(new string[] {
+                table19.AddRow(new string[] {
                             "5",
                             "3",
                             "6"});
-                table15.AddRow(new string[] {
+                table19.AddRow(new string[] {
                             "5",
                             "5",
                             "8"});
-                table15.AddRow(new string[] {
+                table19.AddRow(new string[] {
                             "6",
                             "2",
                             "4"});
-                table15.AddRow(new string[] {
+                table19.AddRow(new string[] {
                             "6",
                             "6",
                             "3"});
-                table15.AddRow(new string[] {
+                table19.AddRow(new string[] {
                             "7",
                             "1",
                             "1"});
-                table15.AddRow(new string[] {
+                table19.AddRow(new string[] {
                             "7",
                             "7",
                             "6"});
-                table15.AddRow(new string[] {
+                table19.AddRow(new string[] {
                             "8",
                             "0",
                             "7"});
-                table15.AddRow(new string[] {
+                table19.AddRow(new string[] {
                             "8",
                             "8",
                             "4"});
 #line 34
         testRunner.And("I have obtained the following list of filled cells as a proposed solution to the " +
-                        "Sudoku puzzle", ((string)(null)), table15, "And ");
+                        "Sudoku puzzle", ((string)(null)), table19, "And ");
 #line hidden
 #line 53
         testRunner.When("I ask the Sudoku puzzle to validate the proposed solution", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");

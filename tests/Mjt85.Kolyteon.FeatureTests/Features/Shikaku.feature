@@ -32,3 +32,39 @@ As a developer, I want to represent any Shikaku puzzle in code so that I can mod
           | 4            | 2         | 1            | 3             |
         When I ask the Shikaku puzzle to validate the proposed solution
         Then the validation result should be successful
+
+    Scenario: Model a puzzle as a binary CSP
+        Given I have created a Shikaku puzzle from the following grid
+        """
+        __ __ 09 __ __
+        __ __ __ __ 10
+        __ __ __ __ __
+        __ 04 02 __ __
+        __ __ __ __ __
+        """
+        And I have modelled the Shikaku puzzle as a binary CSP
+        When I request the binary CSP metrics for the Shikaku puzzle
+        Then the binary CSP problem metrics should be as follows
+          | Field               | Value    |
+          | Variables           | 4        |
+          | Constraints         | 5        |
+          | ConstraintDensity   | 0.833333 |
+          | ConstraintTightness | 0.5      |
+        And the binary CSP variable domain size statistics should be as follows
+          | Field          | Value |
+          | MinimumValue   | 2     |
+          | MeanValue      | 2.75  |
+          | MaximumValue   | 4     |
+          | DistinctValues | 3     |
+        And the binary CSP variable degree statistics should be as follows
+          | Field          | Value |
+          | MinimumValue   | 2     |
+          | MeanValue      | 2.5   |
+          | MaximumValue   | 3     |
+          | DistinctValues | 2     |
+        And the binary CSP variable sum tightness statistics should be as follows
+          | Field          | Value    |
+          | MinimumValue   | 0.666667 |
+          | MeanValue      | 1.270833 |
+          | MaximumValue   | 1.833333 |
+          | DistinctValues | 4        |

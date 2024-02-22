@@ -4,6 +4,7 @@ using Mjt85.Kolyteon.IntegrationTests.Modelling.TestCases;
 using Mjt85.Kolyteon.MapColouring;
 using Mjt85.Kolyteon.Modelling;
 using Mjt85.Kolyteon.NQueens;
+using Mjt85.Kolyteon.Shikaku;
 
 namespace Mjt85.Kolyteon.IntegrationTests.Modelling;
 
@@ -220,6 +221,110 @@ public sealed class BinaryCspModellingTests
         {
             // Arrange
             NQueensBinaryCsp binaryCsp = new(puzzle.N);
+
+            // Act
+            binaryCsp.Model(puzzle);
+
+            // Assert
+            binaryCsp.GetSumTightnessStatistics().Should()
+                .BeEquivalentTo(expected, ConfigureEquivalencyOptions<SumTightnessStatistics>());
+        }
+    }
+
+    [IntegrationTest]
+    public sealed class Modelling_ShikakuPuzzle
+    {
+        [Theory]
+        [ClassData(typeof(ShikakuVariables))]
+        public void BinaryCspHasExpectedVariables(ShikakuPuzzle puzzle, IEnumerable<Hint> expected)
+        {
+            // Arrange
+            ShikakuBinaryCsp binaryCsp = new(puzzle.Hints.Count);
+
+            // Act
+            binaryCsp.Model(puzzle);
+
+            // Assert
+            binaryCsp.GetAllVariables().Should().Equal(expected);
+        }
+
+        [Theory]
+        [ClassData(typeof(ShikakuDomains))]
+        public void BinaryCspHasExpectedDomains(ShikakuPuzzle puzzle, IEnumerable<IReadOnlyList<Rectangle>> expected)
+        {
+            // Arrange
+            ShikakuBinaryCsp binaryCsp = new(puzzle.Hints.Count);
+
+            // Act
+            binaryCsp.Model(puzzle);
+
+            // Assert
+            binaryCsp.GetAllDomains().Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        }
+
+        [Theory]
+        [ClassData(typeof(ShikakuAdjacentVariables))]
+        public void BinaryCspHasExpectedAdjacentVariables(ShikakuPuzzle puzzle, IEnumerable<Pair<Hint>> expected)
+        {
+            // Arrange
+            ShikakuBinaryCsp binaryCsp = new(puzzle.Hints.Count);
+
+            // Act
+            binaryCsp.Model(puzzle);
+
+            // Assert
+            binaryCsp.GetAllAdjacentVariables().Should().Equal(expected);
+        }
+
+        [Theory]
+        [ClassData(typeof(ShikakuProblemMetrics))]
+        public void BinaryCspHasExpectedProblemMetrics(ShikakuPuzzle puzzle, ProblemMetrics expected)
+        {
+            // Arrange
+            ShikakuBinaryCsp binaryCsp = new(puzzle.Hints.Count);
+
+            // Act
+            binaryCsp.Model(puzzle);
+
+            // Assert
+            binaryCsp.GetProblemMetrics().Should().BeEquivalentTo(expected, ConfigureEquivalencyOptions<ProblemMetrics>());
+        }
+
+        [Theory]
+        [ClassData(typeof(ShikakuDomainSizeStatistics))]
+        public void BinaryCspHasExpectedDomainSizeStatistics(ShikakuPuzzle puzzle, DomainSizeStatistics expected)
+        {
+            // Arrange
+            ShikakuBinaryCsp binaryCsp = new(puzzle.Hints.Count);
+
+            // Act
+            binaryCsp.Model(puzzle);
+
+            // Assert
+            binaryCsp.GetDomainSizeStatistics().Should()
+                .BeEquivalentTo(expected, ConfigureEquivalencyOptions<DomainSizeStatistics>());
+        }
+
+        [Theory]
+        [ClassData(typeof(ShikakuDegreeStatistics))]
+        public void BinaryCspHasExpectedDegreeStatistics(ShikakuPuzzle puzzle, DegreeStatistics expected)
+        {
+            // Arrange
+            ShikakuBinaryCsp binaryCsp = new(puzzle.Hints.Count);
+
+            // Act
+            binaryCsp.Model(puzzle);
+
+            // Assert
+            binaryCsp.GetDegreeStatistics().Should().BeEquivalentTo(expected, ConfigureEquivalencyOptions<DegreeStatistics>());
+        }
+
+        [Theory]
+        [ClassData(typeof(ShikakuSumTightnessStatistics))]
+        public void BinaryCspHasExpectedSumTightnessStatistics(ShikakuPuzzle puzzle, SumTightnessStatistics expected)
+        {
+            // Arrange
+            ShikakuBinaryCsp binaryCsp = new(puzzle.Hints.Count);
 
             // Act
             binaryCsp.Model(puzzle);
