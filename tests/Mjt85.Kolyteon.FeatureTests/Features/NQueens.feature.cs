@@ -136,36 +136,36 @@ namespace Mjt85.Kolyteon.FeatureTests.Features
 #line 11
         testRunner.Given("I have created an N-Queens puzzle in which N = 8", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-                TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table9 = new TechTalk.SpecFlow.Table(new string[] {
                             "Column",
                             "Row"});
-                table4.AddRow(new string[] {
+                table9.AddRow(new string[] {
                             "0",
                             "6"});
-                table4.AddRow(new string[] {
+                table9.AddRow(new string[] {
                             "1",
                             "4"});
-                table4.AddRow(new string[] {
+                table9.AddRow(new string[] {
                             "2",
                             "2"});
-                table4.AddRow(new string[] {
+                table9.AddRow(new string[] {
                             "3",
                             "0"});
-                table4.AddRow(new string[] {
+                table9.AddRow(new string[] {
                             "4",
                             "5"});
-                table4.AddRow(new string[] {
+                table9.AddRow(new string[] {
                             "5",
                             "7"});
-                table4.AddRow(new string[] {
+                table9.AddRow(new string[] {
                             "6",
                             "1"});
-                table4.AddRow(new string[] {
+                table9.AddRow(new string[] {
                             "7",
                             "3"});
 #line 12
         testRunner.And("I have obtained the following list of queens as a proposed solution to the N-Quee" +
-                        "ns puzzle", ((string)(null)), table4, "And ");
+                        "ns puzzle", ((string)(null)), table9, "And ");
 #line hidden
 #line 22
         testRunner.When("I ask the N-Queens puzzle to validate the proposed solution", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -204,77 +204,77 @@ namespace Mjt85.Kolyteon.FeatureTests.Features
 #line 28
         testRunner.When("I request the binary CSP metrics for the N-Queens puzzle", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-                TechTalk.SpecFlow.Table table5 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table10 = new TechTalk.SpecFlow.Table(new string[] {
                             "Field",
                             "Value"});
-                table5.AddRow(new string[] {
+                table10.AddRow(new string[] {
                             "Variables",
                             "5"});
-                table5.AddRow(new string[] {
+                table10.AddRow(new string[] {
                             "Constraints",
                             "10"});
-                table5.AddRow(new string[] {
+                table10.AddRow(new string[] {
                             "ConstraintDensity",
                             "1"});
-                table5.AddRow(new string[] {
+                table10.AddRow(new string[] {
                             "ConstraintTightness",
                             "0.44"});
 #line 29
-        testRunner.Then("the binary CSP problem metrics should be as follows", ((string)(null)), table5, "Then ");
+        testRunner.Then("the binary CSP problem metrics should be as follows", ((string)(null)), table10, "Then ");
 #line hidden
-                TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table11 = new TechTalk.SpecFlow.Table(new string[] {
                             "Field",
                             "Value"});
-                table6.AddRow(new string[] {
+                table11.AddRow(new string[] {
                             "MinimumValue",
                             "5"});
-                table6.AddRow(new string[] {
+                table11.AddRow(new string[] {
                             "MeanValue",
                             "5"});
-                table6.AddRow(new string[] {
+                table11.AddRow(new string[] {
                             "MaximumValue",
                             "5"});
-                table6.AddRow(new string[] {
+                table11.AddRow(new string[] {
                             "DistinctValues",
                             "1"});
 #line 35
-        testRunner.And("the binary CSP variable domain size statistics should be as follows", ((string)(null)), table6, "And ");
+        testRunner.And("the binary CSP variable domain size statistics should be as follows", ((string)(null)), table11, "And ");
 #line hidden
-                TechTalk.SpecFlow.Table table7 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table12 = new TechTalk.SpecFlow.Table(new string[] {
                             "Field",
                             "Value"});
-                table7.AddRow(new string[] {
+                table12.AddRow(new string[] {
                             "MinimumValue",
                             "4"});
-                table7.AddRow(new string[] {
+                table12.AddRow(new string[] {
                             "MeanValue",
                             "4"});
-                table7.AddRow(new string[] {
+                table12.AddRow(new string[] {
                             "MaximumValue",
                             "4"});
-                table7.AddRow(new string[] {
+                table12.AddRow(new string[] {
                             "DistinctValues",
                             "1"});
 #line 41
-        testRunner.And("the binary CSP variable degree statistics should be as follows", ((string)(null)), table7, "And ");
+        testRunner.And("the binary CSP variable degree statistics should be as follows", ((string)(null)), table12, "And ");
 #line hidden
-                TechTalk.SpecFlow.Table table8 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table13 = new TechTalk.SpecFlow.Table(new string[] {
                             "Field",
                             "Value"});
-                table8.AddRow(new string[] {
+                table13.AddRow(new string[] {
                             "MinimumValue",
                             "1.6"});
-                table8.AddRow(new string[] {
+                table13.AddRow(new string[] {
                             "MeanValue",
                             "1.76"});
-                table8.AddRow(new string[] {
+                table13.AddRow(new string[] {
                             "MaximumValue",
                             "1.92"});
-                table8.AddRow(new string[] {
+                table13.AddRow(new string[] {
                             "DistinctValues",
                             "3"});
 #line 47
-        testRunner.And("the binary CSP variable sum tightness statistics should be as follows", ((string)(null)), table8, "And ");
+        testRunner.And("the binary CSP variable sum tightness statistics should be as follows", ((string)(null)), table13, "And ");
 #line hidden
             }
             this.ScenarioCleanup();

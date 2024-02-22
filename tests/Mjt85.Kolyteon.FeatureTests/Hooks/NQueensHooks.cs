@@ -14,4 +14,12 @@ public sealed class NQueensHooks
         NQueensBinaryCsp binaryCsp = new(5);
         objectContainer.RegisterInstanceAs<IModellingBinaryCsp<NQueensPuzzle, int, Queen>>(binaryCsp);
     }
+
+    [BeforeScenario]
+    [AfterScenario]
+    [Scope(Feature = "N-Queens")]
+    public static void ClearBinaryCsp(IModellingBinaryCsp<NQueensPuzzle, int, Queen> binaryCsp)
+    {
+        binaryCsp.Clear();
+    }
 }

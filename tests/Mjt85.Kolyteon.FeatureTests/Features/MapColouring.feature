@@ -26,3 +26,35 @@ As a developer, I want to represent any Map Colouring puzzle in code so that I c
           | T      | Green  |
         When I ask the Map Colouring puzzle to validate the proposed solution
         Then the validation result should be successful
+
+    Scenario: Model a puzzle as a binary CSP
+        Given I have created a Map Colouring puzzle as follows
+          | Field         | Value          |
+          | PresetMap     | Australia      |
+          | GlobalColours | Red,Blue,Green |
+        And I have modelled the Map Colouring puzzle as a binary CSP
+        When I request the binary CSP metrics for the Map Colouring puzzle
+        Then the binary CSP problem metrics should be as follows
+          | Field               | Value    |
+          | Variables           | 7        |
+          | Constraints         | 9        |
+          | ConstraintDensity   | 0.428571 |
+          | ConstraintTightness | 0.333333 |
+        And the binary CSP variable domain size statistics should be as follows
+          | Field          | Value |
+          | MinimumValue   | 3     |
+          | MeanValue      | 3     |
+          | MaximumValue   | 3     |
+          | DistinctValues | 1     |
+        And the binary CSP variable degree statistics should be as follows
+          | Field          | Value    |
+          | MinimumValue   | 0        |
+          | MeanValue      | 2.571429 |
+          | MaximumValue   | 5        |
+          | DistinctValues | 4        |
+        And the binary CSP variable sum tightness statistics should be as follows
+          | Field          | Value    |
+          | MinimumValue   | 0        |
+          | MeanValue      | 0.857143 |
+          | MaximumValue   | 1.666667 |
+          | DistinctValues | 4        |

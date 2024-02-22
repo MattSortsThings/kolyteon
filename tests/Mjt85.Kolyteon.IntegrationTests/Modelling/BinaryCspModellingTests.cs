@@ -1,6 +1,7 @@
 ﻿using FluentAssertions.Equivalency;
 using Mjt85.Kolyteon.IntegrationTests.Helpers;
 using Mjt85.Kolyteon.IntegrationTests.Modelling.TestCases;
+using Mjt85.Kolyteon.MapColouring;
 using Mjt85.Kolyteon.Modelling;
 using Mjt85.Kolyteon.NQueens;
 
@@ -15,6 +16,112 @@ public sealed class BinaryCspModellingTests
     {
         return options => options.Using<double>(e =>
             e.Subject.Should().BeApproximately(e.Expectation, Invariants.SixDecimalPlacesPrecision)).WhenTypeIs<double>();
+    }
+
+    [IntegrationTest]
+    public sealed class Modelling_MapColouringPuzzle
+    {
+        [Theory]
+        [ClassData(typeof(MapColouringVariables))]
+        public void BinaryCspHasExpectedVariables(MapColouringPuzzle puzzle, IEnumerable<Region> expected)
+        {
+            // Arrange
+            MapColouringBinaryCsp binaryCsp = new(puzzle.RegionData.Count);
+
+            // Act
+            binaryCsp.Model(puzzle);
+
+            // Assert
+            binaryCsp.GetAllVariables().Should().Equal(expected);
+        }
+
+        [Theory]
+        [ClassData(typeof(MapColouringDomains))]
+        public void BinaryCspHasExpectedDomains(MapColouringPuzzle puzzle, IEnumerable<IReadOnlyList<Colour>> expected)
+        {
+            // Arrange
+            MapColouringBinaryCsp binaryCsp = new(puzzle.RegionData.Count);
+
+            // Act
+            binaryCsp.Model(puzzle);
+
+            // Assert
+            binaryCsp.GetAllDomains().Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        }
+
+        [Theory]
+        [ClassData(typeof(MapColouringAdjacentVariables))]
+        public void BinaryCspHasExpectedAdjacentVariables(MapColouringPuzzle puzzle, IEnumerable<Pair<Region>> expected)
+        {
+            // Arrange
+            MapColouringBinaryCsp binaryCsp = new(puzzle.RegionData.Count);
+
+            // Act
+            binaryCsp.Model(puzzle);
+
+            // Assert
+            binaryCsp.GetAllAdjacentVariables().Should().Equal(expected);
+        }
+
+        [Theory]
+        [ClassData(typeof(MapColouringProblemMetrics))]
+        public void BinaryCspHasExpectedProblemMetrics(MapColouringPuzzle puzzle, ProblemMetrics expected)
+        {
+            // Arrange
+            MapColouringBinaryCsp binaryCsp = new(puzzle.RegionData.Count);
+
+            // Act
+            binaryCsp.Model(puzzle);
+
+            // Assert
+            binaryCsp.GetProblemMetrics().Should()
+                .BeEquivalentTo(expected, ConfigureEquivalencyOptions<ProblemMetrics>());
+        }
+
+        [Theory]
+        [ClassData(typeof(MapColouringDomainSizeStatistics))]
+        public void BinaryCspHasExpectedDomainSizeStatistics(MapColouringPuzzle puzzle, DomainSizeStatistics expected)
+        {
+            // Arrange
+            MapColouringBinaryCsp binaryCsp = new(puzzle.RegionData.Count);
+
+            // Act
+            binaryCsp.Model(puzzle);
+
+            // Assert
+            binaryCsp.GetDomainSizeStatistics().Should()
+                .BeEquivalentTo(expected, ConfigureEquivalencyOptions<DomainSizeStatistics>());
+        }
+
+        [Theory]
+        [ClassData(typeof(MapColouringDegreeStatistics))]
+        public void BinaryCspHasExpectedDegreeStatistics(MapColouringPuzzle puzzle, DegreeStatistics expected)
+        {
+            // Arrange
+            MapColouringBinaryCsp binaryCsp = new(puzzle.RegionData.Count);
+
+            // Act
+            binaryCsp.Model(puzzle);
+
+            // Assert
+            binaryCsp.GetDegreeStatistics().Should()
+                .BeEquivalentTo(expected, ConfigureEquivalencyOptions<DegreeStatistics>());
+        }
+
+        [Theory]
+        [ClassData(typeof(MapColouringSumTightnessStatistics))]
+        public void BinaryCspHasExpectedSumTightnessStatistics(MapColouringPuzzle puzzle, SumTightnessStatistics expected)
+        {
+            // Arrange
+            MapColouringBinaryCsp binaryCsp = new(puzzle.RegionData.Count);
+
+            // Act
+            binaryCsp.Model(puzzle);
+
+            // Assert
+            binaryCsp.GetSumTightnessStatistics().Should()
+                .BeEquivalentTo(expected, ConfigureEquivalencyOptions<SumTightnessStatistics>());
+        }
     }
 
     [IntegrationTest]
@@ -62,6 +169,22 @@ public sealed class BinaryCspModellingTests
             binaryCsp.GetAllAdjacentVariables().Should().Equal(expected);
         }
 
+
+        [Theory]
+        [ClassData(typeof(NQueensProblemMetrics))]
+        public void BinaryCspHasExpectedProblemMetrics(NQueensPuzzle puzzle, ProblemMetrics expected)
+        {
+            // Arrange
+            NQueensBinaryCsp binaryCsp = new(puzzle.N);
+
+            // Act
+            binaryCsp.Model(puzzle);
+
+            // Assert
+            binaryCsp.GetProblemMetrics().Should()
+                .BeEquivalentTo(expected, ConfigureEquivalencyOptions<ProblemMetrics>());
+        }
+
         [Theory]
         [ClassData(typeof(NQueensDomainSizeStatistics))]
         public void BinaryCspHasExpectedDomainSizeStatistics(NQueensPuzzle puzzle, DomainSizeStatistics expected)
@@ -76,7 +199,6 @@ public sealed class BinaryCspModellingTests
             binaryCsp.GetDomainSizeStatistics().Should()
                 .BeEquivalentTo(expected, ConfigureEquivalencyOptions<DomainSizeStatistics>());
         }
-
 
         [Theory]
         [ClassData(typeof(NQueensDegreeStatistics))]

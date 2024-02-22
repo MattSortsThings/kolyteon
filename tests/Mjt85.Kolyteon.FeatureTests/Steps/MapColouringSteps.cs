@@ -2,6 +2,7 @@
 using System.Text.Json;
 using Mjt85.Kolyteon.FeatureTests.Helpers;
 using Mjt85.Kolyteon.MapColouring;
+using Mjt85.Kolyteon.Modelling;
 using TechTalk.SpecFlow.Assist;
 
 namespace Mjt85.Kolyteon.FeatureTests.Steps;
@@ -9,11 +10,13 @@ namespace Mjt85.Kolyteon.FeatureTests.Steps;
 [Binding]
 public sealed class MapColouringSteps
 {
+    private readonly IModellingBinaryCsp<MapColouringPuzzle, Region, Colour> _binaryCsp;
     private readonly ScenarioContext _scenarioContext;
 
-    public MapColouringSteps(ScenarioContext scenarioContext)
+    public MapColouringSteps(ScenarioContext scenarioContext, IModellingBinaryCsp<MapColouringPuzzle, Region, Colour> binaryCsp)
     {
-        _scenarioContext = scenarioContext;
+        _scenarioContext = scenarioContext ?? throw new ArgumentNullException(nameof(scenarioContext));
+        _binaryCsp = binaryCsp ?? throw new ArgumentNullException(nameof(binaryCsp));
     }
 
     [Given("I have created a Map Colouring puzzle as follows")]
@@ -47,6 +50,14 @@ public sealed class MapColouringSteps
         _scenarioContext.Add(Invariants.PROPOSED_SOLUTION, proposedSolution);
     }
 
+
+    [Given("I have modelled the Map Colouring puzzle as a binary CSP")]
+    public void GivenIHaveModelledTheMapColouringPuzzleAsABinaryCsp()
+    {
+        var puzzle = _scenarioContext.Get<MapColouringPuzzle>(Invariants.PUZZLE);
+        _binaryCsp.Model(puzzle);
+    }
+
     [When("I deserialize a Map Colouring puzzle from the JSON")]
     public void WhenIDeserializeAMapColouringPuzzleFromTheJson()
     {
@@ -67,6 +78,20 @@ public sealed class MapColouringSteps
         ValidationResult? validationResult = puzzle.ValidSolution(proposedSolution);
 
         _scenarioContext.Add(Invariants.VALIDATION_RESULT, validationResult);
+    }
+
+    [When("I request the binary CSP metrics for the Map Colouring puzzle")]
+    public void WhenIRequestTheBinaryCspMetricsForTheMapColouringPuzzle()
+    {
+        ProblemMetrics problemMetrics = _binaryCsp.GetProblemMetrics();
+        DomainSizeStatistics domainSizeStatistics = _binaryCsp.GetDomainSizeStatistics();
+        DegreeStatistics degreeStatistics = _binaryCsp.GetDegreeStatistics();
+        SumTightnessStatistics sumTightnessStatistics = _binaryCsp.GetSumTightnessStatistics();
+
+        _scenarioContext.Add(Invariants.PROBLEM_METRICS, problemMetrics);
+        _scenarioContext.Add(Invariants.DOMAIN_SIZE_STATISTICS, domainSizeStatistics);
+        _scenarioContext.Add(Invariants.DEGREE_STATISTICS, degreeStatistics);
+        _scenarioContext.Add(Invariants.SUM_TIGHTNESS_STATISTICS, sumTightnessStatistics);
     }
 
     [Then("the deserialized Map Colouring puzzle should be the same as the original puzzle")]

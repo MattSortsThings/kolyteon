@@ -136,39 +136,39 @@ namespace Mjt85.Kolyteon.FeatureTests.Features
 #line 18
         testRunner.Given("I have created a Shikaku puzzle from the following grid", "05 __ __ __ __\r\n__ 05 __ __ __\r\n__ __ 09 __ __\r\n__ __ __ __ 03\r\n03 __ __ __ __", ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-                TechTalk.SpecFlow.Table table9 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table14 = new TechTalk.SpecFlow.Table(new string[] {
                             "OriginColumn",
                             "OriginRow",
                             "WidthInCells",
                             "HeightInCells"});
-                table9.AddRow(new string[] {
+                table14.AddRow(new string[] {
                             "0",
                             "0",
                             "5",
                             "1"});
-                table9.AddRow(new string[] {
+                table14.AddRow(new string[] {
                             "0",
                             "1",
                             "5",
                             "1"});
-                table9.AddRow(new string[] {
+                table14.AddRow(new string[] {
                             "0",
                             "2",
                             "1",
                             "3"});
-                table9.AddRow(new string[] {
+                table14.AddRow(new string[] {
                             "1",
                             "2",
                             "3",
                             "3"});
-                table9.AddRow(new string[] {
+                table14.AddRow(new string[] {
                             "4",
                             "2",
                             "1",
                             "3"});
 #line 26
         testRunner.And("I have obtained the following list of rectangles as a proposed solution to the Sh" +
-                        "ikaku puzzle", ((string)(null)), table9, "And ");
+                        "ikaku puzzle", ((string)(null)), table14, "And ");
 #line hidden
 #line 33
         testRunner.When("I ask the Shikaku puzzle to validate the proposed solution", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
