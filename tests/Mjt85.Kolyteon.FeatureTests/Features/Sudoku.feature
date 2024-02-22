@@ -52,3 +52,43 @@ As a developer, I want to represent any Sudoku puzzle in code so that I can mode
           | 8      | 8   | 4      |
         When I ask the Sudoku puzzle to validate the proposed solution
         Then the validation result should be successful
+
+    Scenario: Model a puzzle as a binary CSP
+        Given I have created a Sudoku puzzle from the following grid
+        """
+        4 9 6 5 7 1 8 3 2
+        2 1 8 9 6 3 7 4 5
+        7 5 3 8 4 2 1 9 6
+        5 3 1 7 2 6 9 8 4
+        6 4 9 3 1 8 2 5 7
+        8 2 7 4 _ 5 6 1 3
+        9 _ 2 1 _ 4 3 7 _
+        1 _ 5 6 _ 7 4 2 _
+        3 _ 4 2 _ 9 5 6 _
+        """
+        And I have modelled the Sudoku puzzle as a binary CSP
+        When I request the binary CSP metrics for the Sudoku puzzle
+        Then the binary CSP problem metrics should be as follows
+          | Field               | Value |
+          | Variables           | 10    |
+          | Constraints         | 18    |
+          | ConstraintDensity   | 0.4   |
+          | ConstraintTightness | 0.375 |
+        And the binary CSP variable domain size statistics should be as follows
+          | Field          | Value |
+          | MinimumValue   | 1     |
+          | MeanValue      | 1.6   |
+          | MaximumValue   | 2     |
+          | DistinctValues | 2     |
+        And the binary CSP variable degree statistics should be as follows
+          | Field          | Value |
+          | MinimumValue   | 0     |
+          | MeanValue      | 3.6   |
+          | MaximumValue   | 4     |
+          | DistinctValues | 2     |
+        And the binary CSP variable sum tightness statistics should be as follows
+          | Field          | Value |
+          | MinimumValue   | 0.0   |
+          | MeanValue      | 1.5   |
+          | MaximumValue   | 2.0   |
+          | DistinctValues | 3     |

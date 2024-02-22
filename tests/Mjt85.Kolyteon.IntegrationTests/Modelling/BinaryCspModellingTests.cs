@@ -5,6 +5,7 @@ using Mjt85.Kolyteon.MapColouring;
 using Mjt85.Kolyteon.Modelling;
 using Mjt85.Kolyteon.NQueens;
 using Mjt85.Kolyteon.Shikaku;
+using Mjt85.Kolyteon.Sudoku;
 
 namespace Mjt85.Kolyteon.IntegrationTests.Modelling;
 
@@ -325,6 +326,110 @@ public sealed class BinaryCspModellingTests
         {
             // Arrange
             ShikakuBinaryCsp binaryCsp = new(puzzle.Hints.Count);
+
+            // Act
+            binaryCsp.Model(puzzle);
+
+            // Assert
+            binaryCsp.GetSumTightnessStatistics().Should()
+                .BeEquivalentTo(expected, ConfigureEquivalencyOptions<SumTightnessStatistics>());
+        }
+    }
+
+    [IntegrationTest]
+    public sealed class Modelling_SudokuPuzzle
+    {
+        [Theory]
+        [ClassData(typeof(SudokuVariables))]
+        public void BinaryCspHasExpectedVariables(SudokuPuzzle puzzle, IEnumerable<EmptyCell> expected)
+        {
+            // Arrange
+            SudokuBinaryCsp binaryCsp = new(10);
+
+            // Act
+            binaryCsp.Model(puzzle);
+
+            // Assert
+            binaryCsp.GetAllVariables().Should().Equal(expected);
+        }
+
+        [Theory]
+        [ClassData(typeof(SudokuDomains))]
+        public void BinaryCspHasExpectedDomains(SudokuPuzzle puzzle, IEnumerable<IReadOnlyList<int>> expected)
+        {
+            // Arrange
+            SudokuBinaryCsp binaryCsp = new(10);
+
+            // Act
+            binaryCsp.Model(puzzle);
+
+            // Assert
+            binaryCsp.GetAllDomains().Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
+        }
+
+        [Theory]
+        [ClassData(typeof(SudokuAdjacentVariables))]
+        public void BinaryCspHasExpectedAdjacentVariables(SudokuPuzzle puzzle, IEnumerable<Pair<EmptyCell>> expected)
+        {
+            // Arrange
+            SudokuBinaryCsp binaryCsp = new(10);
+
+            // Act
+            binaryCsp.Model(puzzle);
+
+            // Assert
+            binaryCsp.GetAllAdjacentVariables().Should().Equal(expected);
+        }
+
+        [Theory]
+        [ClassData(typeof(SudokuProblemMetrics))]
+        public void BinaryCspHasExpectedProblemMetrics(SudokuPuzzle puzzle, ProblemMetrics expected)
+        {
+            // Arrange
+            SudokuBinaryCsp binaryCsp = new(10);
+
+            // Act
+            binaryCsp.Model(puzzle);
+
+            // Assert
+            binaryCsp.GetProblemMetrics().Should().BeEquivalentTo(expected, ConfigureEquivalencyOptions<ProblemMetrics>());
+        }
+
+        [Theory]
+        [ClassData(typeof(SudokuDomainSizeStatistics))]
+        public void BinaryCspHasExpectedDomainSizeStatistics(SudokuPuzzle puzzle, DomainSizeStatistics expected)
+        {
+            // Arrange
+            SudokuBinaryCsp binaryCsp = new(10);
+
+            // Act
+            binaryCsp.Model(puzzle);
+
+            // Assert
+            binaryCsp.GetDomainSizeStatistics().Should()
+                .BeEquivalentTo(expected, ConfigureEquivalencyOptions<DomainSizeStatistics>());
+        }
+
+        [Theory]
+        [ClassData(typeof(SudokuDegreeStatistics))]
+        public void BinaryCspHasExpectedDegreeStatistics(SudokuPuzzle puzzle, DegreeStatistics expected)
+        {
+            // Arrange
+            SudokuBinaryCsp binaryCsp = new(10);
+
+            // Act
+            binaryCsp.Model(puzzle);
+
+            // Assert
+            binaryCsp.GetDegreeStatistics().Should().BeEquivalentTo(expected, ConfigureEquivalencyOptions<DegreeStatistics>());
+        }
+
+        [Theory]
+        [ClassData(typeof(SudokuSumTightnessStatistics))]
+        public void BinaryCspHasExpectedSumTightnessStatistics(SudokuPuzzle puzzle, SumTightnessStatistics expected)
+        {
+            // Arrange
+            SudokuBinaryCsp binaryCsp = new(10);
 
             // Act
             binaryCsp.Model(puzzle);
