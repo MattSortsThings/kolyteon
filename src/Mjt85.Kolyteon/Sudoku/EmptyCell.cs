@@ -127,7 +127,7 @@ public readonly record struct EmptyCell : IComparable<EmptyCell>
     /// <param name="other">The <see cref="EmptyCell" /> instance against which this instance is to be compared.</param>
     /// <returns>
     ///     <c>true</c> if this instance and the <paramref name="other" /> parameter have equal value; otherwise,
-    ///     <c>false</c>. If the <paramref name="other" /> parameter is <c>null</c>, the method returns <c>false</c>.
+    ///     <c>false</c>.
     /// </returns>
     public bool Equals(EmptyCell other) => Column == other.Column && Row == other.Row;
 
