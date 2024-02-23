@@ -24,7 +24,7 @@ public sealed class BinaryCspModellingTests
     public sealed class Modelling_MapColouringPuzzle
     {
         [Theory]
-        [ClassData(typeof(MapColouringVariables))]
+        [ClassData(typeof(MapColouringPuzzles.ExpectedVariables))]
         public void BinaryCspHasExpectedVariables(MapColouringPuzzle puzzle, IEnumerable<Region> expected)
         {
             // Arrange
@@ -38,7 +38,7 @@ public sealed class BinaryCspModellingTests
         }
 
         [Theory]
-        [ClassData(typeof(MapColouringDomains))]
+        [ClassData(typeof(MapColouringPuzzles.ExpectedDomains))]
         public void BinaryCspHasExpectedDomains(MapColouringPuzzle puzzle, IEnumerable<IReadOnlyList<Colour>> expected)
         {
             // Arrange
@@ -52,7 +52,7 @@ public sealed class BinaryCspModellingTests
         }
 
         [Theory]
-        [ClassData(typeof(MapColouringAdjacentVariables))]
+        [ClassData(typeof(MapColouringPuzzles.ExpectedAdjacentVariables))]
         public void BinaryCspHasExpectedAdjacentVariables(MapColouringPuzzle puzzle, IEnumerable<Pair<Region>> expected)
         {
             // Arrange
@@ -66,7 +66,7 @@ public sealed class BinaryCspModellingTests
         }
 
         [Theory]
-        [ClassData(typeof(MapColouringProblemMetrics))]
+        [ClassData(typeof(MapColouringPuzzles.ExpectedProblemMetrics))]
         public void BinaryCspHasExpectedProblemMetrics(MapColouringPuzzle puzzle, ProblemMetrics expected)
         {
             // Arrange
@@ -81,7 +81,7 @@ public sealed class BinaryCspModellingTests
         }
 
         [Theory]
-        [ClassData(typeof(MapColouringDomainSizeStatistics))]
+        [ClassData(typeof(MapColouringPuzzles.ExpectedDomainSizeStatistics))]
         public void BinaryCspHasExpectedDomainSizeStatistics(MapColouringPuzzle puzzle, DomainSizeStatistics expected)
         {
             // Arrange
@@ -96,7 +96,7 @@ public sealed class BinaryCspModellingTests
         }
 
         [Theory]
-        [ClassData(typeof(MapColouringDegreeStatistics))]
+        [ClassData(typeof(MapColouringPuzzles.ExpectedDegreeStatistics))]
         public void BinaryCspHasExpectedDegreeStatistics(MapColouringPuzzle puzzle, DegreeStatistics expected)
         {
             // Arrange
@@ -111,7 +111,7 @@ public sealed class BinaryCspModellingTests
         }
 
         [Theory]
-        [ClassData(typeof(MapColouringSumTightnessStatistics))]
+        [ClassData(typeof(MapColouringPuzzles.ExpectedSumTightnessStatistics))]
         public void BinaryCspHasExpectedSumTightnessStatistics(MapColouringPuzzle puzzle, SumTightnessStatistics expected)
         {
             // Arrange
