@@ -130,7 +130,7 @@ public sealed class BinaryCspModellingTests
     public sealed class Modelling_NQueensPuzzle
     {
         [Theory]
-        [ClassData(typeof(NQueensVariables))]
+        [ClassData(typeof(NQueensPuzzles.ExpectedVariables))]
         public void BinaryCspHasExpectedVariables(NQueensPuzzle puzzle, IEnumerable<int> expected)
         {
             // Arrange
@@ -144,7 +144,7 @@ public sealed class BinaryCspModellingTests
         }
 
         [Theory]
-        [ClassData(typeof(NQueensDomains))]
+        [ClassData(typeof(NQueensPuzzles.ExpectedDomains))]
         public void BinaryCspHasExpectedDomains(NQueensPuzzle puzzle, IEnumerable<IReadOnlyList<Queen>> expected)
         {
             // Arrange
@@ -158,7 +158,7 @@ public sealed class BinaryCspModellingTests
         }
 
         [Theory]
-        [ClassData(typeof(NQueensAdjacentVariables))]
+        [ClassData(typeof(NQueensPuzzles.ExpectedAdjacentVariables))]
         public void BinaryCspHasExpectedAdjacentVariables(NQueensPuzzle puzzle, IEnumerable<Pair<int>> expected)
         {
             // Arrange
@@ -173,7 +173,7 @@ public sealed class BinaryCspModellingTests
 
 
         [Theory]
-        [ClassData(typeof(NQueensProblemMetrics))]
+        [ClassData(typeof(NQueensPuzzles.ExpectedProblemMetrics))]
         public void BinaryCspHasExpectedProblemMetrics(NQueensPuzzle puzzle, ProblemMetrics expected)
         {
             // Arrange
@@ -188,7 +188,7 @@ public sealed class BinaryCspModellingTests
         }
 
         [Theory]
-        [ClassData(typeof(NQueensDomainSizeStatistics))]
+        [ClassData(typeof(NQueensPuzzles.ExpectedDomainSizeStatistics))]
         public void BinaryCspHasExpectedDomainSizeStatistics(NQueensPuzzle puzzle, DomainSizeStatistics expected)
         {
             // Arrange
@@ -203,7 +203,7 @@ public sealed class BinaryCspModellingTests
         }
 
         [Theory]
-        [ClassData(typeof(NQueensDegreeStatistics))]
+        [ClassData(typeof(NQueensPuzzles.ExpectedDegreeStatistics))]
         public void BinaryCspHasExpectedDegreeStatistics(NQueensPuzzle puzzle, DegreeStatistics expected)
         {
             // Arrange
@@ -217,7 +217,7 @@ public sealed class BinaryCspModellingTests
         }
 
         [Theory]
-        [ClassData(typeof(NQueensSumTightnessStatistics))]
+        [ClassData(typeof(NQueensPuzzles.ExpectedSumTightnessStatistics))]
         public void BinaryCspHasExpectedSumTightnessStatistics(NQueensPuzzle puzzle, SumTightnessStatistics expected)
         {
             // Arrange
