@@ -177,6 +177,7 @@ public static class PresetMaps
                 new NeighbourPair(Cheap, Cordwainer),
                 new NeighbourPair(Cheap, FarringdonWithin),
                 new NeighbourPair(Cheap, Walbrook),
+                new NeighbourPair(ColemanStreet, Cripplegate),
                 new NeighbourPair(ColemanStreet, Walbrook),
                 new NeighbourPair(Cordwainer, Dowgate),
                 new NeighbourPair(Cordwainer, Vintry),
@@ -184,13 +185,12 @@ public static class PresetMaps
                 new NeighbourPair(Cornhill, Langbourn),
                 new NeighbourPair(Cornhill, LimeStreet),
                 new NeighbourPair(Cornhill, Walbrook),
-                new NeighbourPair(Cripplegate, ColemanStreet),
                 new NeighbourPair(Dowgate, Vintry),
                 new NeighbourPair(Dowgate, Walbrook),
                 new NeighbourPair(FarringdonWithin, FarringdonWithout),
+                new NeighbourPair(Langbourn, LimeStreet),
                 new NeighbourPair(Langbourn, Tower),
                 new NeighbourPair(Langbourn, Walbrook),
-                new NeighbourPair(LimeStreet, Langbourn),
                 new NeighbourPair(Portsoken, Tower),
                 new NeighbourPair(Queenhithe, Vintry)
             ]
@@ -608,7 +608,7 @@ public static class PresetMaps
     ///     Creates and returns a new <see cref="PresetMap" /> based on the states, federal district, and inhabited territories
     ///     of the United States of America.
     /// </summary>
-    /// <remarks>This preset map has 57 regions split between 8 disconnected sub-maps, with 109 pairs of neighbouring regions.</remarks>
+    /// <remarks>This preset map has 57 regions split between 8 disconnected sub-maps, with 107 pairs of neighbouring regions.</remarks>
     /// <returns>A new <see cref="PresetMap" /> instance.</returns>
     public static PresetMap UnitedStates()
     {
@@ -784,8 +784,6 @@ public static class PresetMaps
                 new NeighbourPair(NM, TX),
                 new NeighbourPair(NV, OR),
                 new NeighbourPair(NV, UT),
-                new NeighbourPair(NY, MA),
-                new NeighbourPair(NY, NJ),
                 new NeighbourPair(NY, PA),
                 new NeighbourPair(NY, VT),
                 new NeighbourPair(OH, PA),
