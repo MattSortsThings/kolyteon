@@ -340,7 +340,7 @@ public sealed class BinaryCspModellingTests
     public sealed class Modelling_SudokuPuzzle
     {
         [Theory]
-        [ClassData(typeof(SudokuVariables))]
+        [ClassData(typeof(SudokuPuzzles.ExpectedVariables))]
         public void BinaryCspHasExpectedVariables(SudokuPuzzle puzzle, IEnumerable<EmptyCell> expected)
         {
             // Arrange
@@ -354,7 +354,7 @@ public sealed class BinaryCspModellingTests
         }
 
         [Theory]
-        [ClassData(typeof(SudokuDomains))]
+        [ClassData(typeof(SudokuPuzzles.ExpectedDomains))]
         public void BinaryCspHasExpectedDomains(SudokuPuzzle puzzle, IEnumerable<IReadOnlyList<int>> expected)
         {
             // Arrange
@@ -368,7 +368,7 @@ public sealed class BinaryCspModellingTests
         }
 
         [Theory]
-        [ClassData(typeof(SudokuAdjacentVariables))]
+        [ClassData(typeof(SudokuPuzzles.ExpectedAdjacentVariables))]
         public void BinaryCspHasExpectedAdjacentVariables(SudokuPuzzle puzzle, IEnumerable<Pair<EmptyCell>> expected)
         {
             // Arrange
@@ -382,7 +382,7 @@ public sealed class BinaryCspModellingTests
         }
 
         [Theory]
-        [ClassData(typeof(SudokuProblemMetrics))]
+        [ClassData(typeof(SudokuPuzzles.ExpectedProblemMetrics))]
         public void BinaryCspHasExpectedProblemMetrics(SudokuPuzzle puzzle, ProblemMetrics expected)
         {
             // Arrange
@@ -396,7 +396,7 @@ public sealed class BinaryCspModellingTests
         }
 
         [Theory]
-        [ClassData(typeof(SudokuDomainSizeStatistics))]
+        [ClassData(typeof(SudokuPuzzles.ExpectedDomainSizeStatistics))]
         public void BinaryCspHasExpectedDomainSizeStatistics(SudokuPuzzle puzzle, DomainSizeStatistics expected)
         {
             // Arrange
@@ -411,7 +411,7 @@ public sealed class BinaryCspModellingTests
         }
 
         [Theory]
-        [ClassData(typeof(SudokuDegreeStatistics))]
+        [ClassData(typeof(SudokuPuzzles.ExpectedDegreeStatistics))]
         public void BinaryCspHasExpectedDegreeStatistics(SudokuPuzzle puzzle, DegreeStatistics expected)
         {
             // Arrange
@@ -425,7 +425,7 @@ public sealed class BinaryCspModellingTests
         }
 
         [Theory]
-        [ClassData(typeof(SudokuSumTightnessStatistics))]
+        [ClassData(typeof(SudokuPuzzles.ExpectedSumTightnessStatistics))]
         public void BinaryCspHasExpectedSumTightnessStatistics(SudokuPuzzle puzzle, SumTightnessStatistics expected)
         {
             // Arrange
