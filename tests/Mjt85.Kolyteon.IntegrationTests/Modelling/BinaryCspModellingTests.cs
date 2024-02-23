@@ -236,7 +236,7 @@ public sealed class BinaryCspModellingTests
     public sealed class Modelling_ShikakuPuzzle
     {
         [Theory]
-        [ClassData(typeof(ShikakuVariables))]
+        [ClassData(typeof(ShikakuPuzzles.ExpectedVariables))]
         public void BinaryCspHasExpectedVariables(ShikakuPuzzle puzzle, IEnumerable<Hint> expected)
         {
             // Arrange
@@ -250,7 +250,7 @@ public sealed class BinaryCspModellingTests
         }
 
         [Theory]
-        [ClassData(typeof(ShikakuDomains))]
+        [ClassData(typeof(ShikakuPuzzles.ExpectedDomains))]
         public void BinaryCspHasExpectedDomains(ShikakuPuzzle puzzle, IEnumerable<IReadOnlyList<Rectangle>> expected)
         {
             // Arrange
@@ -264,7 +264,7 @@ public sealed class BinaryCspModellingTests
         }
 
         [Theory]
-        [ClassData(typeof(ShikakuAdjacentVariables))]
+        [ClassData(typeof(ShikakuPuzzles.ExpectedAdjacentVariables))]
         public void BinaryCspHasExpectedAdjacentVariables(ShikakuPuzzle puzzle, IEnumerable<Pair<Hint>> expected)
         {
             // Arrange
@@ -278,7 +278,7 @@ public sealed class BinaryCspModellingTests
         }
 
         [Theory]
-        [ClassData(typeof(ShikakuProblemMetrics))]
+        [ClassData(typeof(ShikakuPuzzles.ExpectedProblemMetrics))]
         public void BinaryCspHasExpectedProblemMetrics(ShikakuPuzzle puzzle, ProblemMetrics expected)
         {
             // Arrange
@@ -292,7 +292,7 @@ public sealed class BinaryCspModellingTests
         }
 
         [Theory]
-        [ClassData(typeof(ShikakuDomainSizeStatistics))]
+        [ClassData(typeof(ShikakuPuzzles.ExpectedDomainSizeStatistics))]
         public void BinaryCspHasExpectedDomainSizeStatistics(ShikakuPuzzle puzzle, DomainSizeStatistics expected)
         {
             // Arrange
@@ -307,7 +307,7 @@ public sealed class BinaryCspModellingTests
         }
 
         [Theory]
-        [ClassData(typeof(ShikakuDegreeStatistics))]
+        [ClassData(typeof(ShikakuPuzzles.ExpectedDegreeStatistics))]
         public void BinaryCspHasExpectedDegreeStatistics(ShikakuPuzzle puzzle, DegreeStatistics expected)
         {
             // Arrange
@@ -321,7 +321,7 @@ public sealed class BinaryCspModellingTests
         }
 
         [Theory]
-        [ClassData(typeof(ShikakuSumTightnessStatistics))]
+        [ClassData(typeof(ShikakuPuzzles.ExpectedSumTightnessStatistics))]
         public void BinaryCspHasExpectedSumTightnessStatistics(ShikakuPuzzle puzzle, SumTightnessStatistics expected)
         {
             // Arrange
