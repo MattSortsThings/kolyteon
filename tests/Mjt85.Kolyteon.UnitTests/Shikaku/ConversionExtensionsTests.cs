@@ -6,7 +6,7 @@ namespace Mjt85.Kolyteon.UnitTests.Shikaku;
 /// <summary>
 ///     Unit tests for the <see cref="ConversionExtensions" /> extension method class.
 /// </summary>
-public class ConversionExtensionsTests
+public sealed class ConversionExtensionsTests
 {
     [UnitTest]
     public sealed class ToPuzzleSolution_Method
