@@ -5,7 +5,7 @@ using Mjt85.Kolyteon.Shikaku.Internals;
 namespace Mjt85.Kolyteon.Shikaku;
 
 /// <summary>
-///     Represents a Shikaku Puzzle.
+///     Represents a Shikaku puzzle.
 /// </summary>
 /// <remarks>
 ///     <para>
