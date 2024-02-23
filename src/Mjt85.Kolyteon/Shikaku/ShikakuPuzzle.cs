@@ -141,7 +141,7 @@ public sealed record ShikakuPuzzle
     ///     a valid (but not necessarily solvable) Shikaku puzzle.
     /// </remarks>
     /// <param name="grid">
-    ///     A 2-dimensional square grid no smaller than 5x5 in size, in which every non-null value is a hint.
+    ///     A 2-dimensional square grid no smaller than 5x5 in size, in which every non-null value represents a hint.
     ///     The grid to be converted.
     /// </param>
     /// <returns>A new <see cref="ShikakuPuzzle" /> instance.</returns>

@@ -139,8 +139,7 @@ public readonly record struct Hint : IComparable<Hint>
     /// </remarks>
     /// <param name="other">The <see cref="Hint" /> instance against which this instance is to be compared.</param>
     /// <returns>
-    ///     <c>true</c> if this instance and the <paramref name="other" /> parameter have equal value; otherwise,
-    ///     <c>false</c>. If the <paramref name="other" /> parameter is <c>null</c>, the method returns <c>false</c>.
+    ///     <c>true</c> if this instance and the <paramref name="other" /> parameter have equal value; otherwise, <c>false</c>.
     /// </returns>
     public bool Equals(Hint other) => Column == other.Column && Row == other.Row && Number == other.Number;
 

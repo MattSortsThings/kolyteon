@@ -15,6 +15,7 @@ namespace Mjt85.Kolyteon.Shikaku;
 ///     <para>
 ///         Two <see cref="Rectangle" /> instances with equal values represent rectangles with identical dimensions drawn
 ///         over each other in the same grid location.
+///     </para>
 /// </remarks>
 [Serializable]
 public readonly record struct Rectangle : IComparable<Rectangle>
@@ -169,8 +170,7 @@ public readonly record struct Rectangle : IComparable<Rectangle>
     /// </remarks>
     /// <param name="other">The <see cref="Rectangle" /> instance against which this instance is to be compared.</param>
     /// <returns>
-    ///     <c>true</c> if this instance and the <paramref name="other" /> parameter have equal value; otherwise,
-    ///     <c>false</c>. If the <paramref name="other" /> parameter is <c>null</c>, the method returns <c>false</c>.
+    ///     <c>true</c> if this instance and the <paramref name="other" /> parameter have equal value; otherwise, <c>false</c>.
     /// </returns>
     public bool Equals(Rectangle other) => OriginColumn == other.OriginColumn
                                            && OriginRow == other.OriginRow
