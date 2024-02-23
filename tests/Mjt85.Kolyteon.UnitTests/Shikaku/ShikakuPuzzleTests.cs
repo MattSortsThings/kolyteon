@@ -20,11 +20,11 @@ public sealed class ShikakuPuzzleTests
             // Arrange
             ShikakuPuzzle sut = ShikakuPuzzle.FromGrid(new int?[,]
             {
-                { 5, null, null, null, null },
-                { null, 5, null, null, null },
-                { null, null, 5, null, null },
-                { null, null, null, 5, null },
-                { null, null, null, null, 5 }
+                { 0005, null, null, null, null },
+                { null, 0005, null, null, null },
+                { null, null, 0005, null, null },
+                { null, null, null, 0005, null },
+                { null, null, null, null, 0005 }
             });
 
             // Act
@@ -40,11 +40,11 @@ public sealed class ShikakuPuzzleTests
             // Arrange
             var sharedGrid = new int?[,]
             {
-                { 5, null, null, null, null },
-                { null, 5, null, null, null },
-                { null, null, 5, null, null },
-                { null, null, null, 5, null },
-                { null, null, null, null, 5 }
+                { 0005, null, null, null, null },
+                { null, 0005, null, null, null },
+                { null, null, 0005, null, null },
+                { null, null, null, 0005, null },
+                { null, null, null, null, 0005 }
             };
 
             ShikakuPuzzle sut = ShikakuPuzzle.FromGrid(sharedGrid);
@@ -63,20 +63,20 @@ public sealed class ShikakuPuzzleTests
             // Arrange
             ShikakuPuzzle sut = ShikakuPuzzle.FromGrid(new int?[,]
             {
-                { 5, null, null, null, null },
-                { null, 5, null, null, null },
-                { null, null, 5, null, null },
-                { null, null, null, 5, null },
-                { null, null, null, null, 5 }
+                { 0005, null, null, null, null },
+                { null, 0005, null, null, null },
+                { null, null, 0005, null, null },
+                { null, null, null, 0005, null },
+                { null, null, null, null, 0005 }
             });
 
             ShikakuPuzzle other = ShikakuPuzzle.FromGrid(new int?[,]
             {
-                { 2, null, null, null, null },
-                { null, 5, null, null, null },
-                { null, null, 5, null, null },
-                { null, null, null, 5, null },
-                { null, null, null, null, 8 }
+                { 0002, null, null, null, null },
+                { null, 0005, null, null, null },
+                { null, null, 0005, null, null },
+                { null, null, null, 0005, null },
+                { null, null, null, null, 0008 }
             });
 
             // Act
@@ -92,11 +92,11 @@ public sealed class ShikakuPuzzleTests
             // Arrange
             ShikakuPuzzle sut = ShikakuPuzzle.FromGrid(new int?[,]
             {
-                { 5, null, null, null, null },
-                { null, 5, null, null, null },
-                { null, null, 5, null, null },
-                { null, null, null, 5, null },
-                { null, null, null, null, 5 }
+                { 0005, null, null, null, null },
+                { null, 0005, null, null, null },
+                { null, null, 0005, null, null },
+                { null, null, null, 0005, null },
+                { null, null, null, null, 0005 }
             });
 
             // Act
@@ -131,7 +131,7 @@ public sealed class ShikakuPuzzleTests
             // Arrange
             ShikakuPuzzle sut = ShikakuPuzzle.FromGrid(new int?[,]
             {
-                { 25, null, null, null, null },
+                { 0025, null, null, null, null },
                 { null, null, null, null, null },
                 { null, null, null, null, null },
                 { null, null, null, null, null },
@@ -155,7 +155,7 @@ public sealed class ShikakuPuzzleTests
             // Arrange
             ShikakuPuzzle sut = ShikakuPuzzle.FromGrid(new int?[,]
             {
-                { 25, null, null, null, null },
+                { 0025, null, null, null, null },
                 { null, null, null, null, null },
                 { null, null, null, null, null },
                 { null, null, null, null, null },
@@ -183,11 +183,11 @@ public sealed class ShikakuPuzzleTests
             // Arrange
             ShikakuPuzzle sut = ShikakuPuzzle.FromGrid(new int?[,]
             {
-                { 10, null, null, null, null },
+                { 0010, null, null, null, null },
                 { null, null, null, null, null },
                 { null, null, null, null, null },
                 { null, null, null, null, null },
-                { null, null, null, null, 15 }
+                { null, null, null, null, 0015 }
             });
 
             IReadOnlyList<Rectangle> solution =
@@ -210,11 +210,11 @@ public sealed class ShikakuPuzzleTests
             // Arrange
             ShikakuPuzzle sut = ShikakuPuzzle.FromGrid(new int?[,]
             {
-                { 10, null, null, null, null },
+                { 0010, null, null, null, null },
                 { null, null, null, null, null },
                 { null, null, null, null, null },
                 { null, null, null, null, null },
-                { null, null, null, null, 15 }
+                { null, null, null, null, 0015 }
             });
 
             IReadOnlyList<Rectangle> solution =
@@ -237,11 +237,11 @@ public sealed class ShikakuPuzzleTests
             // Arrange
             ShikakuPuzzle sut = ShikakuPuzzle.FromGrid(new int?[,]
             {
-                { 10, null, null, null, null },
+                { 0010, null, null, null, null },
                 { null, null, null, null, null },
                 { null, null, null, null, null },
                 { null, null, null, null, null },
-                { null, null, null, null, 15 }
+                { null, null, null, null, 0015 }
             });
 
             IReadOnlyList<Rectangle> solution =
@@ -265,11 +265,11 @@ public sealed class ShikakuPuzzleTests
             // Arrange
             ShikakuPuzzle sut = ShikakuPuzzle.FromGrid(new int?[,]
             {
-                { 10, null, null, null, null },
+                { 0010, null, null, null, null },
                 { null, null, null, null, null },
                 { null, null, null, null, null },
                 { null, null, null, null, null },
-                { null, null, null, null, 15 }
+                { null, null, null, null, 0015 }
             });
 
             IReadOnlyList<Rectangle> solution =
@@ -297,7 +297,7 @@ public sealed class ShikakuPuzzleTests
                 { null, null, null, null, null },
                 { null, null, null, null, null },
                 { null, null, null, null, null },
-                { null, null, 10, null, 15 }
+                { null, null, 0010, null, 0015 }
             });
 
             IReadOnlyList<Rectangle> solution =
@@ -321,7 +321,7 @@ public sealed class ShikakuPuzzleTests
             // Arrange
             ShikakuPuzzle sut = ShikakuPuzzle.FromGrid(new int?[,]
             {
-                { 10, null, 15, null, null },
+                { 0010, null, 0015, null, null },
                 { null, null, null, null, null },
                 { null, null, null, null, null },
                 { null, null, null, null, null },
@@ -349,11 +349,11 @@ public sealed class ShikakuPuzzleTests
             // Arrange
             ShikakuPuzzle sut = ShikakuPuzzle.FromGrid(new int?[,]
             {
-                { 15, null, null, null, null },
+                { 0015, null, null, null, null },
                 { null, null, null, null, null },
                 { null, null, null, null, null },
                 { null, null, null, null, null },
-                { null, null, null, null, 10 }
+                { null, null, null, null, 0010 }
             });
 
             IReadOnlyList<Rectangle> solution =
@@ -376,7 +376,7 @@ public sealed class ShikakuPuzzleTests
             // Arrange
             ShikakuPuzzle sut = ShikakuPuzzle.FromGrid(new int?[,]
             {
-                { 25, null, null, null, null },
+                { 0025, null, null, null, null },
                 { null, null, null, null, null },
                 { null, null, null, null, null },
                 { null, null, null, null, null },
@@ -399,7 +399,7 @@ public sealed class ShikakuPuzzleTests
                 {
                     { null, null, null, null, null },
                     { null, null, null, null, null },
-                    { null, null, 25, null, null },
+                    { null, null, 0025, null, null },
                     { null, null, null, null, null },
                     { null, null, null, null, null }
                 }, [
@@ -408,7 +408,7 @@ public sealed class ShikakuPuzzleTests
 
                 Add(new int?[,]
                 {
-                    { 25, null, null, null, null },
+                    { 0025, null, null, null, null },
                     { null, null, null, null, null },
                     { null, null, null, null, null },
                     { null, null, null, null, null },
@@ -419,11 +419,11 @@ public sealed class ShikakuPuzzleTests
 
                 Add(new int?[,]
                 {
-                    { 5, null, null, null, null },
+                    { 0005, null, null, null, null },
                     { null, null, null, null, null },
                     { null, null, null, null, null },
                     { null, null, null, null, null },
-                    { null, null, null, null, 20 }
+                    { null, null, null, null, 0020 }
                 }, [
                     new Rectangle(0, 0, 5, 1),
                     new Rectangle(0, 1, 5, 4)
@@ -431,11 +431,11 @@ public sealed class ShikakuPuzzleTests
 
                 Add(new int?[,]
                 {
-                    { 5, null, null, null, null },
+                    { 0005, null, null, null, null },
                     { null, null, null, null, null },
                     { null, null, null, null, null },
                     { null, null, null, null, null },
-                    { null, null, null, null, 20 }
+                    { null, null, null, null, 0020 }
                 }, [
                     new Rectangle(0, 0, 1, 5),
                     new Rectangle(1, 0, 4, 5)
@@ -443,8 +443,8 @@ public sealed class ShikakuPuzzleTests
 
                 Add(new int?[,]
                 {
-                    { null, null, 5, null, null },
-                    { null, null, 20, null, null },
+                    { null, null, 0005, null, null },
+                    { null, null, 0020, null, null },
                     { null, null, null, null, null },
                     { null, null, null, null, null },
                     { null, null, null, null, null }
@@ -455,11 +455,11 @@ public sealed class ShikakuPuzzleTests
 
                 Add(new int?[,]
                 {
-                    { 5, null, null, null, null },
+                    { 0005, null, null, null, null },
                     { null, null, null, null, null },
-                    { null, null, null, null, 10 },
+                    { null, null, null, null, 0010 },
                     { null, null, null, null, null },
-                    { null, null, null, null, 10 }
+                    { null, null, null, null, 0010 }
                 }, [
                     new Rectangle(0, 0, 5, 1),
                     new Rectangle(0, 1, 5, 2),
@@ -468,11 +468,11 @@ public sealed class ShikakuPuzzleTests
 
                 Add(new int?[,]
                 {
-                    { null, null, 5, null, null },
+                    { null, null, 0005, null, null },
                     { null, null, null, null, null },
-                    { 4, null, null, null, 6 },
+                    { 0004, null, null, null, 0006 },
                     { null, null, null, null, null },
-                    { null, null, 10, null, null }
+                    { null, null, 0010, null, null }
                 }, [
                     new Rectangle(0, 0, 5, 1),
                     new Rectangle(0, 1, 2, 2),
@@ -482,11 +482,11 @@ public sealed class ShikakuPuzzleTests
 
                 Add(new int?[,]
                 {
-                    { 5, null, null, null, null },
-                    { null, 5, null, null, null },
-                    { null, null, 5, null, null },
-                    { null, null, null, 5, null },
-                    { null, null, null, null, 5 }
+                    { 0005, null, null, null, null },
+                    { null, 0005, null, null, null },
+                    { null, null, 0005, null, null },
+                    { null, null, null, 0005, null },
+                    { null, null, null, null, 0005 }
                 }, [
                     new Rectangle(0, 0, 5, 1),
                     new Rectangle(0, 1, 5, 1),
@@ -497,11 +497,11 @@ public sealed class ShikakuPuzzleTests
 
                 Add(new int?[,]
                 {
-                    { 5, null, null, null, null },
-                    { null, 5, null, null, null },
-                    { null, null, 5, null, null },
-                    { null, null, null, 5, null },
-                    { null, null, null, null, 5 }
+                    { 0005, null, null, null, null },
+                    { null, 0005, null, null, null },
+                    { null, null, 0005, null, null },
+                    { null, null, null, 0005, null },
+                    { null, null, null, null, 0005 }
                 }, [
                     new Rectangle(0, 0, 1, 5),
                     new Rectangle(1, 0, 1, 5),
@@ -512,11 +512,11 @@ public sealed class ShikakuPuzzleTests
 
                 Add(new int?[,]
                 {
-                    { 5, null, null, null, null },
-                    { null, 3, null, null, null },
-                    { null, null, null, null, 9 },
-                    { null, 2, null, null, null },
-                    { null, null, null, null, 6 }
+                    { 0005, null, null, null, null },
+                    { null, 0003, null, null, null },
+                    { null, null, null, null, 0009 },
+                    { null, 0002, null, null, null },
+                    { null, null, null, null, 0006 }
                 }, [
                     new Rectangle(0, 0, 1, 5),
                     new Rectangle(1, 0, 1, 3),
@@ -565,9 +565,9 @@ public sealed class ShikakuPuzzleTests
             // Arrange
             int?[,] grid =
             {
-                { 3, null, null },
-                { null, 3, null },
-                { null, null, 3 }
+                { 0003, null, null },
+                { null, 0003, null },
+                { null, null, 0003 }
             };
 
             // Act
@@ -584,15 +584,15 @@ public sealed class ShikakuPuzzleTests
             // Arrange
             int?[,] grid =
             {
-                { 3, null, null },
-                { null, 3, null },
-                { null, null, 3 },
-                { 3, null, null },
-                { null, 3, null },
-                { null, null, 3 },
-                { 3, null, null },
-                { null, 3, null },
-                { null, null, 3 }
+                { 0003, null, null },
+                { null, 0003, null },
+                { null, null, 0003 },
+                { 0003, null, null },
+                { null, 0003, null },
+                { null, null, 0003 },
+                { 0003, null, null },
+                { null, 0003, null },
+                { null, null, 0003 }
             };
 
             // Act
@@ -609,11 +609,11 @@ public sealed class ShikakuPuzzleTests
             // Arrange
             int?[,] grid =
             {
-                { 24, null, null, null, null },
+                { 0024, null, null, null, null },
                 { null, null, null, null, null },
                 { null, null, null, null, null },
                 { null, null, null, null, null },
-                { null, null, null, 1, null }
+                { null, null, null, 0001, null }
             };
 
             // Act
@@ -630,11 +630,11 @@ public sealed class ShikakuPuzzleTests
             // Arrange
             int?[,] grid =
             {
-                { 10, null, null, null, null },
+                { 0010, null, null, null, null },
                 { null, null, null, null, null },
                 { null, null, null, null, null },
                 { null, null, null, null, null },
-                { null, null, null, null, 10 }
+                { null, null, null, null, 0010 }
             };
 
             // Act
@@ -651,11 +651,11 @@ public sealed class ShikakuPuzzleTests
             // Arrange
             int?[,] grid =
             {
-                { 25, null, null, null, null },
+                { 0025, null, null, null, null },
                 { null, null, null, null, null },
                 { null, null, null, null, null },
                 { null, null, null, null, null },
-                { null, null, null, null, 2 }
+                { null, null, null, null, 0002 }
             };
 
             // Act
@@ -672,7 +672,7 @@ public sealed class ShikakuPuzzleTests
             {
                 Add(new int?[,]
                 {
-                    { 25, null, null, null, null },
+                    { 0025, null, null, null, null },
                     { null, null, null, null, null },
                     { null, null, null, null, null },
                     { null, null, null, null, null },
@@ -683,11 +683,11 @@ public sealed class ShikakuPuzzleTests
 
                 Add(new int?[,]
                 {
-                    { 5, null, null, null, null },
-                    { null, 5, null, null, null },
-                    { null, null, 5, null, null },
-                    { null, null, null, 5, null },
-                    { null, null, null, null, 5 }
+                    { 0005, null, null, null, null },
+                    { null, 0005, null, null, null },
+                    { null, null, 0005, null, null },
+                    { null, null, null, 0005, null },
+                    { null, null, null, null, 0005 }
                 }, 5, [
                     new Hint(0, 0, 5),
                     new Hint(1, 1, 5),
@@ -698,11 +698,11 @@ public sealed class ShikakuPuzzleTests
 
                 Add(new int?[,]
                 {
-                    { 7, null, null, null, null },
+                    { 0007, null, null, null, null },
                     { null, null, null, null, null },
                     { null, null, null, null, null },
                     { null, null, null, null, null },
-                    { null, null, null, null, 18 }
+                    { null, null, null, null, 0018 }
                 }, 5, [
                     new Hint(0, 0, 7),
                     new Hint(4, 4, 18)
@@ -711,10 +711,10 @@ public sealed class ShikakuPuzzleTests
                 Add(new int?[,]
                 {
                     { null, null, null, null, null },
-                    { null, 10, null, null, null },
-                    { null, null, 3, 6, null },
+                    { null, 0010, null, null, null },
+                    { null, null, 0003, 0006, null },
                     { null, null, null, null, null },
-                    { null, null, null, null, 6 }
+                    { null, null, null, null, 0006 }
                 }, 5, [
                     new Hint(1, 1, 10),
                     new Hint(2, 2, 3),
@@ -724,13 +724,13 @@ public sealed class ShikakuPuzzleTests
 
                 Add(new int?[,]
                 {
-                    { null, null, 7, null, null, null, null },
-                    { null, null, null, null, null, 7, null },
-                    { 8, null, null, null, null, null, null },
+                    { null, null, 0007, null, null, null, null },
+                    { null, null, null, null, null, 0007, null },
+                    { 0008, null, null, null, null, null, null },
                     { null, null, null, null, null, null, null },
-                    { 7, null, null, null, null, null, null },
-                    { null, null, 14, null, null, null, null },
-                    { null, null, null, null, 6, null, null }
+                    { 0007, null, null, null, null, null, null },
+                    { null, null, 0014, null, null, null, null },
+                    { null, null, null, null, 0006, null, null }
                 }, 7, [
                     new Hint(0, 2, 8),
                     new Hint(0, 4, 7),
@@ -752,11 +752,11 @@ public sealed class ShikakuPuzzleTests
             // Arrange
             var sharedGrid = new int?[,]
             {
-                { 5, null, null, null, null },
-                { null, 5, null, null, null },
-                { null, null, 5, null, null },
-                { null, null, null, 5, null },
-                { null, null, null, null, 5 }
+                { 0005, null, null, null, null },
+                { null, 0005, null, null, null },
+                { null, null, 0005, null, null },
+                { null, null, null, 0005, null },
+                { null, null, null, null, 0005 }
             };
 
             ShikakuPuzzle sut = ShikakuPuzzle.FromGrid(sharedGrid);
@@ -775,20 +775,20 @@ public sealed class ShikakuPuzzleTests
             // Arrange
             ShikakuPuzzle sut = ShikakuPuzzle.FromGrid(new int?[,]
             {
-                { 5, null, null, null, null },
-                { null, 5, null, null, null },
-                { null, null, 5, null, null },
-                { null, null, null, 5, null },
-                { null, null, null, null, 5 }
+                { 0005, null, null, null, null },
+                { null, 0005, null, null, null },
+                { null, null, 0005, null, null },
+                { null, null, null, 0005, null },
+                { null, null, null, null, 0005 }
             });
 
             ShikakuPuzzle other = ShikakuPuzzle.FromGrid(new int?[,]
             {
-                { 2, null, null, null, null },
-                { null, 5, null, null, null },
-                { null, null, 5, null, null },
-                { null, null, null, 5, null },
-                { null, null, null, null, 8 }
+                { 0002, null, null, null, null },
+                { null, 0005, null, null, null },
+                { null, null, 0005, null, null },
+                { null, null, null, 0005, null },
+                { null, null, null, null, 0008 }
             });
 
             // Act
@@ -808,11 +808,11 @@ public sealed class ShikakuPuzzleTests
             // Arrange
             var sharedGrid = new int?[,]
             {
-                { 5, null, null, null, null },
-                { null, 5, null, null, null },
-                { null, null, 5, null, null },
-                { null, null, null, 5, null },
-                { null, null, null, null, 5 }
+                { 0005, null, null, null, null },
+                { null, 0005, null, null, null },
+                { null, null, 0005, null, null },
+                { null, null, null, 0005, null },
+                { null, null, null, null, 0005 }
             };
 
             ShikakuPuzzle sut = ShikakuPuzzle.FromGrid(sharedGrid);
@@ -831,20 +831,20 @@ public sealed class ShikakuPuzzleTests
             // Arrange
             ShikakuPuzzle sut = ShikakuPuzzle.FromGrid(new int?[,]
             {
-                { 5, null, null, null, null },
-                { null, 5, null, null, null },
-                { null, null, 5, null, null },
-                { null, null, null, 5, null },
-                { null, null, null, null, 5 }
+                { 0005, null, null, null, null },
+                { null, 0005, null, null, null },
+                { null, null, 0005, null, null },
+                { null, null, null, 0005, null },
+                { null, null, null, null, 0005 }
             });
 
             ShikakuPuzzle other = ShikakuPuzzle.FromGrid(new int?[,]
             {
-                { 2, null, null, null, null },
-                { null, 5, null, null, null },
-                { null, null, 5, null, null },
-                { null, null, null, 5, null },
-                { null, null, null, null, 8 }
+                { 0002, null, null, null, null },
+                { null, 0005, null, null, null },
+                { null, null, 0005, null, null },
+                { null, null, null, 0005, null },
+                { null, null, null, null, 0008 }
             });
 
             // Act
@@ -880,7 +880,7 @@ public sealed class ShikakuPuzzleTests
             {
                 Add(new int?[,]
                 {
-                    { 25, null, null, null, null },
+                    { 0025, null, null, null, null },
                     { null, null, null, null, null },
                     { null, null, null, null, null },
                     { null, null, null, null, null },
@@ -889,29 +889,29 @@ public sealed class ShikakuPuzzleTests
 
                 Add(new int?[,]
                 {
-                    { 5, null, null, null, null },
-                    { null, 5, null, null, null },
-                    { null, null, 5, null, null },
-                    { null, null, null, 5, null },
-                    { null, null, null, null, 5 }
+                    { 0005, null, null, null, null },
+                    { null, 0005, null, null, null },
+                    { null, null, 0005, null, null },
+                    { null, null, null, 0005, null },
+                    { null, null, null, null, 0005 }
                 });
 
                 Add(new int?[,]
                 {
-                    { 7, null, null, null, null },
+                    { 0007, null, null, null, null },
                     { null, null, null, null, null },
                     { null, null, null, null, null },
                     { null, null, null, null, null },
-                    { null, null, null, null, 18 }
+                    { null, null, null, null, 0018 }
                 });
 
                 Add(new int?[,]
                 {
                     { null, null, null, null, null },
-                    { null, 10, null, null, null },
-                    { null, null, 3, 6, null },
+                    { null, 0010, null, null, null },
+                    { null, null, 0003, 0006, null },
                     { null, null, null, null, null },
-                    { null, null, null, null, 6 }
+                    { null, null, null, null, 0006 }
                 });
             }
         }
