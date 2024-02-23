@@ -25,11 +25,6 @@ namespace Mjt85.Kolyteon.NQueens;
 ///             <item>Deserialization from JSON (which does not validate the puzzle).</item>
 ///         </list>
 ///     </para>
-///     <para>
-///         Throughout this library, the columns of an <i>N</i>x<i>N</i> square chess board are identified by their
-///         zero-based index from 0 (left) to <i>N</i>-1 (right). The rows are identified by their zero-based index from 0
-///         (top) to <i>N</i>-1 (bottom).
-///     </para>
 /// </remarks>
 [Serializable]
 public sealed record NQueensPuzzle
@@ -38,7 +33,7 @@ public sealed record NQueensPuzzle
     ///     Initializes a new <see cref="NQueensPuzzle" /> instance with the specified <see cref="N" /> value.
     /// </summary>
     /// <remarks>Use the <see cref="FromN" /> static factory method to instantiate this type outside its assembly.</remarks>
-    /// <param name="n">The value of <i>N</i> for the puzzle</param>
+    /// <param name="n">The value of <i>N</i> for the puzzle.</param>
     [JsonConstructor]
     internal NQueensPuzzle(int n)
     {

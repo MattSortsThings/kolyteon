@@ -115,8 +115,7 @@ public readonly record struct Queen : IComparable<Queen>
     /// </remarks>
     /// <param name="other">The <see cref="Queen" /> instance against which this instance is to be compared.</param>
     /// <returns>
-    ///     <c>true</c> if this instance and the <paramref name="other" /> parameter have equal value; otherwise,
-    ///     <c>false</c>. If the <paramref name="other" /> parameter is <c>null</c>, the method returns <c>false</c>.
+    ///     <c>true</c> if this instance and the <paramref name="other" /> parameter have equal value; otherwise, <c>false</c>.
     /// </returns>
     public bool Equals(Queen other) => Column == other.Column && Row == other.Row;
 
@@ -149,7 +148,10 @@ public readonly record struct Queen : IComparable<Queen>
     ///     </para>
     /// </remarks>
     /// <param name="other">The <see cref="Queen" /> instance against which this instance is to be compared.</param>
-    /// <returns><c>true</c> if this instance and the <paramref name="other" /> parameter can capture each other.</returns>
+    /// <returns>
+    ///     <c>true</c> if this instance and the <paramref name="other" /> parameter can capture each other; otherwise,
+    ///     <c>false</c>.
+    /// </returns>
     public bool CanCapture(in Queen other)
     {
         var (otherColumn, otherRow) = other;
