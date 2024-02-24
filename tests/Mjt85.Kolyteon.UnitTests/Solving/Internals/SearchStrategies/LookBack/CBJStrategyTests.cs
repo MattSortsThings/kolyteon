@@ -10,10 +10,9 @@ using Moq;
 namespace Mjt85.Kolyteon.UnitTests.Solving.Internals.SearchStrategies.LookBack;
 
 /// <summary>
-///     Unit tests for the internal <see cref="BJStrategy{V,D}" /> class, parametrized over the Map Colouring problem
-///     types.
+///     Unit tests for the internal <see cref="CBJNode{V,D}" /> class, parametrized over the Map Colouring problem types.
 /// </summary>
-public static class BJStrategyTests
+public class CBJStrategyTests
 {
     private static readonly Region R0 = Region.FromId("R0");
     private static readonly Region R1 = Region.FromId("R1");
@@ -22,7 +21,7 @@ public static class BJStrategyTests
     private static Mock<IOrderingStrategy> MockOrderingStrategyThatNeverReorders()
     {
         Mock<IOrderingStrategy> mock = new();
-        mock.Setup(m => m.GetLevelOfOptimalNode(It.IsAny<IList<BJNode<Region, Colour>>>(), It.IsAny<int>()))
+        mock.Setup(m => m.GetLevelOfOptimalNode(It.IsAny<IList<CBJNode<Region, Colour>>>(), It.IsAny<int>()))
             .Returns((IList<BTNode<Region, Colour>> _, int searchLevel) => searchLevel);
 
         return mock;
@@ -32,13 +31,13 @@ public static class BJStrategyTests
     public sealed class Identifier_Property
     {
         [Fact]
-        public void Is_Backjumping_SearchEnumValue()
+        public void Is_ConflictDirectedBackjumping_SearchEnumValue()
         {
             // Arrange
-            BJStrategy<Region, Colour> sut = new(0);
+            CBJStrategy<Region, Colour> sut = new(0);
 
             // Assert
-            sut.Identifier.Should().Be(Search.Backjumping);
+            sut.Identifier.Should().Be(Search.ConflictDirectedBackjumping);
         }
     }
 
@@ -50,7 +49,7 @@ public static class BJStrategyTests
         public void StateIsInitial_SetupInvoked_NodeHasZeroCandidates_SearchLevelIsRootLevel_StateIsFinal()
         {
             // Arrange
-            BJStrategy<Region, Colour> sut = new(3);
+            CBJStrategy<Region, Colour> sut = new(3);
             Mock<IOrderingStrategy> mockOrderingStrategy = MockOrderingStrategyThatNeverReorders();
 
             MapColouringBinaryCsp binaryCsp = GetBinaryCsp.ModellingProblem(MapColouringPuzzle.Create()
@@ -87,6 +86,7 @@ public static class BJStrategyTests
                     at0.Candidates.Should().BeEmpty();
                     at0.RejectedCandidates.Should().BeEmpty();
                     at0.Ancestors.Should().BeEmpty();
+                    at0.ConflictLevels.Should().BeEmpty();
                 }, at1 =>
                 {
                     at1.VariableIndex.Should().Be(1);
@@ -96,6 +96,7 @@ public static class BJStrategyTests
                     at1.Candidates.Should().Equal(0);
                     at1.RejectedCandidates.Should().BeEmpty();
                     at1.Ancestors.Should().BeEmpty();
+                    at1.ConflictLevels.Should().BeEmpty();
                 });
             }
         }
@@ -104,7 +105,7 @@ public static class BJStrategyTests
         public void StateIsInitial_SetupInvoked_RootLevelSafetyCheckPasses_SearchLevelIsZero_StateIsSafe()
         {
             // Arrange
-            BJStrategy<Region, Colour> sut = new(3);
+            CBJStrategy<Region, Colour> sut = new(3);
             Mock<IOrderingStrategy> mockOrderingStrategy = new();
 
             MapColouringBinaryCsp binaryCsp = GetBinaryCsp.ModellingProblem(MapColouringPuzzle.Create()
@@ -142,6 +143,7 @@ public static class BJStrategyTests
                     at0.Candidates.Should().Equal(0, 1);
                     at0.RejectedCandidates.Should().BeEmpty();
                     at0.Ancestors.Should().BeEmpty();
+                    at0.ConflictLevels.Should().BeEmpty();
                 }, at1 =>
                 {
                     at1.VariableIndex.Should().Be(1);
@@ -151,6 +153,7 @@ public static class BJStrategyTests
                     at1.Candidates.Should().Equal(0, 1);
                     at1.RejectedCandidates.Should().BeEmpty();
                     at1.Ancestors.Should().BeEmpty();
+                    at1.ConflictLevels.Should().BeEmpty();
                 });
             }
         }
@@ -159,7 +162,7 @@ public static class BJStrategyTests
         public void StateIsSafe_VisitInvoked_AssignmentMade_SearchLevelIsNextNonLeafLevel_StateIsSafe()
         {
             // Arrange
-            BJStrategy<Region, Colour> sut = new(3);
+            CBJStrategy<Region, Colour> sut = new(3);
             Mock<IOrderingStrategy> mockOrderingStrategy = new();
 
             MapColouringBinaryCsp binaryCsp = GetBinaryCsp.ModellingProblem(MapColouringPuzzle.Create()
@@ -187,6 +190,7 @@ public static class BJStrategyTests
                     at0.Candidates.Should().Equal(0, 1);
                     at0.RejectedCandidates.Should().BeEmpty();
                     at0.Ancestors.Should().BeEmpty();
+                    at0.ConflictLevels.Should().BeEmpty();
                 }, at1 =>
                 {
                     at1.VariableIndex.Should().Be(1);
@@ -196,6 +200,7 @@ public static class BJStrategyTests
                     at1.Candidates.Should().Equal(0, 1);
                     at1.RejectedCandidates.Should().BeEmpty();
                     at1.Ancestors.Should().BeEmpty();
+                    at1.ConflictLevels.Should().BeEmpty();
                 });
             }
 
@@ -219,6 +224,7 @@ public static class BJStrategyTests
                     at0.Candidates.Should().Equal(0, 1);
                     at0.RejectedCandidates.Should().BeEmpty();
                     at0.Ancestors.Should().BeEmpty();
+                    at0.ConflictLevels.Should().BeEmpty();
                 }, at1 =>
                 {
                     at1.VariableIndex.Should().Be(1);
@@ -229,6 +235,7 @@ public static class BJStrategyTests
                     at1.RejectedCandidates.Should().BeEmpty();
                     at1.Ancestors.Should().SatisfyRespectively(first =>
                         first.VariableIndex.Should().Be(0));
+                    at1.ConflictLevels.Should().BeEmpty();
                 });
             }
         }
@@ -237,17 +244,15 @@ public static class BJStrategyTests
         public void StateIsSafe_VisitInvoked_AssignmentMade_SearchLevelIsLeafLevel_StateIsFinal()
         {
             // Arrange
-            BJStrategy<Region, Colour> sut = new(3);
+            CBJStrategy<Region, Colour> sut = new(3);
             Mock<IOrderingStrategy> mockOrderingStrategy = new();
 
             MapColouringBinaryCsp binaryCsp = GetBinaryCsp.ModellingProblem(MapColouringPuzzle.Create()
                 .WithRegionSpecificColours()
-                .AddRegionWithColours(R0, Colour.Black, Colour.Red)
-                .AddRegionWithColours(R1, Colour.Black, Colour.Red)
-                .AddRegionWithColours(R2, Colour.Black, Colour.Red, Colour.White)
-                .SetAsNeighbours(R0, R1)
+                .AddRegionWithColours(R0, Colour.Black)
+                .AddRegionWithColours(R1, Colour.Black)
+                .AddRegionWithColours(R2, Colour.Black, Colour.White)
                 .SetAsNeighbours(R0, R2)
-                .SetAsNeighbours(R1, R2)
                 .Build());
 
             sut.Setup(binaryCsp, mockOrderingStrategy.Object);
@@ -270,30 +275,31 @@ public static class BJStrategyTests
                     at0.SearchTreeLevel.Should().Be(0);
                     at0.BacktrackLevel.Should().Be(-1);
                     at0.DomainValueIndex.Should().Be(0);
-                    at0.Candidates.Should().Equal(0, 1);
+                    at0.Candidates.Should().Equal(0);
                     at0.RejectedCandidates.Should().BeEmpty();
                     at0.Ancestors.Should().BeEmpty();
+                    at0.ConflictLevels.Should().BeEmpty();
                 }, at1 =>
                 {
                     at1.VariableIndex.Should().Be(1);
                     at1.SearchTreeLevel.Should().Be(1);
-                    at1.BacktrackLevel.Should().Be(0);
-                    at1.DomainValueIndex.Should().Be(1);
-                    at1.Candidates.Should().Equal(1);
-                    at1.RejectedCandidates.Should().Equal(0);
-                    at1.Ancestors.Should().SatisfyRespectively(first =>
-                        first.VariableIndex.Should().Be(0));
+                    at1.BacktrackLevel.Should().Be(-1);
+                    at1.DomainValueIndex.Should().Be(0);
+                    at1.Candidates.Should().Equal(0);
+                    at1.RejectedCandidates.Should().BeEmpty();
+                    at1.Ancestors.Should().BeEmpty();
+                    at1.ConflictLevels.Should().BeEmpty();
                 }, at2 =>
                 {
                     at2.VariableIndex.Should().Be(2);
                     at2.SearchTreeLevel.Should().Be(2);
                     at2.BacktrackLevel.Should().Be(-1);
                     at2.DomainValueIndex.Should().Be(-1);
-                    at2.Candidates.Should().Equal(0, 1, 2);
+                    at2.Candidates.Should().Equal(0, 1);
                     at2.RejectedCandidates.Should().BeEmpty();
                     at2.Ancestors.Should().SatisfyRespectively(first =>
-                        first.VariableIndex.Should().Be(0), second =>
-                        second.VariableIndex.Should().Be(1));
+                        first.VariableIndex.Should().Be(0));
+                    at2.ConflictLevels.Should().BeEmpty();
                 });
             }
 
@@ -313,30 +319,31 @@ public static class BJStrategyTests
                     at0.SearchTreeLevel.Should().Be(0);
                     at0.BacktrackLevel.Should().Be(-1);
                     at0.DomainValueIndex.Should().Be(0);
-                    at0.Candidates.Should().Equal(0, 1);
+                    at0.Candidates.Should().Equal(0);
                     at0.RejectedCandidates.Should().BeEmpty();
                     at0.Ancestors.Should().BeEmpty();
+                    at0.ConflictLevels.Should().BeEmpty();
                 }, at1 =>
                 {
                     at1.VariableIndex.Should().Be(1);
                     at1.SearchTreeLevel.Should().Be(1);
-                    at1.BacktrackLevel.Should().Be(0);
-                    at1.DomainValueIndex.Should().Be(1);
-                    at1.Candidates.Should().Equal(1);
-                    at1.RejectedCandidates.Should().Equal(0);
-                    at1.Ancestors.Should().SatisfyRespectively(first =>
-                        first.VariableIndex.Should().Be(0));
+                    at1.BacktrackLevel.Should().Be(-1);
+                    at1.DomainValueIndex.Should().Be(0);
+                    at1.Candidates.Should().Equal(0);
+                    at1.RejectedCandidates.Should().BeEmpty();
+                    at1.Ancestors.Should().BeEmpty();
+                    at1.ConflictLevels.Should().BeEmpty();
                 }, at2 =>
                 {
                     at2.VariableIndex.Should().Be(2);
                     at2.SearchTreeLevel.Should().Be(2);
-                    at2.BacktrackLevel.Should().Be(1);
-                    at2.DomainValueIndex.Should().Be(2);
-                    at2.Candidates.Should().Equal(2);
-                    at2.RejectedCandidates.Should().Equal(0, 1);
+                    at2.BacktrackLevel.Should().Be(0);
+                    at2.DomainValueIndex.Should().Be(1);
+                    at2.Candidates.Should().Equal(1);
+                    at2.RejectedCandidates.Should().Equal(0);
                     at2.Ancestors.Should().SatisfyRespectively(first =>
-                        first.VariableIndex.Should().Be(0), second =>
-                        second.VariableIndex.Should().Be(1));
+                        first.VariableIndex.Should().Be(0));
+                    at2.ConflictLevels.Should().Equal(0);
                 });
             }
         }
@@ -345,13 +352,14 @@ public static class BJStrategyTests
         public void StateIsSafe_VisitInvoked_CandidatesExhausted_SearchLevelIsUnchanged_StateIsUnsafe()
         {
             // Arrange
-            BJStrategy<Region, Colour> sut = new(3);
+            CBJStrategy<Region, Colour> sut = new(3);
             Mock<IOrderingStrategy> mockOrderingStrategy = new();
 
             MapColouringBinaryCsp binaryCsp = GetBinaryCsp.ModellingProblem(MapColouringPuzzle.Create()
-                .WithGlobalColours(Colour.Black, Colour.White)
-                .AddRegions([R0, R1, R2])
-                .SetAsNeighbours(R0, R1)
+                .WithRegionSpecificColours()
+                .AddRegionWithColours(R0, Colour.Black, Colour.White)
+                .AddRegionWithColours(R1, Colour.White)
+                .AddRegionWithColours(R2, Colour.Black, Colour.White)
                 .SetAsNeighbours(R0, R2)
                 .SetAsNeighbours(R1, R2)
                 .Build());
@@ -379,16 +387,17 @@ public static class BJStrategyTests
                     at0.Candidates.Should().Equal(0, 1);
                     at0.RejectedCandidates.Should().BeEmpty();
                     at0.Ancestors.Should().BeEmpty();
+                    at0.ConflictLevels.Should().BeEmpty();
                 }, at1 =>
                 {
                     at1.VariableIndex.Should().Be(1);
                     at1.SearchTreeLevel.Should().Be(1);
-                    at1.BacktrackLevel.Should().Be(0);
-                    at1.DomainValueIndex.Should().Be(1);
-                    at1.Candidates.Should().Equal(1);
-                    at1.RejectedCandidates.Should().Equal(0);
-                    at1.Ancestors.Should().SatisfyRespectively(first =>
-                        first.VariableIndex.Should().Be(0));
+                    at1.BacktrackLevel.Should().Be(-1);
+                    at1.DomainValueIndex.Should().Be(0);
+                    at1.Candidates.Should().Equal(0);
+                    at1.RejectedCandidates.Should().BeEmpty();
+                    at1.Ancestors.Should().BeEmpty();
+                    at1.ConflictLevels.Should().BeEmpty();
                 }, at2 =>
                 {
                     at2.VariableIndex.Should().Be(2);
@@ -400,6 +409,7 @@ public static class BJStrategyTests
                     at2.Ancestors.Should().SatisfyRespectively(first =>
                         first.VariableIndex.Should().Be(0), second =>
                         second.VariableIndex.Should().Be(1));
+                    at2.ConflictLevels.Should().BeEmpty();
                 });
             }
 
@@ -422,16 +432,17 @@ public static class BJStrategyTests
                     at0.Candidates.Should().Equal(0, 1);
                     at0.RejectedCandidates.Should().BeEmpty();
                     at0.Ancestors.Should().BeEmpty();
+                    at0.ConflictLevels.Should().BeEmpty();
                 }, at1 =>
                 {
                     at1.VariableIndex.Should().Be(1);
                     at1.SearchTreeLevel.Should().Be(1);
-                    at1.BacktrackLevel.Should().Be(0);
-                    at1.DomainValueIndex.Should().Be(1);
-                    at1.Candidates.Should().Equal(1);
-                    at1.RejectedCandidates.Should().Equal(0);
-                    at1.Ancestors.Should().SatisfyRespectively(first =>
-                        first.VariableIndex.Should().Be(0));
+                    at1.BacktrackLevel.Should().Be(-1);
+                    at1.DomainValueIndex.Should().Be(0);
+                    at1.Candidates.Should().Equal(0);
+                    at1.RejectedCandidates.Should().BeEmpty();
+                    at1.Ancestors.Should().BeEmpty();
+                    at1.ConflictLevels.Should().BeEmpty();
                 }, at2 =>
                 {
                     at2.VariableIndex.Should().Be(2);
@@ -443,6 +454,7 @@ public static class BJStrategyTests
                     at2.Ancestors.Should().SatisfyRespectively(first =>
                         first.VariableIndex.Should().Be(0), second =>
                         second.VariableIndex.Should().Be(1));
+                    at2.ConflictLevels.Should().BeEquivalentTo([0, 1]);
                 });
             }
         }
@@ -451,28 +463,32 @@ public static class BJStrategyTests
         public void StateIsUnsafe_BacktrackInvoked_SearchLevelIsEarlierNonLeafLevel_CandidatesNotExhausted_StateIsSafe()
         {
             // Arrange
-            BJStrategy<Region, Colour> sut = new(3);
+            CBJStrategy<Region, Colour> sut = new(3);
             Mock<IOrderingStrategy> mockOrderingStrategy = new();
 
             MapColouringBinaryCsp binaryCsp = GetBinaryCsp.ModellingProblem(MapColouringPuzzle.Create()
                 .WithRegionSpecificColours()
                 .AddRegionWithColours(R0, Colour.Black, Colour.White)
-                .AddRegionWithColours(R1, Colour.Black)
-                .SetAsNeighbours(R0, R1)
+                .AddRegionWithColours(R1, Colour.Red, Colour.White)
+                .AddRegionWithColours(R2, Colour.Black, Colour.Red)
+                .SetAsNeighbours(R0, R2)
+                .SetAsNeighbours(R1, R2)
                 .Build());
 
             sut.Setup(binaryCsp, mockOrderingStrategy.Object);
+            sut.Visit(mockOrderingStrategy.Object);
             sut.Visit(mockOrderingStrategy.Object);
             sut.Visit(mockOrderingStrategy.Object);
 
             // Assert
             using (new AssertionScope())
             {
-                sut.SearchTreeLeafLevel.Should().Be(2);
+                sut.SearchTreeLeafLevel.Should().Be(3);
                 sut.SearchState.Should().Be(SearchState.Unsafe);
-                sut.SearchLevel.Should().Be(1);
+                sut.SearchLevel.Should().Be(2);
                 mockOrderingStrategy.Verify(s => s.GetLevelOfOptimalNode(sut.SearchTree, 0), Times.Once);
                 mockOrderingStrategy.Verify(s => s.GetLevelOfOptimalNode(sut.SearchTree, 1), Times.Once);
+                mockOrderingStrategy.Verify(s => s.GetLevelOfOptimalNode(sut.SearchTree, 2), Times.Once);
                 mockOrderingStrategy.VerifyNoOtherCalls();
                 sut.SearchTree.Should().SatisfyRespectively(at0 =>
                 {
@@ -483,16 +499,29 @@ public static class BJStrategyTests
                     at0.Candidates.Should().Equal(0, 1);
                     at0.RejectedCandidates.Should().BeEmpty();
                     at0.Ancestors.Should().BeEmpty();
+                    at0.ConflictLevels.Should().BeEmpty();
                 }, at1 =>
                 {
                     at1.VariableIndex.Should().Be(1);
                     at1.SearchTreeLevel.Should().Be(1);
-                    at1.BacktrackLevel.Should().Be(0);
-                    at1.DomainValueIndex.Should().Be(-1);
-                    at1.Candidates.Should().BeEmpty();
-                    at1.RejectedCandidates.Should().Equal(0);
-                    at1.Ancestors.Should().SatisfyRespectively(first =>
-                        first.VariableIndex.Should().Be(0));
+                    at1.BacktrackLevel.Should().Be(-1);
+                    at1.DomainValueIndex.Should().Be(0);
+                    at1.Candidates.Should().Equal(0, 1);
+                    at1.RejectedCandidates.Should().BeEmpty();
+                    at1.Ancestors.Should().BeEmpty();
+                    at1.ConflictLevels.Should().BeEmpty();
+                }, at2 =>
+                {
+                    at2.VariableIndex.Should().Be(2);
+                    at2.SearchTreeLevel.Should().Be(2);
+                    at2.BacktrackLevel.Should().Be(1);
+                    at2.DomainValueIndex.Should().Be(-1);
+                    at2.Candidates.Should().BeEmpty();
+                    at2.RejectedCandidates.Should().Equal(0, 1);
+                    at2.Ancestors.Should().SatisfyRespectively(first =>
+                        first.VariableIndex.Should().Be(0), second =>
+                        second.VariableIndex.Should().Be(1));
+                    at2.ConflictLevels.Should().BeEquivalentTo([0, 1]);
                 });
             }
 
@@ -502,27 +531,39 @@ public static class BJStrategyTests
             // Assert
             using (new AssertionScope())
             {
-                sut.SearchTreeLeafLevel.Should().Be(2);
+                sut.SearchTreeLeafLevel.Should().Be(3);
                 sut.SearchState.Should().Be(SearchState.Safe);
-                sut.SearchLevel.Should().Be(0);
+                sut.SearchLevel.Should().Be(1);
                 sut.SearchTree.Should().SatisfyRespectively(at0 =>
                 {
                     at0.VariableIndex.Should().Be(0);
                     at0.SearchTreeLevel.Should().Be(0);
                     at0.BacktrackLevel.Should().Be(-1);
-                    at0.DomainValueIndex.Should().Be(-1);
-                    at0.Candidates.Should().Equal(1);
-                    at0.RejectedCandidates.Should().Equal(0);
+                    at0.DomainValueIndex.Should().Be(0);
+                    at0.Candidates.Should().Equal(0, 1);
+                    at0.RejectedCandidates.Should().BeEmpty();
                     at0.Ancestors.Should().BeEmpty();
+                    at0.ConflictLevels.Should().BeEmpty();
                 }, at1 =>
                 {
                     at1.VariableIndex.Should().Be(1);
                     at1.SearchTreeLevel.Should().Be(1);
-                    at1.BacktrackLevel.Should().Be(-1);
+                    at1.BacktrackLevel.Should().Be(0);
                     at1.DomainValueIndex.Should().Be(-1);
-                    at1.Candidates.Should().Equal(0);
-                    at1.RejectedCandidates.Should().BeEmpty();
+                    at1.Candidates.Should().Equal(1);
+                    at1.RejectedCandidates.Should().Equal(0);
                     at1.Ancestors.Should().BeEmpty();
+                    at1.ConflictLevels.Should().Equal(0);
+                }, at2 =>
+                {
+                    at2.VariableIndex.Should().Be(2);
+                    at2.SearchTreeLevel.Should().Be(2);
+                    at2.BacktrackLevel.Should().Be(-1);
+                    at2.DomainValueIndex.Should().Be(-1);
+                    at2.Candidates.Should().Equal(0, 1);
+                    at2.RejectedCandidates.Should().BeEmpty();
+                    at2.Ancestors.Should().BeEmpty();
+                    at2.ConflictLevels.Should().BeEmpty();
                 });
             }
         }
@@ -531,27 +572,32 @@ public static class BJStrategyTests
         public void StateIsUnsafe_BacktrackInvoked_SearchLevelIsEarlierNonLeafLevel_CandidatesExhausted_StateIsUnsafe()
         {
             // Arrange
-            BJStrategy<Region, Colour> sut = new(3);
+            CBJStrategy<Region, Colour> sut = new(3);
             Mock<IOrderingStrategy> mockOrderingStrategy = new();
 
             MapColouringBinaryCsp binaryCsp = GetBinaryCsp.ModellingProblem(MapColouringPuzzle.Create()
-                .WithGlobalColours(Colour.Black)
-                .AddRegions([R0, R1])
-                .SetAsNeighbours(R0, R1)
+                .WithRegionSpecificColours()
+                .AddRegionWithColours(R0, Colour.Black, Colour.White)
+                .AddRegionWithColours(R1, Colour.Red)
+                .AddRegionWithColours(R2, Colour.Black, Colour.Red)
+                .SetAsNeighbours(R0, R2)
+                .SetAsNeighbours(R1, R2)
                 .Build());
 
             sut.Setup(binaryCsp, mockOrderingStrategy.Object);
+            sut.Visit(mockOrderingStrategy.Object);
             sut.Visit(mockOrderingStrategy.Object);
             sut.Visit(mockOrderingStrategy.Object);
 
             // Assert
             using (new AssertionScope())
             {
-                sut.SearchTreeLeafLevel.Should().Be(2);
+                sut.SearchTreeLeafLevel.Should().Be(3);
                 sut.SearchState.Should().Be(SearchState.Unsafe);
-                sut.SearchLevel.Should().Be(1);
+                sut.SearchLevel.Should().Be(2);
                 mockOrderingStrategy.Verify(s => s.GetLevelOfOptimalNode(sut.SearchTree, 0), Times.Once);
                 mockOrderingStrategy.Verify(s => s.GetLevelOfOptimalNode(sut.SearchTree, 1), Times.Once);
+                mockOrderingStrategy.Verify(s => s.GetLevelOfOptimalNode(sut.SearchTree, 2), Times.Once);
                 mockOrderingStrategy.VerifyNoOtherCalls();
                 sut.SearchTree.Should().SatisfyRespectively(at0 =>
                 {
@@ -559,19 +605,32 @@ public static class BJStrategyTests
                     at0.SearchTreeLevel.Should().Be(0);
                     at0.BacktrackLevel.Should().Be(-1);
                     at0.DomainValueIndex.Should().Be(0);
-                    at0.Candidates.Should().Equal(0);
+                    at0.Candidates.Should().Equal(0, 1);
                     at0.RejectedCandidates.Should().BeEmpty();
                     at0.Ancestors.Should().BeEmpty();
+                    at0.ConflictLevels.Should().BeEmpty();
                 }, at1 =>
                 {
                     at1.VariableIndex.Should().Be(1);
                     at1.SearchTreeLevel.Should().Be(1);
-                    at1.BacktrackLevel.Should().Be(0);
-                    at1.DomainValueIndex.Should().Be(-1);
-                    at1.Candidates.Should().BeEmpty();
-                    at1.RejectedCandidates.Should().Equal(0);
-                    at1.Ancestors.Should().SatisfyRespectively(first =>
-                        first.VariableIndex.Should().Be(0));
+                    at1.BacktrackLevel.Should().Be(-1);
+                    at1.DomainValueIndex.Should().Be(0);
+                    at1.Candidates.Should().Equal(0);
+                    at1.RejectedCandidates.Should().BeEmpty();
+                    at1.Ancestors.Should().BeEmpty();
+                    at1.ConflictLevels.Should().BeEmpty();
+                }, at2 =>
+                {
+                    at2.VariableIndex.Should().Be(2);
+                    at2.SearchTreeLevel.Should().Be(2);
+                    at2.BacktrackLevel.Should().Be(1);
+                    at2.DomainValueIndex.Should().Be(-1);
+                    at2.Candidates.Should().BeEmpty();
+                    at2.RejectedCandidates.Should().Equal(0, 1);
+                    at2.Ancestors.Should().SatisfyRespectively(first =>
+                        first.VariableIndex.Should().Be(0), second =>
+                        second.VariableIndex.Should().Be(1));
+                    at2.ConflictLevels.Should().BeEquivalentTo([0, 1]);
                 });
             }
 
@@ -581,27 +640,43 @@ public static class BJStrategyTests
             // Assert
             using (new AssertionScope())
             {
-                sut.SearchTreeLeafLevel.Should().Be(2);
+                sut.SearchTreeLeafLevel.Should().Be(3);
                 sut.SearchState.Should().Be(SearchState.Unsafe);
-                sut.SearchLevel.Should().Be(0);
+                sut.SearchLevel.Should().Be(1);
+                mockOrderingStrategy.Verify(s => s.GetLevelOfOptimalNode(sut.SearchTree, 0), Times.Once);
+                mockOrderingStrategy.Verify(s => s.GetLevelOfOptimalNode(sut.SearchTree, 1), Times.Once);
+                mockOrderingStrategy.Verify(s => s.GetLevelOfOptimalNode(sut.SearchTree, 2), Times.Once);
+                mockOrderingStrategy.VerifyNoOtherCalls();
                 sut.SearchTree.Should().SatisfyRespectively(at0 =>
                 {
                     at0.VariableIndex.Should().Be(0);
                     at0.SearchTreeLevel.Should().Be(0);
                     at0.BacktrackLevel.Should().Be(-1);
-                    at0.DomainValueIndex.Should().Be(-1);
-                    at0.Candidates.Should().BeEmpty();
-                    at0.RejectedCandidates.Should().Equal(0);
+                    at0.DomainValueIndex.Should().Be(0);
+                    at0.Candidates.Should().Equal(0, 1);
+                    at0.RejectedCandidates.Should().BeEmpty();
                     at0.Ancestors.Should().BeEmpty();
+                    at0.ConflictLevels.Should().BeEmpty();
                 }, at1 =>
                 {
                     at1.VariableIndex.Should().Be(1);
                     at1.SearchTreeLevel.Should().Be(1);
-                    at1.BacktrackLevel.Should().Be(-1);
+                    at1.BacktrackLevel.Should().Be(0);
                     at1.DomainValueIndex.Should().Be(-1);
-                    at1.Candidates.Should().Equal(0);
-                    at1.RejectedCandidates.Should().BeEmpty();
+                    at1.Candidates.Should().BeEmpty();
+                    at1.RejectedCandidates.Should().Equal(0);
                     at1.Ancestors.Should().BeEmpty();
+                    at1.ConflictLevels.Should().Equal(0);
+                }, at2 =>
+                {
+                    at2.VariableIndex.Should().Be(2);
+                    at2.SearchTreeLevel.Should().Be(2);
+                    at2.BacktrackLevel.Should().Be(-1);
+                    at2.DomainValueIndex.Should().Be(-1);
+                    at2.Candidates.Should().Equal(0, 1);
+                    at2.RejectedCandidates.Should().BeEmpty();
+                    at2.Ancestors.Should().BeEmpty();
+                    at2.ConflictLevels.Should().BeEmpty();
                 });
             }
         }
@@ -610,7 +685,7 @@ public static class BJStrategyTests
         public void StateIsUnsafe_BacktrackInvoked_SearchLevelIsRootLevel_StateIsFinal()
         {
             // Arrange
-            BJStrategy<Region, Colour> sut = new(3);
+            CBJStrategy<Region, Colour> sut = new(3);
             Mock<IOrderingStrategy> mockOrderingStrategy = new();
 
             MapColouringBinaryCsp binaryCsp = GetBinaryCsp.ModellingProblem(MapColouringPuzzle.Create()
@@ -639,6 +714,7 @@ public static class BJStrategyTests
                     at0.Candidates.Should().BeEmpty();
                     at0.RejectedCandidates.Should().Equal(0);
                     at0.Ancestors.Should().BeEmpty();
+                    at0.ConflictLevels.Should().BeEmpty();
                 }, at1 =>
                 {
                     at1.VariableIndex.Should().Be(1);
@@ -648,6 +724,7 @@ public static class BJStrategyTests
                     at1.Candidates.Should().Equal(0);
                     at1.RejectedCandidates.Should().BeEmpty();
                     at1.Ancestors.Should().BeEmpty();
+                    at1.ConflictLevels.Should().BeEmpty();
                 });
             }
 
@@ -669,6 +746,7 @@ public static class BJStrategyTests
                     at0.Candidates.Should().Equal(0);
                     at0.RejectedCandidates.Should().BeEmpty();
                     at0.Ancestors.Should().BeEmpty();
+                    at0.ConflictLevels.Should().BeEmpty();
                 }, at1 =>
                 {
                     at1.VariableIndex.Should().Be(1);
@@ -678,6 +756,7 @@ public static class BJStrategyTests
                     at1.Candidates.Should().Equal(0);
                     at1.RejectedCandidates.Should().BeEmpty();
                     at1.Ancestors.Should().BeEmpty();
+                    at1.ConflictLevels.Should().BeEmpty();
                 });
             }
         }
@@ -691,7 +770,7 @@ public static class BJStrategyTests
         public void StateIsSafe_SearchLevelIsZero_ReturnsEmptyArray()
         {
             // Arrange
-            BJStrategy<Region, Colour> sut = new(1);
+            CBJStrategy<Region, Colour> sut = new(1);
             Mock<IOrderingStrategy> stubOrderingStrategy = new();
 
             MapColouringBinaryCsp binaryCsp = GetBinaryCsp.ModellingProblem(MapColouringPuzzle.Create()
@@ -712,7 +791,7 @@ public static class BJStrategyTests
         public void StateIsSafe_SearchLevelIsGreaterThanZeroAndLessThanLeafLevel_ReturnsArrayOfAllPastAssignments()
         {
             // Arrange
-            BJStrategy<Region, Colour> sut = new(3);
+            CBJStrategy<Region, Colour> sut = new(3);
             Mock<IOrderingStrategy> stubOrderingStrategy = new();
 
             MapColouringBinaryCsp binaryCsp = GetBinaryCsp.ModellingProblem(MapColouringPuzzle.Create()
@@ -741,7 +820,7 @@ public static class BJStrategyTests
         public void StateIsUnsafe_SearchLevelIsGreaterThanZeroAndLessThanLeafLevel_ReturnsArrayOfAllPastAssignments()
         {
             // Arrange
-            BJStrategy<Region, Colour> sut = new(3);
+            CBJStrategy<Region, Colour> sut = new(3);
             Mock<IOrderingStrategy> stubOrderingStrategy = new();
 
             MapColouringBinaryCsp binaryCsp = GetBinaryCsp.ModellingProblem(MapColouringPuzzle.Create()
@@ -774,7 +853,7 @@ public static class BJStrategyTests
         public void StateIsFinal_SearchLevelIsLeafLevel_ReturnsArrayOfOneAssignmentForEveryBinaryCspVariable()
         {
             // Arrange
-            BJStrategy<Region, Colour> sut = new(3);
+            CBJStrategy<Region, Colour> sut = new(2);
             Mock<IOrderingStrategy> stubOrderingStrategy = new();
 
             MapColouringBinaryCsp binaryCsp = GetBinaryCsp.ModellingProblem(MapColouringPuzzle.Create()
@@ -805,7 +884,7 @@ public static class BJStrategyTests
         [Fact]
         public void StateIsFinal_SearchLevelIsRootLevel_ReturnsEmptyArray()
         {
-            BJStrategy<Region, Colour> sut = new(3);
+            CBJStrategy<Region, Colour> sut = new(2);
             Mock<IOrderingStrategy> stubOrderingStrategy = new();
 
             MapColouringBinaryCsp binaryCsp = GetBinaryCsp.ModellingProblem(MapColouringPuzzle.Create()
@@ -834,7 +913,7 @@ public static class BJStrategyTests
         public void StateIsInitial_ReturnsEmptyArray()
         {
             // Arrange
-            BJStrategy<Region, Colour> sut = new(1);
+            CBJStrategy<Region, Colour> sut = new(1);
 
             // Act
             Assignment<Region, Colour>[] result = sut.GetAssignments();
@@ -852,7 +931,7 @@ public static class BJStrategyTests
         public void StateIsFinal_SearchLevelIsLeafLevel_SetsSearchStateToInitial_SetsSearchLevelToRoot_ClearsSearchTree()
         {
             // Arrange
-            BJStrategy<Region, Colour> sut = new(3);
+            CBJStrategy<Region, Colour> sut = new(2);
             Mock<IOrderingStrategy> stubOrderingStrategy = new();
 
             MapColouringBinaryCsp binaryCsp = GetBinaryCsp.ModellingProblem(MapColouringPuzzle.Create()
@@ -890,7 +969,7 @@ public static class BJStrategyTests
         public void SearchLevelIsBetweenLeafAndRootLevels_SetsSearchStateToInitial_SetsSearchLevelToRoot_ClearsSearchTree()
         {
             // Arrange
-            BJStrategy<Region, Colour> sut = new(3);
+            CBJStrategy<Region, Colour> sut = new(2);
             Mock<IOrderingStrategy> stubOrderingStrategy = new();
 
             MapColouringBinaryCsp binaryCsp = GetBinaryCsp.ModellingProblem(MapColouringPuzzle.Create()
@@ -927,7 +1006,7 @@ public static class BJStrategyTests
         public void StateIsFinal_SearchLevelIsRootLevel_SetsSearchStateToInitial_ClearsSearchTree()
         {
             // Arrange
-            BJStrategy<Region, Colour> sut = new(1);
+            CBJStrategy<Region, Colour> sut = new(1);
             Mock<IOrderingStrategy> stubOrderingStrategy = new();
 
             MapColouringBinaryCsp binaryCsp = GetBinaryCsp.ModellingProblem(MapColouringPuzzle.Create()
@@ -964,7 +1043,7 @@ public static class BJStrategyTests
         public void StateIsInitial_DoesNothing()
         {
             // Arrange
-            BJStrategy<Region, Colour> sut = new(1);
+            CBJStrategy<Region, Colour> sut = new(1);
 
             // Assert
             using (new AssertionScope())

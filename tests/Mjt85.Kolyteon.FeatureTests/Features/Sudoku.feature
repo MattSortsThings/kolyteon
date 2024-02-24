@@ -114,16 +114,20 @@ As a developer, I want to represent any Sudoku puzzle in code so that I can mode
         Then the validation result should be successful
 
     Examples:
-      | Search                | Ordering       |
-      | Backtracking          | None           |
-      | Backtracking          | Brelaz         |
-      | Backtracking          | MaxCardinality |
-      | Backtracking          | MaxTightness   |
-      | Backjumping           | None           |
-      | Backjumping           | Brelaz         |
-      | Backjumping           | MaxCardinality |
-      | Backjumping           | MaxTightness   |
-      | GraphBasedBackjumping | None           |
-      | GraphBasedBackjumping | Brelaz         |
-      | GraphBasedBackjumping | MaxCardinality |
-      | GraphBasedBackjumping | MaxTightness   |
+      | Search                      | Ordering       |
+      | Backtracking                | None           |
+      | Backtracking                | Brelaz         |
+      | Backtracking                | MaxCardinality |
+      | Backtracking                | MaxTightness   |
+      | Backjumping                 | None           |
+      | Backjumping                 | Brelaz         |
+      | Backjumping                 | MaxCardinality |
+      | Backjumping                 | MaxTightness   |
+      | GraphBasedBackjumping       | None           |
+      | GraphBasedBackjumping       | Brelaz         |
+      | GraphBasedBackjumping       | MaxCardinality |
+      | GraphBasedBackjumping       | MaxTightness   |
+      | ConflictDirectedBackjumping | None           |
+      | ConflictDirectedBackjumping | Brelaz         |
+      | ConflictDirectedBackjumping | MaxCardinality |
+      | ConflictDirectedBackjumping | MaxTightness   |
