@@ -61,12 +61,16 @@ As a developer, I want to represent any N-Queens puzzle in code so that I can mo
         Then the validation result should be successful
 
     Examples:
-      | Search       | Ordering       |
-      | Backtracking | None           |
-      | Backtracking | Brelaz         |
-      | Backtracking | MaxCardinality |
-      | Backtracking | MaxTightness   |
-      | Backjumping  | None           |
-      | Backjumping  | Brelaz         |
-      | Backjumping  | MaxCardinality |
-      | Backjumping  | MaxTightness   |
+      | Search                | Ordering       |
+      | Backtracking          | None           |
+      | Backtracking          | Brelaz         |
+      | Backtracking          | MaxCardinality |
+      | Backtracking          | MaxTightness   |
+      | Backjumping           | None           |
+      | Backjumping           | Brelaz         |
+      | Backjumping           | MaxCardinality |
+      | Backjumping           | MaxTightness   |
+      | GraphBasedBackjumping | None           |
+      | GraphBasedBackjumping | Brelaz         |
+      | GraphBasedBackjumping | MaxCardinality |
+      | GraphBasedBackjumping | MaxTightness   |

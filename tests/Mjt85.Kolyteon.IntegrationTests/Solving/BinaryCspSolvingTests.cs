@@ -12,16 +12,16 @@ namespace Mjt85.Kolyteon.IntegrationTests.Solving;
 [IntegrationTest]
 public abstract class BinaryCspSolvingTests
 {
-    protected abstract Search Search { get; }
+    protected abstract Search SearchStrategy { get; }
 
-    protected abstract Ordering Ordering { get; }
+    protected abstract Ordering OrderingStrategy { get; }
 
     private BinaryCspSolver<V, D> ConfigureSolver<V, D>(int capacity)
         where V : struct, IComparable<V>, IEquatable<V>
         where D : struct, IComparable<D>, IEquatable<D> => BinaryCspSolver<V, D>.Create()
         .WithInitialCapacity(capacity)
-        .AndInitialSearchStrategy(Search)
-        .AndInitialOrderingStrategy(Ordering)
+        .AndInitialSearchStrategy(SearchStrategy)
+        .AndInitialOrderingStrategy(OrderingStrategy)
         .Build();
 
     [Theory]
@@ -235,58 +235,86 @@ public abstract class BinaryCspSolvingTests
     {
         public sealed class BT_plus_NO : BinaryCspSolvingTests
         {
-            protected override Search Search => Search.Backtracking;
+            protected override Search SearchStrategy => Search.Backtracking;
 
-            protected override Ordering Ordering => Ordering.None;
+            protected override Ordering OrderingStrategy => Ordering.None;
         }
 
         public sealed class BT_plus_BZ : BinaryCspSolvingTests
         {
-            protected override Search Search => Search.Backtracking;
+            protected override Search SearchStrategy => Search.Backtracking;
 
-            protected override Ordering Ordering => Ordering.Brelaz;
+            protected override Ordering OrderingStrategy => Ordering.Brelaz;
         }
 
         public sealed class BT_plus_MC : BinaryCspSolvingTests
         {
-            protected override Search Search => Search.Backtracking;
+            protected override Search SearchStrategy => Search.Backtracking;
 
-            protected override Ordering Ordering => Ordering.MaxCardinality;
+            protected override Ordering OrderingStrategy => Ordering.MaxCardinality;
         }
 
         public sealed class BT_plus_MT : BinaryCspSolvingTests
         {
-            protected override Search Search => Search.Backtracking;
+            protected override Search SearchStrategy => Search.Backtracking;
 
-            protected override Ordering Ordering => Ordering.MaxTightness;
+            protected override Ordering OrderingStrategy => Ordering.MaxTightness;
         }
 
         public sealed class BJ_plus_NO : BinaryCspSolvingTests
         {
-            protected override Search Search => Search.Backjumping;
+            protected override Search SearchStrategy => Search.Backjumping;
 
-            protected override Ordering Ordering => Ordering.None;
+            protected override Ordering OrderingStrategy => Ordering.None;
         }
 
         public sealed class BJ_plus_BZ : BinaryCspSolvingTests
         {
-            protected override Search Search => Search.Backjumping;
+            protected override Search SearchStrategy => Search.Backjumping;
 
-            protected override Ordering Ordering => Ordering.Brelaz;
+            protected override Ordering OrderingStrategy => Ordering.Brelaz;
         }
 
         public sealed class BJ_plus_MC : BinaryCspSolvingTests
         {
-            protected override Search Search => Search.Backjumping;
+            protected override Search SearchStrategy => Search.Backjumping;
 
-            protected override Ordering Ordering => Ordering.MaxCardinality;
+            protected override Ordering OrderingStrategy => Ordering.MaxCardinality;
         }
 
         public sealed class BJ_plus_MT : BinaryCspSolvingTests
         {
-            protected override Search Search => Search.Backjumping;
+            protected override Search SearchStrategy => Search.Backjumping;
 
-            protected override Ordering Ordering => Ordering.MaxTightness;
+            protected override Ordering OrderingStrategy => Ordering.MaxTightness;
+        }
+
+        public sealed class GBJ_plus_NO : BinaryCspSolvingTests
+        {
+            protected override Search SearchStrategy => Search.GraphBasedBackjumping;
+
+            protected override Ordering OrderingStrategy => Ordering.None;
+        }
+
+        public sealed class GBJ_plus_BZ : BinaryCspSolvingTests
+        {
+            protected override Search SearchStrategy => Search.GraphBasedBackjumping;
+
+            protected override Ordering OrderingStrategy => Ordering.Brelaz;
+        }
+
+        public sealed class GBJ_plus_MC : BinaryCspSolvingTests
+        {
+            protected override Search SearchStrategy => Search.GraphBasedBackjumping;
+
+            protected override Ordering OrderingStrategy => Ordering.MaxCardinality;
+        }
+
+        public sealed class GBJ_plus_MT : BinaryCspSolvingTests
+        {
+            protected override Search SearchStrategy => Search.GraphBasedBackjumping;
+
+            protected override Ordering OrderingStrategy => Ordering.MaxTightness;
         }
     }
 }

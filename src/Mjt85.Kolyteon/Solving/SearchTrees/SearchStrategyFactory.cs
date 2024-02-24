@@ -11,6 +11,7 @@ internal sealed class SearchStrategyFactory<V, D> : ISearchStrategyFactory<V, D>
     {
         return strategy switch
         {
+            Search.GraphBasedBackjumping => new GBJStrategy<V, D>(capacity),
             Search.Backjumping => new BJStrategy<V, D>(capacity),
             _ => new BTStrategy<V, D>(capacity)
         };

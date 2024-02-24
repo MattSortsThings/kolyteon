@@ -3,5 +3,6 @@
 public enum Search
 {
     Backtracking,
-    Backjumping
+    Backjumping,
+    GraphBasedBackjumping
 }
