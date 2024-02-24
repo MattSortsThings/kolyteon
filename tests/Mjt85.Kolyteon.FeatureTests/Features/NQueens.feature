@@ -63,3 +63,4 @@ As a developer, I want to represent any N-Queens puzzle in code so that I can mo
     Examples:
       | Search       | Ordering |
       | Backtracking | None     |
+      | Backtracking | Brelaz   |

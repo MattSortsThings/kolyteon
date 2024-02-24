@@ -116,3 +116,4 @@ As a developer, I want to represent any Sudoku puzzle in code so that I can mode
     Examples:
       | Search       | Ordering |
       | Backtracking | None     |
+      | Backtracking | Brelaz   |

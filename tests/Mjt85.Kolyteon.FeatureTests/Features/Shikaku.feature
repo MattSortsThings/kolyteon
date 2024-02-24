@@ -88,3 +88,4 @@ As a developer, I want to represent any Shikaku puzzle in code so that I can mod
     Examples:
       | Search       | Ordering |
       | Backtracking | None     |
+      | Backtracking | Brelaz   |

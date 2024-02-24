@@ -239,5 +239,12 @@ public abstract class BinaryCspSolvingTests
 
             protected override Ordering Ordering => Ordering.None;
         }
+
+        public sealed class BT_plus_BZ : BinaryCspSolvingTests
+        {
+            protected override Search Search => Search.Backtracking;
+
+            protected override Ordering Ordering => Ordering.Brelaz;
+        }
     }
 }

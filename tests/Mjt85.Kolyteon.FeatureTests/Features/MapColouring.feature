@@ -74,3 +74,4 @@ As a developer, I want to represent any Map Colouring puzzle in code so that I c
     Examples:
       | Search       | Ordering |
       | Backtracking | None     |
+      | Backtracking | Brelaz   |

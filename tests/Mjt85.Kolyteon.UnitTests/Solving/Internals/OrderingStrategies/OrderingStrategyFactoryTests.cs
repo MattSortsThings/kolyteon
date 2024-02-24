@@ -32,6 +32,7 @@ public sealed class OrderingStrategyFactoryTests
             public TestCases()
             {
                 Add(Ordering.None, typeof(NOStrategy));
+                Add(Ordering.Brelaz, typeof(BZStrategy));
             }
         }
     }

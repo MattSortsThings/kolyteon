@@ -308,6 +308,7 @@ namespace Mjt85.Kolyteon.FeatureTests.Features
         [Xunit.TraitAttribute("FeatureTitle", "Map Colouring")]
         [Xunit.TraitAttribute("Description", "Solve a binary CSP modelling a solvable puzzle")]
         [Xunit.InlineDataAttribute("Backtracking", "None", new string[0])]
+        [Xunit.InlineDataAttribute("Backtracking", "Brelaz", new string[0])]
         public void SolveABinaryCSPModellingASolvablePuzzle(string search, string ordering, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
