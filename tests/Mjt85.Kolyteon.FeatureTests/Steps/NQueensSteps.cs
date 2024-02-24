@@ -3,6 +3,7 @@ using System.Text.Json;
 using Mjt85.Kolyteon.FeatureTests.Helpers;
 using Mjt85.Kolyteon.Modelling;
 using Mjt85.Kolyteon.NQueens;
+using Mjt85.Kolyteon.Solving;
 using TechTalk.SpecFlow.Assist;
 
 namespace Mjt85.Kolyteon.FeatureTests.Steps;
@@ -11,12 +12,16 @@ namespace Mjt85.Kolyteon.FeatureTests.Steps;
 public sealed class NQueensSteps
 {
     private readonly IModellingBinaryCsp<NQueensPuzzle, int, Queen> _binaryCsp;
+    private readonly IBinaryCspSolver<int, Queen> _binaryCspSolver;
     private readonly ScenarioContext _scenarioContext;
 
-    public NQueensSteps(ScenarioContext scenarioContext, IModellingBinaryCsp<NQueensPuzzle, int, Queen> binaryCsp)
+    public NQueensSteps(IModellingBinaryCsp<NQueensPuzzle, int, Queen> binaryCsp,
+        IBinaryCspSolver<int, Queen> binaryCspSolver,
+        ScenarioContext scenarioContext)
     {
-        _scenarioContext = scenarioContext ?? throw new ArgumentNullException(nameof(scenarioContext));
         _binaryCsp = binaryCsp ?? throw new ArgumentNullException(nameof(binaryCsp));
+        _binaryCspSolver = binaryCspSolver ?? throw new ArgumentNullException(nameof(binaryCspSolver));
+        _scenarioContext = scenarioContext ?? throw new ArgumentNullException(nameof(scenarioContext));
     }
 
     [Given("I have created an N-Queens puzzle in which N = (.*)")]
@@ -54,6 +59,18 @@ public sealed class NQueensSteps
         _binaryCsp.Model(puzzle);
     }
 
+    [Given("I have set the N-Queens binary CSP solver to use the '(.*)' search strategy")]
+    public void GivenIHaveSetTheN_QueensBinaryCspSolverToUseTheSearchStrategy(Search strategy)
+    {
+        _binaryCspSolver.SearchStrategy = strategy;
+    }
+
+    [Given("I have set the N-Queens binary CSP solver to use the '(.*)' ordering strategy")]
+    public void GivenIHaveSetTheN_QueensBinaryCspSolverToUseTheOrderingStrategy(Ordering strategy)
+    {
+        _binaryCspSolver.OrderingStrategy = strategy;
+    }
+
     [When("I deserialize an N-Queens puzzle from the JSON")]
     public void WhenIDeserializeAnN_QueensPuzzleFromTheJson()
     {
@@ -87,6 +104,15 @@ public sealed class NQueensSteps
         _scenarioContext.Add(Invariants.DOMAIN_SIZE_STATISTICS, domainSizeStatistics);
         _scenarioContext.Add(Invariants.DEGREE_STATISTICS, degreeStatistics);
         _scenarioContext.Add(Invariants.SUM_TIGHTNESS_STATISTICS, sumTightnessStatistics);
+    }
+
+    [When("I run the N-Queens binary CSP solver on the binary CSP")]
+    public void WhenIRunTheN_QueensBinaryCspSolverOnTheBinaryCsp()
+    {
+        Result<int, Queen> result = _binaryCspSolver.Solve(_binaryCsp);
+        IReadOnlyList<Queen> proposedSolution = result.Assignments.ToPuzzleSolution();
+
+        _scenarioContext.Add(Invariants.PROPOSED_SOLUTION, proposedSolution);
     }
 
     [Then("the deserialized N-Queens puzzle should be the same as the original puzzle")]

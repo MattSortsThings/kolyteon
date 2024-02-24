@@ -3,6 +3,7 @@ using System.Text.Json;
 using Mjt85.Kolyteon.FeatureTests.Helpers;
 using Mjt85.Kolyteon.Modelling;
 using Mjt85.Kolyteon.Shikaku;
+using Mjt85.Kolyteon.Solving;
 using TechTalk.SpecFlow.Assist;
 
 namespace Mjt85.Kolyteon.FeatureTests.Steps;
@@ -11,12 +12,16 @@ namespace Mjt85.Kolyteon.FeatureTests.Steps;
 public sealed class ShikakuSteps
 {
     private readonly IModellingBinaryCsp<ShikakuPuzzle, Hint, Rectangle> _binaryCsp;
+    private readonly IBinaryCspSolver<Hint, Rectangle> _binaryCspSolver;
     private readonly ScenarioContext _scenarioContext;
 
-    public ShikakuSteps(ScenarioContext scenarioContext, IModellingBinaryCsp<ShikakuPuzzle, Hint, Rectangle> binaryCsp)
+    public ShikakuSteps(IModellingBinaryCsp<ShikakuPuzzle, Hint, Rectangle> binaryCsp,
+        IBinaryCspSolver<Hint, Rectangle> binaryCspSolver,
+        ScenarioContext scenarioContext)
     {
-        _scenarioContext = scenarioContext ?? throw new ArgumentNullException(nameof(scenarioContext));
         _binaryCsp = binaryCsp ?? throw new ArgumentNullException(nameof(binaryCsp));
+        _binaryCspSolver = binaryCspSolver ?? throw new ArgumentNullException(nameof(binaryCspSolver));
+        _scenarioContext = scenarioContext ?? throw new ArgumentNullException(nameof(scenarioContext));
     }
 
     [Given("I have created a Shikaku puzzle from the following grid")]
@@ -52,6 +57,17 @@ public sealed class ShikakuSteps
         _binaryCsp.Model(puzzle);
     }
 
+    [Given("I have set the Shikaku binary CSP solver to use the '(.*)' search strategy")]
+    public void GivenIHaveSetTheShikakuBinaryCspSolverToUseTheSearchStrategy(Search strategy)
+    {
+        _binaryCspSolver.SearchStrategy = strategy;
+    }
+
+    [Given("I have set the Shikaku binary CSP solver to use the '(.*)' ordering strategy")]
+    public void GivenIHaveSetTheShikakuBinaryCspSolverToUseTheOrderingStrategy(Ordering strategy)
+    {
+        _binaryCspSolver.OrderingStrategy = strategy;
+    }
 
     [When("I deserialize a Shikaku puzzle from the JSON")]
     public void WhenIDeserializeAShikakuPuzzleFromTheJson()
@@ -87,6 +103,15 @@ public sealed class ShikakuSteps
         _scenarioContext.Add(Invariants.DOMAIN_SIZE_STATISTICS, domainSizeStatistics);
         _scenarioContext.Add(Invariants.DEGREE_STATISTICS, degreeStatistics);
         _scenarioContext.Add(Invariants.SUM_TIGHTNESS_STATISTICS, sumTightnessStatistics);
+    }
+
+    [When("I run the Shikaku binary CSP solver on the binary CSP")]
+    public void WhenIRunTheShikakuBinaryCspSolverOnTheBinaryCsp()
+    {
+        Result<Hint, Rectangle> result = _binaryCspSolver.Solve(_binaryCsp);
+        IReadOnlyList<Rectangle> proposedSolution = result.Assignments.ToPuzzleSolution();
+
+        _scenarioContext.Add(Invariants.PROPOSED_SOLUTION, proposedSolution);
     }
 
     [Then("the deserialized Shikaku puzzle should be the same as the original puzzle")]

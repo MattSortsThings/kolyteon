@@ -92,3 +92,27 @@ As a developer, I want to represent any Sudoku puzzle in code so that I can mode
           | MeanValue      | 1.5   |
           | MaximumValue   | 2.0   |
           | DistinctValues | 3     |
+
+    Scenario: Solve a binary CSP modelling a solvable puzzle
+        Given I have created a Sudoku puzzle from the following grid
+        """
+        _ 2 _ _ 7 _ 4 3 _
+        _ 5 1 3 _ _ 2 _ 6
+        _ 7 _ _ _ 6 _ _ 1
+        6 _ _ _ _ _ 7 _ 9
+        7 3 _ 5 _ _ _ 1 _
+        _ _ 9 _ 6 4 _ _ 8
+        5 6 8 _ 2 7 1 _ 3
+        3 _ 2 _ 1 _ _ _ _
+        _ _ 7 _ 8 3 5 2 _
+        """
+        And I have modelled the Sudoku puzzle as a binary CSP
+        And I have set the Sudoku binary CSP solver to use the '<Search>' search strategy
+        And I have set the Sudoku binary CSP solver to use the '<Ordering>' ordering strategy
+        When I run the Sudoku binary CSP solver on the binary CSP
+        And I ask the Sudoku puzzle to validate the proposed solution
+        Then the validation result should be successful
+
+    Examples:
+      | Search       | Ordering |
+      | Backtracking | None     |

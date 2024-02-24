@@ -68,3 +68,23 @@ As a developer, I want to represent any Shikaku puzzle in code so that I can mod
           | MeanValue      | 1.270833 |
           | MaximumValue   | 1.833333 |
           | DistinctValues | 4        |
+
+    Scenario: Solve a binary CSP modelling a solvable puzzle
+        Given I have created a Shikaku puzzle from the following grid
+        """
+        05 __ __ __ __
+        __ 05 __ __ __
+        __ __ 09 __ __
+        __ __ __ __ 03
+        03 __ __ __ __
+        """
+        And I have modelled the Shikaku puzzle as a binary CSP
+        And I have set the Shikaku binary CSP solver to use the '<Search>' search strategy
+        And I have set the Shikaku binary CSP solver to use the '<Ordering>' ordering strategy
+        When I run the Shikaku binary CSP solver on the binary CSP
+        And I ask the Shikaku puzzle to validate the proposed solution
+        Then the validation result should be successful
+
+    Examples:
+      | Search       | Ordering |
+      | Backtracking | None     |

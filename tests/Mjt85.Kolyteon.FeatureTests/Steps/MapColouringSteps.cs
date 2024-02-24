@@ -3,6 +3,7 @@ using System.Text.Json;
 using Mjt85.Kolyteon.FeatureTests.Helpers;
 using Mjt85.Kolyteon.MapColouring;
 using Mjt85.Kolyteon.Modelling;
+using Mjt85.Kolyteon.Solving;
 using TechTalk.SpecFlow.Assist;
 
 namespace Mjt85.Kolyteon.FeatureTests.Steps;
@@ -11,12 +12,16 @@ namespace Mjt85.Kolyteon.FeatureTests.Steps;
 public sealed class MapColouringSteps
 {
     private readonly IModellingBinaryCsp<MapColouringPuzzle, Region, Colour> _binaryCsp;
+    private readonly IBinaryCspSolver<Region, Colour> _binaryCspSolver;
     private readonly ScenarioContext _scenarioContext;
 
-    public MapColouringSteps(ScenarioContext scenarioContext, IModellingBinaryCsp<MapColouringPuzzle, Region, Colour> binaryCsp)
+    public MapColouringSteps(IModellingBinaryCsp<MapColouringPuzzle, Region, Colour> binaryCsp,
+        IBinaryCspSolver<Region, Colour> binaryCspSolver,
+        ScenarioContext scenarioContext)
     {
-        _scenarioContext = scenarioContext ?? throw new ArgumentNullException(nameof(scenarioContext));
         _binaryCsp = binaryCsp ?? throw new ArgumentNullException(nameof(binaryCsp));
+        _binaryCspSolver = binaryCspSolver ?? throw new ArgumentNullException(nameof(binaryCspSolver));
+        _scenarioContext = scenarioContext ?? throw new ArgumentNullException(nameof(scenarioContext));
     }
 
     [Given("I have created a Map Colouring puzzle as follows")]
@@ -50,12 +55,23 @@ public sealed class MapColouringSteps
         _scenarioContext.Add(Invariants.PROPOSED_SOLUTION, proposedSolution);
     }
 
-
     [Given("I have modelled the Map Colouring puzzle as a binary CSP")]
     public void GivenIHaveModelledTheMapColouringPuzzleAsABinaryCsp()
     {
         var puzzle = _scenarioContext.Get<MapColouringPuzzle>(Invariants.PUZZLE);
         _binaryCsp.Model(puzzle);
+    }
+
+    [Given("I have set the Map Colouring binary CSP solver to use the '(.*)' search strategy")]
+    public void GivenIHaveSetTheMapColouringBinaryCspSolverToUseTheSearchStrategy(Search strategy)
+    {
+        _binaryCspSolver.SearchStrategy = strategy;
+    }
+
+    [Given("I have set the Map Colouring binary CSP solver to use the '(.*)' ordering strategy")]
+    public void GivenIHaveSetTheMapColouringBinaryCspSolverToUseTheOrderingStrategy(Ordering strategy)
+    {
+        _binaryCspSolver.OrderingStrategy = strategy;
     }
 
     [When("I deserialize a Map Colouring puzzle from the JSON")]
@@ -92,6 +108,15 @@ public sealed class MapColouringSteps
         _scenarioContext.Add(Invariants.DOMAIN_SIZE_STATISTICS, domainSizeStatistics);
         _scenarioContext.Add(Invariants.DEGREE_STATISTICS, degreeStatistics);
         _scenarioContext.Add(Invariants.SUM_TIGHTNESS_STATISTICS, sumTightnessStatistics);
+    }
+
+    [When("I run the Map Colouring binary CSP solver on the binary CSP")]
+    public void WhenIRunTheMapColouringBinaryCspSolverOnTheBinaryCsp()
+    {
+        Result<Region, Colour> result = _binaryCspSolver.Solve(_binaryCsp);
+        IReadOnlyDictionary<Region, Colour> proposedSolution = result.Assignments.ToPuzzleSolution();
+
+        _scenarioContext.Add(Invariants.PROPOSED_SOLUTION, proposedSolution);
     }
 
     [Then("the deserialized Map Colouring puzzle should be the same as the original puzzle")]

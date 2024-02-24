@@ -58,3 +58,19 @@ As a developer, I want to represent any Map Colouring puzzle in code so that I c
           | MeanValue      | 0.857143 |
           | MaximumValue   | 1.666667 |
           | DistinctValues | 4        |
+
+    Scenario: Solve a binary CSP modelling a solvable puzzle
+        Given I have created a Map Colouring puzzle as follows
+          | Field         | Value          |
+          | PresetMap     | Australia      |
+          | GlobalColours | Red,Blue,Green |
+        And I have modelled the Map Colouring puzzle as a binary CSP
+        And I have set the Map Colouring binary CSP solver to use the '<Search>' search strategy
+        And I have set the Map Colouring binary CSP solver to use the '<Ordering>' ordering strategy
+        When I run the Map Colouring binary CSP solver on the binary CSP
+        And I ask the Map Colouring puzzle to validate the proposed solution
+        Then the validation result should be successful
+
+    Examples:
+      | Search       | Ordering |
+      | Backtracking | None     |

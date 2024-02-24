@@ -304,6 +304,62 @@ namespace Mjt85.Kolyteon.FeatureTests.Features
             this.ScenarioCleanup();
         }
         
+        [Xunit.SkippableTheoryAttribute(DisplayName="Solve a binary CSP modelling a solvable puzzle")]
+        [Xunit.TraitAttribute("FeatureTitle", "Map Colouring")]
+        [Xunit.TraitAttribute("Description", "Solve a binary CSP modelling a solvable puzzle")]
+        [Xunit.InlineDataAttribute("Backtracking", "None", new string[0])]
+        public void SolveABinaryCSPModellingASolvablePuzzle(string search, string ordering, string[] exampleTags)
+        {
+            string[] tagsOfScenario = exampleTags;
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("Search", search);
+            argumentsOfScenario.Add("Ordering", ordering);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Solve a binary CSP modelling a solvable puzzle", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 62
+    this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+                TechTalk.SpecFlow.Table table9 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Field",
+                            "Value"});
+                table9.AddRow(new string[] {
+                            "PresetMap",
+                            "Australia"});
+                table9.AddRow(new string[] {
+                            "GlobalColours",
+                            "Red,Blue,Green"});
+#line 63
+        testRunner.Given("I have created a Map Colouring puzzle as follows", ((string)(null)), table9, "Given ");
+#line hidden
+#line 67
+        testRunner.And("I have modelled the Map Colouring puzzle as a binary CSP", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 68
+        testRunner.And(string.Format("I have set the Map Colouring binary CSP solver to use the \'{0}\' search strategy", search), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 69
+        testRunner.And(string.Format("I have set the Map Colouring binary CSP solver to use the \'{0}\' ordering strategy" +
+                            "", ordering), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 70
+        testRunner.When("I run the Map Colouring binary CSP solver on the binary CSP", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 71
+        testRunner.And("I ask the Map Colouring puzzle to validate the proposed solution", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 72
+        testRunner.Then("the validation result should be successful", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
         [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.9.0.0")]
         [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
         public class FixtureData : System.IDisposable

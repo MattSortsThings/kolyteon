@@ -136,36 +136,36 @@ namespace Mjt85.Kolyteon.FeatureTests.Features
 #line 11
         testRunner.Given("I have created an N-Queens puzzle in which N = 8", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-                TechTalk.SpecFlow.Table table9 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table10 = new TechTalk.SpecFlow.Table(new string[] {
                             "Column",
                             "Row"});
-                table9.AddRow(new string[] {
+                table10.AddRow(new string[] {
                             "0",
                             "6"});
-                table9.AddRow(new string[] {
+                table10.AddRow(new string[] {
                             "1",
                             "4"});
-                table9.AddRow(new string[] {
+                table10.AddRow(new string[] {
                             "2",
                             "2"});
-                table9.AddRow(new string[] {
+                table10.AddRow(new string[] {
                             "3",
                             "0"});
-                table9.AddRow(new string[] {
+                table10.AddRow(new string[] {
                             "4",
                             "5"});
-                table9.AddRow(new string[] {
+                table10.AddRow(new string[] {
                             "5",
                             "7"});
-                table9.AddRow(new string[] {
+                table10.AddRow(new string[] {
                             "6",
                             "1"});
-                table9.AddRow(new string[] {
+                table10.AddRow(new string[] {
                             "7",
                             "3"});
 #line 12
         testRunner.And("I have obtained the following list of queens as a proposed solution to the N-Quee" +
-                        "ns puzzle", ((string)(null)), table9, "And ");
+                        "ns puzzle", ((string)(null)), table10, "And ");
 #line hidden
 #line 22
         testRunner.When("I ask the N-Queens puzzle to validate the proposed solution", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -204,77 +204,123 @@ namespace Mjt85.Kolyteon.FeatureTests.Features
 #line 28
         testRunner.When("I request the binary CSP metrics for the N-Queens puzzle", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-                TechTalk.SpecFlow.Table table10 = new TechTalk.SpecFlow.Table(new string[] {
-                            "Field",
-                            "Value"});
-                table10.AddRow(new string[] {
-                            "Variables",
-                            "5"});
-                table10.AddRow(new string[] {
-                            "Constraints",
-                            "10"});
-                table10.AddRow(new string[] {
-                            "ConstraintDensity",
-                            "1"});
-                table10.AddRow(new string[] {
-                            "ConstraintTightness",
-                            "0.44"});
-#line 29
-        testRunner.Then("the binary CSP problem metrics should be as follows", ((string)(null)), table10, "Then ");
-#line hidden
                 TechTalk.SpecFlow.Table table11 = new TechTalk.SpecFlow.Table(new string[] {
                             "Field",
                             "Value"});
                 table11.AddRow(new string[] {
-                            "MinimumValue",
+                            "Variables",
                             "5"});
                 table11.AddRow(new string[] {
-                            "MeanValue",
-                            "5"});
+                            "Constraints",
+                            "10"});
                 table11.AddRow(new string[] {
-                            "MaximumValue",
-                            "5"});
-                table11.AddRow(new string[] {
-                            "DistinctValues",
+                            "ConstraintDensity",
                             "1"});
-#line 35
-        testRunner.And("the binary CSP variable domain size statistics should be as follows", ((string)(null)), table11, "And ");
+                table11.AddRow(new string[] {
+                            "ConstraintTightness",
+                            "0.44"});
+#line 29
+        testRunner.Then("the binary CSP problem metrics should be as follows", ((string)(null)), table11, "Then ");
 #line hidden
                 TechTalk.SpecFlow.Table table12 = new TechTalk.SpecFlow.Table(new string[] {
                             "Field",
                             "Value"});
                 table12.AddRow(new string[] {
                             "MinimumValue",
-                            "4"});
+                            "5"});
                 table12.AddRow(new string[] {
                             "MeanValue",
-                            "4"});
+                            "5"});
                 table12.AddRow(new string[] {
                             "MaximumValue",
-                            "4"});
+                            "5"});
                 table12.AddRow(new string[] {
                             "DistinctValues",
                             "1"});
-#line 41
-        testRunner.And("the binary CSP variable degree statistics should be as follows", ((string)(null)), table12, "And ");
+#line 35
+        testRunner.And("the binary CSP variable domain size statistics should be as follows", ((string)(null)), table12, "And ");
 #line hidden
                 TechTalk.SpecFlow.Table table13 = new TechTalk.SpecFlow.Table(new string[] {
                             "Field",
                             "Value"});
                 table13.AddRow(new string[] {
                             "MinimumValue",
-                            "1.6"});
+                            "4"});
                 table13.AddRow(new string[] {
                             "MeanValue",
-                            "1.76"});
+                            "4"});
                 table13.AddRow(new string[] {
                             "MaximumValue",
-                            "1.92"});
+                            "4"});
                 table13.AddRow(new string[] {
+                            "DistinctValues",
+                            "1"});
+#line 41
+        testRunner.And("the binary CSP variable degree statistics should be as follows", ((string)(null)), table13, "And ");
+#line hidden
+                TechTalk.SpecFlow.Table table14 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Field",
+                            "Value"});
+                table14.AddRow(new string[] {
+                            "MinimumValue",
+                            "1.6"});
+                table14.AddRow(new string[] {
+                            "MeanValue",
+                            "1.76"});
+                table14.AddRow(new string[] {
+                            "MaximumValue",
+                            "1.92"});
+                table14.AddRow(new string[] {
                             "DistinctValues",
                             "3"});
 #line 47
-        testRunner.And("the binary CSP variable sum tightness statistics should be as follows", ((string)(null)), table13, "And ");
+        testRunner.And("the binary CSP variable sum tightness statistics should be as follows", ((string)(null)), table14, "And ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.SkippableTheoryAttribute(DisplayName="Solve a binary CSP modelling a solvable puzzle")]
+        [Xunit.TraitAttribute("FeatureTitle", "N-Queens")]
+        [Xunit.TraitAttribute("Description", "Solve a binary CSP modelling a solvable puzzle")]
+        [Xunit.InlineDataAttribute("Backtracking", "None", new string[0])]
+        public void SolveABinaryCSPModellingASolvablePuzzle(string search, string ordering, string[] exampleTags)
+        {
+            string[] tagsOfScenario = exampleTags;
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("Search", search);
+            argumentsOfScenario.Add("Ordering", ordering);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Solve a binary CSP modelling a solvable puzzle", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 54
+    this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 55
+        testRunner.Given("I have created an N-Queens puzzle in which N = 8", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 56
+        testRunner.And("I have modelled the N-Queens puzzle as a binary CSP", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 57
+        testRunner.And(string.Format("I have set the N-Queens binary CSP solver to use the \'{0}\' search strategy", search), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 58
+        testRunner.And(string.Format("I have set the N-Queens binary CSP solver to use the \'{0}\' ordering strategy", ordering), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 59
+        testRunner.When("I run the N-Queens binary CSP solver on the binary CSP", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 60
+        testRunner.And("I ask the N-Queens puzzle to validate the proposed solution", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 61
+        testRunner.Then("the validation result should be successful", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();

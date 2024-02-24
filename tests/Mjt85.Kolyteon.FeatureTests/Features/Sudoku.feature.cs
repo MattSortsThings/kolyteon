@@ -140,81 +140,81 @@ namespace Mjt85.Kolyteon.FeatureTests.Features
                         " 4 _ 1 7 5 6\r\n7 6 5 _ 2 _ 1 4 3\r\n5 8 _ 6 9 4 _ 2 1\r\n9 _ 2 7 1 3 5 _ 8\r\n_ 1 6 2 8" +
                         " 5 9 7 _", ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-                TechTalk.SpecFlow.Table table19 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table20 = new TechTalk.SpecFlow.Table(new string[] {
                             "Column",
                             "Row",
                             "Number"});
-                table19.AddRow(new string[] {
+                table20.AddRow(new string[] {
                             "0",
                             "0",
                             "4"});
-                table19.AddRow(new string[] {
+                table20.AddRow(new string[] {
                             "0",
                             "8",
                             "3"});
-                table19.AddRow(new string[] {
+                table20.AddRow(new string[] {
                             "1",
                             "1",
                             "5"});
-                table19.AddRow(new string[] {
+                table20.AddRow(new string[] {
                             "1",
                             "7",
                             "4"});
-                table19.AddRow(new string[] {
+                table20.AddRow(new string[] {
                             "2",
                             "2",
                             "1"});
-                table19.AddRow(new string[] {
+                table20.AddRow(new string[] {
                             "2",
                             "6",
                             "7"});
-                table19.AddRow(new string[] {
+                table20.AddRow(new string[] {
                             "3",
                             "3",
                             "5"});
-                table19.AddRow(new string[] {
+                table20.AddRow(new string[] {
                             "3",
                             "5",
                             "9"});
-                table19.AddRow(new string[] {
+                table20.AddRow(new string[] {
                             "4",
                             "4",
                             "3"});
-                table19.AddRow(new string[] {
+                table20.AddRow(new string[] {
                             "5",
                             "3",
                             "6"});
-                table19.AddRow(new string[] {
+                table20.AddRow(new string[] {
                             "5",
                             "5",
                             "8"});
-                table19.AddRow(new string[] {
+                table20.AddRow(new string[] {
                             "6",
                             "2",
                             "4"});
-                table19.AddRow(new string[] {
+                table20.AddRow(new string[] {
                             "6",
                             "6",
                             "3"});
-                table19.AddRow(new string[] {
+                table20.AddRow(new string[] {
                             "7",
                             "1",
                             "1"});
-                table19.AddRow(new string[] {
+                table20.AddRow(new string[] {
                             "7",
                             "7",
                             "6"});
-                table19.AddRow(new string[] {
+                table20.AddRow(new string[] {
                             "8",
                             "0",
                             "7"});
-                table19.AddRow(new string[] {
+                table20.AddRow(new string[] {
                             "8",
                             "8",
                             "4"});
 #line 34
         testRunner.And("I have obtained the following list of filled cells as a proposed solution to the " +
-                        "Sudoku puzzle", ((string)(null)), table19, "And ");
+                        "Sudoku puzzle", ((string)(null)), table20, "And ");
 #line hidden
 #line 53
         testRunner.When("I ask the Sudoku puzzle to validate the proposed solution", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -255,77 +255,125 @@ namespace Mjt85.Kolyteon.FeatureTests.Features
 #line 70
         testRunner.When("I request the binary CSP metrics for the Sudoku puzzle", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-                TechTalk.SpecFlow.Table table20 = new TechTalk.SpecFlow.Table(new string[] {
-                            "Field",
-                            "Value"});
-                table20.AddRow(new string[] {
-                            "Variables",
-                            "10"});
-                table20.AddRow(new string[] {
-                            "Constraints",
-                            "18"});
-                table20.AddRow(new string[] {
-                            "ConstraintDensity",
-                            "0.4"});
-                table20.AddRow(new string[] {
-                            "ConstraintTightness",
-                            "0.375"});
-#line 71
-        testRunner.Then("the binary CSP problem metrics should be as follows", ((string)(null)), table20, "Then ");
-#line hidden
                 TechTalk.SpecFlow.Table table21 = new TechTalk.SpecFlow.Table(new string[] {
                             "Field",
                             "Value"});
                 table21.AddRow(new string[] {
-                            "MinimumValue",
-                            "1"});
+                            "Variables",
+                            "10"});
                 table21.AddRow(new string[] {
-                            "MeanValue",
-                            "1.6"});
+                            "Constraints",
+                            "18"});
                 table21.AddRow(new string[] {
-                            "MaximumValue",
-                            "2"});
+                            "ConstraintDensity",
+                            "0.4"});
                 table21.AddRow(new string[] {
-                            "DistinctValues",
-                            "2"});
-#line 77
-        testRunner.And("the binary CSP variable domain size statistics should be as follows", ((string)(null)), table21, "And ");
+                            "ConstraintTightness",
+                            "0.375"});
+#line 71
+        testRunner.Then("the binary CSP problem metrics should be as follows", ((string)(null)), table21, "Then ");
 #line hidden
                 TechTalk.SpecFlow.Table table22 = new TechTalk.SpecFlow.Table(new string[] {
                             "Field",
                             "Value"});
                 table22.AddRow(new string[] {
                             "MinimumValue",
-                            "0"});
+                            "1"});
                 table22.AddRow(new string[] {
                             "MeanValue",
-                            "3.6"});
+                            "1.6"});
                 table22.AddRow(new string[] {
                             "MaximumValue",
-                            "4"});
+                            "2"});
                 table22.AddRow(new string[] {
                             "DistinctValues",
                             "2"});
-#line 83
-        testRunner.And("the binary CSP variable degree statistics should be as follows", ((string)(null)), table22, "And ");
+#line 77
+        testRunner.And("the binary CSP variable domain size statistics should be as follows", ((string)(null)), table22, "And ");
 #line hidden
                 TechTalk.SpecFlow.Table table23 = new TechTalk.SpecFlow.Table(new string[] {
                             "Field",
                             "Value"});
                 table23.AddRow(new string[] {
                             "MinimumValue",
-                            "0.0"});
+                            "0"});
                 table23.AddRow(new string[] {
                             "MeanValue",
-                            "1.5"});
+                            "3.6"});
                 table23.AddRow(new string[] {
                             "MaximumValue",
-                            "2.0"});
+                            "4"});
                 table23.AddRow(new string[] {
+                            "DistinctValues",
+                            "2"});
+#line 83
+        testRunner.And("the binary CSP variable degree statistics should be as follows", ((string)(null)), table23, "And ");
+#line hidden
+                TechTalk.SpecFlow.Table table24 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Field",
+                            "Value"});
+                table24.AddRow(new string[] {
+                            "MinimumValue",
+                            "0.0"});
+                table24.AddRow(new string[] {
+                            "MeanValue",
+                            "1.5"});
+                table24.AddRow(new string[] {
+                            "MaximumValue",
+                            "2.0"});
+                table24.AddRow(new string[] {
                             "DistinctValues",
                             "3"});
 #line 89
-        testRunner.And("the binary CSP variable sum tightness statistics should be as follows", ((string)(null)), table23, "And ");
+        testRunner.And("the binary CSP variable sum tightness statistics should be as follows", ((string)(null)), table24, "And ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.SkippableTheoryAttribute(DisplayName="Solve a binary CSP modelling a solvable puzzle")]
+        [Xunit.TraitAttribute("FeatureTitle", "Sudoku")]
+        [Xunit.TraitAttribute("Description", "Solve a binary CSP modelling a solvable puzzle")]
+        [Xunit.InlineDataAttribute("Backtracking", "None", new string[0])]
+        public void SolveABinaryCSPModellingASolvablePuzzle(string search, string ordering, string[] exampleTags)
+        {
+            string[] tagsOfScenario = exampleTags;
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("Search", search);
+            argumentsOfScenario.Add("Ordering", ordering);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Solve a binary CSP modelling a solvable puzzle", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 96
+    this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 97
+        testRunner.Given("I have created a Sudoku puzzle from the following grid", "_ 2 _ _ 7 _ 4 3 _\r\n_ 5 1 3 _ _ 2 _ 6\r\n_ 7 _ _ _ 6 _ _ 1\r\n6 _ _ _ _ _ 7 _ 9\r\n7 3 _" +
+                        " 5 _ _ _ 1 _\r\n_ _ 9 _ 6 4 _ _ 8\r\n5 6 8 _ 2 7 1 _ 3\r\n3 _ 2 _ 1 _ _ _ _\r\n_ _ 7 _ 8" +
+                        " 3 5 2 _", ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 109
+        testRunner.And("I have modelled the Sudoku puzzle as a binary CSP", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 110
+        testRunner.And(string.Format("I have set the Sudoku binary CSP solver to use the \'{0}\' search strategy", search), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 111
+        testRunner.And(string.Format("I have set the Sudoku binary CSP solver to use the \'{0}\' ordering strategy", ordering), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 112
+        testRunner.When("I run the Sudoku binary CSP solver on the binary CSP", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 113
+        testRunner.And("I ask the Sudoku puzzle to validate the proposed solution", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 114
+        testRunner.Then("the validation result should be successful", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
