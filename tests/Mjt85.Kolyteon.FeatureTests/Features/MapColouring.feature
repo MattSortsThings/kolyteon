@@ -72,6 +72,7 @@ As a developer, I want to represent any Map Colouring puzzle in code so that I c
         Then the validation result should be successful
 
     Examples:
-      | Search       | Ordering |
-      | Backtracking | None     |
-      | Backtracking | Brelaz   |
+      | Search       | Ordering       |
+      | Backtracking | None           |
+      | Backtracking | Brelaz         |
+      | Backtracking | MaxCardinality |

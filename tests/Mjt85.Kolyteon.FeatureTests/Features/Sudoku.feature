@@ -114,6 +114,7 @@ As a developer, I want to represent any Sudoku puzzle in code so that I can mode
         Then the validation result should be successful
 
     Examples:
-      | Search       | Ordering |
-      | Backtracking | None     |
-      | Backtracking | Brelaz   |
+      | Search       | Ordering       |
+      | Backtracking | None           |
+      | Backtracking | Brelaz         |
+      | Backtracking | MaxCardinality |
