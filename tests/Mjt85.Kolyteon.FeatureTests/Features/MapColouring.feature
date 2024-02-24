@@ -89,3 +89,7 @@ As a developer, I want to represent any Map Colouring puzzle in code so that I c
       | ConflictDirectedBackjumping | Brelaz         |
       | ConflictDirectedBackjumping | MaxCardinality |
       | ConflictDirectedBackjumping | MaxTightness   |
+      | ForwardChecking             | None           |
+      | ForwardChecking             | Brelaz         |
+      | ForwardChecking             | MaxCardinality |
+      | ForwardChecking             | MaxTightness   |

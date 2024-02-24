@@ -131,3 +131,7 @@ As a developer, I want to represent any Sudoku puzzle in code so that I can mode
       | ConflictDirectedBackjumping | Brelaz         |
       | ConflictDirectedBackjumping | MaxCardinality |
       | ConflictDirectedBackjumping | MaxTightness   |
+      | ForwardChecking             | None           |
+      | ForwardChecking             | Brelaz         |
+      | ForwardChecking             | MaxCardinality |
+      | ForwardChecking             | MaxTightness   |

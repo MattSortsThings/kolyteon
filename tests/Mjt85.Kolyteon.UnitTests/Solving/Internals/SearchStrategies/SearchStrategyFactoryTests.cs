@@ -1,6 +1,7 @@
 ﻿using Mjt85.Kolyteon.MapColouring;
 using Mjt85.Kolyteon.Solving;
 using Mjt85.Kolyteon.Solving.SearchStrategies;
+using Mjt85.Kolyteon.Solving.SearchStrategies.LookAhead;
 using Mjt85.Kolyteon.Solving.SearchStrategies.LookBack;
 using Mjt85.Kolyteon.Solving.SearchTrees;
 
@@ -59,6 +60,7 @@ public static class SearchStrategyFactoryTests
                 Add(Search.Backjumping, typeof(BJStrategy<,>));
                 Add(Search.GraphBasedBackjumping, typeof(GBJStrategy<,>));
                 Add(Search.ConflictDirectedBackjumping, typeof(CBJStrategy<,>));
+                Add(Search.ForwardChecking, typeof(FCStrategy<,>));
             }
         }
     }

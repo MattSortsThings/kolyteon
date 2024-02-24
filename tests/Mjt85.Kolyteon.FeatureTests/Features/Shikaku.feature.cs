@@ -302,6 +302,10 @@ namespace Mjt85.Kolyteon.FeatureTests.Features
         [Xunit.InlineDataAttribute("ConflictDirectedBackjumping", "Brelaz", new string[0])]
         [Xunit.InlineDataAttribute("ConflictDirectedBackjumping", "MaxCardinality", new string[0])]
         [Xunit.InlineDataAttribute("ConflictDirectedBackjumping", "MaxTightness", new string[0])]
+        [Xunit.InlineDataAttribute("ForwardChecking", "None", new string[0])]
+        [Xunit.InlineDataAttribute("ForwardChecking", "Brelaz", new string[0])]
+        [Xunit.InlineDataAttribute("ForwardChecking", "MaxCardinality", new string[0])]
+        [Xunit.InlineDataAttribute("ForwardChecking", "MaxTightness", new string[0])]
         public void SolveABinaryCSPModellingASolvablePuzzle(string search, string ordering, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;

@@ -78,3 +78,7 @@ As a developer, I want to represent any N-Queens puzzle in code so that I can mo
       | ConflictDirectedBackjumping | Brelaz         |
       | ConflictDirectedBackjumping | MaxCardinality |
       | ConflictDirectedBackjumping | MaxTightness   |
+      | ForwardChecking             | None           |
+      | ForwardChecking             | Brelaz         |
+      | ForwardChecking             | MaxCardinality |
+      | ForwardChecking             | MaxTightness   |
