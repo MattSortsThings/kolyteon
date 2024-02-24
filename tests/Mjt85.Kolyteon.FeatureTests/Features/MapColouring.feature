@@ -76,3 +76,4 @@ As a developer, I want to represent any Map Colouring puzzle in code so that I c
       | Backtracking | None           |
       | Backtracking | Brelaz         |
       | Backtracking | MaxCardinality |
+      | Backtracking | MaxTightness   |

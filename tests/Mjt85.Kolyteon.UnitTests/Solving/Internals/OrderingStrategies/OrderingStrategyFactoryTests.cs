@@ -34,6 +34,7 @@ public sealed class OrderingStrategyFactoryTests
                 Add(Ordering.None, typeof(NOStrategy));
                 Add(Ordering.Brelaz, typeof(BZStrategy));
                 Add(Ordering.MaxCardinality, typeof(MCStrategy));
+                Add(Ordering.MaxTightness, typeof(MTStrategy));
             }
         }
     }

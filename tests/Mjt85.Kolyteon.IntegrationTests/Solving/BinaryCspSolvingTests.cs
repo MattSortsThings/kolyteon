@@ -253,5 +253,12 @@ public abstract class BinaryCspSolvingTests
 
             protected override Ordering Ordering => Ordering.MaxCardinality;
         }
+
+        public sealed class BT_plus_MT : BinaryCspSolvingTests
+        {
+            protected override Search Search => Search.Backtracking;
+
+            protected override Ordering Ordering => Ordering.MaxTightness;
+        }
     }
 }

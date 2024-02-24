@@ -4,5 +4,6 @@ public enum Ordering
 {
     None,
     Brelaz,
-    MaxCardinality
+    MaxCardinality,
+    MaxTightness
 }

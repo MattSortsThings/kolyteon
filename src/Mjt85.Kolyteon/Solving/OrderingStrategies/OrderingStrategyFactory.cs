@@ -6,6 +6,7 @@ internal sealed class OrderingStrategyFactory : IOrderingStrategyFactory
     {
         return strategy switch
         {
+            Ordering.MaxTightness => new MTStrategy(),
             Ordering.MaxCardinality => new MCStrategy(),
             Ordering.Brelaz => new BZStrategy(),
             _ => new NOStrategy()

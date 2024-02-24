@@ -118,3 +118,4 @@ As a developer, I want to represent any Sudoku puzzle in code so that I can mode
       | Backtracking | None           |
       | Backtracking | Brelaz         |
       | Backtracking | MaxCardinality |
+      | Backtracking | MaxTightness   |
