@@ -56,6 +56,7 @@ public static class SearchStrategyFactoryTests
             public TypeTestCases()
             {
                 Add(Search.Backtracking, typeof(BTStrategy<,>));
+                Add(Search.Backjumping, typeof(BJStrategy<,>));
             }
         }
     }

@@ -66,3 +66,7 @@ As a developer, I want to represent any N-Queens puzzle in code so that I can mo
       | Backtracking | Brelaz         |
       | Backtracking | MaxCardinality |
       | Backtracking | MaxTightness   |
+      | Backjumping  | None           |
+      | Backjumping  | Brelaz         |
+      | Backjumping  | MaxCardinality |
+      | Backjumping  | MaxTightness   |

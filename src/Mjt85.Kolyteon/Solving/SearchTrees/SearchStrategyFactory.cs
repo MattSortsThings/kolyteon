@@ -7,5 +7,12 @@ internal sealed class SearchStrategyFactory<V, D> : ISearchStrategyFactory<V, D>
     where V : struct, IComparable<V>, IEquatable<V>
     where D : struct, IComparable<D>, IEquatable<D>
 {
-    public ISearchStrategy<V, D> CreateInstance(Search strategy, int capacity) => new BTStrategy<V, D>(capacity);
+    public ISearchStrategy<V, D> CreateInstance(Search strategy, int capacity)
+    {
+        return strategy switch
+        {
+            Search.Backjumping => new BJStrategy<V, D>(capacity),
+            _ => new BTStrategy<V, D>(capacity)
+        };
+    }
 }

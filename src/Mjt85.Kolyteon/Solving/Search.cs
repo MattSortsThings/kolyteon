@@ -2,5 +2,6 @@
 
 public enum Search
 {
-    Backtracking
+    Backtracking,
+    Backjumping
 }

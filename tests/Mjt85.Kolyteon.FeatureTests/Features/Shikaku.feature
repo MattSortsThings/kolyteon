@@ -91,3 +91,7 @@ As a developer, I want to represent any Shikaku puzzle in code so that I can mod
       | Backtracking | Brelaz         |
       | Backtracking | MaxCardinality |
       | Backtracking | MaxTightness   |
+      | Backjumping  | None           |
+      | Backjumping  | Brelaz         |
+      | Backjumping  | MaxCardinality |
+      | Backjumping  | MaxTightness   |
