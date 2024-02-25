@@ -107,3 +107,7 @@ As a developer, I want to represent any Shikaku puzzle in code so that I can mod
       | ForwardChecking             | Brelaz         |
       | ForwardChecking             | MaxCardinality |
       | ForwardChecking             | MaxTightness   |
+      | PartialLookingAhead         | None           |
+      | PartialLookingAhead         | Brelaz         |
+      | PartialLookingAhead         | MaxCardinality |
+      | PartialLookingAhead         | MaxTightness   |

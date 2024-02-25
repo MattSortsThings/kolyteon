@@ -82,3 +82,7 @@ As a developer, I want to represent any N-Queens puzzle in code so that I can mo
       | ForwardChecking             | Brelaz         |
       | ForwardChecking             | MaxCardinality |
       | ForwardChecking             | MaxTightness   |
+      | PartialLookingAhead         | None           |
+      | PartialLookingAhead         | Brelaz         |
+      | PartialLookingAhead         | MaxCardinality |
+      | PartialLookingAhead         | MaxTightness   |

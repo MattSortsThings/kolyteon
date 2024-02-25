@@ -12,6 +12,7 @@ internal sealed class SearchStrategyFactory<V, D> : ISearchStrategyFactory<V, D>
     {
         return strategy switch
         {
+            Search.PartialLookingAhead => new PLAStrategy<V, D>(capacity),
             Search.ForwardChecking => new FCStrategy<V, D>(capacity),
             Search.ConflictDirectedBackjumping => new CBJStrategy<V, D>(capacity),
             Search.GraphBasedBackjumping => new GBJStrategy<V, D>(capacity),

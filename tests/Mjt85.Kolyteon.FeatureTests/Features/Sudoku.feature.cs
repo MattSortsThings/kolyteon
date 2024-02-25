@@ -354,6 +354,10 @@ namespace Mjt85.Kolyteon.FeatureTests.Features
         [Xunit.InlineDataAttribute("ForwardChecking", "Brelaz", new string[0])]
         [Xunit.InlineDataAttribute("ForwardChecking", "MaxCardinality", new string[0])]
         [Xunit.InlineDataAttribute("ForwardChecking", "MaxTightness", new string[0])]
+        [Xunit.InlineDataAttribute("PartialLookingAhead", "None", new string[0])]
+        [Xunit.InlineDataAttribute("PartialLookingAhead", "Brelaz", new string[0])]
+        [Xunit.InlineDataAttribute("PartialLookingAhead", "MaxCardinality", new string[0])]
+        [Xunit.InlineDataAttribute("PartialLookingAhead", "MaxTightness", new string[0])]
         public void SolveABinaryCSPModellingASolvablePuzzle(string search, string ordering, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
