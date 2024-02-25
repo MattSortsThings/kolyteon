@@ -4,7 +4,6 @@ using Mjt85.Kolyteon.Modelling;
 using Mjt85.Kolyteon.Solving;
 using Mjt85.Kolyteon.Solving.OrderingStrategies;
 using Mjt85.Kolyteon.Solving.SearchStrategies;
-using Mjt85.Kolyteon.Solving.SearchTrees;
 using Mjt85.Kolyteon.UnitTests.Helpers;
 using Moq;
 

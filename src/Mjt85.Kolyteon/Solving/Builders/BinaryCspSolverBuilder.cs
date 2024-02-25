@@ -1,6 +1,5 @@
 ﻿using Mjt85.Kolyteon.Solving.OrderingStrategies;
 using Mjt85.Kolyteon.Solving.SearchStrategies;
-using Mjt85.Kolyteon.Solving.SearchTrees;
 
 namespace Mjt85.Kolyteon.Solving.Builders;
 

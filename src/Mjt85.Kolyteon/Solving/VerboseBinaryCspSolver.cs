@@ -6,7 +6,7 @@ using Mjt85.Kolyteon.Solving.SearchStrategies;
 
 namespace Mjt85.Kolyteon.Solving;
 
-public sealed class BinaryCspSolver<V, D> : IBinaryCspSolver<V, D>
+public sealed class VerboseBinaryCspSolver<V, D> : IVerboseBinaryCspSolver<V, D>
     where V : struct, IComparable<V>, IEquatable<V>
     where D : struct, IComparable<D>, IEquatable<D>
 {
@@ -19,19 +19,23 @@ public sealed class BinaryCspSolver<V, D> : IBinaryCspSolver<V, D>
     private long _setupSteps;
     private long _visitingSteps;
 
-    internal BinaryCspSolver(ISearchStrategyFactory<V, D> searchStrategyFactory,
+    internal VerboseBinaryCspSolver(ISearchStrategyFactory<V, D> searchStrategyFactory,
         IOrderingStrategyFactory orderingStrategyFactory,
         ISearchStrategy<V, D> searchStrategy,
-        IOrderingStrategy orderingStrategy)
+        IOrderingStrategy orderingStrategy,
+        TimeSpan stepDelay)
     {
-        _searchStrategyFactory = searchStrategyFactory ?? throw new ArgumentNullException(nameof(searchStrategyFactory));
         _orderingStrategyFactory = orderingStrategyFactory ?? throw new ArgumentNullException(nameof(orderingStrategyFactory));
-        _searchStrategy = searchStrategy ?? throw new ArgumentNullException(nameof(searchStrategy));
+        _searchStrategyFactory = searchStrategyFactory ?? throw new ArgumentNullException(nameof(searchStrategyFactory));
         _orderingStrategy = orderingStrategy ?? throw new ArgumentNullException(nameof(orderingStrategy));
+        _searchStrategy = searchStrategy ?? throw new ArgumentNullException(nameof(searchStrategy));
+        StepDelay = stepDelay;
         _searchState = SearchState.Initial;
     }
 
     public int Capacity => _searchStrategy.Capacity;
+
+    public TimeSpan StepDelay { get; set; }
 
     public Search SearchStrategy
     {
@@ -57,14 +61,20 @@ public sealed class BinaryCspSolver<V, D> : IBinaryCspSolver<V, D>
         }
     }
 
-    public Result<V, D> Solve(ISolvableBinaryCsp<V, D> binaryCsp, CancellationToken cancellationToken = default)
+    public async Task<Result<V, D>> SolveAsync(ISolvableBinaryCsp<V, D> binaryCsp,
+        IProgress<StepNotification<V, D>> progress,
+        CancellationToken cancellationToken = default)
     {
         _ = binaryCsp ?? throw new ArgumentNullException(nameof(binaryCsp));
         Guard.AgainstBinaryCspNotModellingProblem(binaryCsp);
 
         try
         {
-            return TrySolve(binaryCsp, cancellationToken);
+            return await TrySolveAsync(binaryCsp, progress, cancellationToken);
+        }
+        catch (TaskCanceledException)
+        {
+            throw new OperationCanceledException(cancellationToken);
         }
         finally
         {
@@ -72,33 +82,31 @@ public sealed class BinaryCspSolver<V, D> : IBinaryCspSolver<V, D>
         }
     }
 
-    public int EnsureCapacity(int capacity) => _searchStrategy.EnsureCapacity(capacity);
+    public static IVerboseBinaryCspSolverBuilder<V, D> Create() => new VerboseBinaryCspSolverBuilder<V, D>();
 
-    public void TrimExcess(int capacity)
-    {
-        _searchStrategy.TrimExcess(capacity);
-    }
-
-    public static IBinaryCspSolverBuilder<V, D> Create() => new BinaryCspSolverBuilder<V, D>();
-
-    private Result<V, D> TrySolve(ISolvableBinaryCsp<V, D> binaryCsp, CancellationToken cancellationToken)
+    private async Task<Result<V, D>> TrySolveAsync(ISolvableBinaryCsp<V, D> binaryCsp,
+        IProgress<StepNotification<V, D>> progress,
+        CancellationToken cancellationToken)
     {
         UpdateSearchState();
         while (true)
         {
-            cancellationToken.ThrowIfCancellationRequested();
+            await Task.Delay(StepDelay, cancellationToken);
             switch (_searchState)
             {
                 case SearchState.Safe:
                     VisitNode();
+                    NotifyOfVisitingStep(progress);
 
                     break;
                 case SearchState.Unsafe:
                     Backtrack();
+                    NotifyOfBacktrackingStep(progress);
 
                     break;
                 case SearchState.Initial:
                     Setup(binaryCsp);
+                    NotifyOfSetupStep(progress);
 
                     break;
                 case SearchState.Final:
@@ -120,6 +128,17 @@ public sealed class BinaryCspSolver<V, D> : IBinaryCspSolver<V, D>
         UpdateSearchState();
     }
 
+    private void NotifyOfSetupStep(IProgress<StepNotification<V, D>> progress)
+    {
+        progress.Report(new StepNotification<V, D>
+        {
+            StepType = StepType.Setup,
+            CurrentSearchState = _searchState,
+            CurrentSearchLevel = GetSearchLevel(),
+            SearchTreeLeafLevel = GetSearchTreeLeafLevel()
+        });
+    }
+
     private void VisitNode()
     {
         _searchStrategy.Visit(_orderingStrategy);
@@ -127,11 +146,34 @@ public sealed class BinaryCspSolver<V, D> : IBinaryCspSolver<V, D>
         UpdateSearchState();
     }
 
+    private void NotifyOfVisitingStep(IProgress<StepNotification<V, D>> progress)
+    {
+        progress.Report(new StepNotification<V, D>
+        {
+            StepType = StepType.Visiting,
+            CurrentSearchState = _searchState,
+            CurrentSearchLevel = GetSearchLevel(),
+            SearchTreeLeafLevel = GetSearchTreeLeafLevel(),
+            LatestAssignment = _searchState != SearchState.Unsafe ? GetLatestAssignment() : null
+        });
+    }
+
     private void Backtrack()
     {
         _searchStrategy.Backtrack();
         _backtrackingSteps++;
         UpdateSearchState();
+    }
+
+    private void NotifyOfBacktrackingStep(IProgress<StepNotification<V, D>> progress)
+    {
+        progress.Report(new StepNotification<V, D>
+        {
+            StepType = StepType.Backtracking,
+            CurrentSearchState = _searchState,
+            CurrentSearchLevel = GetSearchLevel(),
+            SearchTreeLeafLevel = GetSearchTreeLeafLevel()
+        });
     }
 
     private Result<V, D> GetResult() => new()
@@ -152,4 +194,10 @@ public sealed class BinaryCspSolver<V, D> : IBinaryCspSolver<V, D>
         _backtrackingSteps = 0;
         _searchState = SearchState.Initial;
     }
+
+    private int GetSearchLevel() => _searchStrategy.SearchLevel;
+
+    private int GetSearchTreeLeafLevel() => _searchStrategy.SearchTreeLeafLevel;
+
+    private Assignment<V, D> GetLatestAssignment() => _searchStrategy.GetLatestAssignment();
 }

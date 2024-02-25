@@ -3,7 +3,6 @@ using Mjt85.Kolyteon.Solving;
 using Mjt85.Kolyteon.Solving.SearchStrategies;
 using Mjt85.Kolyteon.Solving.SearchStrategies.LookAhead;
 using Mjt85.Kolyteon.Solving.SearchStrategies.LookBack;
-using Mjt85.Kolyteon.Solving.SearchTrees;
 
 namespace Mjt85.Kolyteon.UnitTests.Solving.Internals.SearchStrategies;
 
