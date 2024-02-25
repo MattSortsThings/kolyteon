@@ -16,7 +16,6 @@ internal sealed class VerboseBinaryCspSolverBuilder<V, D> : IVerboseBinaryCspSol
     private Search _searchStrategy;
     private TimeSpan _stepDelay;
 
-
     public IVerboseBinaryCspSolverBuilder<V, D>.IStepDelaySetter WithInitialCapacity(int capacity)
     {
         _capacity = capacity >= 0
