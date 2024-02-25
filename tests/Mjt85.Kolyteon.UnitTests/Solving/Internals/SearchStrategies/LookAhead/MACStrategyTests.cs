@@ -10,10 +10,10 @@ using Moq;
 namespace Mjt85.Kolyteon.UnitTests.Solving.Internals.SearchStrategies.LookAhead;
 
 /// <summary>
-///     Unit tests for the internal <see cref="FLAStrategy{V,D}" /> class, parametrized over the Map Colouring problem
+///     Unit tests for the internal <see cref="MACStrategy{V,D}" /> class, parametrized over the Map Colouring problem
 ///     types.
 /// </summary>
-public sealed class FLAStrategyTests
+public sealed class MACStrategyTests
 {
     private static readonly Region R0 = Region.FromId("R0");
     private static readonly Region R1 = Region.FromId("R1");
@@ -23,8 +23,8 @@ public sealed class FLAStrategyTests
     private static Mock<IOrderingStrategy> MockOrderingStrategyThatNeverReorders()
     {
         Mock<IOrderingStrategy> mock = new();
-        mock.Setup(m => m.GetLevelOfOptimalNode(It.IsAny<IList<FLANode<Region, Colour>>>(), It.IsAny<int>()))
-            .Returns((IList<FLANode<Region, Colour>> _, int searchLevel) => searchLevel);
+        mock.Setup(m => m.GetLevelOfOptimalNode(It.IsAny<IList<MACNode<Region, Colour>>>(), It.IsAny<int>()))
+            .Returns((IList<MACNode<Region, Colour>> _, int searchLevel) => searchLevel);
 
         return mock;
     }
@@ -33,13 +33,78 @@ public sealed class FLAStrategyTests
     public sealed class Identifier_Property
     {
         [Fact]
-        public void Is_FullLookingAhead_SearchEnumValue()
+        public void Is_MaintainingArcConsistency_SearchEnumValue()
         {
             // Arrange
-            FLAStrategy<Region, Colour> sut = new(0);
+            MACStrategy<Region, Colour> sut = new(0);
 
             // Assert
-            sut.Identifier.Should().Be(Search.FullLookingAhead);
+            sut.Identifier.Should().Be(Search.MaintainingArcConsistency);
+        }
+    }
+
+    [UnitTest]
+    public sealed class EnsureCapacity_Method
+    {
+        [Theory]
+        [InlineData(3)]
+        [InlineData(9)]
+        public void CapacityArgIsGreaterThanInstanceCapacity_UpdatesCapacity(int revisedCapacity)
+        {
+            // Arrange
+            const int initialCapacity = 2;
+            MACStrategy<Region, Colour> sut = new(initialCapacity);
+
+            // Assert
+            sut.Capacity.Should().Be(2);
+
+            // Act
+            var newCapacity = sut.EnsureCapacity(revisedCapacity);
+
+            // Assert
+            using (new AssertionScope())
+            {
+                sut.Capacity.Should().BeGreaterOrEqualTo(revisedCapacity, "updated");
+                newCapacity.Should().Be(sut.Capacity);
+            }
+        }
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(1)]
+        public void CapacityArgIsLessThanOrEqualToInstanceCapacity_DoesNotUpdateCapacity(int revisedCapacity)
+        {
+            // Arrange
+            const int initialCapacity = 2;
+            MACStrategy<Region, Colour> sut = new(initialCapacity);
+
+            // Assert
+            sut.Capacity.Should().Be(2);
+
+            // Act
+            var newCapacity = sut.EnsureCapacity(revisedCapacity);
+
+            // Assert
+            using (new AssertionScope())
+            {
+                sut.Capacity.Should().BeGreaterOrEqualTo(revisedCapacity, "unchanged");
+                newCapacity.Should().Be(sut.Capacity);
+            }
+        }
+
+        [Fact]
+        public void CapacityArgIsNegative_Throws()
+        {
+            // Arrange
+            const int initialCapacity = 2;
+            MACStrategy<Region, Colour> sut = new(initialCapacity);
+
+            // Act
+            Action act = () => sut.EnsureCapacity(-1);
+
+            // Assert
+            act.Should().Throw<ArgumentOutOfRangeException>()
+                .WithMessage("Non-negative number required. (Parameter 'capacity')");
         }
     }
 
@@ -51,7 +116,7 @@ public sealed class FLAStrategyTests
         public void StateIsInitial_SetupInvoked_NodeHasZeroCandidates_SearchLevelIsRootLevel_StateIsFinal()
         {
             // Arrange
-            FLAStrategy<Region, Colour> sut = new(3);
+            MACStrategy<Region, Colour> sut = new(3);
             Mock<IOrderingStrategy> mockOrderingStrategy = MockOrderingStrategyThatNeverReorders();
 
             MapColouringBinaryCsp binaryCsp = GetBinaryCsp.ModellingProblem(MapColouringPuzzle.Create()
@@ -118,7 +183,7 @@ public sealed class FLAStrategyTests
         public void StateIsInitial_SetupInvoked_RootArcConsistencyEnforcementExhaustsNode_SearchLevelIsRootLevel_StateIsFinal()
         {
             // Arrange
-            FLAStrategy<Region, Colour> sut = new(3);
+            MACStrategy<Region, Colour> sut = new(3);
             Mock<IOrderingStrategy> mockOrderingStrategy = MockOrderingStrategyThatNeverReorders();
 
             MapColouringBinaryCsp binaryCsp = GetBinaryCsp.ModellingProblem(MapColouringPuzzle.Create()
@@ -187,7 +252,7 @@ public sealed class FLAStrategyTests
         public void StateIsInitial_SetupInvoked_RootLevelSafetyCheckPasses_SearchLevelIsZero_StateIsSafe()
         {
             // Arrange
-            FLAStrategy<Region, Colour> sut = new(3);
+            MACStrategy<Region, Colour> sut = new(3);
             Mock<IOrderingStrategy> mockOrderingStrategy = MockOrderingStrategyThatNeverReorders();
 
             MapColouringBinaryCsp binaryCsp = GetBinaryCsp.ModellingProblem(MapColouringPuzzle.Create()
@@ -256,7 +321,7 @@ public sealed class FLAStrategyTests
         public void StateIsSafe_VisitInvoked_AssignmentMade_SearchLevelIsNextNonLeafLevel_StateIsSafe()
         {
             // Arrange
-            FLAStrategy<Region, Colour> sut = new(4);
+            MACStrategy<Region, Colour> sut = new(4);
             Mock<IOrderingStrategy> mockOrderingStrategy = MockOrderingStrategyThatNeverReorders();
 
             MapColouringBinaryCsp binaryCsp = GetBinaryCsp.ModellingProblem(MapColouringPuzzle.Create()
@@ -350,6 +415,10 @@ public sealed class FLAStrategyTests
                     {
                         second.PrunedNode.VariableIndex.Should().Be(3);
                         second.PrunedCandidate.Should().Be(1);
+                    }, third =>
+                    {
+                        third.PrunedNode.VariableIndex.Should().Be(1);
+                        third.PrunedCandidate.Should().Be(0);
                     });
                 }, at1 =>
                 {
@@ -357,7 +426,7 @@ public sealed class FLAStrategyTests
                     at1.SearchTreeLevel.Should().Be(1);
                     at1.BacktrackLevel.Should().Be(0);
                     at1.DomainValueIndex.Should().Be(-1);
-                    at1.Candidates.Should().Equal(0, 1);
+                    at1.Candidates.Should().Equal(1);
                     at1.RejectedCandidates.Should().BeEmpty();
                     at1.Successors.Should().SatisfyRespectively(first =>
                         first.VariableIndex.Should().Be(3));
@@ -390,7 +459,7 @@ public sealed class FLAStrategyTests
         public void StateIsSafe_VisitInvoked_AssignmentMade_SearchLevelIsLeafLevel_StateIsFinal()
         {
             // Arrange
-            FLAStrategy<Region, Colour> sut = new(2);
+            MACStrategy<Region, Colour> sut = new(2);
             Mock<IOrderingStrategy> mockOrderingStrategy = MockOrderingStrategyThatNeverReorders();
 
             MapColouringBinaryCsp binaryCsp = GetBinaryCsp.ModellingProblem(MapColouringPuzzle.Create()
@@ -482,7 +551,7 @@ public sealed class FLAStrategyTests
         public void StateIsSafe_VisitInvoked_CandidatesExhausted_SearchLevelIsUnchanged_StateIsUnsafe()
         {
             // Arrange
-            FLAStrategy<Region, Colour> sut = new(4);
+            MACStrategy<Region, Colour> sut = new(4);
             Mock<IOrderingStrategy> mockOrderingStrategy = MockOrderingStrategyThatNeverReorders();
 
             MapColouringBinaryCsp binaryCsp = GetBinaryCsp.ModellingProblem(MapColouringPuzzle.Create()
@@ -609,7 +678,7 @@ public sealed class FLAStrategyTests
         public void StateIsUnsafe_BacktrackInvoked_SearchLevelIsEarlierNonLeafLevel_CandidatesNotExhausted_StateIsSafe()
         {
             // Arrange
-            FLAStrategy<Region, Colour> sut = new(4);
+            MACStrategy<Region, Colour> sut = new(4);
             Mock<IOrderingStrategy> mockOrderingStrategy = MockOrderingStrategyThatNeverReorders();
 
             MapColouringBinaryCsp binaryCsp = GetBinaryCsp.ModellingProblem(MapColouringPuzzle.Create()
@@ -620,8 +689,8 @@ public sealed class FLAStrategyTests
                 .AddRegionWithColours(R3, Colour.Black, Colour.Red, Colour.White)
                 .SetAsNeighbours(R0, R3)
                 .SetAsNeighbours(R1, R2)
-                .SetAsNeighbours(R2, R3)
                 .SetAsNeighbours(R1, R3)
+                .SetAsNeighbours(R2, R3)
                 .Build());
 
             sut.Setup(binaryCsp, mockOrderingStrategy.Object);
@@ -679,9 +748,9 @@ public sealed class FLAStrategyTests
                     at3.VariableIndex.Should().Be(3);
                     at3.SearchTreeLevel.Should().Be(3);
                     at3.BacktrackLevel.Should().Be(2);
-                    at3.DomainValueIndex.Should().Be(-1);
                     at3.Candidates.Should().Equal(0, 2);
                     at3.RejectedCandidates.Should().BeEmpty();
+                    at3.DomainValueIndex.Should().Be(-1);
                     at3.Successors.Should().BeEmpty();
                     at3.PruningMemos.Should().BeEmpty();
                 });
@@ -732,9 +801,9 @@ public sealed class FLAStrategyTests
                     at3.VariableIndex.Should().Be(3);
                     at3.SearchTreeLevel.Should().Be(3);
                     at3.BacktrackLevel.Should().Be(2);
-                    at3.DomainValueIndex.Should().Be(-1);
                     at3.Candidates.Should().Equal(0, 2, 1);
                     at3.RejectedCandidates.Should().BeEmpty();
+                    at3.DomainValueIndex.Should().Be(-1);
                     at3.Successors.Should().BeEmpty();
                     at3.PruningMemos.Should().BeEmpty();
                 });
@@ -745,7 +814,7 @@ public sealed class FLAStrategyTests
         public void StateIsUnsafe_BacktrackInvoked_SearchLevelIsEarlierNonLeafLevel_CandidatesExhausted_StateIsUnsafe()
         {
             // Arrange
-            FLAStrategy<Region, Colour> sut = new(4);
+            MACStrategy<Region, Colour> sut = new(4);
             Mock<IOrderingStrategy> mockOrderingStrategy = MockOrderingStrategyThatNeverReorders();
 
             MapColouringBinaryCsp binaryCsp = GetBinaryCsp.ModellingProblem(MapColouringPuzzle.Create()
@@ -756,8 +825,8 @@ public sealed class FLAStrategyTests
                 .AddRegionWithColours(R3, Colour.Black, Colour.Red, Colour.White)
                 .SetAsNeighbours(R0, R3)
                 .SetAsNeighbours(R1, R2)
-                .SetAsNeighbours(R2, R3)
                 .SetAsNeighbours(R1, R3)
+                .SetAsNeighbours(R2, R3)
                 .Build());
 
             sut.Setup(binaryCsp, mockOrderingStrategy.Object);
@@ -811,9 +880,9 @@ public sealed class FLAStrategyTests
                     at3.VariableIndex.Should().Be(3);
                     at3.SearchTreeLevel.Should().Be(3);
                     at3.BacktrackLevel.Should().Be(2);
-                    at3.DomainValueIndex.Should().Be(-1);
                     at3.Candidates.Should().Equal(0, 2);
                     at3.RejectedCandidates.Should().BeEmpty();
+                    at3.DomainValueIndex.Should().Be(-1);
                     at3.Successors.Should().BeEmpty();
                     at3.PruningMemos.Should().BeEmpty();
                 });
@@ -864,9 +933,9 @@ public sealed class FLAStrategyTests
                     at3.VariableIndex.Should().Be(3);
                     at3.SearchTreeLevel.Should().Be(3);
                     at3.BacktrackLevel.Should().Be(2);
-                    at3.DomainValueIndex.Should().Be(-1);
                     at3.Candidates.Should().Equal(0, 2);
                     at3.RejectedCandidates.Should().BeEmpty();
+                    at3.DomainValueIndex.Should().Be(-1);
                     at3.Successors.Should().BeEmpty();
                     at3.PruningMemos.Should().BeEmpty();
                 });
@@ -877,7 +946,7 @@ public sealed class FLAStrategyTests
         public void StateIsUnsafe_BacktrackInvoked_SearchLevelIsRootLevel_StateIsFinal()
         {
             // Arrange
-            FLAStrategy<Region, Colour> sut = new(3);
+            MACStrategy<Region, Colour> sut = new(3);
             Mock<IOrderingStrategy> mockOrderingStrategy = MockOrderingStrategyThatNeverReorders();
 
             MapColouringBinaryCsp binaryCsp = GetBinaryCsp.ModellingProblem(MapColouringPuzzle.Create()
@@ -988,7 +1057,7 @@ public sealed class FLAStrategyTests
         public void StateIsSafe_SearchLevelIsZero_ReturnsEmptyArray()
         {
             // Arrange
-            FLAStrategy<Region, Colour> sut = new(1);
+            MACStrategy<Region, Colour> sut = new(1);
             Mock<IOrderingStrategy> stubOrderingStrategy = new();
 
             MapColouringBinaryCsp binaryCsp = GetBinaryCsp.ModellingProblem(MapColouringPuzzle.Create()
@@ -1009,7 +1078,7 @@ public sealed class FLAStrategyTests
         public void StateIsSafe_SearchLevelIsGreaterThanZeroAndLessThanLeafLevel_ReturnsArrayOfAllPastAssignments()
         {
             // Arrange
-            FLAStrategy<Region, Colour> sut = new(3);
+            MACStrategy<Region, Colour> sut = new(3);
             Mock<IOrderingStrategy> stubOrderingStrategy = new();
 
             MapColouringBinaryCsp binaryCsp = GetBinaryCsp.ModellingProblem(MapColouringPuzzle.Create()
@@ -1038,7 +1107,7 @@ public sealed class FLAStrategyTests
         public void StateIsFinal_SearchLevelIsLeafLevel_ReturnsArrayOfOneAssignmentForEveryBinaryCspVariable()
         {
             // Arrange
-            FLAStrategy<Region, Colour> sut = new(3);
+            MACStrategy<Region, Colour> sut = new(3);
             Mock<IOrderingStrategy> stubOrderingStrategy = new();
 
             MapColouringBinaryCsp binaryCsp = GetBinaryCsp.ModellingProblem(MapColouringPuzzle.Create()
@@ -1069,7 +1138,7 @@ public sealed class FLAStrategyTests
         [Fact]
         public void StateIsFinal_SearchLevelIsRootLevel_ReturnsEmptyArray()
         {
-            FLAStrategy<Region, Colour> sut = new(3);
+            MACStrategy<Region, Colour> sut = new(3);
             Mock<IOrderingStrategy> stubOrderingStrategy = new();
 
             MapColouringBinaryCsp binaryCsp = GetBinaryCsp.ModellingProblem(MapColouringPuzzle.Create()
@@ -1098,7 +1167,7 @@ public sealed class FLAStrategyTests
         public void StateIsInitial_ReturnsEmptyArray()
         {
             // Arrange
-            FLAStrategy<Region, Colour> sut = new(1);
+            MACStrategy<Region, Colour> sut = new(1);
 
             // Act
             Assignment<Region, Colour>[] result = sut.GetAssignments();
@@ -1116,7 +1185,7 @@ public sealed class FLAStrategyTests
         public void StateIsFinal_SearchLevelIsLeafLevel_SetsSearchStateToInitial_SetsSearchLevelToRoot_ClearsSearchTree()
         {
             // Arrange
-            FLAStrategy<Region, Colour> sut = new(3);
+            MACStrategy<Region, Colour> sut = new(3);
             Mock<IOrderingStrategy> stubOrderingStrategy = new();
 
             MapColouringBinaryCsp binaryCsp = GetBinaryCsp.ModellingProblem(MapColouringPuzzle.Create()
@@ -1154,7 +1223,7 @@ public sealed class FLAStrategyTests
         public void SearchLevelIsBetweenLeafAndRootLevels_SetsSearchStateToInitial_SetsSearchLevelToRoot_ClearsSearchTree()
         {
             // Arrange
-            FLAStrategy<Region, Colour> sut = new(3);
+            MACStrategy<Region, Colour> sut = new(3);
             Mock<IOrderingStrategy> stubOrderingStrategy = new();
 
             MapColouringBinaryCsp binaryCsp = GetBinaryCsp.ModellingProblem(MapColouringPuzzle.Create()
@@ -1191,7 +1260,7 @@ public sealed class FLAStrategyTests
         public void StateIsFinal_SearchLevelIsRootLevel_SetsSearchStateToInitial_ClearsSearchTree()
         {
             // Arrange
-            FLAStrategy<Region, Colour> sut = new(1);
+            MACStrategy<Region, Colour> sut = new(1);
             Mock<IOrderingStrategy> stubOrderingStrategy = new();
 
             MapColouringBinaryCsp binaryCsp = GetBinaryCsp.ModellingProblem(MapColouringPuzzle.Create()
@@ -1228,7 +1297,7 @@ public sealed class FLAStrategyTests
         public void StateIsInitial_DoesNothing()
         {
             // Arrange
-            FLAStrategy<Region, Colour> sut = new(1);
+            MACStrategy<Region, Colour> sut = new(1);
 
             // Assert
             using (new AssertionScope())

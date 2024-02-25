@@ -63,6 +63,7 @@ public static class SearchStrategyFactoryTests
                 Add(Search.ForwardChecking, typeof(FCStrategy<,>));
                 Add(Search.PartialLookingAhead, typeof(PLAStrategy<,>));
                 Add(Search.FullLookingAhead, typeof(FLAStrategy<,>));
+                Add(Search.MaintainingArcConsistency, typeof(MACStrategy<,>));
             }
         }
     }

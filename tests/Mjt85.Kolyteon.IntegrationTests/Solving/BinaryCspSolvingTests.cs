@@ -428,5 +428,33 @@ public abstract class BinaryCspSolvingTests
 
             protected override Ordering OrderingStrategy => Ordering.MaxTightness;
         }
+
+        public sealed class MAC_plus_NO : BinaryCspSolvingTests
+        {
+            protected override Search SearchStrategy => Search.MaintainingArcConsistency;
+
+            protected override Ordering OrderingStrategy => Ordering.None;
+        }
+
+        public sealed class MAC_plus_BZ : BinaryCspSolvingTests
+        {
+            protected override Search SearchStrategy => Search.MaintainingArcConsistency;
+
+            protected override Ordering OrderingStrategy => Ordering.Brelaz;
+        }
+
+        public sealed class MAC_plus_MC : BinaryCspSolvingTests
+        {
+            protected override Search SearchStrategy => Search.MaintainingArcConsistency;
+
+            protected override Ordering OrderingStrategy => Ordering.MaxCardinality;
+        }
+
+        public sealed class MAC_plus_MT : BinaryCspSolvingTests
+        {
+            protected override Search SearchStrategy => Search.MaintainingArcConsistency;
+
+            protected override Ordering OrderingStrategy => Ordering.MaxTightness;
+        }
     }
 }

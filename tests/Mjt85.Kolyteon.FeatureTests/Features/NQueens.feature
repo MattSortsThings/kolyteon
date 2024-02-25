@@ -90,3 +90,7 @@ As a developer, I want to represent any N-Queens puzzle in code so that I can mo
       | FullLookingAhead            | Brelaz         |
       | FullLookingAhead            | MaxCardinality |
       | FullLookingAhead            | MaxTightness   |
+      | MaintainingArcConsistency   | None           |
+      | MaintainingArcConsistency   | Brelaz         |
+      | MaintainingArcConsistency   | MaxCardinality |
+      | MaintainingArcConsistency   | MaxTightness   |

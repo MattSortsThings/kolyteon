@@ -101,3 +101,7 @@ As a developer, I want to represent any Map Colouring puzzle in code so that I c
       | FullLookingAhead            | Brelaz         |
       | FullLookingAhead            | MaxCardinality |
       | FullLookingAhead            | MaxTightness   |
+      | MaintainingArcConsistency   | None           |
+      | MaintainingArcConsistency   | Brelaz         |
+      | MaintainingArcConsistency   | MaxCardinality |
+      | MaintainingArcConsistency   | MaxTightness   |

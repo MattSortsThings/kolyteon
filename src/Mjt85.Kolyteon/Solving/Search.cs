@@ -8,5 +8,6 @@ public enum Search
     ConflictDirectedBackjumping,
     ForwardChecking,
     PartialLookingAhead,
-    FullLookingAhead
+    FullLookingAhead,
+    MaintainingArcConsistency
 }

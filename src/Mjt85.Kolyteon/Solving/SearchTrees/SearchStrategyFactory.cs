@@ -12,6 +12,7 @@ internal sealed class SearchStrategyFactory<V, D> : ISearchStrategyFactory<V, D>
     {
         return strategy switch
         {
+            Search.MaintainingArcConsistency => new MACStrategy<V, D>(capacity),
             Search.FullLookingAhead => new FLAStrategy<V, D>(capacity),
             Search.PartialLookingAhead => new PLAStrategy<V, D>(capacity),
             Search.ForwardChecking => new FCStrategy<V, D>(capacity),

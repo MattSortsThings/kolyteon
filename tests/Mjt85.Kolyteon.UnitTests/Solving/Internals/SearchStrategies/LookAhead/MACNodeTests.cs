@@ -7,9 +7,9 @@ using Mjt85.Kolyteon.UnitTests.Helpers;
 namespace Mjt85.Kolyteon.UnitTests.Solving.Internals.SearchStrategies.LookAhead;
 
 /// <summary>
-///     Unit tests for the internal <see cref="FLANode{V,D}" /> class, parametrized over the Map Colouring problem types.
+///     Unit tests for the internal <see cref="MACNode{V,D}" /> class, parametrized over the Map Colouring problem types.
 /// </summary>
-public sealed class FLANodeTests
+public sealed class MACNodeTests
 {
     private static readonly Region R0 = Region.FromId("R0");
     private static readonly Region R1 = Region.FromId("R1");
@@ -17,28 +17,28 @@ public sealed class FLANodeTests
     private static readonly Region R3 = Region.FromId("R3");
     private static readonly Region R4 = Region.FromId("R4");
 
-    private static FLANodeBuilder GetNode() => new();
+    private static MACNodeBuilder GetNode() => new();
 
-    private class FLANodeBuilder
+    private class MACNodeBuilder
     {
         private ISolvableBinaryCsp<Region, Colour>? _binaryCsp;
         private int _variableIndex;
 
-        public FLANodeBuilder WithBinaryCsp(ISolvableBinaryCsp<Region, Colour> binaryCsp)
+        public MACNodeBuilder WithBinaryCsp(ISolvableBinaryCsp<Region, Colour> binaryCsp)
         {
             _binaryCsp = binaryCsp;
 
             return this;
         }
 
-        public FLANodeBuilder WithVariableIndex(int index)
+        public MACNodeBuilder WithVariableIndex(int index)
         {
             _variableIndex = index;
 
             return this;
         }
 
-        public FLANode<Region, Colour> Build() => new(_binaryCsp!, _variableIndex);
+        public MACNode<Region, Colour> Build() => new(_binaryCsp!, _variableIndex);
     }
 
     [UnitTest]
@@ -51,7 +51,7 @@ public sealed class FLANodeTests
             IEnumerable<int> expected)
         {
             // Arrange
-            FLANode<Region, Colour> sut = GetNode()
+            MACNode<Region, Colour> sut = GetNode()
                 .WithBinaryCsp(GetBinaryCsp.ModellingProblem(puzzle))
                 .WithVariableIndex(variableIndex)
                 .Build();
@@ -87,7 +87,7 @@ public sealed class FLANodeTests
         public void IsInitiallyEmpty()
         {
             // Arrange
-            FLANode<Region, Colour> sut = GetNode()
+            MACNode<Region, Colour> sut = GetNode()
                 .WithBinaryCsp(GetBinaryCsp.ModellingProblem(MapColouringPuzzle.Create()
                     .WithGlobalColours(Colour.Black, Colour.White)
                     .AddRegion(R0)
@@ -107,7 +107,7 @@ public sealed class FLANodeTests
         public void IsAlwaysOneLessThanSearchTreeLevelOfInstance()
         {
             // Arrange
-            FLANode<Region, Colour> sut = GetNode()
+            MACNode<Region, Colour> sut = GetNode()
                 .WithBinaryCsp(GetBinaryCsp.ModellingProblem(MapColouringPuzzle.Create()
                     .WithGlobalColours(Colour.Black, Colour.White)
                     .AddRegion(R0)
@@ -133,7 +133,7 @@ public sealed class FLANodeTests
         public void IsInitiallyMinusOne()
         {
             // Arrange
-            FLANode<Region, Colour> sut = GetNode()
+            MACNode<Region, Colour> sut = GetNode()
                 .WithBinaryCsp(GetBinaryCsp.ModellingProblem(MapColouringPuzzle.Create()
                     .WithGlobalColours(Colour.Black, Colour.White)
                     .AddRegion(R0)
@@ -156,7 +156,7 @@ public sealed class FLANodeTests
         public void IsInitiallySameAsVariableIndex(int variableIndex)
         {
             // Arrange
-            FLANode<Region, Colour> sut = GetNode()
+            MACNode<Region, Colour> sut = GetNode()
                 .WithBinaryCsp(GetBinaryCsp.ModellingProblem(MapColouringPuzzle.Create()
                     .WithGlobalColours(Colour.Black, Colour.White)
                     .AddRegions([R0, R1, R2])
@@ -177,7 +177,7 @@ public sealed class FLANodeTests
         public void IsInitiallyDomainSizeOfVariable(MapColouringPuzzle puzzle, int variableIndex, int expected)
         {
             // Arrange
-            FLANode<Region, Colour> sut = GetNode()
+            MACNode<Region, Colour> sut = GetNode()
                 .WithBinaryCsp(GetBinaryCsp.ModellingProblem(puzzle))
                 .WithVariableIndex(variableIndex)
                 .Build();
@@ -214,7 +214,7 @@ public sealed class FLANodeTests
         public void IsDegreeOfVariable(MapColouringPuzzle puzzle, int variableIndex, int expected)
         {
             // Arrange
-            FLANode<Region, Colour> sut = GetNode()
+            MACNode<Region, Colour> sut = GetNode()
                 .WithBinaryCsp(GetBinaryCsp.ModellingProblem(puzzle))
                 .WithVariableIndex(variableIndex)
                 .Build();
@@ -253,7 +253,7 @@ public sealed class FLANodeTests
         public void IsSumTightnessOfVariable(MapColouringPuzzle puzzle, int variableIndex, double expectedTo6DP)
         {
             // Arrange
-            FLANode<Region, Colour> sut = GetNode()
+            MACNode<Region, Colour> sut = GetNode()
                 .WithBinaryCsp(GetBinaryCsp.ModellingProblem(puzzle))
                 .WithVariableIndex(variableIndex)
                 .Build();
@@ -291,7 +291,7 @@ public sealed class FLANodeTests
         public void IsInitiallyEmpty()
         {
             // Arrange
-            FLANode<Region, Colour> sut = GetNode()
+            MACNode<Region, Colour> sut = GetNode()
                 .WithBinaryCsp(GetBinaryCsp.ModellingProblem(MapColouringPuzzle.Create()
                     .WithGlobalColours(Colour.Black, Colour.White)
                     .AddRegion(R0)
@@ -313,7 +313,7 @@ public sealed class FLANodeTests
         public void IsInitiallyEmpty()
         {
             // Arrange
-            FLANode<Region, Colour> sut = GetNode()
+            MACNode<Region, Colour> sut = GetNode()
                 .WithBinaryCsp(GetBinaryCsp.ModellingProblem(MapColouringPuzzle.Create()
                     .WithGlobalColours(Colour.Black, Colour.White)
                     .AddRegion(R0)
@@ -342,8 +342,8 @@ public sealed class FLANodeTests
                 .SetAsNeighbours(R0, R1)
                 .Build());
 
-            FLANode<Region, Colour> nodeAt0 = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(0).Build();
-            FLANode<Region, Colour> nodeAt1 = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(1).Build();
+            MACNode<Region, Colour> nodeAt0 = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(0).Build();
+            MACNode<Region, Colour> nodeAt1 = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(1).Build();
 
             // Assert
             using (new AssertionScope())
@@ -363,8 +363,8 @@ public sealed class FLANodeTests
                 .AddRegion(R1)
                 .Build());
 
-            FLANode<Region, Colour> nodeAt0 = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(0).Build();
-            FLANode<Region, Colour> nodeAt1 = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(1).Build();
+            MACNode<Region, Colour> nodeAt0 = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(0).Build();
+            MACNode<Region, Colour> nodeAt1 = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(1).Build();
 
             // Assert
             using (new AssertionScope())
@@ -382,7 +382,7 @@ public sealed class FLANodeTests
         public void UpdatesDomainValueIndex()
         {
             // Arrange
-            FLANode<Region, Colour> sut = GetNode().WithBinaryCsp(GetBinaryCsp.ModellingProblem(MapColouringPuzzle.Create()
+            MACNode<Region, Colour> sut = GetNode().WithBinaryCsp(GetBinaryCsp.ModellingProblem(MapColouringPuzzle.Create()
                     .WithGlobalColours(Colour.Black, Colour.White)
                     .AddRegion(R0)
                     .Build()))
@@ -422,8 +422,8 @@ public sealed class FLANodeTests
                 .SetAsNeighbours(R0, R1)
                 .Build());
 
-            FLANode<Region, Colour> nodeAt0 = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(0).Build();
-            FLANode<Region, Colour> nodeAt1 = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(1).Build();
+            MACNode<Region, Colour> nodeAt0 = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(0).Build();
+            MACNode<Region, Colour> nodeAt1 = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(1).Build();
 
             nodeAt0.AssignNextCandidate();
             nodeAt1.AssignNextCandidate();
@@ -447,8 +447,8 @@ public sealed class FLANodeTests
                 .SetAsNeighbours(R0, R1)
                 .Build());
 
-            FLANode<Region, Colour> nodeAt0 = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(0).Build();
-            FLANode<Region, Colour> nodeAt1 = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(1).Build();
+            MACNode<Region, Colour> nodeAt0 = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(0).Build();
+            MACNode<Region, Colour> nodeAt1 = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(1).Build();
 
             nodeAt0.AssignNextCandidate();
             nodeAt1.AssignNextCandidate();
@@ -471,8 +471,8 @@ public sealed class FLANodeTests
                 .AddRegion(R1)
                 .Build());
 
-            FLANode<Region, Colour> nodeAt0 = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(0).Build();
-            FLANode<Region, Colour> nodeAt1 = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(1).Build();
+            MACNode<Region, Colour> nodeAt0 = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(0).Build();
+            MACNode<Region, Colour> nodeAt1 = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(1).Build();
 
             nodeAt0.AssignNextCandidate();
             nodeAt1.AssignNextCandidate();
@@ -493,7 +493,7 @@ public sealed class FLANodeTests
         public void RejectsFirstCandidate_ResetsDomainValueIndexToNoAssignment()
         {
             // Arrange
-            FLANode<Region, Colour> sut = GetNode().WithBinaryCsp(GetBinaryCsp.ModellingProblem(MapColouringPuzzle.Create()
+            MACNode<Region, Colour> sut = GetNode().WithBinaryCsp(GetBinaryCsp.ModellingProblem(MapColouringPuzzle.Create()
                     .WithGlobalColours(Colour.Black, Colour.White)
                     .AddRegion(R0)
                     .Build()))
@@ -530,7 +530,7 @@ public sealed class FLANodeTests
         public void EnqueuesAllRejectedCandidatesInCandidatesQueueThenClearsRejectedCandidates()
         {
             // Arrange
-            FLANode<Region, Colour> sut = GetNode().WithBinaryCsp(GetBinaryCsp.ModellingProblem(MapColouringPuzzle.Create()
+            MACNode<Region, Colour> sut = GetNode().WithBinaryCsp(GetBinaryCsp.ModellingProblem(MapColouringPuzzle.Create()
                     .WithGlobalColours(Colour.Black, Colour.Red, Colour.White)
                     .AddRegion(R0)
                     .Build()))
@@ -564,7 +564,7 @@ public sealed class FLANodeTests
         public void RejectedCandidatesIsEmpty_DoesNothing()
         {
             // Arrange
-            FLANode<Region, Colour> sut = GetNode().WithBinaryCsp(GetBinaryCsp.ModellingProblem(MapColouringPuzzle.Create()
+            MACNode<Region, Colour> sut = GetNode().WithBinaryCsp(GetBinaryCsp.ModellingProblem(MapColouringPuzzle.Create()
                     .WithGlobalColours(Colour.Black, Colour.White)
                     .AddRegion(R0)
                     .Build()))
@@ -606,13 +606,13 @@ public sealed class FLANodeTests
                 .SetAsNeighbours(R2, R3)
                 .Build());
 
-            FLANode<Region, Colour> nodeAt0 = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(0).Build();
-            FLANode<Region, Colour> nodeAt1 = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(1).Build();
-            FLANode<Region, Colour> nodeAt2 = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(2).Build();
-            FLANode<Region, Colour> nodeAt3 = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(3).Build();
-            FLANode<Region, Colour> nodeAt4 = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(4).Build();
+            MACNode<Region, Colour> nodeAt0 = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(0).Build();
+            MACNode<Region, Colour> nodeAt1 = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(1).Build();
+            MACNode<Region, Colour> nodeAt2 = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(2).Build();
+            MACNode<Region, Colour> nodeAt3 = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(3).Build();
+            MACNode<Region, Colour> nodeAt4 = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(4).Build();
 
-            FLANode<Region, Colour>[] searchTree = [nodeAt0, nodeAt1, nodeAt2, nodeAt3, nodeAt4];
+            MACNode<Region, Colour>[] searchTree = [nodeAt0, nodeAt1, nodeAt2, nodeAt3, nodeAt4];
 
             // Assert
             nodeAt1.Successors.Should().BeEmpty();
@@ -639,8 +639,8 @@ public sealed class FLANodeTests
                 .SetAsNeighbours(R0, R1)
                 .Build());
 
-            FLANode<Region, Colour> sut = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(0).Build();
-            FLANode<Region, Colour> operand = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(1).Build();
+            MACNode<Region, Colour> sut = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(0).Build();
+            MACNode<Region, Colour> operand = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(1).Build();
 
             sut.RepopulateSuccessors([sut, operand]);
             sut.AssignNextCandidate();
@@ -682,8 +682,8 @@ public sealed class FLANodeTests
                 .SetAsNeighbours(R0, R1)
                 .Build());
 
-            FLANode<Region, Colour> sut = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(0).Build();
-            FLANode<Region, Colour> operand = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(1).Build();
+            MACNode<Region, Colour> sut = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(0).Build();
+            MACNode<Region, Colour> operand = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(1).Build();
 
             sut.RepopulateSuccessors([sut, operand]);
             sut.AssignNextCandidate();
@@ -729,9 +729,9 @@ public sealed class FLANodeTests
                 .SetAsNeighbours(R0, R2)
                 .Build());
 
-            FLANode<Region, Colour> sut = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(0).Build();
-            FLANode<Region, Colour> operandAt1 = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(1).Build();
-            FLANode<Region, Colour> operandAt2 = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(2).Build();
+            MACNode<Region, Colour> sut = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(0).Build();
+            MACNode<Region, Colour> operandAt1 = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(1).Build();
+            MACNode<Region, Colour> operandAt2 = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(2).Build();
 
             sut.RepopulateSuccessors([sut, operandAt1, operandAt2]);
             sut.AssignNextCandidate();
@@ -782,9 +782,9 @@ public sealed class FLANodeTests
                 .SetAsNeighbours(R1, R2)
                 .Build());
 
-            FLANode<Region, Colour> sut = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(0).Build();
-            FLANode<Region, Colour> operandNode = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(1).Build();
-            FLANode<Region, Colour> contextNode = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(2).Build();
+            MACNode<Region, Colour> sut = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(0).Build();
+            MACNode<Region, Colour> operandNode = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(1).Build();
+            MACNode<Region, Colour> contextNode = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(2).Build();
 
             // Assert
             using (new AssertionScope())
@@ -830,9 +830,9 @@ public sealed class FLANodeTests
                 .SetAsNeighbours(R1, R2)
                 .Build());
 
-            FLANode<Region, Colour> sut = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(0).Build();
-            FLANode<Region, Colour> operandNode = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(1).Build();
-            FLANode<Region, Colour> contextNode = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(2).Build();
+            MACNode<Region, Colour> sut = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(0).Build();
+            MACNode<Region, Colour> operandNode = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(1).Build();
+            MACNode<Region, Colour> contextNode = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(2).Build();
 
             // Assert
             using (new AssertionScope())
@@ -878,8 +878,8 @@ public sealed class FLANodeTests
                 .SetAsNeighbours(R0, R1)
                 .Build());
 
-            FLANode<Region, Colour> sut = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(0).Build();
-            FLANode<Region, Colour> other = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(1).Build();
+            MACNode<Region, Colour> sut = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(0).Build();
+            MACNode<Region, Colour> other = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(1).Build();
 
             other.AssignNextCandidate();
 
@@ -900,8 +900,8 @@ public sealed class FLANodeTests
                 .SetAsNeighbours(R0, R1)
                 .Build());
 
-            FLANode<Region, Colour> sut = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(0).Build();
-            FLANode<Region, Colour> other = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(1).Build();
+            MACNode<Region, Colour> sut = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(0).Build();
+            MACNode<Region, Colour> other = GetNode().WithBinaryCsp(binaryCsp).WithVariableIndex(1).Build();
 
             other.AssignNextCandidate();
 
