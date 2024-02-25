@@ -1,6 +1,4 @@
-﻿using Mjt85.Kolyteon.Solving.SearchStrategies;
-
-namespace Mjt85.Kolyteon.Solving.SearchTrees;
+﻿namespace Mjt85.Kolyteon.Solving.SearchStrategies;
 
 internal interface ISearchStrategyFactory<V, D>
     where V : struct, IComparable<V>, IEquatable<V>

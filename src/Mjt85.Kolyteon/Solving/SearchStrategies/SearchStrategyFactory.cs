@@ -1,8 +1,7 @@
-﻿using Mjt85.Kolyteon.Solving.SearchStrategies;
-using Mjt85.Kolyteon.Solving.SearchStrategies.LookAhead;
+﻿using Mjt85.Kolyteon.Solving.SearchStrategies.LookAhead;
 using Mjt85.Kolyteon.Solving.SearchStrategies.LookBack;
 
-namespace Mjt85.Kolyteon.Solving.SearchTrees;
+namespace Mjt85.Kolyteon.Solving.SearchStrategies;
 
 internal sealed class SearchStrategyFactory<V, D> : ISearchStrategyFactory<V, D>
     where V : struct, IComparable<V>, IEquatable<V>
