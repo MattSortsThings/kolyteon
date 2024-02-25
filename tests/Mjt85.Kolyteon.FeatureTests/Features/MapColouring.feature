@@ -97,3 +97,7 @@ As a developer, I want to represent any Map Colouring puzzle in code so that I c
       | PartialLookingAhead         | Brelaz         |
       | PartialLookingAhead         | MaxCardinality |
       | PartialLookingAhead         | MaxTightness   |
+      | FullLookingAhead            | None           |
+      | FullLookingAhead            | Brelaz         |
+      | FullLookingAhead            | MaxCardinality |
+      | FullLookingAhead            | MaxTightness   |

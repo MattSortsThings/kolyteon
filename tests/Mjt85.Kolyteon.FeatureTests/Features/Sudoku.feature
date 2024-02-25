@@ -139,3 +139,7 @@ As a developer, I want to represent any Sudoku puzzle in code so that I can mode
       | PartialLookingAhead         | Brelaz         |
       | PartialLookingAhead         | MaxCardinality |
       | PartialLookingAhead         | MaxTightness   |
+      | FullLookingAhead            | None           |
+      | FullLookingAhead            | Brelaz         |
+      | FullLookingAhead            | MaxCardinality |
+      | FullLookingAhead            | MaxTightness   |

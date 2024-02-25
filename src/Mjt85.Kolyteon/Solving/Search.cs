@@ -7,5 +7,6 @@ public enum Search
     GraphBasedBackjumping,
     ConflictDirectedBackjumping,
     ForwardChecking,
-    PartialLookingAhead
+    PartialLookingAhead,
+    FullLookingAhead
 }

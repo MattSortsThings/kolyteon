@@ -62,6 +62,7 @@ public static class SearchStrategyFactoryTests
                 Add(Search.ConflictDirectedBackjumping, typeof(CBJStrategy<,>));
                 Add(Search.ForwardChecking, typeof(FCStrategy<,>));
                 Add(Search.PartialLookingAhead, typeof(PLAStrategy<,>));
+                Add(Search.FullLookingAhead, typeof(FLAStrategy<,>));
             }
         }
     }

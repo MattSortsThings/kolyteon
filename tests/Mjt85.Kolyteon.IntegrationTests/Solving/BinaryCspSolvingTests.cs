@@ -400,5 +400,33 @@ public abstract class BinaryCspSolvingTests
 
             protected override Ordering OrderingStrategy => Ordering.MaxTightness;
         }
+
+        public sealed class FLA_plus_NO : BinaryCspSolvingTests
+        {
+            protected override Search SearchStrategy => Search.FullLookingAhead;
+
+            protected override Ordering OrderingStrategy => Ordering.None;
+        }
+
+        public sealed class FLA_plus_BZ : BinaryCspSolvingTests
+        {
+            protected override Search SearchStrategy => Search.FullLookingAhead;
+
+            protected override Ordering OrderingStrategy => Ordering.Brelaz;
+        }
+
+        public sealed class FLA_plus_MC : BinaryCspSolvingTests
+        {
+            protected override Search SearchStrategy => Search.FullLookingAhead;
+
+            protected override Ordering OrderingStrategy => Ordering.MaxCardinality;
+        }
+
+        public sealed class FLA_plus_MT : BinaryCspSolvingTests
+        {
+            protected override Search SearchStrategy => Search.FullLookingAhead;
+
+            protected override Ordering OrderingStrategy => Ordering.MaxTightness;
+        }
     }
 }
