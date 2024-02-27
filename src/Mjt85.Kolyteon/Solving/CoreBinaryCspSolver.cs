@@ -11,6 +11,7 @@ public abstract class CoreBinaryCspSolver<V, D>
     private readonly IOrderingStrategyFactory _orderingStrategyFactory;
     private readonly ISearchStrategyFactory<V, D> _searchStrategyFactory;
     private long _backtrackingSteps;
+    private bool _locked;
     private IOrderingStrategy _orderingStrategy;
     private ISearchStrategy<V, D> _searchStrategy;
     private long _setupSteps;
@@ -35,6 +36,7 @@ public abstract class CoreBinaryCspSolver<V, D>
         get => _searchStrategy.Identifier;
         set
         {
+            ThrowIfLocked();
             if (value != _searchStrategy.Identifier)
             {
                 _searchStrategy = _searchStrategyFactory.CreateInstance(value, _searchStrategy.Capacity);
@@ -47,6 +49,7 @@ public abstract class CoreBinaryCspSolver<V, D>
         get => _orderingStrategy.Identifier;
         set
         {
+            ThrowIfLocked();
             if (value != _orderingStrategy.Identifier)
             {
                 _orderingStrategy = _orderingStrategyFactory.CreateInstance(value);
@@ -113,4 +116,16 @@ public abstract class CoreBinaryCspSolver<V, D>
     private protected int GetSearchTreeLeafLevel() => _searchStrategy.SearchTreeLeafLevel;
 
     private protected Assignment<V, D> GetLatestAssignment() => _searchStrategy.GetLatestAssignment();
+
+    private protected void ThrowIfLocked()
+    {
+        if (_locked)
+        {
+            throw new InvalidOperationException("solving operation is in progress.");
+        }
+    }
+
+    private protected void Lock() => _locked = true;
+
+    private protected void Unlock() => _locked = false;
 }

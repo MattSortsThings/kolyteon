@@ -10,6 +10,8 @@ public sealed class VerboseBinaryCspSolver<V, D> : CoreBinaryCspSolver<V, D>, IV
     where V : struct, IComparable<V>, IEquatable<V>
     where D : struct, IComparable<D>, IEquatable<D>
 {
+    private TimeSpan _stepDelay;
+
     internal VerboseBinaryCspSolver(ISearchStrategyFactory<V, D> searchStrategyFactory,
         IOrderingStrategyFactory orderingStrategyFactory,
         ISearchStrategy<V, D> searchStrategy,
@@ -17,17 +19,27 @@ public sealed class VerboseBinaryCspSolver<V, D> : CoreBinaryCspSolver<V, D>, IV
         TimeSpan stepDelay)
         : base(searchStrategyFactory, orderingStrategyFactory, searchStrategy, orderingStrategy)
     {
-        StepDelay = stepDelay;
+        _stepDelay = stepDelay;
     }
 
-    public TimeSpan StepDelay { get; set; }
+    public TimeSpan StepDelay
+    {
+        get => _stepDelay;
+        set
+        {
+            ThrowIfLocked();
+            _stepDelay = value;
+        }
+    }
 
     public async Task<Result<V, D>> SolveAsync(ISolvableBinaryCsp<V, D> binaryCsp,
         IProgress<StepNotification<V, D>> progress,
         CancellationToken cancellationToken = default)
     {
         _ = binaryCsp ?? throw new ArgumentNullException(nameof(binaryCsp));
+        ThrowIfLocked();
         Guard.AgainstBinaryCspNotModellingProblem(binaryCsp);
+        Lock();
 
         try
         {
@@ -40,6 +52,7 @@ public sealed class VerboseBinaryCspSolver<V, D> : CoreBinaryCspSolver<V, D>, IV
         finally
         {
             Reset();
+            Unlock();
         }
     }
 
@@ -52,7 +65,7 @@ public sealed class VerboseBinaryCspSolver<V, D> : CoreBinaryCspSolver<V, D>, IV
         UpdateSearchState();
         while (true)
         {
-            await Task.Delay(StepDelay, cancellationToken);
+            await Task.Delay(_stepDelay, cancellationToken);
             switch (CurrentSearchState)
             {
                 case SearchState.Safe:

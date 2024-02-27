@@ -21,7 +21,9 @@ public sealed class BinaryCspSolver<V, D> : CoreBinaryCspSolver<V, D>, IBinaryCs
     public Result<V, D> Solve(ISolvableBinaryCsp<V, D> binaryCsp, CancellationToken cancellationToken = default)
     {
         _ = binaryCsp ?? throw new ArgumentNullException(nameof(binaryCsp));
+        ThrowIfLocked();
         Guard.AgainstBinaryCspNotModellingProblem(binaryCsp);
+        Lock();
 
         try
         {
@@ -30,6 +32,7 @@ public sealed class BinaryCspSolver<V, D> : CoreBinaryCspSolver<V, D>, IBinaryCs
         finally
         {
             Reset();
+            Unlock();
         }
     }
 
