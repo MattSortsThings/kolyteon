@@ -180,8 +180,8 @@ public readonly record struct Queen : IComparable<Queen>
     /// {
     ///   public static void Main()
     ///   {
-    ///     Queen q0 = new(0,0);
-    ///     Queen q1 = (10,3);
+    ///     Queen q0 = new(0, 0);
+    ///     Queen q1 = new(10, 3);
     /// 
     ///     Console.WriteLine(q0);
     ///     Console.WriteLine(q1);

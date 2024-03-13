@@ -13,6 +13,7 @@ namespace Mjt85.Kolyteon.NQueens;
 ///         chess board so that no two queens can capture each other. In chess, a queen can capture any piece on the same
 ///         row or column or diagonal.
 ///     </para>
+///     <para>The <i>N</i>-Queens puzzle is solvable for every value of <i>N</i> except 2 and 3.</para>
 ///     <para>
 ///         An instance of the <see cref="NQueensPuzzle" /> record type is an immutable data structure that represents an
 ///         <i>N</i>-Queens puzzle. The record type exposes a single read-only <see cref="N" /> property. It can only be
@@ -79,7 +80,7 @@ public sealed record NQueensPuzzle
     /// </summary>
     /// <remarks>
     ///     This method applies the following validation checks to the <paramref name="solution" /> parameter sequentially and
-    ///     returns on the first validation error encountered (if any):
+    ///     returns the first validation error encountered (if any):
     ///     <list type="number">
     ///         <item>
     ///             The number of <see cref="Queen" /> instances in the <paramref name="solution" /> is equal to

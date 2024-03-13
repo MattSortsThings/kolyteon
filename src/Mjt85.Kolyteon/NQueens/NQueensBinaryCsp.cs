@@ -23,12 +23,24 @@ public sealed class NQueensBinaryCsp : BinaryCsp<NQueensPuzzle, int, Queen>
     {
     }
 
+    /// <inheritdoc />
     protected override void PopulateProblemData(NQueensPuzzle problem) => _n = problem.N;
 
+    /// <inheritdoc />
     protected override void ClearProblemData() => _n = default;
 
+    /// <inheritdoc />
+    /// <remarks>
+    ///     In a binary CSP modelling an <i>N</i>-Queens puzzle, the variables are the <i>N</i> consecutive column indexes
+    ///     from 0 to (<i>N</i>-1).
+    /// </remarks>
     protected override IEnumerable<int> GetVariables() => Enumerable.Range(0, _n);
 
+    /// <inheritdoc />
+    /// <remarks>
+    ///     In a binary CSP modelling an <i>N</i>-Queens puzzle, for a column index variable <i>V</i>, its domain is the
+    ///     set of possible queens for all the squares in the column.
+    /// </remarks>
     protected override IEnumerable<Queen> GetDomainOf(int variable)
     {
         var column = variable;
@@ -36,8 +48,16 @@ public sealed class NQueensBinaryCsp : BinaryCsp<NQueensPuzzle, int, Queen>
         return from row in Enumerable.Range(0, _n) select new Queen(column, row);
     }
 
+    /// <inheritdoc />
+    /// <remarks>
+    ///     In a binary CSP modelling an <i>N</i>-Queens puzzle, every pair of column index variables participates in a
+    ///     binary constraint. The predicate states that the two column indexes must be assigned non-capturing queens.
+    /// </remarks>
     protected override IBinaryPredicate<Queen> GetBinaryPredicateFor(int variable1, int variable2) => CannotCapture;
 
+    /// <summary>
+    ///     Defines the binary constraint predicate that two queens cannot capture each other.
+    /// </summary>
     private sealed class CannotCapturePredicate : IBinaryPredicate<Queen>
     {
         public bool CanAssign(in Queen domainValue1, in Queen domainValue2) => !domainValue1.CanCapture(domainValue2);
