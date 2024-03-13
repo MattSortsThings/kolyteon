@@ -1,6 +1,9 @@
 <buildprofiles xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/build-profiles.xsd">
     <variables>
-        <primary-color>iris</primary-color>
+        <primary-color>metallic</primary-color>
+        <custom-favicons>kolyteon-logo-500x00.png</custom-favicons>
+        <header-logo>kolyteon-logo-500x00.png</header-logo>
+        <product-web-url>https://github.com/MattSortsThings/kolyteon</product-web-url>
     </variables>
 </buildprofiles>
