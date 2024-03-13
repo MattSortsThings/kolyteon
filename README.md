@@ -25,6 +25,10 @@
   - can be slowed down by setting a time delay between steps
 - Interfaces for the generic binary CSP and the solvers, so that they can be injected as dependencies.
 
+## Documentation
+
+The documentation can be found at <https://mattsortsthings.github.io/kolyteon>.
+
 ## Background
 
 This library originated as project work I undertook as part of my Postgraduate Diploma in Computer Science from Birkbeck, University of London. All coding work is my own, but the underlying algorithms are well-established in CSP literature.
