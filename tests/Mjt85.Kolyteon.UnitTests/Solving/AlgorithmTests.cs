@@ -16,6 +16,9 @@ public sealed class AlgorithmTests
 
             // Act
             var result = sut.ToShortCode();
+            
+            // Assert
+            result.Should().Be(expected);
         }
 
         private sealed class TestCases : TheoryData<Search, Ordering, string>
