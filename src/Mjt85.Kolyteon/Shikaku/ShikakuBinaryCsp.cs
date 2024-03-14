@@ -98,7 +98,7 @@ public sealed class ShikakuBinaryCsp : BinaryCsp<ShikakuPuzzle, Hint, Rectangle>
     ///     In the Shikaku binary CSP model, there is a notional binary constraint for every pair of hint variables. The
     ///     constraint has a binary predicate that asserts that the two hints must be assigned non-overlapping rectangles. The
     ///     constraint is only added to the binary CSP if it is genuine, that is, if there exists at least one pair of
-    ///     overlapping rectangles from the cartesian product of the variables' domains.
+    ///     overlapping rectangles from the Cartesian product of the variables' domains.
     /// </remarks>
     protected override IBinaryPredicate<Rectangle> GetBinaryPredicateFor(Hint variable1, Hint variable2) =>
         RectanglesDoNotOverlap;
