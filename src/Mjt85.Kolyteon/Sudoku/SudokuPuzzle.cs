@@ -9,29 +9,29 @@ namespace Mjt85.Kolyteon.Sudoku;
 /// </summary>
 /// <remarks>
 ///     <para>
-///         A Sudoku puzzle comprises a 9x9 square grid of cells, sub-divided into 9 3x3 sectors. Some of the cells contain
-///         numbers from the range [1,9].
+///         A Sudoku puzzle comprises a 9x9 square grid of cells. The grid is sub-divided into 9 3x3 sectors. Some of the
+///         cells are filled with a number from the range [1,9].
 ///     </para>
 ///     <para>
-///         To solve the puzzle, one must fill all the empty cells with numbers from the range [1,9] so that every column,
-///         row, and sector contains all the numbers from 1 to 9 exactly once.
+///         To solve the puzzle, one must fill every empty cell in the grid with a number from the range [1,9], so that the
+///         numbers 1-9 appear exactly once in every column, row and sector.
 ///     </para>
 ///     <para>
-///         A <see cref="SudokuPuzzle" /> instance is an immutable data structure exposing <see cref="FilledCells" />
-///         property and a static <see cref="GridSideLength" /> field with the value of 9. It represents a valid (but not
-///         necessarily solvable) puzzle if the size of the <see cref="FilledCells" /> list is less than 81, and no pair of
-///         items in the <see cref="FilledCells" /> list having equal <see cref="FilledCell.Number" /> values also have
-///         equal <see cref="FilledCell.Column" />, <see cref="FilledCell.Row" />, or <see cref="FilledCell.Sector" />
-///         values.
+///         A Sudoku puzzle is valid (but not necessarily solvable) if:
+///         <list type="bullet">
+///             <item>it has at least one empty cell, <i>and</i></item>
+///             <item>no two filled cells in the same column, row, or sector are filled with the same number.</item>
+///         </list>
 ///     </para>
 ///     <para>
-///         This type can only be instantiated outside its assembly by one of the following means:
+///         A <see cref="SudokuPuzzle" /> instance is an immutable data structure representing a Sudoku puzzle. This type
+///         can only be instantiated outside its assembly by:
 ///         <list type="bullet">
 ///             <item>
-///                 Using the <see cref="FromGrid" /> static factory method, which throws an exception if the instantiated
-///                 puzzle is invalid thereby guaranteeing a valid puzzle.
+///                 using the <see cref="FromGrid" /> static factory method, which validates the instantiated puzzle and
+///                 throws an exception if it is invalid, <i>or</i>
 ///             </item>
-///             <item>Deserialization, which does not validate the instantiated puzzle.</item>
+///             <item>deserialization.</item>
 ///         </list>
 ///     </para>
 /// </remarks>
@@ -39,18 +39,14 @@ namespace Mjt85.Kolyteon.Sudoku;
 public sealed record SudokuPuzzle
 {
     /// <summary>
-    ///     The puzzle grid's height in cells and width in cells (9).
+    ///     Represents the puzzle grid height and width in cells, which is 9.
     /// </summary>
-    /// <value>A read-only 32-bit signed integer. The puzzle grid's height in cells and width in cells (9).</value>
     public const int GridSideLength = 9;
 
     /// <summary>
     ///     Initializes a new <see cref="SudokuPuzzle" /> instance with the specified <see cref="FilledCells" /> list.
     /// </summary>
-    /// <remarks>
-    ///     This internal constructor is for deserialization and testing only. Use the <see cref="FromGrid" /> static factory
-    ///     method to instantiate this type outside its assembly.
-    /// </remarks>
+    /// <remarks>This internal constructor is for deserialization and testing only.</remarks>
     /// <param name="filledCells">The puzzle's filled cells.</param>
     /// <exception cref="ArgumentNullException"><paramref name="filledCells" /> is <c>null</c>.</exception>
     [JsonConstructor]
@@ -62,17 +58,17 @@ public sealed record SudokuPuzzle
     /// <summary>
     ///     Gets the puzzle's filled cells.
     /// </summary>
-    /// <remarks>The contents of this may be in any order.</remarks>
+    /// <remarks>No assumptions should be made about the ordering of the values in this list.</remarks>
     /// <value>A read-only list of <see cref="FilledCell" /> instances. The puzzle's filled cells.</value>
     public IReadOnlyList<FilledCell> FilledCells { get; } = Array.Empty<FilledCell>();
 
     /// <summary>
-    ///     Determines whether this instance and the specified <see cref="SudokuPuzzle" /> instance have equal value,
-    ///     that is, they represent logically identical Sudoku puzzles.
+    ///     Determines whether this instance and the specified <see cref="SudokuPuzzle" /> instance have equal value, that is,
+    ///     they represent logically identical Sudoku puzzles.
     /// </summary>
     /// <remarks>
-    ///     Two <see cref="SudokuPuzzle" /> instances are equal if their respective <see cref="FilledCells" /> lists contain
-    ///     logically equivalent items (irrespective of order).
+    ///     Two <see cref="SudokuPuzzle" /> instances are equal if their respective <see cref="FilledCells" /> lists
+    ///     contain the exact same values (irrespective of order).
     /// </remarks>
     /// <param name="other">The <see cref="SudokuPuzzle" /> instance against which this instance is to be compared.</param>
     /// <returns>
@@ -105,21 +101,26 @@ public sealed record SudokuPuzzle
     ///     Determines whether the proposed solution is valid for the Sudoku puzzle represented by this instance.
     /// </summary>
     /// <remarks>
-    ///     This method applies the following validation checks to the <paramref name="solution" /> parameter sequentially and
-    ///     returns on the first validation error encountered (if any):
+    ///     This method applies the following validation checks to the <paramref name="solution" /> parameter sequentially, and
+    ///     returns the first validation error encountered (if any):
     ///     <list type="number">
     ///         <item>
-    ///             The number of <see cref="FilledCell" /> instances in the <paramref name="solution" /> is equal to the
-    ///             number of <see cref="FilledCell" /> instances in <see cref="FilledCells" /> subtracted from 81 (i.e. the
-    ///             number of empty cells in the puzzle).
+    ///             The number of filled cells in the <paramref name="solution" /> list and the number of filled cells in this
+    ///             instance's <see cref="FilledCells" /> list sum to 81.
     ///         </item>
     ///         <item>No pair of filled cells in the solution is in the same cell.</item>
-    ///         <item>No pair of filled cells in the solution obstruct each other.</item>
-    ///         <item>No filled cell in the solution is in the same cell as any filled cell in the puzzle.</item>
-    ///         <item>No filled cell in the solution obstructs any filled cell in the puzzle.</item>
+    ///         <item>
+    ///             No pair of filled cells in the solution have the same number while also being in the same column, row or
+    ///             sector.
+    ///         </item>
+    ///         <item>No filled cell in the solution is in the same same as any filled cell in the puzzle.</item>
+    ///         <item>
+    ///             No filled cell in the solution has the same number as any filled cell in the puzzle that is in the same
+    ///             column, row or sector.
+    ///         </item>
     ///     </list>
     /// </remarks>
-    /// <param name="solution">A list of <see cref="FilledCell" /> instances. The proposed solution to the puzzle.</param>
+    /// <param name="solution">A list of <see cref="FilledCell" /> values. The proposed solution to the puzzle.</param>
     /// <returns>
     ///     <see cref="ValidationResult.Success" /> (i.e. <c>null</c>) if the <paramref name="solution" /> parameter is a
     ///     valid solution; otherwise, a <see cref="ValidationResult" /> instance with an error message reporting the first
@@ -134,21 +135,43 @@ public sealed record SudokuPuzzle
     }
 
     /// <summary>
-    ///     Creates and returns a new <see cref="SudokuPuzzle" /> from the specified grid.
+    ///     Creates and returns a new <see cref="SudokuPuzzle" /> instance from the specified grid.
     /// </summary>
     /// <remarks>
-    ///     Static factory method. Any <see cref="SudokuPuzzle" /> instance returned by this method is guaranteed to represent
-    ///     a valid (but not necessarily solvable) Sudoku puzzle.
+    ///     Static factory method. Any <see cref="SudokuPuzzle" /> instance returned from this method is guaranteed to
+    ///     represent a valid (but not necessarily solvable) Sudoku puzzle.
     /// </remarks>
+    /// <example>
+    ///     <code>
+    /// class Example
+    /// {
+    ///   public static void Main()
+    ///   {
+    ///     SudokuPuzzle puzzle = SudokuPuzzle.FromGrid(new int?[,]
+    ///     {
+    ///       { null,    2,    3,    4,    5, null, null, null, null },
+    ///       {    4, null, null,    7, null,    9,    1,    2,    3 },
+    ///       {    7,    8,    9,    1,    2,    3,    4,    5, null },
+    ///       {    8,    9,    1,    2, null,    4,    5,    6, null },
+    ///       {    2,    3, null,    5, null,    7, null,    9,    1 },
+    ///       { null,    6,    7,    8,    9,    1,    2,    3,    4 },
+    ///       { null,    7,    8,    9, null,    2,    3,    4,    5 },
+    ///       {    9, null,    2,    3,    4,    5,    6,    7,    8 },
+    ///       { null, null, null,    6,    7,    8,    9, null,    2 }
+    ///     });
+    ///   }
+    /// }
+    /// </code>
+    /// </example>
     /// <param name="grid">
-    ///     A 2-dimensional square grid of size 9x9, in which any non-null value is a fixed number in the range [1,9]. The grid
-    ///     to be converted.
+    ///     A 2-dimensional array of nullable integers, of size 9x9, in which every non-null value is a number in the range
+    ///     [1,9] and represents a filled cell in the puzzle.
     /// </param>
     /// <returns>A new <see cref="SudokuPuzzle" /> instance.</returns>
-    /// <exception cref="ArgumentNullException"><see cref="grid" /> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="grid" /> is <c>null</c>.</exception>
     /// <exception cref="ArgumentException">
-    ///     <see cref="grid" /> has a rank 0 length not equal to 9, or has a rank 1 length not equal to 9, or contains a
-    ///     non-null value less than 1, or contains a non-null value greater than 9.
+    ///     <paramref name="grid" /> has a rank-0 length not equal to 9; or, <paramref name="grid" /> has a rank-1 length not
+    ///     equal to 9; or, <paramref name="grid" /> contains a non-null value less than 1 or greater than 9.
     /// </exception>
     /// <exception cref="InvalidOperationException">
     ///     The instantiated <see cref="SudokuPuzzle" /> does not represent a valid Sudoku puzzle.

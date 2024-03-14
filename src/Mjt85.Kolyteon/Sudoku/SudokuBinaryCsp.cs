@@ -21,13 +21,14 @@ public sealed class SudokuBinaryCsp : BinaryCsp<SudokuPuzzle, EmptyCell, int>
     ///     initial capacity.
     /// </summary>
     /// <param name="capacity">
-    ///     The number of binary CSP variables the new <see cref="SudokuBinaryCsp" /> instance can initially store.
+    ///     The maximum number of binary CSP variables the new <see cref="SudokuBinaryCsp" /> can initially store without
+    ///     needing to resize its internal data structures.
     /// </param>
-    /// <exception cref="ArgumentOutOfRangeException"><paramref name="capacity" /> is negative.</exception>
     public SudokuBinaryCsp(int capacity) : base(capacity)
     {
     }
 
+    /// <inheritdoc />
     protected override void PopulateProblemData(SudokuPuzzle problem)
     {
         foreach (var (column, row, sector, number) in problem.FilledCells)
@@ -39,6 +40,7 @@ public sealed class SudokuBinaryCsp : BinaryCsp<SudokuPuzzle, EmptyCell, int>
         }
     }
 
+    /// <inheritdoc />
     protected override void ClearProblemData()
     {
         foreach (BitArray arr in _freeNumbersByColumn.Concat(_freeNumbersByRow).Concat(_freeNumbersBySector).Append(_emptyCells))
@@ -47,6 +49,8 @@ public sealed class SudokuBinaryCsp : BinaryCsp<SudokuPuzzle, EmptyCell, int>
         }
     }
 
+    /// <inheritdoc />
+    /// <remarks>In the Sudoku binary CSP model, the variables are the set of all empty cells in the puzzle grid.</remarks>
     protected override IEnumerable<EmptyCell> GetVariables()
     {
         var column = 0;
@@ -63,6 +67,18 @@ public sealed class SudokuBinaryCsp : BinaryCsp<SudokuPuzzle, EmptyCell, int>
         }
     }
 
+    /// <inheritdoc />
+    /// <remarks>
+    ///     In the Sudoku binary CSP model, the domain of an empty cell variable is the set difference of <i>N</i> \ (<i>C</i>
+    ///     &#8746; <i>R</i> &#8746; <i>S</i>), where:
+    ///     <list type="bullet">
+    ///         <item><i>N</i> is the set of all integers from the range [1,9], and</item>
+    ///         <item>
+    ///             <i>C</i>, <i>R</i> and <i>S</i> are the sets of all integers from filled cells in the empty cell's
+    ///             column, row and sector respectively.
+    ///         </item>
+    ///     </list>
+    /// </remarks>
     protected override IEnumerable<int> GetDomainOf(EmptyCell variable)
     {
         var (column, row, sector) = variable;
@@ -80,6 +96,12 @@ public sealed class SudokuBinaryCsp : BinaryCsp<SudokuPuzzle, EmptyCell, int>
         }
     }
 
+    /// <inheritdoc />
+    /// <remarks>
+    ///     In the Sudoku binary CSP model, there is a notional binary constraint for every pair of empty cell variables
+    ///     that share a column, row or sector. The constraint has a binary predicate that asserts that the two empty cells
+    ///     must be assigned different integer values.
+    /// </remarks>
     protected override IBinaryPredicate<int> GetBinaryPredicateFor(EmptyCell variable1, EmptyCell variable2) =>
         variable1.Column == variable2.Column
         || variable1.Row == variable2.Row

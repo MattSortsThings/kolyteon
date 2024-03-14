@@ -3,24 +3,18 @@
 namespace Mjt85.Kolyteon.Sudoku;
 
 /// <summary>
-///     Represents an empty cell in a puzzle grid.
+///     Represents an empty cell in a Sudoku puzzle grid.
 /// </summary>
 /// <remarks>
-///     <para>
-///         An <see cref="EmptyCell" /> instance is identified by its <see cref="Column" /> and <see cref="Row" /> values,
-///         which are the zero-based indexes of the cell's column and row in the puzzle grid. Grid columns are indexed from
-///         left to right; rows are indexed from top to bottom. An additional <see cref="Sector" /> value is the zero-based
-///         index of the cell's 3x3 sector in the puzzle grid.
-///     </para>
-///     <para>
-///         Two <see cref="EmptyCell" /> instances with equal value represent the same empty cell in the grid.
-///     </para>
+///     Puzzle grid columns are zero-indexed from left to right. Rows are zero-indexed from top to bottom. Sectors are
+///     zero-indexed, starting with the top-left (0), then centre-left (1), then bottom-left (2), then top-centre (3), and
+///     so on to the bottom-right (8).
 /// </remarks>
 [Serializable]
 public readonly record struct EmptyCell : IComparable<EmptyCell>
 {
     /// <summary>
-    ///     Initializes a new <see cref="EmptyCell" /> instance with the default <see cref="Column" />, <see cref="Row" />, and
+    ///     Initializes a new <see cref="EmptyCell" /> instance with default <see cref="Column" />, <see cref="Row" /> and
     ///     <see cref="Sector" /> values of 0.
     /// </summary>
     public EmptyCell() : this(0, 0)
@@ -31,10 +25,11 @@ public readonly record struct EmptyCell : IComparable<EmptyCell>
     ///     Initializes a new <see cref="EmptyCell" /> instance with the specified <see cref="Column" /> and <see cref="Row" />
     ///     values and a calculated <see cref="Sector" /> value.
     /// </summary>
-    /// <param name="column">The zero-based index of the cell's column in the puzzle grid (indexed from left to right).</param>
-    /// <param name="row">The zero-based index of the cell's row in the puzzle grid (indexed from top to bottom).</param>
+    /// <param name="column">The zero-based index of the cell's column in the puzzle grid.</param>
+    /// <param name="row">The zero-based index of the cell's row in the puzzle grid.</param>
     /// <exception cref="ArgumentOutOfRangeException">
-    ///     <paramref name="column" /> is negative or greater than 8, or <paramref name="row" /> is negative or greater than 8.
+    ///     <paramref name="column" /> is negative or greater than 8; or, <paramref name="row" /> is negative or greater than
+    ///     8.
     /// </exception>
     [JsonConstructor]
     public EmptyCell(int column, int row)
@@ -51,29 +46,21 @@ public readonly record struct EmptyCell : IComparable<EmptyCell>
     }
 
     /// <summary>
-    ///     Gets the zero-based index of the cell's column in the puzzle grid (indexed from left to right).
+    ///     Gets the zero-based index of the cell's column in the puzzle grid.
     /// </summary>
-    /// <value>
-    ///     A 32-bit signed integer in the range [0,8]. The zero-based index of the cell's column in the puzzle grid (indexed
-    ///     from left to right).
-    /// </value>
+    /// <value>A 32-bit signed integer in the range [0,8]. The zero-based index of the cell's column in the puzzle grid.</value>
     public int Column { get; }
 
     /// <summary>
-    ///     Gets the zero-based index of the cell's row in the puzzle grid (indexed from top to bottom).
+    ///     Gets the zero-based index of the cell's row in the puzzle grid.
     /// </summary>
-    /// <value>
-    ///     A 32-bit signed integer in the range [0,8]. The zero-based index of the cell's row in the puzzle grid (indexed from
-    ///     top to bottom).
-    /// </value>
+    /// <value>A 32-bit signed integer in the range [0,8]. The zero-based index of the cell's row in the puzzle grid.</value>
     public int Row { get; }
 
     /// <summary>
-    ///     Gets the zero-based index of the cell's 3x3 sector in the puzzle grid.
+    ///     Gets the zero-based index of the cell's sector in the puzzle grid.
     /// </summary>
-    /// <value>
-    ///     A 32-bit signed integer in the range [0,8]. The zero-based index of the cell's 3x3 sector in the puzzle grid.
-    /// </value>
+    /// <value>A 32-bit signed integer in the range [0,8]. The zero-based index of the cell's sector in the puzzle grid.</value>
     [JsonIgnore]
     public int Sector { get; }
 
@@ -82,7 +69,7 @@ public readonly record struct EmptyCell : IComparable<EmptyCell>
     ///     whether this instance precedes, follows, or appears in the same position in the sort order as the other.
     /// </summary>
     /// <remarks>
-    ///     <see cref="EmptyCell" /> instances are sorted in ascending order by <see cref="Column" /> value then by
+    ///     <see cref="EmptyCell" /> instances are sorted in ascending order by <see cref="Column" /> value, then by
     ///     <see cref="Row" /> value.
     /// </remarks>
     /// <param name="other">The <see cref="EmptyCell" /> instance against which this instance is to be compared.</param>
@@ -118,31 +105,20 @@ public readonly record struct EmptyCell : IComparable<EmptyCell>
 
     /// <summary>
     ///     Determines whether this instance and the specified <see cref="EmptyCell" /> instance have equal value, that is,
-    ///     they represent the same empty cell in the puzzle grid.
+    ///     they represent the same cell in the puzzle grid.
     /// </summary>
     /// <remarks>
-    ///     Two <see cref="EmptyCell" /> instances have equal value if their <see cref="Column" /> values are equal and their
-    ///     <see cref="Row" /> values are equal.
+    ///     Two <see cref="EmptyCell" /> instances have equal value if:
+    ///     <list type="bullet">
+    ///         <item>their <see cref="Column" /> values are equal, <i>and</i></item>
+    ///         <item>their <see cref="Row" /> values are equal.</item>
+    ///     </list>
     /// </remarks>
     /// <param name="other">The <see cref="EmptyCell" /> instance against which this instance is to be compared.</param>
     /// <returns>
-    ///     <c>true</c> if this instance and the <paramref name="other" /> parameter have equal value; otherwise,
-    ///     <c>false</c>.
+    ///     <c>true</c> if this instance and the <paramref name="other" /> parameter have equal value; otherwise, <c>false</c>.
     /// </returns>
     public bool Equals(EmptyCell other) => Column == other.Column && Row == other.Row;
-
-    /// <summary>
-    ///     Deconstructs this instance.
-    /// </summary>
-    /// <param name="column">The zero-based index of the cell's column in the puzzle grid (indexed from left to right).</param>
-    /// <param name="row">The zero-based index of the cell's row in the puzzle grid (indexed from top to bottom).</param>
-    /// <param name="sector">The zero-based index of the cell's 3x3 sector in the puzzle grid.</param>
-    public void Deconstruct(out int column, out int row, out int sector)
-    {
-        column = Column;
-        row = Row;
-        sector = Sector;
-    }
 
     /// <summary>
     ///     Gets the hash code for this instance.
@@ -151,17 +127,33 @@ public readonly record struct EmptyCell : IComparable<EmptyCell>
     public override int GetHashCode() => HashCode.Combine(Column, Row);
 
     /// <summary>
+    ///     Deconstructs this instance.
+    /// </summary>
+    /// <param name="column">The zero-based index of the cell's column in the puzzle grid.</param>
+    /// <param name="row">The zero-based index of the cell's row in the puzzle grid.</param>
+    /// <param name="sector">The zero-based index of the cell's sector in the puzzle grid.</param>
+    public void Deconstruct(out int column, out int row, out int sector)
+    {
+        column = Column;
+        row = Row;
+        sector = Sector;
+    }
+
+
+    /// <summary>
     ///     Creates and returns the string representation of this instance.
     /// </summary>
-    /// <remarks>An <see cref="EmptyCell" /> instance is represented by a string in the format <c>"({Row},{Column})"</c>.</remarks>
+    /// <remarks>
+    ///     An <see cref="EmptyCell" /> instance is represented by a string in the format <c>"({Row},{Column})"</c>.
+    /// </remarks>
     /// <example>
     ///     <code>
     /// class Example
     /// {
     ///   public static void Main()
     ///   {
-    ///     EmptyCell e0 = new(0,0);
-    ///     EmptyCell e1 = (8,3);
+    ///     EmptyCell e0 = new(0, 0);
+    ///     EmptyCell e1 = new(8, 3);
     /// 
     ///     Console.WriteLine(e0);
     ///     Console.WriteLine(e1);

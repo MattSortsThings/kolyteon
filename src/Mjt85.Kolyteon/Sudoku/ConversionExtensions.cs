@@ -16,7 +16,7 @@ public static class ConversionExtensions
     /// </remarks>
     /// <param name="assignments">The assignments to be converted.</param>
     /// <returns>
-    ///     A new read-only list of <see cref="FilledCell" /> instances, containing one instance for every assignment in this
+    ///     A new read-only list of <see cref="FilledCell" /> values, containing one value for every assignment in this
     ///     enumerable.
     /// </returns>
     public static IReadOnlyList<FilledCell> ToPuzzleSolution(this IEnumerable<Assignment<EmptyCell, int>> assignments)
