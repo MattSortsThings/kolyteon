@@ -48,15 +48,15 @@ public readonly record struct Hint : IComparable<Hint>
     }
 
     /// <summary>
-    ///     Gets the zero-based index of the hint cell's column in the puzzle grid.
+    ///     Gets the zero-based column index of the hint's cell in the puzzle grid.
     /// </summary>
-    /// <value>A non-negative 32-bit signed integer. The zero-based index of the hint cell's column in the puzzle grid.</value>
+    /// <value>A non-negative 32-bit signed integer. The zero-based column index of the hint's cell in the puzzle grid.</value>
     public int Column { get; }
 
     /// <summary>
-    ///     Gets the zero-based index of the hint cell's row in the puzzle grid.
+    ///     Gets the zero-based row index of the hint's cell in the puzzle grid.
     /// </summary>
-    /// <value>A non-negative 32-bit signed integer. The zero-based index of the hint cell's row in the puzzle grid.</value>
+    /// <value>A non-negative 32-bit signed integer. The zero-based row index of the hint's cell in the puzzle grid.</value>
     public int Row { get; }
 
     /// <summary>
@@ -138,8 +138,8 @@ public readonly record struct Hint : IComparable<Hint>
     /// <summary>
     ///     Deconstructs this instance.
     /// </summary>
-    /// <param name="column">The zero-based index of the hint cell's column in the puzzle grid.</param>
-    /// <param name="row">The zero-based index of the hint cell's row in the puzzle grid.</param>
+    /// <param name="column">The zero-based column index of the hint's cell in the puzzle grid.</param>
+    /// <param name="row">The zero-based row index of the hint's cell in the puzzle grid.</param>
     /// <param name="number">The number that fills the hint's cell.</param>
     public void Deconstruct(out int column, out int row, out int number)
     {
