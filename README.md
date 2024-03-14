@@ -1,6 +1,11 @@
 # Kolyteon
 
-**A .NET class library for modelling common problems as generic binary CSPs (constraint satisfaction problems) and solving them using a choice of 32 different algorithms.**
+<div align="center">
+<img src="docs/site/Writerside/images/kolyteon-logo-500x500.png" alt="Kolyteon logo"/>
+
+### A .NET class library for modelling common problems as generic binary CSPs (constraint satisfaction problems) and solving them using a choice of 32 different algorithms.
+
+</div>
 
 ## Key features
 
