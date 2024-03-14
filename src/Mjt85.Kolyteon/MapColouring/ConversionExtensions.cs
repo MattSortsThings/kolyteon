@@ -16,7 +16,7 @@ public static class ConversionExtensions
     /// </remarks>
     /// <param name="assignments">The assignments to be converted.</param>
     /// <returns>
-    ///     A new <see cref="Dictionary{TKey,TValue}" /> instance containing a key-value pair for every item in this
+    ///     A new <see cref="Dictionary{TKey,TValue}" /> instance containing a key-value pair for every assignment in this
     ///     enumerable.
     /// </returns>
     public static IReadOnlyDictionary<Region, Colour> ToPuzzleSolution(this IEnumerable<Assignment<Region, Colour>> assignments)

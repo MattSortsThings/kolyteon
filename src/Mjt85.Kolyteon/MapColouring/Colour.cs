@@ -9,12 +9,6 @@ namespace Mjt85.Kolyteon.MapColouring;
 /// </summary>
 /// <remarks>
 ///     <para>
-///         A <see cref="Colour" /> instance is identified by its unique <see cref="Id" /> integer value and unique
-///         <see cref="Name" /> string value. <see cref="Colour" /> instances are compared using their <see cref="Id" />
-///         values. A <see cref="Colour" /> instance is represented by, serialized to, and deserialized from its
-///         <see cref="Name" /> string value.
-///     </para>
-///     <para>
 ///         This struct type implements the "smart enum" pattern as exemplified by
 ///         <a href="https://www.meziantou.net/smart-enums-type-safe-enums-in-dotnet.htm">Gérald Barré (2018)</a>. There
 ///         are 16 possible <see cref="Colour" /> values, exposed as static fields, based on the
@@ -79,82 +73,82 @@ namespace Mjt85.Kolyteon.MapColouring;
 public readonly record struct Colour : IComparable<Colour>
 {
     /// <summary>
-    ///     Returns the colour value <c>Black</c> (<see cref="Id" /> = 0, <see cref="Name" /> = <c>"Black"</c>).
+    ///     The colour value <c>Black</c> (<see cref="Id" /> = 0, <see cref="Name" /> = <c>"Black"</c>).
     /// </summary>
     public static readonly Colour Black = new(0, "Black");
 
     /// <summary>
-    ///     Returns the colour value <c>Blue</c> (<see cref="Id" /> = 9, <see cref="Name" /> = <c>"Blue"</c>).
+    ///     The colour value <c>Blue</c> (<see cref="Id" /> = 9, <see cref="Name" /> = <c>"Blue"</c>).
     /// </summary>
     public static readonly Colour Blue = new(9, "Blue");
 
     /// <summary>
-    ///     Returns the colour value <c>Cyan</c> (<see cref="Id" /> = 11, <see cref="Name" /> = <c>"Cyan"</c>).
+    ///     The colour value <c>Cyan</c> (<see cref="Id" /> = 11, <see cref="Name" /> = <c>"Cyan"</c>).
     /// </summary>
     public static readonly Colour Cyan = new(11, "Cyan");
 
     /// <summary>
-    ///     Returns the colour value <c>DarkBlue</c> (<see cref="Id" /> = 1, <see cref="Name" /> = <c>"DarkBlue"</c>).
+    ///     The colour value <c>DarkBlue</c> (<see cref="Id" /> = 1, <see cref="Name" /> = <c>"DarkBlue"</c>).
     /// </summary>
     public static readonly Colour DarkBlue = new(1, "DarkBlue");
 
     /// <summary>
-    ///     Returns the colour value <c>DarkCyan</c> (<see cref="Id" /> = 3, <see cref="Name" /> = <c>"DarkCyan"</c>).
+    ///     The colour value <c>DarkCyan</c> (<see cref="Id" /> = 3, <see cref="Name" /> = <c>"DarkCyan"</c>).
     /// </summary>
     public static readonly Colour DarkCyan = new(3, "DarkCyan");
 
     /// <summary>
-    ///     Returns the colour value <c>DarkGreen</c> (<see cref="Id" /> = 2, <see cref="Name" /> = <c>"DarkGreen"</c>).
+    ///     The colour value <c>DarkGreen</c> (<see cref="Id" /> = 2, <see cref="Name" /> = <c>"DarkGreen"</c>).
     /// </summary>
     public static readonly Colour DarkGreen = new(2, "DarkGreen");
 
     /// <summary>
-    ///     Returns the colour value <c>DarkGrey</c> (<see cref="Id" /> = 8, <see cref="Name" /> = <c>"DarkGrey"</c>).
+    ///     The colour value <c>DarkGrey</c> (<see cref="Id" /> = 8, <see cref="Name" /> = <c>"DarkGrey"</c>).
     /// </summary>
     public static readonly Colour DarkGrey = new(8, "DarkGrey");
 
     /// <summary>
-    ///     Returns the colour value <c>DarkMagenta</c> (<see cref="Id" /> = 5, <see cref="Name" /> = <c>"DarkMagenta"</c>).
+    ///     The colour value <c>DarkMagenta</c> (<see cref="Id" /> = 5, <see cref="Name" /> = <c>"DarkMagenta"</c>).
     /// </summary>
     public static readonly Colour DarkMagenta = new(5, "DarkMagenta");
 
     /// <summary>
-    ///     Returns the colour value <c>DarkRed</c> (<see cref="Id" /> = 4, <see cref="Name" /> = <c>"DarkRed"</c>).
+    ///     The colour value <c>DarkRed</c> (<see cref="Id" /> = 4, <see cref="Name" /> = <c>"DarkRed"</c>).
     /// </summary>
     public static readonly Colour DarkRed = new(4, "DarkRed");
 
     /// <summary>
-    ///     Returns the colour value <c>DarkYellow</c> (<see cref="Id" /> = 6, <see cref="Name" /> = <c>"DarkYellow"</c>).
+    ///     The colour value <c>DarkYellow</c> (<see cref="Id" /> = 6, <see cref="Name" /> = <c>"DarkYellow"</c>).
     /// </summary>
     public static readonly Colour DarkYellow = new(6, "DarkYellow");
 
     /// <summary>
-    ///     Returns the colour value <c>Green</c> (<see cref="Id" /> = 10, <see cref="Name" /> = <c>"Green"</c>).
+    ///     The colour value <c>Green</c> (<see cref="Id" /> = 10, <see cref="Name" /> = <c>"Green"</c>).
     /// </summary>
     public static readonly Colour Green = new(10, "Green");
 
     /// <summary>
-    ///     Returns the colour value <c>Grey</c> (<see cref="Id" /> = 7, <see cref="Name" /> = <c>"Grey"</c>).
+    ///     The colour value <c>Grey</c> (<see cref="Id" /> = 7, <see cref="Name" /> = <c>"Grey"</c>).
     /// </summary>
     public static readonly Colour Grey = new(7, "Grey");
 
     /// <summary>
-    ///     Returns the colour value <c>Magenta</c> (<see cref="Id" /> = 13, <see cref="Name" /> = <c>"Magenta"</c>).
+    ///     The colour value <c>Magenta</c> (<see cref="Id" /> = 13, <see cref="Name" /> = <c>"Magenta"</c>).
     /// </summary>
     public static readonly Colour Magenta = new(13, "Magenta");
 
     /// <summary>
-    ///     Returns the colour value <c>Red</c> (<see cref="Id" /> = 12, <see cref="Name" /> = <c>"Red"</c>).
+    ///     The colour value <c>Red</c> (<see cref="Id" /> = 12, <see cref="Name" /> = <c>"Red"</c>).
     /// </summary>
     public static readonly Colour Red = new(12, "Red");
 
     /// <summary>
-    ///     Returns the colour value <c>White</c> (<see cref="Id" /> = 15, <see cref="Name" /> = <c>"White"</c>).
+    ///     The colour value <c>White</c> (<see cref="Id" /> = 15, <see cref="Name" /> = <c>"White"</c>).
     /// </summary>
     public static readonly Colour White = new(15, "White");
 
     /// <summary>
-    ///     Returns the colour value <c>Yellow</c> (<see cref="Id" /> = 14, <see cref="Name" /> = <c>"Yellow"</c>).
+    ///     The colour value <c>Yellow</c> (<see cref="Id" /> = 14, <see cref="Name" /> = <c>"Yellow"</c>).
     /// </summary>
     public static readonly Colour Yellow = new(14, "Yellow");
 

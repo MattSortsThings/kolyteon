@@ -9,30 +9,24 @@ namespace Mjt85.Kolyteon.MapColouring;
 /// </summary>
 /// <remarks>
 ///     <para>
-///         A Map Colouring puzzle comprises a non-empty 2-dimensional map of uniquely identifiable regions, each of
-///         which has a finite set of permitted colours that may be assigned to it. The puzzle may have a specific
-///         permitted colours set for each region, or a global set for all regions.
+///         A Map Colouring puzzle comprises a 2-dimensional map of uniquely identifiable regions. Every region has a
+///         finite set of permitted colours that may be assigned to it. This may be a specific set for each region, or a
+///         global set for all regions.
 ///     </para>
 ///     <para>
-///         To solve the puzzle, one must assign every region one of its permitted colours, so that no two neighbouring
-///         regions are the same colour. The Map Colouring puzzle is always solvable for any 2-dimensional map and a global
-///         set of at least 4 permitted colours.
+///         To solve the puzzle, one must colour in every region with one of its permitted colours, so that no two
+///         neighbouring regions are the same colour. The Map Colouring puzzle can always be solved when it has a global
+///         set of at least four permitted colours.
 ///     </para>
 ///     <para>
-///         A <see cref="MapColouringPuzzle" /> instance is an immutable data structure exposing two read-only
-///         <see cref="RegionData" /> and <see cref="NeighbourPairs" /> properties. It represents a valid (but not
-///         necessarily solvable) puzzle if its <see cref="RegionData" /> list is non-empty and contains no items with
-///         duplicate <see cref="RegionDatum.Region" /> values and every item in its <see cref="NeighbourPairs" /> list has
-///         two matching <see cref="RegionData" /> items.
-///     </para>
-///     <para>
-///         This type can only be instantiated outside its assembly by one of the following means:
+///         A <see cref="MapColouringPuzzle" /> instance is an immutable data structure representing a Map Colouring
+///         puzzle. This type can only be instantiated outside its assembly by:
 ///         <list type="bullet">
 ///             <item>
-///                 Using the fluent builder API, accessed via the <see cref="Create" /> static method, which throws an
-///                 exception if the instantiated puzzle is invalid thereby guaranteeing a valid puzzle.
+///                 using the fluent builder API, accessed via the <see cref="Create" /> static method, which throws an
+///                 exception if the <see cref="MapColouringPuzzle" /> instance contains invalid data, <i>or</i>
 ///             </item>
-///             <item>Deserialization, which does not validate the instantiated puzzle.</item>
+///             <item>deserialization.</item>
 ///         </list>
 ///     </para>
 /// </remarks>
@@ -62,14 +56,14 @@ public sealed record MapColouringPuzzle
     /// <summary>
     ///     Gets the list of region data for the puzzle.
     /// </summary>
-    /// <remarks>The contents of this list may be in any order.</remarks>
+    /// <remarks>No assumptions should be made about the ordering of the items in this list.</remarks>
     /// <value>A read-only list of <see cref="RegionDatum" /> instances. The region data for the puzzle.</value>
     public IReadOnlyList<RegionDatum> RegionData { get; }
 
     /// <summary>
     ///     Gets the list of neighbouring region pairs for the puzzle.
     /// </summary>
-    /// <remarks>The contents of this list may be in any order.</remarks>
+    /// <remarks>No assumptions should be made about the ordering of the items in this list.</remarks>
     /// <value>
     ///     A read-only list of <see cref="NeighbourPair" /> instances. The list of neighbouring region pairs for the puzzle.
     /// </value>
@@ -80,15 +74,15 @@ public sealed record MapColouringPuzzle
     ///     that is, they represent logically identical Map Colouring puzzles.
     /// </summary>
     /// <remarks>
-    ///     Two <see cref="MapColouringPuzzle" /> instances are equal if the following conditions are satisfied:
+    ///     Two <see cref="MapColouringPuzzle" /> instances are equal if:
     ///     <list type="bullet">
     ///         <item>
-    ///             Their respective <see cref="MapColouringPuzzle.RegionData" /> lists contain logically equivalent items
-    ///             (irrespective of order).
+    ///             their respective <see cref="RegionData" /> lists contain logically equal items (irrespective of order),
+    ///             <i>and</i>
     ///         </item>
     ///         <item>
-    ///             Their respective <see cref="MapColouringPuzzle.NeighbourPairs" /> lists contain logically equivalent
-    ///             items (irrespective of order).
+    ///             their respective <see cref="NeighbourPairs" /> lists contain logically equal items (irrespective of
+    ///             order).
     ///         </item>
     ///     </list>
     /// </remarks>
@@ -136,18 +130,16 @@ public sealed record MapColouringPuzzle
     ///     Determines whether the proposed solution is valid for the Map Colouring puzzle represented by this instance.
     /// </summary>
     /// <remarks>
-    ///     This method applies the following validation checks to the <paramref name="solution" /> parameter sequentially and
-    ///     returns on the first validation error encountered (if any):
+    ///     This method applies the following validation checks to the <paramref name="solution" /> parameter sequentially, and
+    ///     returns the first validation error encountered (if any):
     ///     <list type="number">
     ///         <item>
-    ///             The number of key-value pairs in the <paramref name="solution" /> is equal to the number of items in
-    ///             <see cref="RegionData" />.
+    ///             The number of key-value pairs in the <paramref name="solution" /> dictionary is equal to the number of
+    ///             items in this instance's <see cref="RegionData" /> list.
     ///         </item>
     ///         <item>Every region in the map is present as a key in the solution.</item>
     ///         <item>Every region is assigned one of its permitted colours.</item>
-    ///         <item>
-    ///             For every pair of neighbouring regions, each region in the pair is assigned a different colour.
-    ///         </item>
+    ///         <item>For every pair of neighbouring regions, each region in the pair is assigned a different colour.</item>
     ///     </list>
     /// </remarks>
     /// <param name="solution">

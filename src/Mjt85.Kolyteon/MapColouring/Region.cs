@@ -10,8 +10,7 @@ namespace Mjt85.Kolyteon.MapColouring;
 /// <remarks>
 ///     A <see cref="Region" /> instance is identified by its <see cref="Id" /> value, which is a non-empty string of
 ///     letters and/or digits. <see cref="Region" /> instances are compared by <see cref="Id" /> value using case-sensitive
-///     ordinal string comparison rules. A <see cref="Region" /> instance is represented by, serialized to, and
-///     deserialized from its <see cref="Id" /> string value.
+///     ordinal string comparison rules.
 /// </remarks>
 [Serializable]
 [JsonConverter(typeof(RegionJsonConverter))]

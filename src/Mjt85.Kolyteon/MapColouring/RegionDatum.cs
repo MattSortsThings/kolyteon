@@ -31,7 +31,7 @@ public sealed record RegionDatum : IComparable<RegionDatum>
     /// <summary>
     ///     Gets the permitted colours for the region.
     /// </summary>
-    /// <remarks>This should be a set.</remarks>
+    /// <remarks>No assumptions should be made about the ordering of the values in this collection.</remarks>
     /// <value>A read-only collection of <see cref="Colour" /> values. The permitted colours for the region.</value>
     public IReadOnlyCollection<Colour> Colours { get; }
 

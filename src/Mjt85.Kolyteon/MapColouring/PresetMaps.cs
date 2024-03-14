@@ -1,14 +1,17 @@
 ﻿namespace Mjt85.Kolyteon.MapColouring;
 
 /// <summary>
-///     Provides preset maps.
+///     Contains preset maps based on real-world geography.
 /// </summary>
 public static class PresetMaps
 {
     /// <summary>
     ///     Creates and returns a new <see cref="PresetMap" /> based on the larger states and territories of Australia.
     /// </summary>
-    /// <remarks>This preset map has 7 regions split between 2 disconnected sub-maps, with 9 pairs of neighbouring regions.</remarks>
+    /// <remarks>
+    ///     This preset map has 7 regions split between 2 disconnected sub-maps, with 9 pairs of neighbouring regions. The
+    ///     preset map and its members are created every time this method is invoked.
+    /// </remarks>
     /// <returns>A new <see cref="PresetMap" /> instance.</returns>
     public static PresetMap Australia()
     {
@@ -45,7 +48,10 @@ public static class PresetMaps
     /// <summary>
     ///     Creates and returns a new <see cref="PresetMap" /> based on the provinces and territories of Canada.
     /// </summary>
-    /// <remarks>This preset map has 14 regions split between 2 disconnected sub-maps, with 15 pairs of neighbouring regions.</remarks>
+    /// <remarks>
+    ///     This preset map has 14 regions split between 2 disconnected sub-maps, with 15 pairs of neighbouring regions.
+    ///     The preset map and its members are created every time this method is invoked.
+    /// </remarks>
     /// <returns>A new <see cref="PresetMap" /> instance.</returns>
     public static PresetMap Canada()
     {
@@ -95,7 +101,10 @@ public static class PresetMaps
     /// <summary>
     ///     Creates and returns a new <see cref="PresetMap" /> based on the wards of the City of London.
     /// </summary>
-    /// <remarks>This preset map has 25 regions forming a single connected map, with 56 pairs of neighbouring regions.</remarks>
+    /// <remarks>
+    ///     This preset map has 25 regions forming a single connected map, with 56 pairs of neighbouring regions. The
+    ///     preset map and its members are created every time this method is invoked.
+    /// </remarks>
     /// <returns>A new <see cref="PresetMap" /> instance.</returns>
     public static PresetMap CityOfLondon()
     {
@@ -200,7 +209,10 @@ public static class PresetMaps
     /// <summary>
     ///     Creates and returns a new <see cref="PresetMap" /> based on the prefectures of Japan.
     /// </summary>
-    /// <remarks>This preset map has 47 regions split between 5 disconnected sub-maps, with 84 pairs of neighbouring regions.</remarks>
+    /// <remarks>
+    ///     This preset map has 47 regions split between 5 disconnected sub-maps, with 84 pairs of neighbouring regions.
+    ///     The preset map and its members are created every time this method is invoked.
+    /// </remarks>
     /// <returns>A new <see cref="PresetMap" /> instance.</returns>
     public static PresetMap Japan()
     {
@@ -360,7 +372,10 @@ public static class PresetMaps
     /// <summary>
     ///     Creates and returns a new <see cref="PresetMap" /> based on the arondissements of the city of Paris.
     /// </summary>
-    /// <remarks>This preset map has 20 regions forming a single connected map, with 44 pairs of neighbouring regions.</remarks>
+    /// <remarks>
+    ///     This preset map has 20 regions forming a single connected map, with 44 pairs of neighbouring regions. The
+    ///     preset map and its members are created every time this method is invoked.
+    /// </remarks>
     /// <returns>A new <see cref="PresetMap" /> instance.</returns>
     public static PresetMap Paris()
     {
@@ -447,7 +462,10 @@ public static class PresetMaps
     /// <summary>
     ///     Creates and returns a new <see cref="PresetMap" /> based on the provinces of Rwanda.
     /// </summary>
-    /// <remarks>This preset map has 5 regions forming a single connected map, with 8 pairs of neighbouring regions.</remarks>
+    /// <remarks>
+    ///     This preset map has 5 regions forming a single connected map, with 8 pairs of neighbouring regions. The preset
+    ///     map and its members are created every time this method is invoked.
+    /// </remarks>
     /// <returns>A new <see cref="PresetMap" /> instance.</returns>
     public static PresetMap Rwanda()
     {
@@ -480,7 +498,10 @@ public static class PresetMaps
     /// <summary>
     ///     Creates and returns a new <see cref="PresetMap" /> based on the castelli of San Marino.
     /// </summary>
-    /// <remarks>This preset map has 9 regions forming a single connected map, with 15 pairs of neighbouring regions.</remarks>
+    /// <remarks>
+    ///     This preset map has 9 regions forming a single connected map, with 15 pairs of neighbouring regions. The
+    ///     preset map and its members are created every time this method is invoked.
+    /// </remarks>
     /// <returns>A new <see cref="PresetMap" /> instance.</returns>
     public static PresetMap SanMarino()
     {
@@ -525,7 +546,10 @@ public static class PresetMaps
     /// <summary>
     ///     Creates and returns a new <see cref="PresetMap" /> based on the United Kingdom Shipping Forecast.
     /// </summary>
-    /// <remarks>This preset map has 31 regions forming a single connected map, with 25 pairs of neighbouring regions.</remarks>
+    /// <remarks>
+    ///     This preset map has 31 regions forming a single connected map, with 25 pairs of neighbouring regions. The
+    ///     preset map and its members are created every time this method is invoked.
+    /// </remarks>
     /// <returns>A new <see cref="PresetMap" /> instance.</returns>
     public static PresetMap UKShippingForecast()
     {
@@ -608,7 +632,10 @@ public static class PresetMaps
     ///     Creates and returns a new <see cref="PresetMap" /> based on the states, federal district, and inhabited territories
     ///     of the United States of America.
     /// </summary>
-    /// <remarks>This preset map has 57 regions split between 8 disconnected sub-maps, with 107 pairs of neighbouring regions.</remarks>
+    /// <remarks>
+    ///     This preset map has 57 regions split between 8 disconnected sub-maps, with 107 pairs of neighbouring regions.
+    ///     The preset map and its members are created every time this method is invoked.
+    /// </remarks>
     /// <returns>A new <see cref="PresetMap" /> instance.</returns>
     public static PresetMap UnitedStates()
     {

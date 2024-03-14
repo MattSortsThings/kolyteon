@@ -17,7 +17,8 @@ public sealed class MapColouringBinaryCsp : BinaryCsp<MapColouringPuzzle, Region
     ///     specified initial capacity.
     /// </summary>
     /// <param name="capacity">
-    ///     The number of binary CSP variables the new <see cref="MapColouringBinaryCsp" /> instance can initially store.
+    ///     The maximum number of binary CSP variables the new <see cref="MapColouringBinaryCsp" /> can initially store without
+    ///     needing to resize its internal data structures.
     /// </param>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="capacity" /> is negative.</exception>
     public MapColouringBinaryCsp(int capacity) : base(capacity)
@@ -54,6 +55,7 @@ public sealed class MapColouringBinaryCsp : BinaryCsp<MapColouringPuzzle, Region
         _neighboursByRegion.TrimExcess();
     }
 
+    /// <inheritdoc />
     protected override void PopulateProblemData(MapColouringPuzzle problem)
     {
         foreach ((Region region, IReadOnlyCollection<Colour> colours) in problem.RegionData)
@@ -67,16 +69,28 @@ public sealed class MapColouringBinaryCsp : BinaryCsp<MapColouringPuzzle, Region
         }
     }
 
+    /// <inheritdoc />
     protected override void ClearProblemData()
     {
         _coloursByRegion.Clear();
         _neighboursByRegion.Clear();
     }
 
+    /// <inheritdoc />
+    /// <remarks>In the Map Colouring binary CSP model, the variables are the set of all the regions in the map.</remarks>
     protected override IEnumerable<Region> GetVariables() => _coloursByRegion.Keys;
 
+    /// <inheritdoc />
+    /// <remarks>In the Map Colouring binary CSP model, the domain of a region variable is its set of permitted colours.</remarks>
     protected override IEnumerable<Colour> GetDomainOf(Region variable) => _coloursByRegion[variable];
 
+    /// <inheritdoc />
+    /// <remarks>
+    ///     In the Map Colouring binary CSP model, there is a notional binary constraint for every pair of region
+    ///     variables that are neighbours of each other. The constraint has a binary predicate that asserts that the two
+    ///     regions must be assigned different colours. The constraint is only added to the binary CSP if it is genuine, that
+    ///     is, if there exists at least one pair of equal colours from the Cartesian product of the variables' domains.
+    /// </remarks>
     protected override IBinaryPredicate<Colour> GetBinaryPredicateFor(Region variable1, Region variable2)
     {
         if (_neighboursByRegion.TryGetValue(variable1, out HashSet<Region>? neighbours) && neighbours.Contains(variable2))
