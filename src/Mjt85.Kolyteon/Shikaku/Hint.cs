@@ -3,18 +3,11 @@
 namespace Mjt85.Kolyteon.Shikaku;
 
 /// <summary>
-///     Represents a specific hint occupying a specific cell in a Shikaku puzzle grid.
+///     Represents a numeric hint occupying a cell in a Shikaku puzzle grid.
 /// </summary>
 /// <remarks>
-///     <para>
-///         A <see cref="Hint" /> instance is identified by its <see cref="Column" /> and <see cref="Row" /> values, which
-///         are the zero-based indexes of the queen's column and row on the chess board, together with its
-///         <see cref="Number" /> value, a number greater than or equal to 2 that denotes the size of the rectangle that
-///         must enclose the hint. Puzzle grid columns are indexed from left to right; rows are indexed from top to bottom.
-///     </para>
-///     <para>
-///         Two <see cref="Hint" /> instances with equal value represent the same hint in the same cell.
-///     </para>
+///     Puzzle grid columns are zero-indexed from left to right. Rows are zero-indexed from top to bottom. The minimum
+///     possible hint number is 2.
 /// </remarks>
 [Serializable]
 public readonly record struct Hint : IComparable<Hint>
@@ -28,16 +21,14 @@ public readonly record struct Hint : IComparable<Hint>
     }
 
     /// <summary>
-    ///     Initializes a new <see cref="Hint" /> instance with the specified <see cref="Column" />, <see cref="Row" />, and
-    ///     <see cref="Number" /> values.
+    ///     Initializes a new <see cref="Hint" /> instance with the specified <see cref="Column" />, <see cref="Row" />
+    ///     and <see cref="Number" /> values.
     /// </summary>
-    /// <param name="column">The zero-based index of the hint's column in the puzzle grid (indexed from left to right).</param>
-    /// <param name="row">The zero-based index of the hint's row in the puzzle grid (indexed from top to bottom).</param>
-    /// <param name="number">
-    ///     The hint's number, denoting the size of the rectangle that must enclose the hint (minimum valid hint number is 2).
-    /// </param>
+    /// <param name="column">The zero-based index of the cell's column in the puzzle grid.</param>
+    /// <param name="row">The zero-based index of the cell's row in the puzzle grid.</param>
+    /// <param name="number">An integer greater than or equal to 2. The number that fills the hint's cell.</param>
     /// <exception cref="ArgumentOutOfRangeException">
-    ///     <paramref name="column" /> is negative, or <paramref name="row" /> is negative, or <paramref name="number" /> is
+    ///     <paramref name="column" /> is negative; or, <paramref name="row" /> is negative; or, <paramref name="number" /> is
     ///     less than 2.
     /// </exception>
     [JsonConstructor]
@@ -57,30 +48,21 @@ public readonly record struct Hint : IComparable<Hint>
     }
 
     /// <summary>
-    ///     Gets the zero-based index of the hint's column in the puzzle grid (indexed from left to right).
+    ///     Gets the zero-based index of the hint cell's column in the puzzle grid.
     /// </summary>
-    /// <value>
-    ///     A non-negative 32-bit signed integer. The zero-based index of the hint's column in the puzzle grid (indexed from
-    ///     left to right).
-    /// </value>
+    /// <value>A non-negative 32-bit signed integer. The zero-based index of the hint cell's column in the puzzle grid.</value>
     public int Column { get; }
 
     /// <summary>
-    ///     Gets the zero-based index of the hint's row in the puzzle grid (indexed from top to bottom).
+    ///     Gets the zero-based index of the hint cell's row in the puzzle grid.
     /// </summary>
-    /// <value>
-    ///     A non-negative 32-bit signed integer. The zero-based index of the hint's row in the puzzle grid (indexed from top
-    ///     to bottom).
-    /// </value>
+    /// <value>A non-negative 32-bit signed integer. The zero-based index of the hint cell's row in the puzzle grid.</value>
     public int Row { get; }
 
     /// <summary>
-    ///     Gets the hint's number, denoting the size of the rectangle that must enclose the hint.
+    ///     Gets the number that fills the hint cell.
     /// </summary>
-    /// <value>
-    ///     A 32-bit signed integer greater than or equal to 2. The hint's number, denoting the size of the rectangle that
-    ///     must enclose the hint.
-    /// </value>
+    /// <value>A 32-bit signed integer greater than or equal to 2. The number that fills the hint's cell.</value>
     public int Number { get; }
 
     /// <summary>
@@ -131,11 +113,15 @@ public readonly record struct Hint : IComparable<Hint>
 
     /// <summary>
     ///     Determines whether this instance and the specified <see cref="Hint" /> instance have equal value, that is,
-    ///     they represent the same hint in the same cell.
+    ///     they represent the same hint number in the same cell in the puzzle grid.
     /// </summary>
     /// <remarks>
-    ///     Two <see cref="Hint" /> instances have equal value if their <see cref="Column" /> values are equal, their
-    ///     <see cref="Row" /> values are equal, and their <see cref="Number" /> values are equal.
+    ///     Two <see cref="Hint" /> instances have equal value if:
+    ///     <list type="bullet">
+    ///         <item>their <see cref="Column" /> values are equal, <i>and</i></item>
+    ///         <item>their <see cref="Row" /> values are equal, <i>and</i></item>
+    ///         <item>their <see cref="Number" /> values are equal.</item>
+    ///     </list>
     /// </remarks>
     /// <param name="other">The <see cref="Hint" /> instance against which this instance is to be compared.</param>
     /// <returns>
@@ -144,11 +130,17 @@ public readonly record struct Hint : IComparable<Hint>
     public bool Equals(Hint other) => Column == other.Column && Row == other.Row && Number == other.Number;
 
     /// <summary>
+    ///     Gets the hash code for this instance.
+    /// </summary>
+    /// <returns>A 32-bit signed integer hash code.</returns>
+    public override int GetHashCode() => HashCode.Combine(Column, Row, Number);
+
+    /// <summary>
     ///     Deconstructs this instance.
     /// </summary>
-    /// <param name="column">The zero-based index of the hint's column in the puzzle grid (indexed from left to right).</param>
-    /// <param name="row">The zero-based index of the hint's row in the puzzle grid (indexed from top to bottom).</param>
-    /// <param name="number">The hint's number, denoting the size of the rectangle that must enclose the hint.</param>
+    /// <param name="column">The zero-based index of the hint cell's column in the puzzle grid.</param>
+    /// <param name="row">The zero-based index of the hint cell's row in the puzzle grid.</param>
+    /// <param name="number">The number that fills the hint's cell.</param>
     public void Deconstruct(out int column, out int row, out int number)
     {
         column = Column;
@@ -157,16 +149,10 @@ public readonly record struct Hint : IComparable<Hint>
     }
 
     /// <summary>
-    ///     Gets the hash code for this instance.
-    /// </summary>
-    /// <returns>A 32-bit signed integer hash code.</returns>
-    public override int GetHashCode() => HashCode.Combine(Column, Row, Number);
-
-    /// <summary>
     ///     Creates and returns the string representation of this instance.
     /// </summary>
     /// <remarks>
-    ///     A <see cref="Hint" /> instance is represented by a string in the format <c>"({Row},{Column}) [{Number}]".</c>
+    ///     A <see cref="Hint" /> instance is represented by a string in the format <c>"({Row},{Column}) [{Number}]"</c>.
     /// </remarks>
     /// <example>
     ///     <code>
@@ -174,8 +160,8 @@ public readonly record struct Hint : IComparable<Hint>
     /// {
     ///   public static void Main()
     ///   {
-    ///     Hint h0 = new(0,0,2);
-    ///     Hint h1 = new(10,3,15);
+    ///     Hint h0 = new(0, 0, 2);
+    ///     Hint h1 = new(8, 3, 5);
     /// 
     ///     Console.WriteLine(h0);
     ///     Console.WriteLine(h1);
@@ -183,7 +169,7 @@ public readonly record struct Hint : IComparable<Hint>
     /// }
     /// // This example produces the following console output:
     /// // (0,0) [2]
-    /// // (10,3) [15]
+    /// // (8,3) [5]
     /// </code>
     /// </example>
     /// <returns>The string representation of this instance.</returns>

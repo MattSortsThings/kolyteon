@@ -16,7 +16,7 @@ public static class ConversionExtensions
     /// </remarks>
     /// <param name="assignments">The assignments to be converted.</param>
     /// <returns>
-    ///     A new read-only list of <see cref="Rectangle" /> instances, containing one instance for every assignment in this
+    ///     A new read-only list of <see cref="Rectangle" /> values, containing one value for every assignment in this
     ///     enumerable.
     /// </returns>
     public static IReadOnlyList<Rectangle> ToPuzzleSolution(this IEnumerable<Assignment<Hint, Rectangle>> assignments)

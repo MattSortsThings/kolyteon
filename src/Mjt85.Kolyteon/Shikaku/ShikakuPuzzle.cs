@@ -9,27 +9,30 @@ namespace Mjt85.Kolyteon.Shikaku;
 /// </summary>
 /// <remarks>
 ///     <para>
-///         A Shikaku puzzle comprises a square grid of cells (no smaller than 5x5 in size). Some of the cells contain
-///         numeric hints. The minimum permitted number for any hint is 2, and the hint numbers must sum to the grid area.
+///         A Shikaku puzzle comprises a square grid of cells. Some of the cells are filled with numeric hints that sum to
+///         the grid's area in cells.
 ///     </para>
 ///     <para>
-///         To solve the puzzle, one must divide the entire grid into rectangles so that every rectangle encloses exactly
-///         one hint, whose number is equal to the rectangle's area in cells.
+///         To solve the puzzle, one must sub-divide the grid into rectangles so that every rectangle encloses exactly one
+///         hint, whose number is equal to the rectangle's area in cells.
 ///     </para>
 ///     <para>
-///         A <see cref="ShikakuPuzzle" /> instance is an immutable data structure exposing two read-only
-///         <see cref="GridSideLength" /> and <see cref="Hints" /> properties. It represents a valid (but not necessarily
-///         solvable) puzzle if the sum of the <see cref="Hint.Number" /> values of its <see cref="Hints" /> list items is
-///         equal to the square of its <see cref="GridSideLength" /> value.
+///         A Shikaku puzzle is valid (but not necessarily solvable) if:
+///         <list type="bullet">
+///             <item>the grid is a square no smaller than 5x5 is size, <i>and</i></item>
+///             <item>the hint numbers sum to the grid's area, <i>and</i></item>
+///             <item>no hint number is less than 2.</item>
+///         </list>
 ///     </para>
 ///     <para>
-///         This type can only be instantiated outside its assembly by one of the following means:
+///         A <see cref="ShikakuPuzzle" /> instance is an immutable data structure representing a Shikaku puzzle. This type
+///         can only be instantiated outside its assembly by:
 ///         <list type="bullet">
 ///             <item>
-///                 Using the <see cref="FromGrid" /> static factory method, which throws an exception if the instantiated
-///                 puzzle is invalid thereby guaranteeing a valid puzzle.
+///                 using the <see cref="FromGrid" /> static factory method, which validates the instantiated puzzle and
+///                 throws an exception if it is invalid, <i>or</i>
 ///             </item>
-///             <item>Deserialization, which does not validate the instantiated puzzle.</item>
+///             <item>deserialization.</item>
 ///         </list>
 ///     </para>
 /// </remarks>
@@ -38,13 +41,10 @@ public sealed record ShikakuPuzzle
 {
     /// <summary>
     ///     Initializes a new <see cref="ShikakuPuzzle" /> instance with the specified <see cref="GridSideLength" /> value and
-    ///     <see cref="Hints" /> lists.
+    ///     <see cref="Hints" /> list.
     /// </summary>
-    /// <remarks>
-    ///     This internal constructor is for deserialization and testing only. Use the <see cref="FromGrid" /> static factory
-    ///     method to instantiate this type outside its assembly.
-    /// </remarks>
-    /// <param name="gridSideLength">The puzzle grid's height in cells and width in cells.</param>
+    /// <remarks>This internal constructor is for deserialization and testing only.</remarks>
+    /// <param name="gridSideLength">The puzzle grid height and width in cells.</param>
     /// <param name="hints">The puzzle's hints.</param>
     /// <exception cref="ArgumentNullException"><paramref name="hints" /> is <c>null</c>.</exception>
     [JsonConstructor]
@@ -55,30 +55,30 @@ public sealed record ShikakuPuzzle
     }
 
     /// <summary>
-    ///     Gets the puzzle grid's height in cells and width in cells.
+    ///     Gets the puzzle grid height and width in cells.
     /// </summary>
-    /// <value>A 32-bit signed integer greater than or equal to 5. The puzzle grid's height in cells and width in cells.</value>
+    /// <value>A 32-bit signed integer greater than or equal to 5. The puzzle grid height and width in cells.</value>
     public int GridSideLength { get; init; }
 
     /// <summary>
     ///     Gets the puzzle's hints.
     /// </summary>
-    /// <remarks>The contents of this list may be in any order.</remarks>
+    /// <remarks>No assumptions should be made about the ordering of the values in this list.</remarks>
     /// <value>A read-only list of <see cref="Hint" /> instances. The puzzle's hints.</value>
     public IReadOnlyList<Hint> Hints { get; init; } = Array.Empty<Hint>();
 
     /// <summary>
-    ///     Determines whether this instance and the specified <see cref="ShikakuPuzzle" /> instance have equal value,
-    ///     that is, they represent logically identical Shikaku puzzles.
+    ///     Determines whether this instance and the specified <see cref="ShikakuPuzzle" /> instance have equal value, that is,
+    ///     they represent logically identical Shikaku puzzles.
     /// </summary>
     /// <remarks>
-    ///     Two <see cref="ShikakuPuzzle" /> instances are equal if their respective <see cref="Hints" /> lists contain
-    ///     logically equivalent items (irrespective of order).
+    ///     Two <see cref="ShikakuPuzzle" /> instances are equal if their respective <see cref="Hints" /> lists contain the
+    ///     exact same values (irrespective of order).
     /// </remarks>
     /// <param name="other">The <see cref="ShikakuPuzzle" /> instance against which this instance is to be compared.</param>
     /// <returns>
-    ///     <c>true</c> if this instance and the <paramref name="other" /> parameter have equal value; otherwise,
-    ///     <c>false</c>. If the <paramref name="other" /> parameter is <c>null</c>, the method returns <c>false</c>.
+    ///     <c>true</c> if this instance and the <paramref name="other" /> parameter have equal value; otherwise, <c>false</c>.
+    ///     If the <paramref name="other" /> parameter is <c>null</c>, the method returns <c>false</c>.
     /// </returns>
     public bool Equals(ShikakuPuzzle? other)
     {
@@ -105,12 +105,12 @@ public sealed record ShikakuPuzzle
     ///     Determines whether the proposed solution is valid for the Shikaku puzzle represented by this instance.
     /// </summary>
     /// <remarks>
-    ///     This method applies the following validation checks to the <paramref name="solution" /> parameter sequentially and
-    ///     returns on the first validation error encountered (if any):
+    ///     This method applies the following validation checks to the <paramref name="solution" /> parameter sequentially, and
+    ///     returns the first validation error encountered (if any):
     ///     <list type="number">
     ///         <item>
-    ///             The number of <see cref="Rectangle" /> instances in the <paramref name="solution" /> is equal to the number
-    ///             of <see cref="Hint" /> instances in <see cref="Hints" />.
+    ///             The number of rectangles in the <paramref name="solution" /> list is equal to the number of hints in this
+    ///             instance's <see cref="Hints" />  list.
     ///         </item>
     ///         <item>The sum of the areas of the rectangles is equal to the puzzle grid area.</item>
     ///         <item>No rectangle is partially or entirely outside the grid.</item>
@@ -119,7 +119,7 @@ public sealed record ShikakuPuzzle
     ///         <item>Every rectangle's area is equal to the number of the hint it encloses.</item>
     ///     </list>
     /// </remarks>
-    /// <param name="solution">A list of <see cref="Rectangle" /> instances. The proposed solution to the puzzle.</param>
+    /// <param name="solution">A list of <see cref="Rectangle" /> values. The proposed solution to the puzzle.</param>
     /// <returns>
     ///     <see cref="ValidationResult.Success" /> (i.e. <c>null</c>) if the <paramref name="solution" /> parameter is a
     ///     valid solution; otherwise, a <see cref="ValidationResult" /> instance with an error message reporting the first
@@ -134,18 +134,36 @@ public sealed record ShikakuPuzzle
     }
 
     /// <summary>
-    ///     Creates and returns a new <see cref="ShikakuPuzzle" /> from the specified grid.
+    ///     Creates and returns a new <see cref="ShikakuPuzzle" /> instance from the specified grid.
     /// </summary>
     /// <remarks>
-    ///     Static factory method. Any <see cref="ShikakuPuzzle" /> instance returned by this method is guaranteed to represent
-    ///     a valid (but not necessarily solvable) Shikaku puzzle.
+    ///     Static factory method. Any <see cref="ShikakuPuzzle" /> instance returned from this method is guaranteed to
+    ///     represent a valid (but not necessarily solvable) Shikaku puzzle.
     /// </remarks>
+    /// <example>
+    ///     <code>
+    /// class Example
+    /// {
+    ///   public static void Main()
+    ///   {
+    ///     ShikakuPuzzle puzzle = ShikakuPuzzle.FromGrid(new int?[,]
+    ///     {
+    ///       { null,    4, null, null, null },
+    ///       { null, null, null, null, null },
+    ///       { null, null,   10, null, null },
+    ///       {    6, null, null, null, null },
+    ///       { null, null, null, null,    5 },
+    ///     });
+    ///   }
+    /// }
+    /// </code>
+    /// </example>
     /// <param name="grid">
-    ///     A 2-dimensional square grid no smaller than 5x5 in size, in which every non-null value represents a hint.
-    ///     The grid to be converted.
+    ///     A 2-dimension array of nullable integers, with square dimensions and neither length less than 5, in
+    ///     which every non-null value is a number no less than 2 and represents a hint in the puzzle.
     /// </param>
     /// <returns>A new <see cref="ShikakuPuzzle" /> instance.</returns>
-    /// <exception cref="ArgumentNullException"><see cref="grid" /> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="grid" /> is <c>null</c>.</exception>
     /// <exception cref="ArgumentException">
     ///     <see cref="grid" /> has a rank 0 length less than 5, or has a rank 1 length not equal to its rank 0 length, or
     ///     contains a non-null value less than 2.
