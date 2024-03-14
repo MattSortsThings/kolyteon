@@ -3,38 +3,30 @@
 namespace Mjt85.Kolyteon.NQueens;
 
 /// <summary>
-///     Represents a queen occupying a specific square on a chess board.
+///     Represents a queen occupying a specific chess board square.
 /// </summary>
 /// <remarks>
-///     <para>
-///         A <see cref="Queen" /> instance is identified by its <see cref="Column" /> and <see cref="Row" /> values,
-///         which are the zero-based indexes of the queen's column and row on the chess board. Chess board columns are
-///         indexed from left to right; rows are indexed from top to bottom.
-///     </para>
-///     <para>
-///         Two <see cref="Queen" /> instances with equal value represent two queens occupying the same chess board
-///         square.
-///     </para>
+///     Chess board columns are zero-indexed from left to right. Rows are zero-indexed from top to bottom.
 /// </remarks>
 [Serializable]
 public readonly record struct Queen : IComparable<Queen>
 {
     /// <summary>
-    ///     Initializes a new <see cref="Queen" /> instance with default <see cref="Column" /> and <see cref="Row" />
-    ///     values of 0.
+    ///     Initializes a new <see cref="Queen" /> instance with default <see cref="Column" /> and <see cref="Row" /> values
+    ///     of 0.
     /// </summary>
     public Queen() : this(0, 0)
     {
     }
 
     /// <summary>
-    ///     Initializes a new <see cref="Queen" /> instance with the specified <see cref="Column" /> and <see cref="Row" />
+    ///     Initializes a new <see cref="Queen" /> instance with the specified <see cref="Column" />, <see cref="Row" />
     ///     values.
     /// </summary>
-    /// <param name="column">The zero-based index of the queen's column on the chess board (indexed from left to right).</param>
-    /// <param name="row">The zero-based index of the queen's row on the chess board (indexed from top to bottom).</param>
+    /// <param name="column">The zero-based column index of the queen's square on the chess board.</param>
+    /// <param name="row">The zero-based row index of the queen's square on the chess board.</param>
     /// <exception cref="ArgumentOutOfRangeException">
-    ///     <paramref name="column" /> or <paramref name="row" /> is negative.
+    ///     <paramref name="column" /> is negative; or, <paramref name="row" /> is negative.
     /// </exception>
     [JsonConstructor]
     public Queen(int column, int row)
@@ -49,21 +41,15 @@ public readonly record struct Queen : IComparable<Queen>
     }
 
     /// <summary>
-    ///     Gets the zero-based index of the queen's column on the chess board (indexed from left to right).
+    ///     Gets the zero-based column index of the queen's square on the chess board.
     /// </summary>
-    /// <value>
-    ///     A non-negative 32-bit signed integer. The zero-based index of the queen's column on the chess board (indexed
-    ///     from left to right).
-    /// </value>
+    /// <value>A non-negative 32-bit signed integer. The zero-based column index of the queen's square on the chess board.</value>
     public int Column { get; }
 
     /// <summary>
-    ///     Gets the zero-based index of the queen's row on the chess board (indexed from top to bottom).
+    ///     Gets the zero-based row index of the queen's square on the chess board.
     /// </summary>
-    /// <value>
-    ///     A non-negative 32-bit signed integer. The zero-based index of the queen's row on the chess board (indexed from
-    ///     top to bottom).
-    /// </value>
+    /// <value>A non-negative 32-bit signed integer. The zero-based row index of the queen's square on the chess board.</value>
     public int Row { get; }
 
     /// <summary>
@@ -71,7 +57,7 @@ public readonly record struct Queen : IComparable<Queen>
     ///     this instance precedes, follows, or appears in the same position in the sort order as the other.
     /// </summary>
     /// <remarks>
-    ///     <see cref="Queen" /> instances are sorted in ascending order by <see cref="Column" /> value then by
+    ///     <see cref="Queen" /> instances are sorted in ascending order by <see cref="Column" /> value, then by
     ///     <see cref="Row" /> value.
     /// </remarks>
     /// <param name="other">The <see cref="Queen" /> instance against which this instance is to be compared.</param>
@@ -107,11 +93,14 @@ public readonly record struct Queen : IComparable<Queen>
 
     /// <summary>
     ///     Determines whether this instance and the specified <see cref="Queen" /> instance have equal value, that is,
-    ///     they represent queens occupying the same chess board square.
+    ///     they represent queens occupying the same square on the chess board.
     /// </summary>
     /// <remarks>
-    ///     Two <see cref="Queen" /> instances have equal value if their <see cref="Column" /> values are equal and their
-    ///     <see cref="Row" /> values are equal.
+    ///     Two <see cref="Queen" /> instances have equal value if:
+    ///     <list type="bullet">
+    ///         <item>their <see cref="Column" /> values are equal, <i>and</i></item>
+    ///         <item>their <see cref="Row" /> values are equal.</item>
+    ///     </list>
     /// </remarks>
     /// <param name="other">The <see cref="Queen" /> instance against which this instance is to be compared.</param>
     /// <returns>
@@ -120,31 +109,21 @@ public readonly record struct Queen : IComparable<Queen>
     public bool Equals(Queen other) => Column == other.Column && Row == other.Row;
 
     /// <summary>
-    ///     Gets the hash code for this instance.
-    /// </summary>
-    /// <returns>A 32-bit signed integer hash code.</returns>
-    public override int GetHashCode() => HashCode.Combine(Column, Row);
-
-    /// <summary>
     ///     Determines whether the queens represented by this instance and the specified <see cref="Queen" /> instance can
     ///     capture each other.
     /// </summary>
     /// <remarks>
+    ///     <para>In chess, a queen can capture any piece on the same column, row or diagonal as itself.</para>
     ///     <para>
-    ///         In chess, a queen can capture any piece on the same column, row, or diagonal. Two <see cref="Queen" />
-    ///         instances can capture each other if any of the following conditions is satisfied:
+    ///         Two <see cref="Queen" /> instances can capture each other if:
     ///         <list type="bullet">
-    ///             <item>Their <see cref="Column" /> values are equal.</item>
-    ///             <item>Their <see cref="Row" /> values are equal.</item>
+    ///             <item>their <see cref="Column" /> values are equal, <i>and/or</i></item>
+    ///             <item>their <see cref="Row" /> values are equal, <i>and/or</i></item>
     ///             <item>
-    ///                 The absolute difference between their <see cref="Column" /> values is equal to the absolute
+    ///                 the absolute difference between their <see cref="Column" /> values is equal to the absolute
     ///                 difference between their <see cref="Row" /> values.
     ///             </item>
     ///         </list>
-    ///     </para>
-    ///     <para>
-    ///         If the <paramref name="other" /> parameter is a <see cref="Queen" /> of equal value to the instance on which
-    ///         the method is invoked (i.e. representing two queens occupying the same square), the method returns <c>true</c>.
     ///     </para>
     /// </remarks>
     /// <param name="other">The <see cref="Queen" /> instance against which this instance is to be compared.</param>
@@ -160,10 +139,16 @@ public readonly record struct Queen : IComparable<Queen>
     }
 
     /// <summary>
+    ///     Gets the hash code for this instance.
+    /// </summary>
+    /// <returns>A 32-bit signed integer hash code.</returns>
+    public override int GetHashCode() => HashCode.Combine(Column, Row);
+
+    /// <summary>
     ///     Deconstructs this instance.
     /// </summary>
-    /// <param name="column">The zero-based index of the queen's column on the chess board (indexed from left to right).</param>
-    /// <param name="row">The zero-based index of the queen's row on the chess board (indexed from top to bottom).</param>
+    /// <param name="column">The zero-based column index of the queen's square on the chess board.</param>
+    /// <param name="row">The zero-based row index of the queen's square on the chess board.</param>
     public void Deconstruct(out int column, out int row)
     {
         column = Column;
