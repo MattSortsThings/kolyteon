@@ -101,7 +101,8 @@ public sealed class SudokuBinaryCsp : BinaryCsp<SudokuPuzzle, EmptyCell, int>
     /// <remarks>
     ///     In the Sudoku binary CSP model, there is a notional binary constraint for every pair of empty cell variables
     ///     that share a column, row or sector. The constraint has a binary predicate that asserts that the two empty cells
-    ///     must be assigned different integer values.
+    ///     must be assigned different integer values. The constraint is only added to the binary CSP if it is genuine, that
+    ///     is, if there exists at least one pair of equal numbers from the Cartesian product of the variables' domains.
     /// </remarks>
     protected override IBinaryPredicate<int> GetBinaryPredicateFor(EmptyCell variable1, EmptyCell variable2) =>
         variable1.Column == variable2.Column
