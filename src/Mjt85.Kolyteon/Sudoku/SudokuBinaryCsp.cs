@@ -24,6 +24,7 @@ public sealed class SudokuBinaryCsp : BinaryCsp<SudokuPuzzle, EmptyCell, int>
     ///     The maximum number of binary CSP variables the new <see cref="SudokuBinaryCsp" /> can initially store without
     ///     needing to resize its internal data structures.
     /// </param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="capacity" /> is negative.</exception>
     public SudokuBinaryCsp(int capacity) : base(capacity)
     {
     }
