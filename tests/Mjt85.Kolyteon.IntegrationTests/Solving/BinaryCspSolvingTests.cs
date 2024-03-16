@@ -135,7 +135,7 @@ public abstract class BinaryCspSolvingTests
     public void BinaryCspModelsSolvableSudokuPuzzle_SolverFindsValidSolutionToPuzzle(SudokuPuzzle puzzle)
     {
         // Arrange
-        SudokuBinaryCsp binaryCsp = new(20);
+        SudokuBinaryCsp binaryCsp = SudokuBinaryCsp.WithInitialCapacity(20);
         SilentBinaryCspSolver<EmptyCell, int> solver = ConfigureSolver<EmptyCell, int>(20);
 
         binaryCsp.Model(puzzle);
@@ -153,7 +153,7 @@ public abstract class BinaryCspSolvingTests
     public void BinaryCspModelsUnsolvableSudokuPuzzle_SolverReturnsResultWithEmptyAssignments(SudokuPuzzle puzzle)
     {
         // Arrange
-        SudokuBinaryCsp binaryCsp = new(20);
+        SudokuBinaryCsp binaryCsp = SudokuBinaryCsp.WithInitialCapacity(20);
         SilentBinaryCspSolver<EmptyCell, int> solver = ConfigureSolver<EmptyCell, int>(20);
 
         binaryCsp.Model(puzzle);

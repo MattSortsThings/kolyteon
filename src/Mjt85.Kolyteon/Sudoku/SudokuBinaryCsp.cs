@@ -20,12 +20,13 @@ public sealed class SudokuBinaryCsp : BinaryCsp<SudokuPuzzle, EmptyCell, int>
     ///     Initializes a new <see cref="SudokuBinaryCsp" /> instance that is not modelling a problem and has the specified
     ///     initial capacity.
     /// </summary>
+    /// <remarks>Use the <see cref="WithInitialCapacity" /> static factory method to instantiate this class.</remarks>
     /// <param name="capacity">
     ///     The maximum number of binary CSP variables the new <see cref="SudokuBinaryCsp" /> can initially store without
     ///     needing to resize its internal data structures.
     /// </param>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="capacity" /> is negative.</exception>
-    public SudokuBinaryCsp(int capacity) : base(capacity)
+    private SudokuBinaryCsp(int capacity) : base(capacity)
     {
     }
 
@@ -110,6 +111,17 @@ public sealed class SudokuBinaryCsp : BinaryCsp<SudokuPuzzle, EmptyCell, int>
         || variable1.Sector == variable2.Sector
             ? DifferentNumbers
             : NotAdjacent;
+
+    /// <summary>
+    ///     Creates and returns a new <see cref="SudokuBinaryCsp" /> instance that is not modelling a problem and has the
+    ///     specified initial capacity.
+    /// </summary>
+    /// <param name="capacity">
+    ///     The maximum number of binary CSP variables the new <see cref="SudokuBinaryCsp" /> can initially store without
+    ///     needing to resize its internal data structures.
+    /// </param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="capacity" /> is negative.</exception>
+    public static SudokuBinaryCsp WithInitialCapacity(int capacity) => new(capacity);
 
     private static BitArray[] InitializeFreeNumbersLookup()
     {

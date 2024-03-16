@@ -13,7 +13,7 @@ public sealed class SudokuHooks
     [Scope(Feature = "Sudoku")]
     public static void RegisterBinaryCsp(IObjectContainer objectContainer)
     {
-        SudokuBinaryCsp binaryCsp = new(10);
+        SudokuBinaryCsp binaryCsp = SudokuBinaryCsp.WithInitialCapacity(10);
         objectContainer.RegisterInstanceAs<IModellingBinaryCsp<SudokuPuzzle, EmptyCell, int>>(binaryCsp);
     }
 

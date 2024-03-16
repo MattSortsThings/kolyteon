@@ -344,7 +344,7 @@ public sealed class BinaryCspModellingTests
         public void BinaryCspHasExpectedVariables(SudokuPuzzle puzzle, IEnumerable<EmptyCell> expected)
         {
             // Arrange
-            SudokuBinaryCsp binaryCsp = new(10);
+            SudokuBinaryCsp binaryCsp = SudokuBinaryCsp.WithInitialCapacity(10);
 
             // Act
             binaryCsp.Model(puzzle);
@@ -358,7 +358,7 @@ public sealed class BinaryCspModellingTests
         public void BinaryCspHasExpectedDomains(SudokuPuzzle puzzle, IEnumerable<IReadOnlyList<int>> expected)
         {
             // Arrange
-            SudokuBinaryCsp binaryCsp = new(10);
+            SudokuBinaryCsp binaryCsp = SudokuBinaryCsp.WithInitialCapacity(10);
 
             // Act
             binaryCsp.Model(puzzle);
@@ -372,7 +372,7 @@ public sealed class BinaryCspModellingTests
         public void BinaryCspHasExpectedAdjacentVariables(SudokuPuzzle puzzle, IEnumerable<Pair<EmptyCell>> expected)
         {
             // Arrange
-            SudokuBinaryCsp binaryCsp = new(10);
+            SudokuBinaryCsp binaryCsp = SudokuBinaryCsp.WithInitialCapacity(10);
 
             // Act
             binaryCsp.Model(puzzle);
@@ -386,7 +386,7 @@ public sealed class BinaryCspModellingTests
         public void BinaryCspHasExpectedProblemMetrics(SudokuPuzzle puzzle, ProblemMetrics expected)
         {
             // Arrange
-            SudokuBinaryCsp binaryCsp = new(10);
+            SudokuBinaryCsp binaryCsp = SudokuBinaryCsp.WithInitialCapacity(10);
 
             // Act
             binaryCsp.Model(puzzle);
@@ -400,7 +400,7 @@ public sealed class BinaryCspModellingTests
         public void BinaryCspHasExpectedDomainSizeStatistics(SudokuPuzzle puzzle, DomainSizeStatistics expected)
         {
             // Arrange
-            SudokuBinaryCsp binaryCsp = new(10);
+            SudokuBinaryCsp binaryCsp = SudokuBinaryCsp.WithInitialCapacity(10);
 
             // Act
             binaryCsp.Model(puzzle);
@@ -415,7 +415,7 @@ public sealed class BinaryCspModellingTests
         public void BinaryCspHasExpectedDegreeStatistics(SudokuPuzzle puzzle, DegreeStatistics expected)
         {
             // Arrange
-            SudokuBinaryCsp binaryCsp = new(10);
+            SudokuBinaryCsp binaryCsp = SudokuBinaryCsp.WithInitialCapacity(10);
 
             // Act
             binaryCsp.Model(puzzle);
@@ -429,7 +429,7 @@ public sealed class BinaryCspModellingTests
         public void BinaryCspHasExpectedSumTightnessStatistics(SudokuPuzzle puzzle, SumTightnessStatistics expected)
         {
             // Arrange
-            SudokuBinaryCsp binaryCsp = new(10);
+            SudokuBinaryCsp binaryCsp = SudokuBinaryCsp.WithInitialCapacity(10);
 
             // Act
             binaryCsp.Model(puzzle);

@@ -172,7 +172,7 @@ public abstract class VerboseBinaryCspSolvingTests
     public async Task BinaryCspModelsSolvableSudokuPuzzle_SolverFindsValidSolutionToPuzzle_UpdatesProgress(SudokuPuzzle puzzle)
     {
         // Arrange
-        SudokuBinaryCsp binaryCsp = new(20);
+        SudokuBinaryCsp binaryCsp = SudokuBinaryCsp.WithInitialCapacity(20);
         VerboseBinaryCspSolver<EmptyCell, int> solver = ConfigureSolver<EmptyCell, int>(20);
         OneLineSummaryProgress<EmptyCell, int> progress = new();
 
@@ -196,7 +196,7 @@ public abstract class VerboseBinaryCspSolvingTests
         SudokuPuzzle puzzle)
     {
         // Arrange
-        SudokuBinaryCsp binaryCsp = new(20);
+        SudokuBinaryCsp binaryCsp = SudokuBinaryCsp.WithInitialCapacity(20);
         VerboseBinaryCspSolver<EmptyCell, int> solver = ConfigureSolver<EmptyCell, int>(20);
         OneLineSummaryProgress<EmptyCell, int> progress = new();
 

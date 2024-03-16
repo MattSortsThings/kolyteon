@@ -26,7 +26,7 @@ public sealed class SudokuBinaryCspTests
         public void Models_VariablesAreEmptyCellsOrderedByColumnThenByRow()
         {
             // Arrange
-            SudokuBinaryCsp sut = new(8);
+            SudokuBinaryCsp sut = SudokuBinaryCsp.WithInitialCapacity(8);
 
             SudokuPuzzle puzzle = SudokuPuzzle.FromGrid(new int?[,]
             {
@@ -52,7 +52,7 @@ public sealed class SudokuBinaryCspTests
         public void Models_DomainsAreIntersectionOfFreeNumbersForColumnAndRowAndSector_InAscendingOrder()
         {
             // Arrange
-            SudokuBinaryCsp sut = new(7);
+            SudokuBinaryCsp sut = SudokuBinaryCsp.WithInitialCapacity(7);
 
             SudokuPuzzle puzzle = SudokuPuzzle.FromGrid(new int?[,]
             {
@@ -90,7 +90,7 @@ public sealed class SudokuBinaryCspTests
         public void Models_AddsConstraintForEveryPairOfObstructingEmptyCellsWithAtLeastOneSharedNumberInTheirDomains()
         {
             // Arrange
-            SudokuBinaryCsp sut = new(7);
+            SudokuBinaryCsp sut = SudokuBinaryCsp.WithInitialCapacity(7);
 
             SudokuPuzzle puzzle = SudokuPuzzle.FromGrid(new int?[,]
             {
@@ -121,7 +121,7 @@ public sealed class SudokuBinaryCspTests
         public void Models_UpdatesAllProblemMetricsProperties()
         {
             // Arrange
-            SudokuBinaryCsp sut = new(7);
+            SudokuBinaryCsp sut = SudokuBinaryCsp.WithInitialCapacity(7);
 
             SudokuPuzzle puzzle = SudokuPuzzle.FromGrid(new int?[,]
             {
