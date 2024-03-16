@@ -126,7 +126,7 @@ public abstract class VerboseBinaryCspSolvingTests
     public async Task BinaryCspModelsSolvableShikakuPuzzle_SolverFindsValidSolutionToPuzzle_UpdatesProgress(ShikakuPuzzle puzzle)
     {
         // Arrange
-        ShikakuBinaryCsp binaryCsp = new(puzzle.Hints.Count);
+        ShikakuBinaryCsp binaryCsp = ShikakuBinaryCsp.WithInitialCapacity(puzzle.Hints.Count);
         VerboseBinaryCspSolver<Hint, Rectangle> solver = ConfigureSolver<Hint, Rectangle>(puzzle.Hints.Count);
         OneLineSummaryProgress<Hint, Rectangle> progress = new();
 
@@ -150,7 +150,7 @@ public abstract class VerboseBinaryCspSolvingTests
         ShikakuPuzzle puzzle)
     {
         // Arrange
-        ShikakuBinaryCsp binaryCsp = new(puzzle.Hints.Count);
+        ShikakuBinaryCsp binaryCsp = ShikakuBinaryCsp.WithInitialCapacity(puzzle.Hints.Count);
         VerboseBinaryCspSolver<Hint, Rectangle> solver = ConfigureSolver<Hint, Rectangle>(puzzle.Hints.Count);
         OneLineSummaryProgress<Hint, Rectangle> progress = new();
 

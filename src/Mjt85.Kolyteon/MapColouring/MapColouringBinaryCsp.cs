@@ -21,6 +21,7 @@ public sealed class MapColouringBinaryCsp : BinaryCsp<MapColouringPuzzle, Region
     ///     The maximum number of binary CSP variables the new <see cref="MapColouringBinaryCsp" /> can initially store without
     ///     needing to resize its internal data structures.
     /// </param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="capacity" /> is negative.</exception>
     private MapColouringBinaryCsp(int capacity) : base(capacity)
     {
         _coloursByRegion = new Dictionary<Region, IReadOnlyCollection<Colour>>(capacity);

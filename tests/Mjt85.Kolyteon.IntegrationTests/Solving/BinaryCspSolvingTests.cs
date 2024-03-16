@@ -100,7 +100,7 @@ public abstract class BinaryCspSolvingTests
     public void BinaryCspModelsSolvableShikakuPuzzle_SolverFindsValidSolutionToPuzzle(ShikakuPuzzle puzzle)
     {
         // Arrange
-        ShikakuBinaryCsp binaryCsp = new(puzzle.Hints.Count);
+        ShikakuBinaryCsp binaryCsp = ShikakuBinaryCsp.WithInitialCapacity(puzzle.Hints.Count);
         SilentBinaryCspSolver<Hint, Rectangle> solver = ConfigureSolver<Hint, Rectangle>(puzzle.Hints.Count);
 
         binaryCsp.Model(puzzle);
@@ -118,7 +118,7 @@ public abstract class BinaryCspSolvingTests
     public void BinaryCspModelsUnsolvableShikakuPuzzle_SolverReturnsResultWithEmptyAssignments(ShikakuPuzzle puzzle)
     {
         // Arrange
-        ShikakuBinaryCsp binaryCsp = new(puzzle.Hints.Count);
+        ShikakuBinaryCsp binaryCsp = ShikakuBinaryCsp.WithInitialCapacity(puzzle.Hints.Count);
         SilentBinaryCspSolver<Hint, Rectangle> solver = ConfigureSolver<Hint, Rectangle>(puzzle.Hints.Count);
 
         binaryCsp.Model(puzzle);

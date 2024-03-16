@@ -20,6 +20,7 @@ public sealed class NQueensBinaryCsp : BinaryCsp<NQueensPuzzle, int, Queen>
     ///     The maximum number of binary CSP variables the new <see cref="NQueensBinaryCsp" /> can initially
     ///     store without needing to resize its internal data structures.
     /// </param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="capacity" /> is negative.</exception>
     private NQueensBinaryCsp(int capacity) : base(capacity)
     {
     }

@@ -13,7 +13,7 @@ public sealed class ShikakuHooks
     [Scope(Feature = "Shikaku")]
     public static void RegisterBinaryCsp(IObjectContainer objectContainer)
     {
-        ShikakuBinaryCsp binaryCsp = new(10);
+        ShikakuBinaryCsp binaryCsp = ShikakuBinaryCsp.WithInitialCapacity(10);
         objectContainer.RegisterInstanceAs<IModellingBinaryCsp<ShikakuPuzzle, Hint, Rectangle>>(binaryCsp);
     }
 

@@ -22,7 +22,7 @@ public sealed class ShikakuBinaryCspTests
         public void Models_VariablesAreHintsOrderedByColumnThenByRow()
         {
             // Arrange
-            ShikakuBinaryCsp sut = new(4);
+            ShikakuBinaryCsp sut = ShikakuBinaryCsp.WithInitialCapacity(4);
 
             ShikakuPuzzle puzzle = ShikakuPuzzle.FromGrid(new int?[,]
             {
@@ -44,7 +44,7 @@ public sealed class ShikakuBinaryCspTests
         public void Models_DomainsAreAllRectanglesOfAreaEqualToHintNumberInsideGridEnclosingNoOtherHint_OrderedByRectangleSort()
         {
             // Arrange
-            ShikakuBinaryCsp sut = new(4);
+            ShikakuBinaryCsp sut = ShikakuBinaryCsp.WithInitialCapacity(4);
 
             ShikakuPuzzle puzzle = ShikakuPuzzle.FromGrid(new int?[,]
             {
@@ -86,7 +86,7 @@ public sealed class ShikakuBinaryCspTests
         public void Models_AddsConstraintForEveryHintPairWithAtLeastOnePairOfOverlappingRectanglesInDomains()
         {
             // Arrange
-            ShikakuBinaryCsp sut = new(4);
+            ShikakuBinaryCsp sut = ShikakuBinaryCsp.WithInitialCapacity(4);
 
             ShikakuPuzzle puzzle = ShikakuPuzzle.FromGrid(new int?[,]
             {
@@ -115,7 +115,7 @@ public sealed class ShikakuBinaryCspTests
         public void Models_UpdatesAllProblemMetricsProperties()
         {
             // Arrange
-            ShikakuBinaryCsp sut = new(4);
+            ShikakuBinaryCsp sut = ShikakuBinaryCsp.WithInitialCapacity(4);
 
             ShikakuPuzzle puzzle = ShikakuPuzzle.FromGrid(new int?[,]
             {

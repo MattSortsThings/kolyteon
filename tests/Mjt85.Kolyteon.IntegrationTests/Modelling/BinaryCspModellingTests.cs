@@ -240,7 +240,7 @@ public sealed class BinaryCspModellingTests
         public void BinaryCspHasExpectedVariables(ShikakuPuzzle puzzle, IEnumerable<Hint> expected)
         {
             // Arrange
-            ShikakuBinaryCsp binaryCsp = new(puzzle.Hints.Count);
+            ShikakuBinaryCsp binaryCsp = ShikakuBinaryCsp.WithInitialCapacity(puzzle.Hints.Count);
 
             // Act
             binaryCsp.Model(puzzle);
@@ -254,7 +254,7 @@ public sealed class BinaryCspModellingTests
         public void BinaryCspHasExpectedDomains(ShikakuPuzzle puzzle, IEnumerable<IReadOnlyList<Rectangle>> expected)
         {
             // Arrange
-            ShikakuBinaryCsp binaryCsp = new(puzzle.Hints.Count);
+            ShikakuBinaryCsp binaryCsp = ShikakuBinaryCsp.WithInitialCapacity(puzzle.Hints.Count);
 
             // Act
             binaryCsp.Model(puzzle);
@@ -268,7 +268,7 @@ public sealed class BinaryCspModellingTests
         public void BinaryCspHasExpectedAdjacentVariables(ShikakuPuzzle puzzle, IEnumerable<Pair<Hint>> expected)
         {
             // Arrange
-            ShikakuBinaryCsp binaryCsp = new(puzzle.Hints.Count);
+            ShikakuBinaryCsp binaryCsp = ShikakuBinaryCsp.WithInitialCapacity(puzzle.Hints.Count);
 
             // Act
             binaryCsp.Model(puzzle);
@@ -282,7 +282,7 @@ public sealed class BinaryCspModellingTests
         public void BinaryCspHasExpectedProblemMetrics(ShikakuPuzzle puzzle, ProblemMetrics expected)
         {
             // Arrange
-            ShikakuBinaryCsp binaryCsp = new(puzzle.Hints.Count);
+            ShikakuBinaryCsp binaryCsp = ShikakuBinaryCsp.WithInitialCapacity(puzzle.Hints.Count);
 
             // Act
             binaryCsp.Model(puzzle);
@@ -296,7 +296,7 @@ public sealed class BinaryCspModellingTests
         public void BinaryCspHasExpectedDomainSizeStatistics(ShikakuPuzzle puzzle, DomainSizeStatistics expected)
         {
             // Arrange
-            ShikakuBinaryCsp binaryCsp = new(puzzle.Hints.Count);
+            ShikakuBinaryCsp binaryCsp = ShikakuBinaryCsp.WithInitialCapacity(puzzle.Hints.Count);
 
             // Act
             binaryCsp.Model(puzzle);
@@ -311,7 +311,7 @@ public sealed class BinaryCspModellingTests
         public void BinaryCspHasExpectedDegreeStatistics(ShikakuPuzzle puzzle, DegreeStatistics expected)
         {
             // Arrange
-            ShikakuBinaryCsp binaryCsp = new(puzzle.Hints.Count);
+            ShikakuBinaryCsp binaryCsp = ShikakuBinaryCsp.WithInitialCapacity(puzzle.Hints.Count);
 
             // Act
             binaryCsp.Model(puzzle);
@@ -325,7 +325,7 @@ public sealed class BinaryCspModellingTests
         public void BinaryCspHasExpectedSumTightnessStatistics(ShikakuPuzzle puzzle, SumTightnessStatistics expected)
         {
             // Arrange
-            ShikakuBinaryCsp binaryCsp = new(puzzle.Hints.Count);
+            ShikakuBinaryCsp binaryCsp = ShikakuBinaryCsp.WithInitialCapacity(puzzle.Hints.Count);
 
             // Act
             binaryCsp.Model(puzzle);
