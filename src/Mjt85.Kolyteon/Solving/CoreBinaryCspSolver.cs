@@ -1,6 +1,6 @@
 ﻿using Mjt85.Kolyteon.Modelling;
-using Mjt85.Kolyteon.Solving.OrderingStrategies;
-using Mjt85.Kolyteon.Solving.SearchStrategies;
+using Mjt85.Kolyteon.Solving.Internals.OrderingStrategies;
+using Mjt85.Kolyteon.Solving.Internals.SearchStrategies;
 
 namespace Mjt85.Kolyteon.Solving;
 

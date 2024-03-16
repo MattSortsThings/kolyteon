@@ -1,6 +1,6 @@
 ﻿using Mjt85.Kolyteon.Solving;
-using Mjt85.Kolyteon.Solving.OrderingStrategies;
-using Mjt85.Kolyteon.Solving.SearchTrees;
+using Mjt85.Kolyteon.Solving.Internals.OrderingStrategies;
+using Mjt85.Kolyteon.Solving.Internals.SearchTrees;
 using Mjt85.Kolyteon.UnitTests.Helpers;
 
 namespace Mjt85.Kolyteon.UnitTests.Solving.Internals.OrderingStrategies;

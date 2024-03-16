@@ -15,4 +15,8 @@
         </AssemblyAttribute>
     </ItemGroup>
 
+    <ItemGroup>
+        <Folder Include="Solving\Internals\"/>
+    </ItemGroup>
+
 </Project>

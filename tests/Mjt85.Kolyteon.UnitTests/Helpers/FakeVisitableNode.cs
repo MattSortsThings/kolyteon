@@ -1,4 +1,4 @@
-﻿using Mjt85.Kolyteon.Solving.SearchTrees;
+﻿using Mjt85.Kolyteon.Solving.Internals.SearchTrees;
 
 namespace Mjt85.Kolyteon.UnitTests.Helpers;
 

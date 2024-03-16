@@ -1,5 +1,5 @@
 ﻿using Mjt85.Kolyteon.Solving;
-using Mjt85.Kolyteon.Solving.OrderingStrategies;
+using Mjt85.Kolyteon.Solving.Internals.OrderingStrategies;
 
 namespace Mjt85.Kolyteon.UnitTests.Solving.Internals.OrderingStrategies;
 

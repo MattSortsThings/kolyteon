@@ -1,8 +1,8 @@
 ﻿using Mjt85.Kolyteon.MapColouring;
 using Mjt85.Kolyteon.Solving;
-using Mjt85.Kolyteon.Solving.SearchStrategies;
-using Mjt85.Kolyteon.Solving.SearchStrategies.LookAhead;
-using Mjt85.Kolyteon.Solving.SearchStrategies.LookBack;
+using Mjt85.Kolyteon.Solving.Internals.SearchStrategies;
+using Mjt85.Kolyteon.Solving.Internals.SearchStrategies.LookAhead;
+using Mjt85.Kolyteon.Solving.Internals.SearchStrategies.LookBack;
 
 namespace Mjt85.Kolyteon.UnitTests.Solving.Internals.SearchStrategies;
 

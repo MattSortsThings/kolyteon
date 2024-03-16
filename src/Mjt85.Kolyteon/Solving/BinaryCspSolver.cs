@@ -1,8 +1,8 @@
 ﻿using Mjt85.Kolyteon.Modelling;
-using Mjt85.Kolyteon.Solving.Builders;
-using Mjt85.Kolyteon.Solving.Guards;
-using Mjt85.Kolyteon.Solving.OrderingStrategies;
-using Mjt85.Kolyteon.Solving.SearchStrategies;
+using Mjt85.Kolyteon.Solving.Internals.Builders;
+using Mjt85.Kolyteon.Solving.Internals.Guards;
+using Mjt85.Kolyteon.Solving.Internals.OrderingStrategies;
+using Mjt85.Kolyteon.Solving.Internals.SearchStrategies;
 
 namespace Mjt85.Kolyteon.Solving;
 
