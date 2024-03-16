@@ -16,12 +16,12 @@ public sealed class MapColouringBinaryCsp : BinaryCsp<MapColouringPuzzle, Region
     ///     Initializes a new <see cref="MapColouringBinaryCsp" /> instance that is not modelling a problem and has the
     ///     specified initial capacity.
     /// </summary>
+    /// <remarks>Use the <see cref="WithInitialCapacity" /> static factory method to instantiate this class.</remarks>
     /// <param name="capacity">
     ///     The maximum number of binary CSP variables the new <see cref="MapColouringBinaryCsp" /> can initially store without
     ///     needing to resize its internal data structures.
     /// </param>
-    /// <exception cref="ArgumentOutOfRangeException"><paramref name="capacity" /> is negative.</exception>
-    public MapColouringBinaryCsp(int capacity) : base(capacity)
+    private MapColouringBinaryCsp(int capacity) : base(capacity)
     {
         _coloursByRegion = new Dictionary<Region, IReadOnlyCollection<Colour>>(capacity);
         _neighboursByRegion = new Dictionary<Region, HashSet<Region>>(capacity);
@@ -100,6 +100,17 @@ public sealed class MapColouringBinaryCsp : BinaryCsp<MapColouringPuzzle, Region
 
         return NotAdjacent;
     }
+
+    /// <summary>
+    ///     Creates and returns a new <see cref="MapColouringBinaryCsp" /> instance that is not modelling a problem and has the
+    ///     specified initial capacity.
+    /// </summary>
+    /// <param name="capacity">
+    ///     The maximum number of binary CSP variables the new <see cref="MapColouringBinaryCsp" /> can initially store without
+    ///     needing to resize its internal data structures.
+    /// </param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="capacity" /> is negative.</exception>
+    public static MapColouringBinaryCsp WithInitialCapacity(int capacity) => new(capacity);
 
     private sealed class DifferentColoursPredicate : IBinaryPredicate<Colour>
     {

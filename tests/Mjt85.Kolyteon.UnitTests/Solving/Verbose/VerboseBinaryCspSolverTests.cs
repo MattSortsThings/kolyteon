@@ -78,7 +78,7 @@ public sealed class VerboseBinaryCspSolverTests
                 .SetAsNeighbours(R0, R1)
                 .Build();
 
-            MapColouringBinaryCsp binaryCsp = new(2);
+            MapColouringBinaryCsp binaryCsp = MapColouringBinaryCsp.WithInitialCapacity(2);
             binaryCsp.Model(puzzle);
 
             VerboseBinaryCspSolver<Region, Colour> solver = CreateBinaryCspSolver
@@ -150,7 +150,7 @@ public sealed class VerboseBinaryCspSolverTests
                 .SetAsNeighbours(R0, R1)
                 .Build();
 
-            MapColouringBinaryCsp binaryCsp = new(2);
+            MapColouringBinaryCsp binaryCsp = MapColouringBinaryCsp.WithInitialCapacity(2);
             binaryCsp.Model(puzzle);
 
             VerboseBinaryCspSolver<Region, Colour> solver = CreateBinaryCspSolver

@@ -30,7 +30,7 @@ public abstract class BinaryCspSolvingTests
     public void BinaryCspModelsSolvableMapColouringPuzzle_SolverFindsValidSolutionToPuzzle(MapColouringPuzzle puzzle)
     {
         // Arrange
-        MapColouringBinaryCsp binaryCsp = new(puzzle.RegionData.Count);
+        MapColouringBinaryCsp binaryCsp = MapColouringBinaryCsp.WithInitialCapacity(puzzle.RegionData.Count);
         SilentBinaryCspSolver<Region, Colour> solver = ConfigureSolver<Region, Colour>(puzzle.RegionData.Count);
 
         binaryCsp.Model(puzzle);
@@ -48,7 +48,7 @@ public abstract class BinaryCspSolvingTests
     public void BinaryCspModelsUnsolvableMapColouringPuzzle_SolverReturnsResultWithEmptyAssignments(MapColouringPuzzle puzzle)
     {
         // Arrange
-        MapColouringBinaryCsp binaryCsp = new(puzzle.RegionData.Count);
+        MapColouringBinaryCsp binaryCsp = MapColouringBinaryCsp.WithInitialCapacity(puzzle.RegionData.Count);
         SilentBinaryCspSolver<Region, Colour> solver = ConfigureSolver<Region, Colour>(puzzle.RegionData.Count);
 
         binaryCsp.Model(puzzle);

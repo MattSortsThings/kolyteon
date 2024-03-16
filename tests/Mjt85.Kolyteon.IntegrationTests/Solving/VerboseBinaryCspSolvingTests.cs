@@ -34,7 +34,7 @@ public abstract class VerboseBinaryCspSolvingTests
         MapColouringPuzzle puzzle)
     {
         // Arrange
-        MapColouringBinaryCsp binaryCsp = new(puzzle.RegionData.Count);
+        MapColouringBinaryCsp binaryCsp = MapColouringBinaryCsp.WithInitialCapacity(puzzle.RegionData.Count);
         VerboseBinaryCspSolver<Region, Colour> solver = ConfigureSolver<Region, Colour>(puzzle.RegionData.Count);
         OneLineSummaryProgress<Region, Colour> progress = new();
 
@@ -58,7 +58,7 @@ public abstract class VerboseBinaryCspSolvingTests
         MapColouringPuzzle puzzle)
     {
         // Arrange
-        MapColouringBinaryCsp binaryCsp = new(puzzle.RegionData.Count);
+        MapColouringBinaryCsp binaryCsp = MapColouringBinaryCsp.WithInitialCapacity(puzzle.RegionData.Count);
         VerboseBinaryCspSolver<Region, Colour> solver = ConfigureSolver<Region, Colour>(puzzle.RegionData.Count);
         OneLineSummaryProgress<Region, Colour> progress = new();
 

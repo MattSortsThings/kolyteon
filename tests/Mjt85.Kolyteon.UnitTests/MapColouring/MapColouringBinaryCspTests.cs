@@ -23,7 +23,7 @@ public sealed class MapColouringBinaryCspTests
         public void Models_VariablesAreRegionsOrderedById()
         {
             // Arrange
-            MapColouringBinaryCsp sut = new(5);
+            MapColouringBinaryCsp sut = MapColouringBinaryCsp.WithInitialCapacity(5);
 
             MapColouringPuzzle puzzle = MapColouringPuzzle.Create()
                 .WithGlobalColours(Colour.Black)
@@ -41,7 +41,7 @@ public sealed class MapColouringBinaryCspTests
         public void Models_DomainsArePermittedColoursForEachRegion_DuplicateValuesRemoved_OrderedById()
         {
             // Arrange
-            MapColouringBinaryCsp sut = new(4);
+            MapColouringBinaryCsp sut = MapColouringBinaryCsp.WithInitialCapacity(4);
 
             MapColouringPuzzle puzzle = MapColouringPuzzle.Create()
                 .WithRegionSpecificColours()
@@ -70,7 +70,7 @@ public sealed class MapColouringBinaryCspTests
         public void Models_AddsConstraintForEachPairOfNeighbouringRegionsWithAtLeastOneCommonPermittedColour()
         {
             // Arrange
-            MapColouringBinaryCsp sut = new(4);
+            MapColouringBinaryCsp sut = MapColouringBinaryCsp.WithInitialCapacity(4);
 
             MapColouringPuzzle puzzle = MapColouringPuzzle.Create()
                 .WithRegionSpecificColours()
@@ -99,7 +99,7 @@ public sealed class MapColouringBinaryCspTests
         public void Models_UpdatesAllProblemMetricsProperties()
         {
             // Arrange
-            MapColouringBinaryCsp sut = new(5);
+            MapColouringBinaryCsp sut = MapColouringBinaryCsp.WithInitialCapacity(5);
 
             MapColouringPuzzle puzzle = MapColouringPuzzle.Create()
                 .WithGlobalColours(Colour.Black, Colour.White)

@@ -24,7 +24,7 @@ public sealed class MapColouringHooks
     [Scope(Feature = "Map Colouring")]
     public static void RegisterBinaryCsp(IObjectContainer objectContainer)
     {
-        MapColouringBinaryCsp binaryCsp = new(10);
+        MapColouringBinaryCsp binaryCsp = MapColouringBinaryCsp.WithInitialCapacity(10);
         objectContainer.RegisterInstanceAs<IModellingBinaryCsp<MapColouringPuzzle, Region, Colour>>(binaryCsp);
     }
 

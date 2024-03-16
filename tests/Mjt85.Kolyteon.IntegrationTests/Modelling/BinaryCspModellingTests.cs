@@ -28,7 +28,7 @@ public sealed class BinaryCspModellingTests
         public void BinaryCspHasExpectedVariables(MapColouringPuzzle puzzle, IEnumerable<Region> expected)
         {
             // Arrange
-            MapColouringBinaryCsp binaryCsp = new(puzzle.RegionData.Count);
+            MapColouringBinaryCsp binaryCsp = MapColouringBinaryCsp.WithInitialCapacity(puzzle.RegionData.Count);
 
             // Act
             binaryCsp.Model(puzzle);
@@ -42,7 +42,7 @@ public sealed class BinaryCspModellingTests
         public void BinaryCspHasExpectedDomains(MapColouringPuzzle puzzle, IEnumerable<IReadOnlyList<Colour>> expected)
         {
             // Arrange
-            MapColouringBinaryCsp binaryCsp = new(puzzle.RegionData.Count);
+            MapColouringBinaryCsp binaryCsp = MapColouringBinaryCsp.WithInitialCapacity(puzzle.RegionData.Count);
 
             // Act
             binaryCsp.Model(puzzle);
@@ -56,7 +56,7 @@ public sealed class BinaryCspModellingTests
         public void BinaryCspHasExpectedAdjacentVariables(MapColouringPuzzle puzzle, IEnumerable<Pair<Region>> expected)
         {
             // Arrange
-            MapColouringBinaryCsp binaryCsp = new(puzzle.RegionData.Count);
+            MapColouringBinaryCsp binaryCsp = MapColouringBinaryCsp.WithInitialCapacity(puzzle.RegionData.Count);
 
             // Act
             binaryCsp.Model(puzzle);
@@ -70,7 +70,7 @@ public sealed class BinaryCspModellingTests
         public void BinaryCspHasExpectedProblemMetrics(MapColouringPuzzle puzzle, ProblemMetrics expected)
         {
             // Arrange
-            MapColouringBinaryCsp binaryCsp = new(puzzle.RegionData.Count);
+            MapColouringBinaryCsp binaryCsp = MapColouringBinaryCsp.WithInitialCapacity(puzzle.RegionData.Count);
 
             // Act
             binaryCsp.Model(puzzle);
@@ -85,7 +85,7 @@ public sealed class BinaryCspModellingTests
         public void BinaryCspHasExpectedDomainSizeStatistics(MapColouringPuzzle puzzle, DomainSizeStatistics expected)
         {
             // Arrange
-            MapColouringBinaryCsp binaryCsp = new(puzzle.RegionData.Count);
+            MapColouringBinaryCsp binaryCsp = MapColouringBinaryCsp.WithInitialCapacity(puzzle.RegionData.Count);
 
             // Act
             binaryCsp.Model(puzzle);
@@ -100,7 +100,7 @@ public sealed class BinaryCspModellingTests
         public void BinaryCspHasExpectedDegreeStatistics(MapColouringPuzzle puzzle, DegreeStatistics expected)
         {
             // Arrange
-            MapColouringBinaryCsp binaryCsp = new(puzzle.RegionData.Count);
+            MapColouringBinaryCsp binaryCsp = MapColouringBinaryCsp.WithInitialCapacity(puzzle.RegionData.Count);
 
             // Act
             binaryCsp.Model(puzzle);
@@ -115,7 +115,7 @@ public sealed class BinaryCspModellingTests
         public void BinaryCspHasExpectedSumTightnessStatistics(MapColouringPuzzle puzzle, SumTightnessStatistics expected)
         {
             // Arrange
-            MapColouringBinaryCsp binaryCsp = new(puzzle.RegionData.Count);
+            MapColouringBinaryCsp binaryCsp = MapColouringBinaryCsp.WithInitialCapacity(puzzle.RegionData.Count);
 
             // Act
             binaryCsp.Model(puzzle);
