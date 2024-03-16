@@ -30,7 +30,7 @@ public sealed class SudokuBinaryCsp : BinaryCsp<SudokuPuzzle, EmptyCell, int>
     }
 
     /// <inheritdoc />
-    protected override void PopulateProblemData(SudokuPuzzle problem)
+    private protected override void PopulateProblemData(SudokuPuzzle problem)
     {
         foreach (var (column, row, sector, number) in problem.FilledCells)
         {
@@ -42,7 +42,7 @@ public sealed class SudokuBinaryCsp : BinaryCsp<SudokuPuzzle, EmptyCell, int>
     }
 
     /// <inheritdoc />
-    protected override void ClearProblemData()
+    private protected override void ClearProblemData()
     {
         foreach (BitArray arr in _freeNumbersByColumn.Concat(_freeNumbersByRow).Concat(_freeNumbersBySector).Append(_emptyCells))
         {
@@ -52,7 +52,7 @@ public sealed class SudokuBinaryCsp : BinaryCsp<SudokuPuzzle, EmptyCell, int>
 
     /// <inheritdoc />
     /// <remarks>In the Sudoku binary CSP model, the variables are the set of all empty cells in the puzzle grid.</remarks>
-    protected override IEnumerable<EmptyCell> GetVariables()
+    private protected override IEnumerable<EmptyCell> GetVariables()
     {
         var column = 0;
         var row = 0;
@@ -80,7 +80,7 @@ public sealed class SudokuBinaryCsp : BinaryCsp<SudokuPuzzle, EmptyCell, int>
     ///         </item>
     ///     </list>
     /// </remarks>
-    protected override IEnumerable<int> GetDomainOf(EmptyCell variable)
+    private protected override IEnumerable<int> GetDomainOf(EmptyCell variable)
     {
         var (column, row, sector) = variable;
         BitArray array = InitializeFreeNumbersArray()
@@ -104,7 +104,7 @@ public sealed class SudokuBinaryCsp : BinaryCsp<SudokuPuzzle, EmptyCell, int>
     ///     must be assigned different integer values. The constraint is only added to the binary CSP if it is genuine, that
     ///     is, if there exists at least one pair of equal numbers from the Cartesian product of the variables' domains.
     /// </remarks>
-    protected override IBinaryPredicate<int> GetBinaryPredicateFor(EmptyCell variable1, EmptyCell variable2) =>
+    private protected override IBinaryPredicate<int> GetBinaryPredicateFor(EmptyCell variable1, EmptyCell variable2) =>
         variable1.Column == variable2.Column
         || variable1.Row == variable2.Row
         || variable1.Sector == variable2.Sector

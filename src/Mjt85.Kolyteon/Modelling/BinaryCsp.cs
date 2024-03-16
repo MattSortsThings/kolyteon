@@ -271,7 +271,7 @@ public abstract class BinaryCsp<P, V, D> : ITestableBinaryCsp<P, V, D>
     ///     invoke this method on the base class.
     /// </remarks>
     /// <returns>A non-negative 32-bit signed integer. The new capacity of this instance.</returns>
-    public virtual int EnsureCapacity(int capacity)
+    protected virtual int EnsureCapacity(int capacity)
     {
         var newCapacity = _nodes.EnsureCapacity(capacity);
         _ = _edgeMatrix.EnsureCapacity(capacity);
@@ -293,21 +293,21 @@ public abstract class BinaryCsp<P, V, D> : ITestableBinaryCsp<P, V, D>
     ///         invoke this method on the base class.
     ///     </para>
     /// </remarks>
-    public virtual void TrimExcess()
+    protected virtual void TrimExcess()
     {
         _nodes.TrimExcess();
         _edgeMatrix.TrimExcess();
     }
 
-    protected abstract void PopulateProblemData(P problem);
+    private protected abstract void PopulateProblemData(P problem);
 
-    protected abstract void ClearProblemData();
+    private protected abstract void ClearProblemData();
 
-    protected abstract IEnumerable<V> GetVariables();
+    private protected abstract IEnumerable<V> GetVariables();
 
-    protected abstract IEnumerable<D> GetDomainOf(V variable);
+    private protected abstract IEnumerable<D> GetDomainOf(V variable);
 
-    protected abstract IBinaryPredicate<D> GetBinaryPredicateFor(V variable1, V variable2);
+    private protected abstract IBinaryPredicate<D> GetBinaryPredicateFor(V variable1, V variable2);
 
     private DomainSizeStatistics QueryDomainSizeStatistics()
     {

@@ -16,13 +16,13 @@ public sealed class TestBinaryCsp : BinaryCsp<TestProblem, Letter, Digit>
         _problemData = new Dictionary<Letter, Digit[]>(capacity);
     }
 
-    public override void TrimExcess()
+    protected override void TrimExcess()
     {
         base.TrimExcess();
         _problemData.TrimExcess();
     }
 
-    public override int EnsureCapacity(int capacity)
+    protected override int EnsureCapacity(int capacity)
     {
         var newCapacity = base.EnsureCapacity(capacity);
         _ = _problemData.EnsureCapacity(capacity);
@@ -30,7 +30,7 @@ public sealed class TestBinaryCsp : BinaryCsp<TestProblem, Letter, Digit>
         return newCapacity;
     }
 
-    protected override void PopulateProblemData(TestProblem problem)
+    private protected override void PopulateProblemData(TestProblem problem)
     {
         foreach ((Letter key, Digit[] value) in problem)
         {
@@ -38,13 +38,14 @@ public sealed class TestBinaryCsp : BinaryCsp<TestProblem, Letter, Digit>
         }
     }
 
-    protected override void ClearProblemData() => _problemData.Clear();
+    private protected override void ClearProblemData() => _problemData.Clear();
 
-    protected override IEnumerable<Letter> GetVariables() => _problemData.Keys;
+    private protected override IEnumerable<Letter> GetVariables() => _problemData.Keys;
 
-    protected override IEnumerable<Digit> GetDomainOf(Letter variable) => _problemData[variable];
+    private protected override IEnumerable<Digit> GetDomainOf(Letter variable) => _problemData[variable];
 
-    protected override IBinaryPredicate<Digit> GetBinaryPredicateFor(Letter variable1, Letter variable2) => DifferentValues;
+    private protected override IBinaryPredicate<Digit> GetBinaryPredicateFor(Letter variable1, Letter variable2) =>
+        DifferentValues;
 
     public static TestBinaryCsp WithCapacity(int capacity) => new(capacity);
 

@@ -31,7 +31,7 @@ public sealed class ShikakuBinaryCsp : BinaryCsp<ShikakuPuzzle, Hint, Rectangle>
     ///     Ensures that the capacity of this instance is at least the specified capacity.
     /// </summary>
     /// <returns>A non-negative 32-bit signed integer. The new capacity of this instance.</returns>
-    public override int EnsureCapacity(int capacity)
+    protected override int EnsureCapacity(int capacity)
     {
         var newCapacity = base.EnsureCapacity(capacity);
         _ = _hints.EnsureCapacity(capacity);
@@ -47,21 +47,21 @@ public sealed class ShikakuBinaryCsp : BinaryCsp<ShikakuPuzzle, Hint, Rectangle>
     ///     This method can be used to reduce overhead if this instance is modelling a problem and it is known that it will not
     ///     need to model a larger problem.
     /// </remarks>
-    public override void TrimExcess()
+    protected override void TrimExcess()
     {
         base.TrimExcess();
         _hints.TrimExcess();
     }
 
     /// <inheritdoc />
-    protected override void PopulateProblemData(ShikakuPuzzle problem)
+    private protected override void PopulateProblemData(ShikakuPuzzle problem)
     {
         _gridSideLength = problem.GridSideLength;
         _hints.AddRange(problem.Hints);
     }
 
     /// <inheritdoc />
-    protected override void ClearProblemData()
+    private protected override void ClearProblemData()
     {
         _gridSideLength = default;
         _hints.Clear();
@@ -69,7 +69,7 @@ public sealed class ShikakuBinaryCsp : BinaryCsp<ShikakuPuzzle, Hint, Rectangle>
 
     /// <inheritdoc />
     /// <remarks>In the Shikaku binary CSP model, the variables are the set of all puzzle hints.</remarks>
-    protected override IEnumerable<Hint> GetVariables() => _hints;
+    private protected override IEnumerable<Hint> GetVariables() => _hints;
 
     /// <inheritdoc />
     /// <remarks>
@@ -82,7 +82,7 @@ public sealed class ShikakuBinaryCsp : BinaryCsp<ShikakuPuzzle, Hint, Rectangle>
     ///     </list>
     /// </remarks>
     [SuppressMessage("ReSharper", "LoopCanBeConvertedToQuery")]
-    protected override IEnumerable<Rectangle> GetDomainOf(Hint variable)
+    private protected override IEnumerable<Rectangle> GetDomainOf(Hint variable)
     {
         foreach (Rectangle r in EnumerateAllPossibleRectanglesEnclosing(variable))
         {
@@ -100,7 +100,7 @@ public sealed class ShikakuBinaryCsp : BinaryCsp<ShikakuPuzzle, Hint, Rectangle>
     ///     constraint is only added to the binary CSP if it is genuine, that is, if there exists at least one pair of
     ///     overlapping rectangles from the Cartesian product of the variables' domains.
     /// </remarks>
-    protected override IBinaryPredicate<Rectangle> GetBinaryPredicateFor(Hint variable1, Hint variable2) =>
+    private protected override IBinaryPredicate<Rectangle> GetBinaryPredicateFor(Hint variable1, Hint variable2) =>
         RectanglesDoNotOverlap;
 
     private IEnumerable<Rectangle> EnumerateAllPossibleRectanglesEnclosing(Hint h)
