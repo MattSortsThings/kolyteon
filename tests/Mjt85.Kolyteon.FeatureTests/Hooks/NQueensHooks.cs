@@ -13,7 +13,7 @@ public sealed class NQueensHooks
     [Scope(Feature = "N-Queens")]
     public static void RegisterBinaryCsp(IObjectContainer objectContainer)
     {
-        NQueensBinaryCsp binaryCsp = new(5);
+        NQueensBinaryCsp binaryCsp = NQueensBinaryCsp.WithInitialCapacity(5);
         objectContainer.RegisterInstanceAs<IModellingBinaryCsp<NQueensPuzzle, int, Queen>>(binaryCsp);
     }
 

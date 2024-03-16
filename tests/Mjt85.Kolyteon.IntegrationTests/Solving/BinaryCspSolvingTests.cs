@@ -65,7 +65,7 @@ public abstract class BinaryCspSolvingTests
     public void BinaryCspModelsSolvableNQueensPuzzle_SolverFindsValidSolutionToPuzzle(NQueensPuzzle puzzle)
     {
         // Arrange
-        NQueensBinaryCsp binaryCsp = new(puzzle.N);
+        NQueensBinaryCsp binaryCsp = NQueensBinaryCsp.WithInitialCapacity(puzzle.N);
         SilentBinaryCspSolver<int, Queen> solver = ConfigureSolver<int, Queen>(puzzle.N);
 
         binaryCsp.Model(puzzle);
@@ -83,7 +83,7 @@ public abstract class BinaryCspSolvingTests
     public void BinaryCspModelsUnsolvableNQueensPuzzle_SolverReturnsResultWithEmptyAssignments(NQueensPuzzle puzzle)
     {
         // Arrange
-        NQueensBinaryCsp binaryCsp = new(puzzle.N);
+        NQueensBinaryCsp binaryCsp = NQueensBinaryCsp.WithInitialCapacity(puzzle.N);
         SilentBinaryCspSolver<int, Queen> solver = ConfigureSolver<int, Queen>(puzzle.N);
 
         binaryCsp.Model(puzzle);
@@ -169,7 +169,7 @@ public abstract class BinaryCspSolvingTests
     public void CanModelAndSolveMultipleProblemsInSequence()
     {
         // Arrange
-        NQueensBinaryCsp binaryCsp = new(5);
+        NQueensBinaryCsp binaryCsp = NQueensBinaryCsp.WithInitialCapacity(5);
         SilentBinaryCspSolver<int, Queen> solver = ConfigureSolver<int, Queen>(5);
 
         NQueensPuzzle n3puzzle = NQueensPuzzle.FromN(3);
@@ -204,7 +204,7 @@ public abstract class BinaryCspSolvingTests
     public void CanReuseSameSolverAfterSolvingOperationCancelledAndExceptionCaught()
     {
         // Arrange
-        NQueensBinaryCsp binaryCsp = new(4);
+        NQueensBinaryCsp binaryCsp = NQueensBinaryCsp.WithInitialCapacity(4);
         SilentBinaryCspSolver<int, Queen> solver = ConfigureSolver<int, Queen>(4);
 
         NQueensPuzzle n3puzzle = NQueensPuzzle.FromN(3);

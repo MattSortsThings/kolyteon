@@ -15,12 +15,12 @@ public sealed class NQueensBinaryCsp : BinaryCsp<NQueensPuzzle, int, Queen>
     ///     Initializes a new <see cref="NQueensBinaryCsp" /> instance that is not modelling a problem and has the specified
     ///     initial capacity.
     /// </summary>
+    /// <remarks>Use the <see cref="WithInitialCapacity" /> static factory method to instantiate this class.</remarks>
     /// <param name="capacity">
     ///     The maximum number of binary CSP variables the new <see cref="NQueensBinaryCsp" /> can initially
     ///     store without needing to resize its internal data structures.
     /// </param>
-    /// <exception cref="ArgumentOutOfRangeException"><paramref name="capacity" /> is negative.</exception>
-    public NQueensBinaryCsp(int capacity) : base(capacity)
+    private NQueensBinaryCsp(int capacity) : base(capacity)
     {
     }
 
@@ -56,6 +56,17 @@ public sealed class NQueensBinaryCsp : BinaryCsp<NQueensPuzzle, int, Queen>
     ///     assigned non-capturing queens.
     /// </remarks>
     private protected override IBinaryPredicate<Queen> GetBinaryPredicateFor(int variable1, int variable2) => CannotCapture;
+
+    /// <summary>
+    ///     Creates and returns a new <see cref="NQueensBinaryCsp" /> instance that is not modelling a problem and has the
+    ///     specified initial capacity.
+    /// </summary>
+    /// <param name="capacity">
+    ///     The maximum number of binary CSP variables the new <see cref="NQueensBinaryCsp" /> can initially store without
+    ///     needing to resize its internal data structures.
+    /// </param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="capacity" /> is negative.</exception>
+    public static NQueensBinaryCsp WithInitialCapacity(int capacity) => new(capacity);
 
     private sealed class CannotCapturePredicate : IBinaryPredicate<Queen>
     {

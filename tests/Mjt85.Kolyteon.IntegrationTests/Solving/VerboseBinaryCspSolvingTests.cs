@@ -80,7 +80,7 @@ public abstract class VerboseBinaryCspSolvingTests
     public async Task BinaryCspModelsSolvableNQueensPuzzle_SolverFindsValidSolutionToPuzzle_UpdatesProgress(NQueensPuzzle puzzle)
     {
         // Arrange
-        NQueensBinaryCsp binaryCsp = new(puzzle.N);
+        NQueensBinaryCsp binaryCsp = NQueensBinaryCsp.WithInitialCapacity(puzzle.N);
         VerboseBinaryCspSolver<int, Queen> solver = ConfigureSolver<int, Queen>(puzzle.N);
         OneLineSummaryProgress<int, Queen> progress = new();
 
@@ -104,7 +104,7 @@ public abstract class VerboseBinaryCspSolvingTests
         NQueensPuzzle puzzle)
     {
         // Arrange
-        NQueensBinaryCsp binaryCsp = new(puzzle.N);
+        NQueensBinaryCsp binaryCsp = NQueensBinaryCsp.WithInitialCapacity(puzzle.N);
         VerboseBinaryCspSolver<int, Queen> solver = ConfigureSolver<int, Queen>(puzzle.N);
         OneLineSummaryProgress<int, Queen> progress = new();
 

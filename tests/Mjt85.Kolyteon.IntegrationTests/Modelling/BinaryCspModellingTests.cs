@@ -134,7 +134,7 @@ public sealed class BinaryCspModellingTests
         public void BinaryCspHasExpectedVariables(NQueensPuzzle puzzle, IEnumerable<int> expected)
         {
             // Arrange
-            NQueensBinaryCsp binaryCsp = new(puzzle.N);
+            NQueensBinaryCsp binaryCsp = NQueensBinaryCsp.WithInitialCapacity(puzzle.N);
 
             // Act
             binaryCsp.Model(puzzle);
@@ -148,7 +148,7 @@ public sealed class BinaryCspModellingTests
         public void BinaryCspHasExpectedDomains(NQueensPuzzle puzzle, IEnumerable<IReadOnlyList<Queen>> expected)
         {
             // Arrange
-            NQueensBinaryCsp binaryCsp = new(puzzle.N);
+            NQueensBinaryCsp binaryCsp = NQueensBinaryCsp.WithInitialCapacity(puzzle.N);
 
             // Act
             binaryCsp.Model(puzzle);
@@ -162,7 +162,7 @@ public sealed class BinaryCspModellingTests
         public void BinaryCspHasExpectedAdjacentVariables(NQueensPuzzle puzzle, IEnumerable<Pair<int>> expected)
         {
             // Arrange
-            NQueensBinaryCsp binaryCsp = new(puzzle.N);
+            NQueensBinaryCsp binaryCsp = NQueensBinaryCsp.WithInitialCapacity(puzzle.N);
 
             // Act
             binaryCsp.Model(puzzle);
@@ -177,7 +177,7 @@ public sealed class BinaryCspModellingTests
         public void BinaryCspHasExpectedProblemMetrics(NQueensPuzzle puzzle, ProblemMetrics expected)
         {
             // Arrange
-            NQueensBinaryCsp binaryCsp = new(puzzle.N);
+            NQueensBinaryCsp binaryCsp = NQueensBinaryCsp.WithInitialCapacity(puzzle.N);
 
             // Act
             binaryCsp.Model(puzzle);
@@ -192,7 +192,7 @@ public sealed class BinaryCspModellingTests
         public void BinaryCspHasExpectedDomainSizeStatistics(NQueensPuzzle puzzle, DomainSizeStatistics expected)
         {
             // Arrange
-            NQueensBinaryCsp binaryCsp = new(puzzle.N);
+            NQueensBinaryCsp binaryCsp = NQueensBinaryCsp.WithInitialCapacity(puzzle.N);
 
             // Act
             binaryCsp.Model(puzzle);
@@ -207,7 +207,7 @@ public sealed class BinaryCspModellingTests
         public void BinaryCspHasExpectedDegreeStatistics(NQueensPuzzle puzzle, DegreeStatistics expected)
         {
             // Arrange
-            NQueensBinaryCsp binaryCsp = new(puzzle.N);
+            NQueensBinaryCsp binaryCsp = NQueensBinaryCsp.WithInitialCapacity(puzzle.N);
 
             // Act
             binaryCsp.Model(puzzle);
@@ -221,7 +221,7 @@ public sealed class BinaryCspModellingTests
         public void BinaryCspHasExpectedSumTightnessStatistics(NQueensPuzzle puzzle, SumTightnessStatistics expected)
         {
             // Arrange
-            NQueensBinaryCsp binaryCsp = new(puzzle.N);
+            NQueensBinaryCsp binaryCsp = NQueensBinaryCsp.WithInitialCapacity(puzzle.N);
 
             // Act
             binaryCsp.Model(puzzle);

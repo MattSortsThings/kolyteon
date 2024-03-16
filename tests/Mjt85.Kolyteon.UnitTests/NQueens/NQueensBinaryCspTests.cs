@@ -17,7 +17,7 @@ public sealed class NQueensBinaryCspTests
         public void Models_VariablesAreColumnIndexesFromZeroInclusiveToNExclusive()
         {
             // Arrange
-            NQueensBinaryCsp sut = new(4);
+            NQueensBinaryCsp sut = NQueensBinaryCsp.WithInitialCapacity(4);
 
             NQueensPuzzle puzzle = NQueensPuzzle.FromN(4);
 
@@ -32,7 +32,7 @@ public sealed class NQueensBinaryCspTests
         public void Models_DomainsAreAllQueensInColumnMatchingColumnIndexValue()
         {
             // Arrange
-            NQueensBinaryCsp sut = new(4);
+            NQueensBinaryCsp sut = NQueensBinaryCsp.WithInitialCapacity(4);
 
             NQueensPuzzle puzzle = NQueensPuzzle.FromN(4);
 
@@ -55,7 +55,7 @@ public sealed class NQueensBinaryCspTests
         public void Models_AllVariablePairsAdjacent()
         {
             // Arrange
-            NQueensBinaryCsp sut = new(4);
+            NQueensBinaryCsp sut = NQueensBinaryCsp.WithInitialCapacity(4);
 
             NQueensPuzzle puzzle = NQueensPuzzle.FromN(4);
 
@@ -77,7 +77,7 @@ public sealed class NQueensBinaryCspTests
         public void Models_UpdatesAllProblemMetricsProperties()
         {
             // Arrange
-            NQueensBinaryCsp sut = new(4);
+            NQueensBinaryCsp sut = NQueensBinaryCsp.WithInitialCapacity(4);
 
             NQueensPuzzle puzzle = NQueensPuzzle.FromN(4);
 
