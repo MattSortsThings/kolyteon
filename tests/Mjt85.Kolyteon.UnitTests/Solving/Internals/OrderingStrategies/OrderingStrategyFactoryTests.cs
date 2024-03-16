@@ -1,4 +1,4 @@
-﻿using Mjt85.Kolyteon.Solving;
+﻿using Mjt85.Kolyteon.Solving.Common;
 using Mjt85.Kolyteon.Solving.Internals.OrderingStrategies;
 
 namespace Mjt85.Kolyteon.UnitTests.Solving.Internals.OrderingStrategies;

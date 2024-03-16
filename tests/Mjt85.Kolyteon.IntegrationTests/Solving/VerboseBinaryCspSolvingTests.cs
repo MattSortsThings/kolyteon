@@ -6,7 +6,8 @@ using Mjt85.Kolyteon.IntegrationTests.Solving.TestCases;
 using Mjt85.Kolyteon.MapColouring;
 using Mjt85.Kolyteon.NQueens;
 using Mjt85.Kolyteon.Shikaku;
-using Mjt85.Kolyteon.Solving;
+using Mjt85.Kolyteon.Solving.Common;
+using Mjt85.Kolyteon.Solving.Verbose;
 using Mjt85.Kolyteon.Sudoku;
 
 namespace Mjt85.Kolyteon.IntegrationTests.Solving;
@@ -20,12 +21,12 @@ public abstract class VerboseBinaryCspSolvingTests
 
     private VerboseBinaryCspSolver<V, D> ConfigureSolver<V, D>(int capacity)
         where V : struct, IComparable<V>, IEquatable<V>
-        where D : struct, IComparable<D>, IEquatable<D> => VerboseBinaryCspSolver<V, D>.Create()
-        .WithInitialCapacity(capacity)
-        .AndInitialStepDelay(TimeSpan.Zero)
+        where D : struct, IComparable<D>, IEquatable<D> => CreateBinaryCspSolver.WithInitialCapacity(capacity)
         .AndInitialSearchStrategy(SearchStrategy)
         .AndInitialOrderingStrategy(OrderingStrategy)
-        .Build();
+        .Verbose()
+        .WithInitialStepDelay(TimeSpan.Zero)
+        .Build<V, D>();
 
     [Theory]
     [ClassData(typeof(MapColouringPuzzles.Solvable))]

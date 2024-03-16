@@ -1,7 +1,8 @@
 ﻿using System.Collections.Concurrent;
 using Mjt85.Kolyteon.Modelling;
+using Mjt85.Kolyteon.Solving.Common;
 
-namespace Mjt85.Kolyteon.Solving;
+namespace Mjt85.Kolyteon.Solving.Verbose;
 
 public abstract class SolvingProgress<V, D> : IProgress<StepNotification<V, D>>
     where V : struct, IComparable<V>, IEquatable<V>

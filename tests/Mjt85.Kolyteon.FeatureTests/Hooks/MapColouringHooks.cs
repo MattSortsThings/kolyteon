@@ -2,7 +2,8 @@
 using Mjt85.Kolyteon.FeatureTests.ValueRetrievers;
 using Mjt85.Kolyteon.MapColouring;
 using Mjt85.Kolyteon.Modelling;
-using Mjt85.Kolyteon.Solving;
+using Mjt85.Kolyteon.Solving.Common;
+using Mjt85.Kolyteon.Solving.Silent;
 using TechTalk.SpecFlow.Assist;
 
 namespace Mjt85.Kolyteon.FeatureTests.Hooks;
@@ -31,12 +32,14 @@ public sealed class MapColouringHooks
     [Scope(Feature = "Map Colouring")]
     public static void RegisterBinaryCspSolver(IObjectContainer objectContainer)
     {
-        BinaryCspSolver<Region, Colour> binaryCspSolver = BinaryCspSolver<Region, Colour>.Create()
+        SilentBinaryCspSolver<Region, Colour> binaryCspSolver = CreateBinaryCspSolver
             .WithInitialCapacity(1)
             .AndInitialSearchStrategy(Search.Backtracking)
             .AndInitialOrderingStrategy(Ordering.None)
-            .Build();
-        objectContainer.RegisterInstanceAs<IBinaryCspSolver<Region, Colour>>(binaryCspSolver);
+            .Silent()
+            .Build<Region, Colour>();
+
+        objectContainer.RegisterInstanceAs<ISilentBinaryCspSolver<Region, Colour>>(binaryCspSolver);
     }
 
     [BeforeScenario]

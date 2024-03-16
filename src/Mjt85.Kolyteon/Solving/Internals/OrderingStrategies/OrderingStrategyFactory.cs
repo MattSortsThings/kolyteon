@@ -1,4 +1,6 @@
-﻿namespace Mjt85.Kolyteon.Solving.Internals.OrderingStrategies;
+﻿using Mjt85.Kolyteon.Solving.Common;
+
+namespace Mjt85.Kolyteon.Solving.Internals.OrderingStrategies;
 
 internal sealed class OrderingStrategyFactory : IOrderingStrategyFactory
 {

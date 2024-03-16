@@ -4,7 +4,8 @@ using Mjt85.Kolyteon.IntegrationTests.Solving.TestCases;
 using Mjt85.Kolyteon.MapColouring;
 using Mjt85.Kolyteon.NQueens;
 using Mjt85.Kolyteon.Shikaku;
-using Mjt85.Kolyteon.Solving;
+using Mjt85.Kolyteon.Solving.Common;
+using Mjt85.Kolyteon.Solving.Silent;
 using Mjt85.Kolyteon.Sudoku;
 
 namespace Mjt85.Kolyteon.IntegrationTests.Solving;
@@ -16,13 +17,13 @@ public abstract class BinaryCspSolvingTests
 
     protected abstract Ordering OrderingStrategy { get; }
 
-    private BinaryCspSolver<V, D> ConfigureSolver<V, D>(int capacity)
+    private SilentBinaryCspSolver<V, D> ConfigureSolver<V, D>(int capacity)
         where V : struct, IComparable<V>, IEquatable<V>
-        where D : struct, IComparable<D>, IEquatable<D> => BinaryCspSolver<V, D>.Create()
-        .WithInitialCapacity(capacity)
+        where D : struct, IComparable<D>, IEquatable<D> => CreateBinaryCspSolver.WithInitialCapacity(capacity)
         .AndInitialSearchStrategy(SearchStrategy)
         .AndInitialOrderingStrategy(OrderingStrategy)
-        .Build();
+        .Silent()
+        .Build<V, D>();
 
     [Theory]
     [ClassData(typeof(MapColouringPuzzles.Solvable))]
@@ -30,7 +31,7 @@ public abstract class BinaryCspSolvingTests
     {
         // Arrange
         MapColouringBinaryCsp binaryCsp = new(puzzle.RegionData.Count);
-        BinaryCspSolver<Region, Colour> solver = ConfigureSolver<Region, Colour>(puzzle.RegionData.Count);
+        SilentBinaryCspSolver<Region, Colour> solver = ConfigureSolver<Region, Colour>(puzzle.RegionData.Count);
 
         binaryCsp.Model(puzzle);
 
@@ -48,7 +49,7 @@ public abstract class BinaryCspSolvingTests
     {
         // Arrange
         MapColouringBinaryCsp binaryCsp = new(puzzle.RegionData.Count);
-        BinaryCspSolver<Region, Colour> solver = ConfigureSolver<Region, Colour>(puzzle.RegionData.Count);
+        SilentBinaryCspSolver<Region, Colour> solver = ConfigureSolver<Region, Colour>(puzzle.RegionData.Count);
 
         binaryCsp.Model(puzzle);
 
@@ -65,7 +66,7 @@ public abstract class BinaryCspSolvingTests
     {
         // Arrange
         NQueensBinaryCsp binaryCsp = new(puzzle.N);
-        BinaryCspSolver<int, Queen> solver = ConfigureSolver<int, Queen>(puzzle.N);
+        SilentBinaryCspSolver<int, Queen> solver = ConfigureSolver<int, Queen>(puzzle.N);
 
         binaryCsp.Model(puzzle);
 
@@ -83,7 +84,7 @@ public abstract class BinaryCspSolvingTests
     {
         // Arrange
         NQueensBinaryCsp binaryCsp = new(puzzle.N);
-        BinaryCspSolver<int, Queen> solver = ConfigureSolver<int, Queen>(puzzle.N);
+        SilentBinaryCspSolver<int, Queen> solver = ConfigureSolver<int, Queen>(puzzle.N);
 
         binaryCsp.Model(puzzle);
 
@@ -100,7 +101,7 @@ public abstract class BinaryCspSolvingTests
     {
         // Arrange
         ShikakuBinaryCsp binaryCsp = new(puzzle.Hints.Count);
-        BinaryCspSolver<Hint, Rectangle> solver = ConfigureSolver<Hint, Rectangle>(puzzle.Hints.Count);
+        SilentBinaryCspSolver<Hint, Rectangle> solver = ConfigureSolver<Hint, Rectangle>(puzzle.Hints.Count);
 
         binaryCsp.Model(puzzle);
 
@@ -118,7 +119,7 @@ public abstract class BinaryCspSolvingTests
     {
         // Arrange
         ShikakuBinaryCsp binaryCsp = new(puzzle.Hints.Count);
-        BinaryCspSolver<Hint, Rectangle> solver = ConfigureSolver<Hint, Rectangle>(puzzle.Hints.Count);
+        SilentBinaryCspSolver<Hint, Rectangle> solver = ConfigureSolver<Hint, Rectangle>(puzzle.Hints.Count);
 
         binaryCsp.Model(puzzle);
 
@@ -135,7 +136,7 @@ public abstract class BinaryCspSolvingTests
     {
         // Arrange
         SudokuBinaryCsp binaryCsp = new(20);
-        BinaryCspSolver<EmptyCell, int> solver = ConfigureSolver<EmptyCell, int>(20);
+        SilentBinaryCspSolver<EmptyCell, int> solver = ConfigureSolver<EmptyCell, int>(20);
 
         binaryCsp.Model(puzzle);
 
@@ -153,7 +154,7 @@ public abstract class BinaryCspSolvingTests
     {
         // Arrange
         SudokuBinaryCsp binaryCsp = new(20);
-        BinaryCspSolver<EmptyCell, int> solver = ConfigureSolver<EmptyCell, int>(20);
+        SilentBinaryCspSolver<EmptyCell, int> solver = ConfigureSolver<EmptyCell, int>(20);
 
         binaryCsp.Model(puzzle);
 
@@ -169,7 +170,7 @@ public abstract class BinaryCspSolvingTests
     {
         // Arrange
         NQueensBinaryCsp binaryCsp = new(5);
-        BinaryCspSolver<int, Queen> solver = ConfigureSolver<int, Queen>(5);
+        SilentBinaryCspSolver<int, Queen> solver = ConfigureSolver<int, Queen>(5);
 
         NQueensPuzzle n3puzzle = NQueensPuzzle.FromN(3);
         NQueensPuzzle n4Puzzle = NQueensPuzzle.FromN(4);
@@ -204,7 +205,7 @@ public abstract class BinaryCspSolvingTests
     {
         // Arrange
         NQueensBinaryCsp binaryCsp = new(4);
-        BinaryCspSolver<int, Queen> solver = ConfigureSolver<int, Queen>(4);
+        SilentBinaryCspSolver<int, Queen> solver = ConfigureSolver<int, Queen>(4);
 
         NQueensPuzzle n3puzzle = NQueensPuzzle.FromN(3);
         NQueensPuzzle n4Puzzle = NQueensPuzzle.FromN(4);

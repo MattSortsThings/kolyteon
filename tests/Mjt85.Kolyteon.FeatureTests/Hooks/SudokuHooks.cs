@@ -1,6 +1,7 @@
 ﻿using BoDi;
 using Mjt85.Kolyteon.Modelling;
-using Mjt85.Kolyteon.Solving;
+using Mjt85.Kolyteon.Solving.Common;
+using Mjt85.Kolyteon.Solving.Silent;
 using Mjt85.Kolyteon.Sudoku;
 
 namespace Mjt85.Kolyteon.FeatureTests.Hooks;
@@ -20,12 +21,14 @@ public sealed class SudokuHooks
     [Scope(Feature = "Sudoku")]
     public static void RegisterBinaryCspSolver(IObjectContainer objectContainer)
     {
-        BinaryCspSolver<EmptyCell, int> binaryCspSolver = BinaryCspSolver<EmptyCell, int>.Create()
+        SilentBinaryCspSolver<EmptyCell, int> binaryCspSolver = CreateBinaryCspSolver
             .WithInitialCapacity(1)
             .AndInitialSearchStrategy(Search.Backtracking)
             .AndInitialOrderingStrategy(Ordering.None)
-            .Build();
-        objectContainer.RegisterInstanceAs<IBinaryCspSolver<EmptyCell, int>>(binaryCspSolver);
+            .Silent()
+            .Build<EmptyCell, int>();
+
+        objectContainer.RegisterInstanceAs<ISilentBinaryCspSolver<EmptyCell, int>>(binaryCspSolver);
     }
 
     [BeforeScenario]

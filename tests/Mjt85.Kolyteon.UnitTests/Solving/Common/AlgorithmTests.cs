@@ -1,6 +1,6 @@
-﻿using Mjt85.Kolyteon.Solving;
+﻿using Mjt85.Kolyteon.Solving.Common;
 
-namespace Mjt85.Kolyteon.UnitTests.Solving;
+namespace Mjt85.Kolyteon.UnitTests.Solving.Common;
 
 public sealed class AlgorithmTests
 {

@@ -1,4 +1,5 @@
 ﻿using Mjt85.Kolyteon.Modelling;
+using Mjt85.Kolyteon.Solving.Common;
 using Mjt85.Kolyteon.Solving.Internals.OrderingStrategies;
 
 namespace Mjt85.Kolyteon.Solving.Internals.SearchStrategies;

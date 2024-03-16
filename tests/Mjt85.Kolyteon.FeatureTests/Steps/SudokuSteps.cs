@@ -2,7 +2,8 @@
 using System.Text.Json;
 using Mjt85.Kolyteon.FeatureTests.Helpers;
 using Mjt85.Kolyteon.Modelling;
-using Mjt85.Kolyteon.Solving;
+using Mjt85.Kolyteon.Solving.Common;
+using Mjt85.Kolyteon.Solving.Silent;
 using Mjt85.Kolyteon.Sudoku;
 using TechTalk.SpecFlow.Assist;
 
@@ -12,11 +13,11 @@ namespace Mjt85.Kolyteon.FeatureTests.Steps;
 public sealed class SudokuSteps
 {
     private readonly IModellingBinaryCsp<SudokuPuzzle, EmptyCell, int> _binaryCsp;
-    private readonly IBinaryCspSolver<EmptyCell, int> _binaryCspSolver;
+    private readonly ISilentBinaryCspSolver<EmptyCell, int> _binaryCspSolver;
     private readonly ScenarioContext _scenarioContext;
 
     public SudokuSteps(IModellingBinaryCsp<SudokuPuzzle, EmptyCell, int> binaryCsp,
-        IBinaryCspSolver<EmptyCell, int> binaryCspSolver,
+        ISilentBinaryCspSolver<EmptyCell, int> binaryCspSolver,
         ScenarioContext scenarioContext)
     {
         _binaryCsp = binaryCsp ?? throw new ArgumentNullException(nameof(binaryCsp));

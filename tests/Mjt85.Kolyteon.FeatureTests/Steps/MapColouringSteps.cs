@@ -3,7 +3,8 @@ using System.Text.Json;
 using Mjt85.Kolyteon.FeatureTests.Helpers;
 using Mjt85.Kolyteon.MapColouring;
 using Mjt85.Kolyteon.Modelling;
-using Mjt85.Kolyteon.Solving;
+using Mjt85.Kolyteon.Solving.Common;
+using Mjt85.Kolyteon.Solving.Silent;
 using TechTalk.SpecFlow.Assist;
 
 namespace Mjt85.Kolyteon.FeatureTests.Steps;
@@ -12,11 +13,11 @@ namespace Mjt85.Kolyteon.FeatureTests.Steps;
 public sealed class MapColouringSteps
 {
     private readonly IModellingBinaryCsp<MapColouringPuzzle, Region, Colour> _binaryCsp;
-    private readonly IBinaryCspSolver<Region, Colour> _binaryCspSolver;
+    private readonly ISilentBinaryCspSolver<Region, Colour> _binaryCspSolver;
     private readonly ScenarioContext _scenarioContext;
 
     public MapColouringSteps(IModellingBinaryCsp<MapColouringPuzzle, Region, Colour> binaryCsp,
-        IBinaryCspSolver<Region, Colour> binaryCspSolver,
+        ISilentBinaryCspSolver<Region, Colour> binaryCspSolver,
         ScenarioContext scenarioContext)
     {
         _binaryCsp = binaryCsp ?? throw new ArgumentNullException(nameof(binaryCsp));

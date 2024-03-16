@@ -1,12 +1,12 @@
 ﻿using Mjt85.Kolyteon.Modelling;
-using Mjt85.Kolyteon.Solving.Internals.Builders;
+using Mjt85.Kolyteon.Solving.Common;
 using Mjt85.Kolyteon.Solving.Internals.Guards;
 using Mjt85.Kolyteon.Solving.Internals.OrderingStrategies;
 using Mjt85.Kolyteon.Solving.Internals.SearchStrategies;
 
-namespace Mjt85.Kolyteon.Solving;
+namespace Mjt85.Kolyteon.Solving.Verbose;
 
-public sealed class VerboseBinaryCspSolver<V, D> : CoreBinaryCspSolver<V, D>, IVerboseBinaryCspSolver<V, D>
+public sealed class VerboseBinaryCspSolver<V, D> : BinaryCspSolver<V, D>, IVerboseBinaryCspSolver<V, D>
     where V : struct, IComparable<V>, IEquatable<V>
     where D : struct, IComparable<D>, IEquatable<D>
 {
@@ -55,8 +55,6 @@ public sealed class VerboseBinaryCspSolver<V, D> : CoreBinaryCspSolver<V, D>, IV
             Unlock();
         }
     }
-
-    public static IVerboseBinaryCspSolverBuilder<V, D> Create() => new VerboseBinaryCspSolverBuilder<V, D>();
 
     private async Task<Result<V, D>> TrySolveAsync(ISolvableBinaryCsp<V, D> binaryCsp,
         IProgress<StepNotification<V, D>> progress,

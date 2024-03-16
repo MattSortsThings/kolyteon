@@ -1,19 +1,21 @@
 ﻿using FluentAssertions.Execution;
 using Mjt85.Kolyteon.MapColouring;
 using Mjt85.Kolyteon.Modelling;
-using Mjt85.Kolyteon.Solving;
+using Mjt85.Kolyteon.Solving.Common;
 using Mjt85.Kolyteon.Solving.Internals.OrderingStrategies;
 using Mjt85.Kolyteon.Solving.Internals.SearchStrategies;
+using Mjt85.Kolyteon.Solving.Silent;
 using Mjt85.Kolyteon.UnitTests.Helpers;
 using Moq;
 
-namespace Mjt85.Kolyteon.UnitTests.Solving;
+namespace Mjt85.Kolyteon.UnitTests.Solving.Silent;
 
 /// <summary>
-///     Unit tests for the <see cref="BinaryCspSolver{V,D}" /> class, parametrized over the Map Colouring problem types,
+///     Unit tests for the <see cref="SilentBinaryCspSolver{V,D}" /> class, parametrized over the Map Colouring problem
+///     types,
 ///     mostly using mocked dependencies.
 /// </summary>
-public static class BinaryCspSolverTests
+public static class SilentBinaryCspSolverTests
 {
     private static readonly Region R0 = Region.FromId("R0");
     private static readonly Region R1 = Region.FromId("R1");
@@ -55,7 +57,7 @@ public static class BinaryCspSolverTests
             return this;
         }
 
-        public BinaryCspSolver<Region, Colour> Build() =>
+        public SilentBinaryCspSolver<Region, Colour> Build() =>
             new(_searchStrategyFactory!,
                 _orderingStrategyFactory!,
                 _searchStrategy!,
@@ -80,7 +82,7 @@ public static class BinaryCspSolverTests
                 .Returns(SearchState.Initial) // step 1: Setup
                 .Returns(SearchState.Final);
 
-            BinaryCspSolver<Region, Colour> sut = GetBinaryCspSolver()
+            SilentBinaryCspSolver<Region, Colour> sut = GetBinaryCspSolver()
                 .WithSearchStrategyFactory(Mock.Of<ISearchStrategyFactory<Region, Colour>>())
                 .WithOrderingStrategyFactory(Mock.Of<IOrderingStrategyFactory>())
                 .WithSearchStrategy(stubSearchStrategy.Object)
@@ -124,7 +126,7 @@ public static class BinaryCspSolverTests
             stubSearchStrategy.Setup(m => m.GetAssignments())
                 .Returns(Array.Empty<Assignment<Region, Colour>>());
 
-            BinaryCspSolver<Region, Colour> sut = GetBinaryCspSolver()
+            SilentBinaryCspSolver<Region, Colour> sut = GetBinaryCspSolver()
                 .WithSearchStrategyFactory(Mock.Of<ISearchStrategyFactory<Region, Colour>>())
                 .WithOrderingStrategyFactory(Mock.Of<IOrderingStrategyFactory>())
                 .WithSearchStrategy(stubSearchStrategy.Object)
@@ -172,7 +174,7 @@ public static class BinaryCspSolverTests
                     GetAssignment.WithVariable(R1).AndDomainValue(Colour.White)
                 ]);
 
-            BinaryCspSolver<Region, Colour> sut = GetBinaryCspSolver()
+            SilentBinaryCspSolver<Region, Colour> sut = GetBinaryCspSolver()
                 .WithSearchStrategyFactory(Mock.Of<ISearchStrategyFactory<Region, Colour>>())
                 .WithOrderingStrategyFactory(Mock.Of<IOrderingStrategyFactory>())
                 .WithSearchStrategy(stubSearchStrategy.Object)
@@ -197,7 +199,7 @@ public static class BinaryCspSolverTests
         public void BinaryCspArgIsNull_Throws()
         {
             // Arrange
-            BinaryCspSolver<Region, Colour> sut = GetBinaryCspSolver()
+            SilentBinaryCspSolver<Region, Colour> sut = GetBinaryCspSolver()
                 .WithSearchStrategyFactory(Mock.Of<ISearchStrategyFactory<Region, Colour>>())
                 .WithOrderingStrategyFactory(Mock.Of<IOrderingStrategyFactory>())
                 .WithSearchStrategy(Mock.Of<ISearchStrategy<Region, Colour>>())
@@ -216,7 +218,7 @@ public static class BinaryCspSolverTests
         public void BinaryCspArgIsNotModellingAProblem_Throws()
         {
             // Arrange
-            BinaryCspSolver<Region, Colour> sut = GetBinaryCspSolver()
+            SilentBinaryCspSolver<Region, Colour> sut = GetBinaryCspSolver()
                 .WithSearchStrategyFactory(Mock.Of<ISearchStrategyFactory<Region, Colour>>())
                 .WithOrderingStrategyFactory(Mock.Of<IOrderingStrategyFactory>())
                 .WithSearchStrategy(Mock.Of<ISearchStrategy<Region, Colour>>())
@@ -238,7 +240,7 @@ public static class BinaryCspSolverTests
         public void CancellationRequested_Throws()
         {
             // Arrange
-            BinaryCspSolver<Region, Colour> sut = GetBinaryCspSolver()
+            SilentBinaryCspSolver<Region, Colour> sut = GetBinaryCspSolver()
                 .WithSearchStrategyFactory(Mock.Of<ISearchStrategyFactory<Region, Colour>>())
                 .WithOrderingStrategyFactory(Mock.Of<IOrderingStrategyFactory>())
                 .WithSearchStrategy(Mock.Of<ISearchStrategy<Region, Colour>>())
@@ -271,11 +273,12 @@ public static class BinaryCspSolverTests
         public void BuildsInstanceWithSpecifiedInitialSettings()
         {
             // Act
-            BinaryCspSolver<Region, Colour> result = BinaryCspSolver<Region, Colour>.Create()
+            SilentBinaryCspSolver<Region, Colour> result = CreateBinaryCspSolver
                 .WithInitialCapacity(3)
                 .AndInitialSearchStrategy(Search.Backtracking)
                 .AndInitialOrderingStrategy(Ordering.None)
-                .Build();
+                .Silent()
+                .Build<Region, Colour>();
 
             // Assert
             using (new AssertionScope())
@@ -290,11 +293,12 @@ public static class BinaryCspSolverTests
         public void WithInitialCapacity_CapacityArgIsNegative_Throws()
         {
             // Act
-            Action act = () => BinaryCspSolver<Region, Colour>.Create()
+            Action act = () => CreateBinaryCspSolver
                 .WithInitialCapacity(-1)
                 .AndInitialSearchStrategy(Search.Backtracking)
                 .AndInitialOrderingStrategy(Ordering.None)
-                .Build();
+                .Silent()
+                .Build<Region, Colour>();
 
             // Assert
             act.Should().Throw<ArgumentOutOfRangeException>()

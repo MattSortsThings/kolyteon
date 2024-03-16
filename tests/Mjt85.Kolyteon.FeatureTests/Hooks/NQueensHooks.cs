@@ -1,7 +1,8 @@
 ﻿using BoDi;
 using Mjt85.Kolyteon.Modelling;
 using Mjt85.Kolyteon.NQueens;
-using Mjt85.Kolyteon.Solving;
+using Mjt85.Kolyteon.Solving.Common;
+using Mjt85.Kolyteon.Solving.Silent;
 
 namespace Mjt85.Kolyteon.FeatureTests.Hooks;
 
@@ -20,12 +21,14 @@ public sealed class NQueensHooks
     [Scope(Feature = "N-Queens")]
     public static void RegisterBinaryCspSolver(IObjectContainer objectContainer)
     {
-        BinaryCspSolver<int, Queen> binaryCspSolver = BinaryCspSolver<int, Queen>.Create()
+        SilentBinaryCspSolver<int, Queen> binaryCspSolver = CreateBinaryCspSolver
             .WithInitialCapacity(1)
             .AndInitialSearchStrategy(Search.Backtracking)
             .AndInitialOrderingStrategy(Ordering.None)
-            .Build();
-        objectContainer.RegisterInstanceAs<IBinaryCspSolver<int, Queen>>(binaryCspSolver);
+            .Silent()
+            .Build<int, Queen>();
+
+        objectContainer.RegisterInstanceAs<ISilentBinaryCspSolver<int, Queen>>(binaryCspSolver);
     }
 
     [BeforeScenario]

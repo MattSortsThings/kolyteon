@@ -1,4 +1,5 @@
-﻿using Mjt85.Kolyteon.Solving;
+﻿using Mjt85.Kolyteon.Solving.Common;
+using Mjt85.Kolyteon.Solving.Verbose;
 
 namespace Mjt85.Kolyteon.IntegrationTests.Helpers;
 

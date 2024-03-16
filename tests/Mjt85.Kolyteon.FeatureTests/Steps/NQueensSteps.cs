@@ -3,7 +3,8 @@ using System.Text.Json;
 using Mjt85.Kolyteon.FeatureTests.Helpers;
 using Mjt85.Kolyteon.Modelling;
 using Mjt85.Kolyteon.NQueens;
-using Mjt85.Kolyteon.Solving;
+using Mjt85.Kolyteon.Solving.Common;
+using Mjt85.Kolyteon.Solving.Silent;
 using TechTalk.SpecFlow.Assist;
 
 namespace Mjt85.Kolyteon.FeatureTests.Steps;
@@ -12,11 +13,11 @@ namespace Mjt85.Kolyteon.FeatureTests.Steps;
 public sealed class NQueensSteps
 {
     private readonly IModellingBinaryCsp<NQueensPuzzle, int, Queen> _binaryCsp;
-    private readonly IBinaryCspSolver<int, Queen> _binaryCspSolver;
+    private readonly ISilentBinaryCspSolver<int, Queen> _binaryCspSolver;
     private readonly ScenarioContext _scenarioContext;
 
     public NQueensSteps(IModellingBinaryCsp<NQueensPuzzle, int, Queen> binaryCsp,
-        IBinaryCspSolver<int, Queen> binaryCspSolver,
+        ISilentBinaryCspSolver<int, Queen> binaryCspSolver,
         ScenarioContext scenarioContext)
     {
         _binaryCsp = binaryCsp ?? throw new ArgumentNullException(nameof(binaryCsp));

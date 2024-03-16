@@ -1,13 +1,14 @@
 ﻿using FluentAssertions.Execution;
 using Mjt85.Kolyteon.MapColouring;
 using Mjt85.Kolyteon.Modelling;
-using Mjt85.Kolyteon.Solving;
+using Mjt85.Kolyteon.Solving.Common;
 using Mjt85.Kolyteon.Solving.Internals.OrderingStrategies;
 using Mjt85.Kolyteon.Solving.Internals.SearchStrategies;
+using Mjt85.Kolyteon.Solving.Verbose;
 using Mjt85.Kolyteon.UnitTests.Helpers;
 using Moq;
 
-namespace Mjt85.Kolyteon.UnitTests.Solving;
+namespace Mjt85.Kolyteon.UnitTests.Solving.Verbose;
 
 /// <summary>
 ///     Unit tests for the <see cref="VerboseBinaryCspSolver{V,D}" /> class, parametrized over the Map Colouring problem
@@ -80,12 +81,13 @@ public sealed class VerboseBinaryCspSolverTests
             MapColouringBinaryCsp binaryCsp = new(2);
             binaryCsp.Model(puzzle);
 
-            VerboseBinaryCspSolver<Region, Colour> solver = VerboseBinaryCspSolver<Region, Colour>.Create()
-                .WithInitialCapacity(2)
-                .AndInitialStepDelay(TimeSpan.Zero)
+            VerboseBinaryCspSolver<Region, Colour> solver = CreateBinaryCspSolver
+                .WithInitialCapacity(3)
                 .AndInitialSearchStrategy(Search.Backtracking)
                 .AndInitialOrderingStrategy(Ordering.None)
-                .Build();
+                .Verbose()
+                .WithInitialStepDelay(TimeSpan.Zero)
+                .Build<Region, Colour>();
 
             FakeProgress fakeProgress = new();
 
@@ -151,12 +153,13 @@ public sealed class VerboseBinaryCspSolverTests
             MapColouringBinaryCsp binaryCsp = new(2);
             binaryCsp.Model(puzzle);
 
-            VerboseBinaryCspSolver<Region, Colour> solver = VerboseBinaryCspSolver<Region, Colour>.Create()
-                .WithInitialCapacity(2)
-                .AndInitialStepDelay(TimeSpan.Zero)
+            VerboseBinaryCspSolver<Region, Colour> solver = CreateBinaryCspSolver
+                .WithInitialCapacity(3)
                 .AndInitialSearchStrategy(Search.Backtracking)
                 .AndInitialOrderingStrategy(Ordering.None)
-                .Build();
+                .Verbose()
+                .WithInitialStepDelay(TimeSpan.Zero)
+                .Build<Region, Colour>();
 
             FakeProgress fakeProgress = new();
 
@@ -420,13 +423,17 @@ public sealed class VerboseBinaryCspSolverTests
         [Fact]
         public void BuildsInstanceWithSpecifiedInitialSettings()
         {
+            // Arrange
+            TimeSpan delay = TimeSpan.FromMilliseconds(1);
+
             // Act
-            VerboseBinaryCspSolver<Region, Colour> result = VerboseBinaryCspSolver<Region, Colour>.Create()
+            VerboseBinaryCspSolver<Region, Colour> result = CreateBinaryCspSolver
                 .WithInitialCapacity(3)
-                .AndInitialStepDelay(TimeSpan.Zero)
                 .AndInitialSearchStrategy(Search.Backtracking)
                 .AndInitialOrderingStrategy(Ordering.None)
-                .Build();
+                .Verbose()
+                .WithInitialStepDelay(delay)
+                .Build<Region, Colour>();
 
             // Assert
             using (new AssertionScope())
@@ -434,6 +441,7 @@ public sealed class VerboseBinaryCspSolverTests
                 result.Capacity.Should().Be(3);
                 result.SearchStrategy.Should().Be(Search.Backtracking);
                 result.OrderingStrategy.Should().Be(Ordering.None);
+                result.StepDelay.Should().Be(delay);
             }
         }
 
@@ -441,12 +449,13 @@ public sealed class VerboseBinaryCspSolverTests
         public void WithInitialCapacity_CapacityArgIsNegative_Throws()
         {
             // Act
-            Action act = () => VerboseBinaryCspSolver<Region, Colour>.Create()
+            Action act = () => CreateBinaryCspSolver
                 .WithInitialCapacity(-1)
-                .AndInitialStepDelay(TimeSpan.Zero)
                 .AndInitialSearchStrategy(Search.Backtracking)
                 .AndInitialOrderingStrategy(Ordering.None)
-                .Build();
+                .Verbose()
+                .WithInitialStepDelay(TimeSpan.Zero)
+                .Build<Region, Colour>();
 
             // Assert
             act.Should().Throw<ArgumentOutOfRangeException>()

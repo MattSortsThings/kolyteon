@@ -1,9 +1,10 @@
 ﻿using FluentAssertions.Execution;
 using Mjt85.Kolyteon.MapColouring;
-using Mjt85.Kolyteon.Solving;
+using Mjt85.Kolyteon.Solving.Common;
+using Mjt85.Kolyteon.Solving.Verbose;
 using Mjt85.Kolyteon.UnitTests.Helpers;
 
-namespace Mjt85.Kolyteon.UnitTests.Solving;
+namespace Mjt85.Kolyteon.UnitTests.Solving.Verbose;
 
 /// <summary>
 ///     Unit tests for the abstract <see cref="SolvingProgress{V,D}" /> class using a vanilla concrete derivative class

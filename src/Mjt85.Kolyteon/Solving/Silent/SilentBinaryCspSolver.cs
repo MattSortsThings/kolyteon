@@ -1,16 +1,16 @@
 ﻿using Mjt85.Kolyteon.Modelling;
-using Mjt85.Kolyteon.Solving.Internals.Builders;
+using Mjt85.Kolyteon.Solving.Common;
 using Mjt85.Kolyteon.Solving.Internals.Guards;
 using Mjt85.Kolyteon.Solving.Internals.OrderingStrategies;
 using Mjt85.Kolyteon.Solving.Internals.SearchStrategies;
 
-namespace Mjt85.Kolyteon.Solving;
+namespace Mjt85.Kolyteon.Solving.Silent;
 
-public sealed class BinaryCspSolver<V, D> : CoreBinaryCspSolver<V, D>, IBinaryCspSolver<V, D>
+public sealed class SilentBinaryCspSolver<V, D> : BinaryCspSolver<V, D>, ISilentBinaryCspSolver<V, D>
     where V : struct, IComparable<V>, IEquatable<V>
     where D : struct, IComparable<D>, IEquatable<D>
 {
-    internal BinaryCspSolver(ISearchStrategyFactory<V, D> searchStrategyFactory,
+    internal SilentBinaryCspSolver(ISearchStrategyFactory<V, D> searchStrategyFactory,
         IOrderingStrategyFactory orderingStrategyFactory,
         ISearchStrategy<V, D> searchStrategy,
         IOrderingStrategy orderingStrategy) :
@@ -35,8 +35,6 @@ public sealed class BinaryCspSolver<V, D> : CoreBinaryCspSolver<V, D>, IBinaryCs
             Unlock();
         }
     }
-
-    public static IBinaryCspSolverBuilder<V, D> Create() => new BinaryCspSolverBuilder<V, D>();
 
     private Result<V, D> TrySolve(ISolvableBinaryCsp<V, D> binaryCsp, CancellationToken cancellationToken)
     {

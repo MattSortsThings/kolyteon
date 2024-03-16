@@ -1,6 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using Mjt85.Kolyteon.MapColouring;
-using Mjt85.Kolyteon.Solving;
+using Mjt85.Kolyteon.Solving.Verbose;
 
 namespace Mjt85.Kolyteon.UnitTests.Helpers;
 

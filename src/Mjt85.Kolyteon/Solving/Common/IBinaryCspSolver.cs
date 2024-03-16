@@ -1,6 +1,4 @@
-﻿using Mjt85.Kolyteon.Modelling;
-
-namespace Mjt85.Kolyteon.Solving;
+﻿namespace Mjt85.Kolyteon.Solving.Common;
 
 public interface IBinaryCspSolver<V, D>
     where V : struct, IComparable<V>, IEquatable<V>
@@ -9,6 +7,4 @@ public interface IBinaryCspSolver<V, D>
     public Search SearchStrategy { get; set; }
 
     public Ordering OrderingStrategy { get; set; }
-
-    public Result<V, D> Solve(ISolvableBinaryCsp<V, D> binaryCsp, CancellationToken cancellationToken = default);
 }

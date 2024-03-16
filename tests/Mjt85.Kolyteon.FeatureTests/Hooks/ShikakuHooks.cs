@@ -1,7 +1,8 @@
 ﻿using BoDi;
 using Mjt85.Kolyteon.Modelling;
 using Mjt85.Kolyteon.Shikaku;
-using Mjt85.Kolyteon.Solving;
+using Mjt85.Kolyteon.Solving.Common;
+using Mjt85.Kolyteon.Solving.Silent;
 
 namespace Mjt85.Kolyteon.FeatureTests.Hooks;
 
@@ -20,12 +21,14 @@ public sealed class ShikakuHooks
     [Scope(Feature = "Shikaku")]
     public static void RegisterBinaryCspSolver(IObjectContainer objectContainer)
     {
-        BinaryCspSolver<Hint, Rectangle> binaryCspSolver = BinaryCspSolver<Hint, Rectangle>.Create()
+        SilentBinaryCspSolver<Hint, Rectangle> binaryCspSolver = CreateBinaryCspSolver
             .WithInitialCapacity(1)
             .AndInitialSearchStrategy(Search.Backtracking)
             .AndInitialOrderingStrategy(Ordering.None)
-            .Build();
-        objectContainer.RegisterInstanceAs<IBinaryCspSolver<Hint, Rectangle>>(binaryCspSolver);
+            .Silent()
+            .Build<Hint, Rectangle>();
+
+        objectContainer.RegisterInstanceAs<ISilentBinaryCspSolver<Hint, Rectangle>>(binaryCspSolver);
     }
 
     [BeforeScenario]

@@ -1,4 +1,4 @@
-﻿namespace Mjt85.Kolyteon.Solving;
+﻿namespace Mjt85.Kolyteon.Solving.Common;
 
 public enum SearchState
 {

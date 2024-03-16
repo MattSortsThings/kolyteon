@@ -1,6 +1,7 @@
 ﻿using Mjt85.Kolyteon.Modelling;
+using Mjt85.Kolyteon.Solving.Common;
 
-namespace Mjt85.Kolyteon.Solving;
+namespace Mjt85.Kolyteon.Solving.Verbose;
 
 public readonly record struct StepNotification<V, D>(
     StepType StepType,

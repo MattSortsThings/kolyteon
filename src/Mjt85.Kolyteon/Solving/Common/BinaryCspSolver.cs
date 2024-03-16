@@ -2,9 +2,9 @@
 using Mjt85.Kolyteon.Solving.Internals.OrderingStrategies;
 using Mjt85.Kolyteon.Solving.Internals.SearchStrategies;
 
-namespace Mjt85.Kolyteon.Solving;
+namespace Mjt85.Kolyteon.Solving.Common;
 
-public abstract class CoreBinaryCspSolver<V, D>
+public abstract class BinaryCspSolver<V, D>
     where V : struct, IComparable<V>, IEquatable<V>
     where D : struct, IComparable<D>, IEquatable<D>
 {
@@ -17,7 +17,7 @@ public abstract class CoreBinaryCspSolver<V, D>
     private long _setupSteps;
     private long _visitingSteps;
 
-    internal CoreBinaryCspSolver(ISearchStrategyFactory<V, D> searchStrategyFactory,
+    internal BinaryCspSolver(ISearchStrategyFactory<V, D> searchStrategyFactory,
         IOrderingStrategyFactory orderingStrategyFactory,
         ISearchStrategy<V, D> searchStrategy,
         IOrderingStrategy orderingStrategy)

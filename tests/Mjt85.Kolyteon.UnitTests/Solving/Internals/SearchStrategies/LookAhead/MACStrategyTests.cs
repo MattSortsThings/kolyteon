@@ -1,7 +1,7 @@
 ﻿using FluentAssertions.Execution;
 using Mjt85.Kolyteon.MapColouring;
 using Mjt85.Kolyteon.Modelling;
-using Mjt85.Kolyteon.Solving;
+using Mjt85.Kolyteon.Solving.Common;
 using Mjt85.Kolyteon.Solving.Internals.OrderingStrategies;
 using Mjt85.Kolyteon.Solving.Internals.SearchStrategies.LookAhead;
 using Mjt85.Kolyteon.UnitTests.Helpers;

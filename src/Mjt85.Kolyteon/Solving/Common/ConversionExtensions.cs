@@ -1,4 +1,4 @@
-﻿namespace Mjt85.Kolyteon.Solving;
+﻿namespace Mjt85.Kolyteon.Solving.Common;
 
 /// <summary>
 ///     Contains extension methods for converting strategy enumerations to their string short codes.

@@ -1,6 +1,6 @@
 ﻿using Mjt85.Kolyteon.Modelling;
 
-namespace Mjt85.Kolyteon.Solving;
+namespace Mjt85.Kolyteon.Solving.Common;
 
 public sealed record Result<V, D>
     where V : struct, IComparable<V>, IEquatable<V>

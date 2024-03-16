@@ -1,6 +1,6 @@
-﻿using Mjt85.Kolyteon.Solving;
+﻿using Mjt85.Kolyteon.Solving.Common;
 
-namespace Mjt85.Kolyteon.UnitTests.Solving;
+namespace Mjt85.Kolyteon.UnitTests.Solving.Common;
 
 /// <summary>
 ///     Unit tests for extension methods to convert <see cref="Search" /> and <see cref="Ordering" /> enum values to and
