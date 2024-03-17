@@ -1,7 +1,7 @@
 # Kolyteon
 
 <div align="center">
-<img src="docs/site/Writerside/images/kolyteon-logo-500x500.png" alt="Kolyteon logo"/>
+<img src="docs/site/Writerside/images/kolyteon-logo-500x500.png" alt="Kolyteon logo" width="300px"/>
 
 ### A .NET class library for modelling common problems as generic binary CSPs (constraint satisfaction problems) and solving them using a choice of 32 different algorithms.
 
