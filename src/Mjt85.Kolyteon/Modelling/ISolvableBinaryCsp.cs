@@ -1,7 +1,8 @@
 ﻿namespace Mjt85.Kolyteon.Modelling;
 
 /// <summary>
-///     Defines methods for an indexed binary CSP that may be used by a binary CSP solving algorithm.
+///     Defines methods for an indexed, generic binary CSP that may be queried by a binary CSP solving algorithm in order
+///     to find a solution to the binary CSP.
 /// </summary>
 /// <remarks>
 ///     In binary CSP of <i>n</i> variables, the variables are arranged in an immutable order and individually
@@ -65,12 +66,11 @@ public interface ISolvableBinaryCsp<V, D> : IMeasurableBinaryCsp
     /// <param name="assignmentA">The first assignment to be queried.</param>
     /// <param name="assignmentB">The second assignment to be queried.</param>
     /// <returns>
-    ///     <c>true</c> if <paramref name="assignmentA" /> and <paramref name="assignmentB" /> are consistent, or
-    ///     <c>false</c> if they are inconsistent.
+    ///     <c>true</c> if <paramref name="assignmentA" /> and <paramref name="assignmentB" /> are consistent, or <c>false</c>
+    ///     if they are inconsistent.
     /// </returns>
     /// <exception cref="ArgumentNullException">
-    ///     <paramref name="assignmentA" /> or <paramref name="assignmentB" /> is
-    ///     <c>null</c>.
+    ///     <paramref name="assignmentA" /> or <paramref name="assignmentB" /> is <c>null</c>.
     /// </exception>
     /// <exception cref="ArgumentOutOfRangeException">
     ///     The <paramref name="assignmentA" /> parameter's <see cref="IAssignment.VariableIndex" /> value is negative or
@@ -114,8 +114,7 @@ public interface ISolvableBinaryCsp<V, D> : IMeasurableBinaryCsp
     /// </summary>
     /// <param name="index">The zero-based index of the variable to be queried.</param>
     /// <returns>
-    ///     A read-only list of instances of type <typeparamref name="D" />. The domain of the variable at the specified
-    ///     index.
+    ///     A read-only list of instances of type <typeparamref name="D" />. The domain of the variable at the specified index.
     /// </returns>
     /// <exception cref="ArgumentOutOfRangeException">
     ///     <paramref name="index" /> is negative, or, <paramref name="index" /> is greater than or equal to the value of

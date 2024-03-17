@@ -1,7 +1,7 @@
 ﻿namespace Mjt85.Kolyteon.Modelling;
 
 /// <summary>
-///     Defines methods to verify that a binary CSP has modelled a given problem correctly.
+///     Defines methods to verify that a generic binary CSP has modelled a given problem correctly.
 /// </summary>
 /// <typeparam name="P">The modelled problem type.</typeparam>
 /// <typeparam name="V">The binary CSP variable type.</typeparam>
@@ -35,7 +35,7 @@ public interface ITestableBinaryCsp<in P, V, D> : IModellingBinaryCsp<P, V, D>
     /// <remarks>
     ///     The returned sequence contains one <see cref="Pair{T}" /> instance for every binary constraint. Specifically, the
     ///     sequence contains a <see cref="Pair{T}" /> for every pair of adjacent variables at index <i>i</i> and at index
-    ///     <i>j</i>, for all <i>i</i> &#8712; [0,<i>n</i>), for all <i>j</i> &#8712; (<i>i</i>,<i>n</i>), where <i>i</i> is
+    ///     <i>j</i>, for all <i>i</i> &#8712; [0,<i>n</i>), for all <i>j</i> &#8712; (<i>i</i>,<i>n</i>), where <i>n</i> is
     ///     the number of binary CSP variables.
     /// </remarks>
     /// <returns>

@@ -8,6 +8,26 @@ namespace Mjt85.Kolyteon.Modelling;
 ///     Abstract base class representing a testable, solvable, measurable, generic binary CSP, that is queryable by index
 ///     and can model any instance of a problem type.
 /// </summary>
+/// <remarks>
+///     To create a problem-specific derivative of this abstract base class:
+///     <list type="number">
+///         <item>Identify a class to represent the problem. This will be generic type <typeparamref name="P" />.</item>
+///         <item>Identify a struct type for the binary CSP variables. This will be generic type <typeparamref name="V" />.</item>
+///         <item>
+///             Identify a struct type for the binary CSP domain values. This will be generic type
+///             <typeparamref name="D" />.
+///         </item>
+///         <item>
+///             Define a problem-specific derivative of <see cref="BinaryCsp{P,V,D}" />, parametrized over the three
+///             generic types.
+///         </item>
+///         <item>Implement the inherited constructor. The implementation must call the base class constructor.</item>
+///         <item>
+///             Implement all the private protected abstract methods to define the problem data and how it is to be
+///             modelled as a binary CSP.
+///         </item>
+///     </list>
+/// </remarks>
 /// <typeparam name="P">The modelled problem type.</typeparam>
 /// <typeparam name="V">The binary CSP variable.</typeparam>
 /// <typeparam name="D">The binary CSP domain value type.</typeparam>
@@ -35,9 +55,12 @@ public abstract class BinaryCsp<P, V, D> : ITestableBinaryCsp<P, V, D>
     ///     Initializes a new <see cref="BinaryCsp{P,V,D}" /> instance that is not modelling a problem and has the specified
     ///     initial capacity.
     /// </summary>
+    /// <remarks>
+    ///     A problem-specific derivative must implement this constructor. The implementation must call the base class
+    ///     constructor.
+    /// </remarks>
     /// <param name="capacity">
-    ///     The number of binary CSP variables the new <see cref="BinaryCsp{P,V,D}" /> instance can
-    ///     initially store.
+    ///     The number of binary CSP variables the new <see cref="BinaryCsp{P,V,D}" /> instance can initially store.
     /// </param>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="capacity" /> is negative.</exception>
     protected BinaryCsp(int capacity)
@@ -60,6 +83,10 @@ public abstract class BinaryCsp<P, V, D> : ITestableBinaryCsp<P, V, D>
     /// </value>
     public int Capacity => _nodes.Capacity;
 
+    /// <summary>
+    ///     Gets the binary predicate that is to be used for a pair of binary CSP variables that are non-adjacent (i.e. are
+    ///     known not to participate in a binary constraint).
+    /// </summary>
     protected IBinaryPredicate<D> NotAdjacent => AlwaysConsistent;
 
     /// <inheritdoc />
@@ -73,6 +100,7 @@ public abstract class BinaryCsp<P, V, D> : ITestableBinaryCsp<P, V, D>
         ? Constraints / (_nodes.Count * (_nodes.Count - 1) * 0.5)
         : 0;
 
+    /// <inheritdoc />
     public double ConstraintTightness => _totalAdjacentAssignmentPairs > 0
         ? (double)_totalIllegalAssignmentPairs / _totalAdjacentAssignmentPairs
         : 0;
@@ -299,14 +327,71 @@ public abstract class BinaryCsp<P, V, D> : ITestableBinaryCsp<P, V, D>
         _edgeMatrix.TrimExcess();
     }
 
+    /// <summary>
+    ///     Populates the problem data from the given problem, which will be used to model the binary CSP.
+    /// </summary>
+    /// <param name="problem">The problem to be modelled.</param>
     private protected abstract void PopulateProblemData(P problem);
 
+    /// <summary>
+    ///     Clears the problem data so that this instance can model another problem.
+    /// </summary>
     private protected abstract void ClearProblemData();
 
+    /// <summary>
+    ///     Uses the problem data to generate the binary CSP variables.
+    /// </summary>
+    /// <remarks>
+    ///     <para>During invocation of the <see cref="Model" /> method, this method is invoked exactly once.</para>
+    ///     <para>
+    ///         The binary CSP variables returned by this method will be sorted using the <see cref="IComparable{T}" />
+    ///         implementation of the <typeparamref name="V" /> type before being added to the binary CSP.
+    ///     </para>
+    /// </remarks>
+    /// <returns>An enumerable containing all the binary CSP variables.</returns>
     private protected abstract IEnumerable<V> GetVariables();
 
+    /// <summary>
+    ///     Uses the problem data to generate the domain of the specified binary CSP variable.
+    /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         During invocation of the <see cref="Model" /> method, this method is invoked once for the variable at index
+    ///         <i>i</i>, for all <i>i</i> &#8712; [0,<i>n</i>), where <i>n</i> is the number of binary CSP variables.
+    ///     </para>
+    ///     <para>
+    ///         The binary CSP domain values returned by this method will be sorted using the <see cref="IComparable{T}" />
+    ///         implementation of the <typeparamref name="D" /> type before being added to the binary CSP.
+    ///     </para>
+    /// </remarks>
+    /// <param name="variable">The binary CSP variable.</param>
+    /// <returns>An enumerable containing all the domain values for the <paramref name="variable" /> parameter.</returns>
     private protected abstract IEnumerable<D> GetDomainOf(V variable);
 
+    /// <summary>
+    ///     Uses the problem data to find the binary predicate for the two specified binary CSP variables, which are ordered by
+    ///     index.
+    /// </summary>
+    /// <remarks>
+    ///     <para>
+    ///         During invocation of the <see cref="Model" /> method, this method is invoked once for the pair of variables at
+    ///         index <i>i</i> and index <i>j</i>, for all <i>i</i> &#8712; [0,<i>n</i>), for all <i>j</i> &#8712; (<i>i</i>,
+    ///         <i>n</i>), where <i>n</i> is the number of binary CSP variables.
+    ///     </para>
+    ///     <para>
+    ///         If the two variables are notionally adjacent given the problem data, the method should return the binary
+    ///         predicate for the two variables. This will be tested against the Cartesian product of the variables' domains. A
+    ///         constraint is only added to the binary CSP if there is at least one inconsistent domain value pair for the
+    ///         predicate.
+    ///     </para>
+    ///     <para>
+    ///         If the two variables are not notionally adjacent given the problem data, the method should return the
+    ///         <see cref="NotAdjacent" /> property. No constraint will be added to the binary CSP.
+    ///     </para>
+    /// </remarks>
+    /// <param name="variable1">The first of the two ordered binary CSP variables.</param>
+    /// <param name="variable2">The second of the two ordered binary CSP variables.</param>
+    /// <returns>The binary predicate for the two variables.</returns>
     private protected abstract IBinaryPredicate<D> GetBinaryPredicateFor(V variable1, V variable2);
 
     private DomainSizeStatistics QueryDomainSizeStatistics()

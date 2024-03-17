@@ -8,8 +8,8 @@ public interface IBinaryPredicate<D>
     where D : struct, IComparable<D>, IEquatable<D>
 {
     /// <summary>
-    ///     Determines whether the values from the first and second variables' domains can be assigned simultaneously as part
-    ///     of any solution to the problem.
+    ///     Determines whether the two values, drawn from the first and second variables' domains, can both be assigned to
+    ///     their variables as part of any solution to the problem.
     /// </summary>
     /// <param name="domainValue1">The value from the first variable's domain.</param>
     /// <param name="domainValue2">The value from the second variable's domain.</param>

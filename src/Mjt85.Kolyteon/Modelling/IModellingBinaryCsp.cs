@@ -1,7 +1,7 @@
 ﻿namespace Mjt85.Kolyteon.Modelling;
 
 /// <summary>
-///     Defines methods for a reusable binary CSP that can model any problem.
+///     Defines methods for a reusable generic binary CSP that can model any instance of its defined problem type.
 /// </summary>
 /// <typeparam name="P">The modelled problem type.</typeparam>
 /// <typeparam name="V">The binary CSP variable type.</typeparam>
