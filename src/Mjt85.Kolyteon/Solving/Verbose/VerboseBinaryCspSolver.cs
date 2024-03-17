@@ -6,6 +6,17 @@ using Mjt85.Kolyteon.Solving.Internals.SearchStrategies;
 
 namespace Mjt85.Kolyteon.Solving.Verbose;
 
+/// <summary>
+///     A generic binary CSP solver that asynchronously solves a binary CSP with progress reporting, and can be configured
+///     with a step delay and a solving algorithm composed of a search strategy and an ordering strategy,
+/// </summary>
+/// <remarks>
+///     Use the fluent builder API, accessed via the <see cref="CreateBinaryCspSolver.WithInitialCapacity" /> static
+///     method of the <see cref="CreateBinaryCspSolver" /> static class to build a
+///     <see cref="VerboseBinaryCspSolver{V,D}" /> instance.
+/// </remarks>
+/// <typeparam name="V">The binary CSP variable type.</typeparam>
+/// <typeparam name="D">The binary CSP domain value type.</typeparam>
 public sealed class VerboseBinaryCspSolver<V, D> : BinaryCspSolver<V, D>, IVerboseBinaryCspSolver<V, D>
     where V : struct, IComparable<V>, IEquatable<V>
     where D : struct, IComparable<D>, IEquatable<D>
@@ -22,6 +33,8 @@ public sealed class VerboseBinaryCspSolver<V, D> : BinaryCspSolver<V, D>, IVerbo
         _stepDelay = stepDelay;
     }
 
+
+    /// <inheritdoc />
     public TimeSpan StepDelay
     {
         get => _stepDelay;
@@ -32,6 +45,25 @@ public sealed class VerboseBinaryCspSolver<V, D> : BinaryCspSolver<V, D>, IVerbo
         }
     }
 
+    /// <inheritdoc />
+    /// <remarks>
+    ///     <para>
+    ///         When this method is invoked, the solver instance runs its configured binary CSP solving algorithm on the
+    ///         <paramref name="binaryCsp" /> parameter, builds a <see cref="Result{V,D}" /> object, clears and resets its
+    ///         internal data structures, then returns the result. After each step, the solver sends a new
+    ///         <see cref="StepNotification{V,D}" /> instance to the <paramref name="progress" /> parameter and pauses for the
+    ///         <see cref="StepDelay" /> duration.
+    ///     </para>
+    ///     <para>
+    ///         If the solving operation is cancelled via the <paramref name="cancellationToken" /> parameter, the solver
+    ///         instance halts the solving algorithm, clears and resets its internal data structures, then throws an
+    ///         <see cref="OperationCanceledException" />.
+    ///     </para>
+    ///     <para>
+    ///         This instance cannot solve more than one binary CSP at a time, as the solving algorithm requires the
+    ///         population and manipulation of several data structures at each step.
+    ///     </para>
+    /// </remarks>
     public async Task<Result<V, D>> SolveAsync(ISolvableBinaryCsp<V, D> binaryCsp,
         IProgress<StepNotification<V, D>> progress,
         CancellationToken cancellationToken = default)
@@ -63,7 +95,6 @@ public sealed class VerboseBinaryCspSolver<V, D> : BinaryCspSolver<V, D>, IVerbo
         UpdateSearchState();
         while (true)
         {
-            await Task.Delay(_stepDelay, cancellationToken);
             switch (CurrentSearchState)
             {
                 case SearchState.Safe:
@@ -85,6 +116,8 @@ public sealed class VerboseBinaryCspSolver<V, D> : BinaryCspSolver<V, D>, IVerbo
                 default:
                     return GetResult();
             }
+
+            await Task.Delay(_stepDelay, cancellationToken);
         }
     }
 

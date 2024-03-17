@@ -6,10 +6,10 @@
 public static class ConversionExtensions
 {
     /// <summary>
-    ///     Returns the unique alphabetical short code for the search strategy.
+    ///     Returns this search strategy's unique alphabetical short code.
     /// </summary>
     /// <param name="searchStrategy">The search strategy to be converted.</param>
-    /// <returns>A string comprising the unique alphabetical short code for the search strategy.</returns>
+    /// <returns>A string comprising the unique alphabetical short code for this search strategy.</returns>
     public static string ToShortCode(this Search searchStrategy)
     {
         return searchStrategy switch
@@ -26,7 +26,7 @@ public static class ConversionExtensions
     }
 
     /// <summary>
-    ///     Returns the unique alphabetical short code for the ordering strategy.
+    ///     Returns this ordering strategy's unique alphabetical short code.
     /// </summary>
     /// <param name="orderingStrategy">The ordering strategy to be converted.</param>
     /// <returns>A string comprising the unique alphabetical short code for the ordering strategy.</returns>

@@ -1,5 +1,10 @@
 ﻿namespace Mjt85.Kolyteon.Solving.Common;
 
+/// <summary>
+///     Represents a binary CSP solving algorithm.
+/// </summary>
+/// <param name="SearchStrategy">Specifies the search strategy component of the algorithm.</param>
+/// <param name="OrderingStrategy">Specifies the ordering strategy component of the algorithm.</param>
 public sealed record Algorithm(Search SearchStrategy, Ordering OrderingStrategy)
 {
     /// <summary>
