@@ -164,6 +164,61 @@ public static class BlockTests
     }
 
     [UnitTest]
+    public sealed class ContainsMethod
+    {
+        public static TheoryData<Block, Square> PositiveTestCases => new()
+        {
+            { Square.FromColumnAndRow(0, 0).ToBlock(Dimensions.FromWidthAndHeight(1, 1)), Square.FromColumnAndRow(0, 0) },
+            { Square.FromColumnAndRow(2, 2).ToBlock(Dimensions.FromWidthAndHeight(3, 3)), Square.FromColumnAndRow(2, 2) },
+            { Square.FromColumnAndRow(2, 2).ToBlock(Dimensions.FromWidthAndHeight(3, 3)), Square.FromColumnAndRow(2, 3) },
+            { Square.FromColumnAndRow(2, 2).ToBlock(Dimensions.FromWidthAndHeight(3, 3)), Square.FromColumnAndRow(2, 4) },
+            { Square.FromColumnAndRow(2, 2).ToBlock(Dimensions.FromWidthAndHeight(3, 3)), Square.FromColumnAndRow(3, 2) },
+            { Square.FromColumnAndRow(2, 2).ToBlock(Dimensions.FromWidthAndHeight(3, 3)), Square.FromColumnAndRow(3, 3) },
+            { Square.FromColumnAndRow(2, 2).ToBlock(Dimensions.FromWidthAndHeight(3, 3)), Square.FromColumnAndRow(3, 4) },
+            { Square.FromColumnAndRow(2, 2).ToBlock(Dimensions.FromWidthAndHeight(3, 3)), Square.FromColumnAndRow(4, 2) },
+            { Square.FromColumnAndRow(2, 2).ToBlock(Dimensions.FromWidthAndHeight(3, 3)), Square.FromColumnAndRow(4, 3) },
+            { Square.FromColumnAndRow(2, 2).ToBlock(Dimensions.FromWidthAndHeight(3, 3)), Square.FromColumnAndRow(4, 4) }
+        };
+
+        public static TheoryData<Block, Square> NegativeTestCases => new()
+        {
+            { Square.FromColumnAndRow(0, 0).ToBlock(Dimensions.FromWidthAndHeight(1, 1)), Square.FromColumnAndRow(0, 1) },
+            { Square.FromColumnAndRow(0, 0).ToBlock(Dimensions.FromWidthAndHeight(1, 1)), Square.FromColumnAndRow(1, 0) },
+            { Square.FromColumnAndRow(0, 0).ToBlock(Dimensions.FromWidthAndHeight(1, 1)), Square.FromColumnAndRow(1, 1) },
+            { Square.FromColumnAndRow(2, 2).ToBlock(Dimensions.FromWidthAndHeight(3, 3)), Square.FromColumnAndRow(1, 1) },
+            { Square.FromColumnAndRow(2, 2).ToBlock(Dimensions.FromWidthAndHeight(3, 3)), Square.FromColumnAndRow(1, 2) },
+            { Square.FromColumnAndRow(2, 2).ToBlock(Dimensions.FromWidthAndHeight(3, 3)), Square.FromColumnAndRow(1, 3) },
+            { Square.FromColumnAndRow(2, 2).ToBlock(Dimensions.FromWidthAndHeight(3, 3)), Square.FromColumnAndRow(1, 4) },
+            { Square.FromColumnAndRow(2, 2).ToBlock(Dimensions.FromWidthAndHeight(3, 3)), Square.FromColumnAndRow(1, 5) },
+            { Square.FromColumnAndRow(2, 2).ToBlock(Dimensions.FromWidthAndHeight(3, 3)), Square.FromColumnAndRow(1, 1) },
+            { Square.FromColumnAndRow(2, 2).ToBlock(Dimensions.FromWidthAndHeight(3, 3)), Square.FromColumnAndRow(2, 1) },
+            { Square.FromColumnAndRow(2, 2).ToBlock(Dimensions.FromWidthAndHeight(3, 3)), Square.FromColumnAndRow(3, 1) },
+            { Square.FromColumnAndRow(2, 2).ToBlock(Dimensions.FromWidthAndHeight(3, 3)), Square.FromColumnAndRow(4, 1) },
+            { Square.FromColumnAndRow(2, 2).ToBlock(Dimensions.FromWidthAndHeight(3, 3)), Square.FromColumnAndRow(5, 1) },
+            { Square.FromColumnAndRow(2, 2).ToBlock(Dimensions.FromWidthAndHeight(3, 3)), Square.FromColumnAndRow(5, 2) },
+            { Square.FromColumnAndRow(2, 2).ToBlock(Dimensions.FromWidthAndHeight(3, 3)), Square.FromColumnAndRow(5, 3) },
+            { Square.FromColumnAndRow(2, 2).ToBlock(Dimensions.FromWidthAndHeight(3, 3)), Square.FromColumnAndRow(5, 4) },
+            { Square.FromColumnAndRow(2, 2).ToBlock(Dimensions.FromWidthAndHeight(3, 3)), Square.FromColumnAndRow(5, 5) },
+            { Square.FromColumnAndRow(2, 2).ToBlock(Dimensions.FromWidthAndHeight(3, 3)), Square.FromColumnAndRow(2, 5) },
+            { Square.FromColumnAndRow(2, 2).ToBlock(Dimensions.FromWidthAndHeight(3, 3)), Square.FromColumnAndRow(3, 5) },
+            { Square.FromColumnAndRow(2, 2).ToBlock(Dimensions.FromWidthAndHeight(3, 3)), Square.FromColumnAndRow(4, 5) },
+            { Square.FromColumnAndRow(2, 2).ToBlock(Dimensions.FromWidthAndHeight(3, 3)), Square.FromColumnAndRow(0, 0) },
+            { Square.FromColumnAndRow(2, 2).ToBlock(Dimensions.FromWidthAndHeight(3, 3)), Square.FromColumnAndRow(99, 99) }
+        };
+
+        [Theory]
+        [MemberData(nameof(PositiveTestCases), MemberType = typeof(ContainsMethod))]
+        public void Contains_GivenSquareInsideBlock_ReturnsTrue(Block sut, Square square)
+        {
+            // Act
+            bool result = sut.Contains(in square);
+
+            // Assert
+            result.Should().BeTrue();
+        }
+    }
+
+    [UnitTest]
     public sealed class ToStringMethod
     {
         public static TheoryData<Square, Dimensions, string> TestCases => new()

@@ -42,6 +42,7 @@
 
   <ItemGroup>
     <Content Include="Features\ProblemRepresentation.feature"/>
+    <Content Include="Features\SolutionVerification.feature"/>
   </ItemGroup>
 
 </Project>

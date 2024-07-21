@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Kolyteon.Common;
 using Kolyteon.NQueens;
 using Kolyteon.Tests.Acceptance.TestUtils;
 using Reqnroll;
@@ -26,6 +27,14 @@ internal sealed class NQueensSteps(ScenarioContext scenarioContext)
         scenarioContext.Add(Constants.Keys.Json, json);
     }
 
+    [Given("I have proposed the following squares as a solution to the N-Queens problem")]
+    public void GivenIHaveProposedTheFollowingSquaresAsASolutionToTheNQueensProblem(Table table)
+    {
+        IReadOnlyList<Square> proposedSolution = table.Rows.Select(row => row["Square"].ToSquare()).ToArray();
+
+        scenarioContext.Add(Constants.Keys.ProposedSolution, proposedSolution);
+    }
+
     [When("I deserialize an N-Queens problem from the JSON")]
     public void WhenIDeserializeAnNQueensProblemFromTheJson()
     {
@@ -34,6 +43,17 @@ internal sealed class NQueensSteps(ScenarioContext scenarioContext)
         NQueensProblem? deserializedProblem = JsonSerializer.Deserialize<NQueensProblem>(json, JsonSerializerOptions.Default);
 
         scenarioContext.Add(Constants.Keys.DeserializedProblem, deserializedProblem);
+    }
+
+    [When("I ask the N-Queens problem to verify the correctness of the proposed solution")]
+    public void WhenIAskTheNQueensProblemToVerifyTheCorrectnessOfTheProposedSolution()
+    {
+        NQueensProblem problem = scenarioContext.Get<NQueensProblem>(Constants.Keys.Problem);
+        IReadOnlyList<Square> proposedSolution = scenarioContext.Get<IReadOnlyList<Square>>(Constants.Keys.ProposedSolution);
+
+        CheckingResult result = problem.VerifyCorrect(proposedSolution);
+
+        scenarioContext.Add(Constants.Keys.VerificationResult, result);
     }
 
     [Then("the deserialized and original N-Queens problem should be equal")]

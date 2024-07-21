@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Kolyteon.Common;
 using Kolyteon.NQueens;
+using Kolyteon.Tests.Utils.TestAssertions;
 
 namespace Kolyteon.Tests.Unit.NQueens;
 
@@ -63,6 +64,259 @@ public static class NQueensProblemTests
 
             // Assert
             result.Should().BeFalse();
+        }
+    }
+
+    [UnitTest]
+    public sealed class VerifyCorrectMethod
+    {
+        public static TheoryData<NQueensProblem, IReadOnlyList<Square>> PositiveTestCases => new()
+        {
+            {
+                NQueensProblem.FromN(1), [
+                    Square.FromColumnAndRow(0, 0)
+                ]
+            },
+            {
+                NQueensProblem.FromN(4), [
+                    Square.FromColumnAndRow(0, 1),
+                    Square.FromColumnAndRow(1, 3),
+                    Square.FromColumnAndRow(2, 0),
+                    Square.FromColumnAndRow(3, 2)
+                ]
+            },
+            {
+                NQueensProblem.FromN(5), [
+                    Square.FromColumnAndRow(0, 4),
+                    Square.FromColumnAndRow(1, 1),
+                    Square.FromColumnAndRow(2, 3),
+                    Square.FromColumnAndRow(3, 0),
+                    Square.FromColumnAndRow(4, 2)
+                ]
+            },
+            {
+                NQueensProblem.FromN(5), [
+                    Square.FromColumnAndRow(0, 2),
+                    Square.FromColumnAndRow(1, 0),
+                    Square.FromColumnAndRow(2, 3),
+                    Square.FromColumnAndRow(3, 1),
+                    Square.FromColumnAndRow(4, 4)
+                ]
+            },
+            {
+                NQueensProblem.FromN(5), [
+                    Square.FromColumnAndRow(0, 0),
+                    Square.FromColumnAndRow(1, 3),
+                    Square.FromColumnAndRow(2, 1),
+                    Square.FromColumnAndRow(3, 4),
+                    Square.FromColumnAndRow(4, 2)
+                ]
+            },
+            {
+                NQueensProblem.FromN(5), [
+                    Square.FromColumnAndRow(0, 0),
+                    Square.FromColumnAndRow(1, 2),
+                    Square.FromColumnAndRow(2, 4),
+                    Square.FromColumnAndRow(3, 1),
+                    Square.FromColumnAndRow(4, 3)
+                ]
+            },
+            {
+                NQueensProblem.FromN(5), [
+                    Square.FromColumnAndRow(0, 2),
+                    Square.FromColumnAndRow(1, 4),
+                    Square.FromColumnAndRow(2, 1),
+                    Square.FromColumnAndRow(3, 3),
+                    Square.FromColumnAndRow(4, 0)
+                ]
+            },
+            {
+                NQueensProblem.FromN(5), [
+                    Square.FromColumnAndRow(0, 1),
+                    Square.FromColumnAndRow(1, 3),
+                    Square.FromColumnAndRow(2, 0),
+                    Square.FromColumnAndRow(3, 2),
+                    Square.FromColumnAndRow(4, 4)
+                ]
+            },
+            {
+                NQueensProblem.FromN(5), [
+                    Square.FromColumnAndRow(0, 4),
+                    Square.FromColumnAndRow(1, 2),
+                    Square.FromColumnAndRow(2, 0),
+                    Square.FromColumnAndRow(3, 3),
+                    Square.FromColumnAndRow(4, 1)
+                ]
+            },
+            {
+                NQueensProblem.FromN(5), [
+                    Square.FromColumnAndRow(0, 3),
+                    Square.FromColumnAndRow(1, 1),
+                    Square.FromColumnAndRow(2, 4),
+                    Square.FromColumnAndRow(3, 2),
+                    Square.FromColumnAndRow(4, 0)
+                ]
+            },
+            {
+                NQueensProblem.FromN(5), [
+                    Square.FromColumnAndRow(0, 3),
+                    Square.FromColumnAndRow(1, 0),
+                    Square.FromColumnAndRow(2, 2),
+                    Square.FromColumnAndRow(3, 4),
+                    Square.FromColumnAndRow(4, 1)
+                ]
+            },
+            {
+                NQueensProblem.FromN(5), [
+                    Square.FromColumnAndRow(0, 1),
+                    Square.FromColumnAndRow(1, 4),
+                    Square.FromColumnAndRow(2, 2),
+                    Square.FromColumnAndRow(3, 0),
+                    Square.FromColumnAndRow(4, 3)
+                ]
+            }
+        };
+
+        [Theory]
+        [MemberData(nameof(PositiveTestCases), MemberType = typeof(VerifyCorrectMethod))]
+        public void VerifyCorrect_GivenCorrectSolution_ReturnsSuccessfulResult(NQueensProblem sut,
+            IReadOnlyList<Square> solution)
+        {
+            // Act
+            CheckingResult result = sut.VerifyCorrect(solution);
+
+            // Assert
+            result.Should().BeSuccessful().And.HaveNullFirstError();
+        }
+
+        [Fact]
+        public void VerifyCorrect_SolutionIsEmptyList_ReturnsUnsuccessfulResult()
+        {
+            // Arrange
+            NQueensProblem sut = NQueensProblem.FromN(1);
+
+            IReadOnlyList<Square> solution = Array.Empty<Square>();
+
+            // Act
+            CheckingResult result = sut.VerifyCorrect(solution);
+
+            // Assert
+            result.Should().BeUnsuccessful()
+                .And.HaveFirstError("Solution has 0 squares, but problem has 1 queen.");
+        }
+
+        [Fact]
+        public void VerifyCorrect_SolutionHasTooFewItems_ReturnsUnsuccessfulResult()
+        {
+            // Arrange
+            NQueensProblem sut = NQueensProblem.FromN(2);
+
+            IReadOnlyList<Square> solution = [Square.FromColumnAndRow(0, 0)];
+
+            // Act
+            CheckingResult result = sut.VerifyCorrect(solution);
+
+            // Assert
+            result.Should().BeUnsuccessful()
+                .And.HaveFirstError("Solution has 1 square, but problem has 2 queens.");
+        }
+
+        [Fact]
+        public void VerifyCorrect_SolutionHasTooManyItems_ReturnsUnsuccessfulResult()
+        {
+            // Arrange
+            NQueensProblem sut = NQueensProblem.FromN(2);
+
+            IReadOnlyList<Square> solution =
+            [
+                Square.FromColumnAndRow(0, 0),
+                Square.FromColumnAndRow(0, 1),
+                Square.FromColumnAndRow(0, 2)
+            ];
+
+            // Act
+            CheckingResult result = sut.VerifyCorrect(solution);
+
+            // Assert
+            result.Should().BeUnsuccessful()
+                .And.HaveFirstError("Solution has 3 squares, but problem has 2 queens.");
+        }
+
+        [Fact]
+        public void VerifyCorrect_SquareOutsideChessBoard_ReturnsUnsuccessfulResult()
+        {
+            // Arrange
+            NQueensProblem sut = NQueensProblem.FromN(2);
+
+            IReadOnlyList<Square> solution =
+            [
+                Square.FromColumnAndRow(0, 0),
+                Square.FromColumnAndRow(1, 2)
+            ];
+
+            // Act
+            CheckingResult result = sut.VerifyCorrect(solution);
+
+            // Assert
+            result.Should().BeUnsuccessful()
+                .And.HaveFirstError("Square (1,2) is not inside chess board (0,0) [2x2].");
+        }
+
+        [Fact]
+        public void VerifyCorrect_DuplicateSquares_ReturnsUnsuccessfulResult()
+        {
+            // Arrange
+            NQueensProblem sut = NQueensProblem.FromN(3);
+
+            IReadOnlyList<Square> solution =
+            [
+                Square.FromColumnAndRow(0, 0),
+                Square.FromColumnAndRow(1, 2),
+                Square.FromColumnAndRow(0, 0)
+            ];
+
+            // Act
+            CheckingResult result = sut.VerifyCorrect(solution);
+
+            // Assert
+            result.Should().BeUnsuccessful()
+                .And.HaveFirstError("Square (0,0) occurs more than once.");
+        }
+
+        [Fact]
+        public void VerifyCorrect_CapturingSquares_ReturnsUnsuccessfulResult()
+        {
+            // Arrange
+            NQueensProblem sut = NQueensProblem.FromN(4);
+
+            IReadOnlyList<Square> solution =
+            [
+                Square.FromColumnAndRow(0, 0),
+                Square.FromColumnAndRow(1, 2),
+                Square.FromColumnAndRow(2, 3),
+                Square.FromColumnAndRow(3, 0)
+            ];
+
+            // Act
+            CheckingResult result = sut.VerifyCorrect(solution);
+
+            // Assert
+            result.Should().BeUnsuccessful()
+                .And.HaveFirstError("Squares (1,2) and (2,3) capture each other.");
+        }
+
+        [Fact]
+        public void VerifyCorrect_SolutionArgIsNull_Throws()
+        {
+            // Arrange
+            NQueensProblem sut = NQueensProblem.FromN(1);
+
+            // Act
+            Action act = () => sut.VerifyCorrect(null!);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>()
+                .WithMessage("Value cannot be null. (Parameter 'solution')");
         }
     }
 

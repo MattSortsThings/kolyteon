@@ -30,12 +30,14 @@ public sealed class LibraryArchitectureTests
     }
 
     [Fact]
-    public void NonPublicTypes_ShouldResideInNamespaceContainingDotInternals()
+    public void NonPublicNonAnonymousTypes_ShouldResideInNamespaceContainingDotInternals()
     {
         // Arrange
         ConditionList condition = Types.InAssembly(AssemblyUnderTest)
             .That()
             .AreNotPublic()
+            .And()
+            .DoNotHaveNameMatching("Anonymous")
             .Should()
             .ResideInNamespaceContaining(".Internals");
 
@@ -47,7 +49,7 @@ public sealed class LibraryArchitectureTests
     }
 
     [Fact]
-    public void NonAbstractNonStaticTypes_ShouldBeSealed()
+    public void NonAbstractNonStaticNonAnonymousTypes_ShouldBeSealed()
     {
         // Arrange
         ConditionList conditions = Types.InAssembly(AssemblyUnderTest)
@@ -55,6 +57,8 @@ public sealed class LibraryArchitectureTests
             .AreNotAbstract()
             .And()
             .AreNotStatic()
+            .And()
+            .DoNotHaveNameMatching("Anonymous")
             .Should()
             .BeSealed();
 

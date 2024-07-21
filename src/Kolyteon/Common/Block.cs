@@ -86,6 +86,25 @@ public readonly record struct Block : IComparable<Block>
     public bool Equals(Block other) => OriginSquare.Equals(other.OriginSquare) && Dimensions.Equals(other.Dimensions);
 
     /// <summary>
+    ///     Indicates whether the block represented by this <see cref="Block" /> instance contains the square represented by
+    ///     the specified <see cref="Square" /> instance.
+    /// </summary>
+    /// <param name="square">The <see cref="Square" /> instance against which this instance is to be compared.</param>
+    /// <returns>
+    ///     <see langword="true" /> if this instance contains the <see cref="square" /> parameter; otherwise,
+    ///     <see langword="false" />.
+    /// </returns>
+    public bool Contains(in Square square)
+    {
+        (int hintColumn, int hintRow) = square;
+
+        return hintColumn >= OriginSquare.Column
+               && hintRow >= OriginSquare.Row
+               && hintColumn < OriginSquare.Column + Dimensions.WidthInSquares
+               && hintRow < OriginSquare.Row + Dimensions.HeightInSquares;
+    }
+
+    /// <summary>
     ///     Deconstructs this <see cref="Block" /> instance.
     /// </summary>
     /// <param name="originSquare">The top-left square in the block.</param>

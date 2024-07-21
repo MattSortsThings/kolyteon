@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using Kolyteon.Common;
+using Kolyteon.NQueens.Internals;
 
 namespace Kolyteon.NQueens;
 
@@ -7,7 +8,7 @@ namespace Kolyteon.NQueens;
 ///     Represents a valid (but not necessarily solvable) <i>N</i>-Queens problem.
 /// </summary>
 [Serializable]
-public sealed record NQueensProblem
+public sealed record NQueensProblem : ISolutionVerifier<IReadOnlyList<Square>>
 {
     [JsonConstructor]
     internal NQueensProblem(Block chessBoard, int queens)
@@ -52,6 +53,24 @@ public sealed record NQueensProblem
         }
 
         return Queens == other.Queens;
+    }
+
+    /// <inheritdoc />
+    /// <remarks>
+    ///     <para>
+    ///         The solution to an <see cref="NQueensProblem" /> instance is a list of <see cref="Square" /> values,
+    ///         representing the chess board squares where the queens are to be positioned.
+    ///     </para>
+    /// </remarks>
+    public CheckingResult VerifyCorrect(IReadOnlyList<Square> solution)
+    {
+        ArgumentNullException.ThrowIfNull(solution);
+
+        return SolutionVerification.OneSquarePerQueen
+            .Then(SolutionVerification.AllSquaresInChessBoard)
+            .Then(SolutionVerification.AllSquaresUnique)
+            .Then(SolutionVerification.NoCapturingSquares)
+            .VerifyCorrect(solution, this);
     }
 
     /// <summary>
