@@ -162,6 +162,94 @@ public static class SquareTests
     }
 
     [UnitTest]
+    public sealed class RightOfMethod
+    {
+        [Theory]
+        [InlineData(1, 0, 0, 0)]
+        [InlineData(2, 1, 1, 4)]
+        [InlineData(2, 1, 1, 0)]
+        public void RightOf_InstanceColumnGreaterThanOther_ReturnsTrue(int instanceColumn,
+            int instanceRow,
+            int otherColumn,
+            int otherRow)
+        {
+            // Arrange
+            Square sut = Square.FromColumnAndRow(instanceColumn, instanceRow);
+            Square other = Square.FromColumnAndRow(otherColumn, otherRow);
+
+            // Act
+            bool result = sut.RightOf(other);
+
+            // Assert
+            result.Should().BeTrue();
+        }
+
+        [Theory]
+        [InlineData(0, 0, 0, 0)]
+        [InlineData(0, 1, 1, 4)]
+        [InlineData(0, 1, 1, 0)]
+        public void RightOf_InstanceColumnLessThanOrEqualToOther_ReturnsFalse(int instanceColumn,
+            int instanceRow,
+            int otherColumn,
+            int otherRow)
+        {
+            // Arrange
+            Square sut = Square.FromColumnAndRow(instanceColumn, instanceRow);
+            Square other = Square.FromColumnAndRow(otherColumn, otherRow);
+
+            // Act
+            bool result = sut.RightOf(other);
+
+            // Assert
+            result.Should().BeFalse();
+        }
+    }
+
+    [UnitTest]
+    public sealed class BelowMethod
+    {
+        [Theory]
+        [InlineData(0, 1, 0, 0)]
+        [InlineData(1, 2, 4, 1)]
+        [InlineData(1, 2, 0, 1)]
+        public void Below_InstanceRowGreaterThanOther_ReturnsTrue(int instanceColumn,
+            int instanceRow,
+            int otherColumn,
+            int otherRow)
+        {
+            // Arrange
+            Square sut = Square.FromColumnAndRow(instanceColumn, instanceRow);
+            Square other = Square.FromColumnAndRow(otherColumn, otherRow);
+
+            // Act
+            bool result = sut.Below(other);
+
+            // Assert
+            result.Should().BeTrue();
+        }
+
+        [Theory]
+        [InlineData(0, 0, 0, 0)]
+        [InlineData(1, 0, 4, 1)]
+        [InlineData(1, 0, 0, 1)]
+        public void Below_InstanceRowLessThanOrEqualToOther_ReturnsFalse(int instanceColumn,
+            int instanceRow,
+            int otherColumn,
+            int otherRow)
+        {
+            // Arrange
+            Square sut = Square.FromColumnAndRow(instanceColumn, instanceRow);
+            Square other = Square.FromColumnAndRow(otherColumn, otherRow);
+
+            // Act
+            bool result = sut.Below(other);
+
+            // Assert
+            result.Should().BeFalse();
+        }
+    }
+
+    [UnitTest]
     public sealed class ToStringMethod
     {
         [Theory]

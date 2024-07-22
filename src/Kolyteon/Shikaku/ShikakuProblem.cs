@@ -8,7 +8,7 @@ namespace Kolyteon.Shikaku;
 ///     Represents a valid (but not necessarily solvable) Shikaku problem.
 /// </summary>
 [Serializable]
-public sealed record ShikakuProblem
+public sealed record ShikakuProblem : ISolutionVerifier<IReadOnlyList<Block>>
 {
     internal const int MinGridSideLength = 5;
     internal const int MinHintNumber = 2;
@@ -59,6 +59,37 @@ public sealed record ShikakuProblem
         return Hints.Count == other.Hints.Count
                && Grid.Equals(other.Grid)
                && Hints.OrderBy(hint => hint).SequenceEqual(other.Hints.OrderBy(hint => hint));
+    }
+
+    /// <inheritdoc />
+    /// <remarks>
+    ///     <para>
+    ///         The solution to a <see cref="ShikakuProblem" /> instance is a list of <see cref="Block" /> values,
+    ///         representing the blocks that are to be drawn onto the problem grid.
+    ///     </para>
+    ///     <para>
+    ///         This method applies the following checks in order to the <paramref name="solution" /> parameter:
+    ///         <list type="number">
+    ///             <item>The number of blocks in the solution must be equal to the number of hints in the problem.</item>
+    ///             <item>The areas of the blocks must sum to the problem grid area.</item>
+    ///             <item>All blocks must be contained inside the grid.</item>
+    ///             <item>No two blocks may overlap.</item>
+    ///             <item>No block may contain more than one hint.</item>
+    ///             <item>Every block must contain a single hint with a number that matches the block's area.</item>
+    ///         </list>
+    ///     </para>
+    /// </remarks>
+    public CheckingResult VerifyCorrect(IReadOnlyList<Block> solution)
+    {
+        ArgumentNullException.ThrowIfNull(solution, nameof(solution));
+
+        return SolutionVerification.OneBlockPerHint
+            .Then(SolutionVerification.BlockAreasSumToGridArea)
+            .Then(SolutionVerification.AllBlocksInGrid)
+            .Then(SolutionVerification.NoOverlappingBlocks)
+            .Then(SolutionVerification.NoBlockContainsMoreThanOneHint)
+            .Then(SolutionVerification.EveryBlockContainsMatchingHint)
+            .VerifyCorrect(solution, this);
     }
 
     /// <summary>

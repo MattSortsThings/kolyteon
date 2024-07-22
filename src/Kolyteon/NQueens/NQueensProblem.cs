@@ -61,6 +61,15 @@ public sealed record NQueensProblem : ISolutionVerifier<IReadOnlyList<Square>>
     ///         The solution to an <see cref="NQueensProblem" /> instance is a list of <see cref="Square" /> values,
     ///         representing the chess board squares where the queens are to be positioned.
     ///     </para>
+    ///     <para>
+    ///         This method applies the following checks in order to the <paramref name="solution" /> parameter:
+    ///         <list type="number">
+    ///             <item>The number of squares in the solution must be equal to the number of queens in the problem.</item>
+    ///             <item>All squares in the solution must be contained inside the problem chess board.</item>
+    ///             <item>All squares must be unique.</item>
+    ///             <item>No two squares may capture each other.</item>
+    ///         </list>
+    ///     </para>
     /// </remarks>
     public CheckingResult VerifyCorrect(IReadOnlyList<Square> solution)
     {

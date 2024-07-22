@@ -33,6 +33,21 @@ public readonly record struct Block : IComparable<Block>
     public Dimensions Dimensions { get; }
 
     /// <summary>
+    ///     Gets the block's area in squares.
+    /// </summary>
+    /// <remarks>The value of this property is computed every time it is accessed.</remarks>
+    [JsonIgnore]
+    public int AreaInSquares => Dimensions.WidthInSquares * Dimensions.HeightInSquares;
+
+    /// <summary>
+    ///     Gets the bottom-right square in the block.
+    /// </summary>
+    /// <remarks>The value of this property is computed every time it is accessed.</remarks>
+    [JsonIgnore]
+    public Square TerminusSquare => Square.FromColumnAndRow(OriginSquare.Column + Dimensions.WidthInSquares - 1,
+        OriginSquare.Row + Dimensions.HeightInSquares - 1);
+
+    /// <summary>
     ///     Compares this <see cref="Block" /> instance with another instance of the same type and returns an integer that
     ///     indicates whether this instance precedes, follows, or occurs in the same position in the sort order as the other
     ///     instance.
@@ -105,6 +120,55 @@ public readonly record struct Block : IComparable<Block>
     }
 
     /// <summary>
+    ///     Indicates whether the block represented by this <see cref="Block" /> instance contains the numbered square
+    ///     represented by the specified <see cref="NumberedSquare" /> instance.
+    /// </summary>
+    /// <param name="numberedSquare">The <see cref="NumberedSquare" /> instance against which this instance is to be compared.</param>
+    /// <returns>
+    ///     <see langword="true" /> if this instance contains the <see cref="numberedSquare" /> parameter; otherwise,
+    ///     <see langword="false" />.
+    /// </returns>
+    public bool Contains(in NumberedSquare numberedSquare) => Contains(numberedSquare.Square);
+
+    /// <summary>
+    ///     Indicates whether the block represented by this <see cref="Block" /> instance entirely contains the block
+    ///     represented by the specified <see cref="Block" /> instance.
+    /// </summary>
+    /// <remarks>
+    ///     A <see cref="Block" /> instance contains another <see cref="Block" /> if it contains the latter's
+    ///     <see cref="OriginSquare" /> and <see cref="TerminusSquare" />.
+    /// </remarks>
+    /// <param name="block">The <see cref="Block" /> instance against which this instance is to be compared.</param>
+    /// <returns>
+    ///     <see langword="true" /> if this instance contains the <see cref="block" /> parameter; otherwise,
+    ///     <see langword="false" />.
+    /// </returns>
+    public bool Contains(in Block block) => Contains(block.OriginSquare) && Contains(block.TerminusSquare);
+
+    /// <summary>
+    ///     Indicates whether the blocks represented by this <see cref="Block" /> instance and the specified
+    ///     <see cref="Block" /> instance overlap at any point.
+    /// </summary>
+    /// <param name="other">The <see cref="Block" /> instance against which this instance is to be compared.</param>
+    /// <returns>
+    ///     <see langword="true" /> if this instance and the <see cref="other" /> parameter overlap at any point; otherwise,
+    ///     <see langword="false" />.
+    /// </returns>
+    public bool Overlaps(in Block other)
+    {
+        (Square thisOrigin, Square otherTerminus) = (OriginSquare, other.TerminusSquare);
+
+        if (thisOrigin.RightOf(in otherTerminus) || thisOrigin.Below(in otherTerminus))
+        {
+            return false;
+        }
+
+        (Square otherOrigin, Square thisTerminus) = (other.OriginSquare, TerminusSquare);
+
+        return !otherOrigin.RightOf(in thisTerminus) && !otherOrigin.Below(in thisTerminus);
+    }
+
+    /// <summary>
     ///     Deconstructs this <see cref="Block" /> instance.
     /// </summary>
     /// <param name="originSquare">The top-left square in the block.</param>
@@ -122,7 +186,7 @@ public readonly record struct Block : IComparable<Block>
     public override int GetHashCode() => HashCode.Combine(OriginSquare, Dimensions);
 
     /// <summary>
-    ///     Returns the string representation of this <see cref="Square" /> instance.
+    ///     Returns the string representation of this <see cref="Block" /> instance.
     /// </summary>
     /// <returns>A string representing this instance, in the format <c>"{OriginSquare} [{Dimensions}]"</c>.</returns>
     public override string ToString() => $"{OriginSquare} [{Dimensions}]";

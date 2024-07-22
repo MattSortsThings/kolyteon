@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using Kolyteon.Common;
 using Kolyteon.Shikaku;
+using Kolyteon.Tests.Utils.TestAssertions;
 
 namespace Kolyteon.Tests.Unit.Shikaku;
 
@@ -100,6 +101,371 @@ public static class ShikakuProblemTests
 
             // Assert
             result.Should().BeFalse();
+        }
+    }
+
+    [UnitTest]
+    public sealed class VerifyCorrectMethod
+    {
+        public static TheoryData<ShikakuProblem, IReadOnlyList<Block>> PositiveTestCases => new()
+        {
+            {
+                ShikakuProblem.FromGrid(new int?[,]
+                {
+                    { null, null, null, null, null },
+                    { null, null, null, null, null },
+                    { null, null, 0025, null, null },
+                    { null, null, null, null, null },
+                    { null, null, null, null, null }
+                }),
+                [
+                    Square.FromColumnAndRow(0, 0).ToBlock(Dimensions.FromWidthAndHeight(5, 5))
+                ]
+            },
+            {
+                ShikakuProblem.FromGrid(new int?[,]
+                {
+                    { 0010, null, null, null, null },
+                    { null, null, null, null, null },
+                    { null, null, 0005, null, null },
+                    { null, null, null, null, null },
+                    { null, null, null, null, 0010 }
+                }),
+                [
+                    Square.FromColumnAndRow(0, 0).ToBlock(Dimensions.FromWidthAndHeight(5, 2)),
+                    Square.FromColumnAndRow(0, 2).ToBlock(Dimensions.FromWidthAndHeight(5, 1)),
+                    Square.FromColumnAndRow(0, 3).ToBlock(Dimensions.FromWidthAndHeight(5, 2))
+                ]
+            },
+            {
+                ShikakuProblem.FromGrid(new int?[,]
+                {
+                    { 0010, null, null, null, null },
+                    { null, null, null, null, null },
+                    { null, null, 0005, null, null },
+                    { null, null, null, null, null },
+                    { null, null, null, null, 0010 }
+                }),
+                [
+                    Square.FromColumnAndRow(0, 0).ToBlock(Dimensions.FromWidthAndHeight(2, 5)),
+                    Square.FromColumnAndRow(2, 0).ToBlock(Dimensions.FromWidthAndHeight(1, 5)),
+                    Square.FromColumnAndRow(3, 0).ToBlock(Dimensions.FromWidthAndHeight(2, 5))
+                ]
+            },
+            {
+                ShikakuProblem.FromGrid(new int?[,]
+                {
+                    { 0010, null, 0003, null, null },
+                    { null, null, null, null, null },
+                    { null, null, null, null, null },
+                    { null, null, null, null, null },
+                    { null, null, null, null, 0012 }
+                }),
+                [
+                    Square.FromColumnAndRow(0, 0).ToBlock(Dimensions.FromWidthAndHeight(2, 5)),
+                    Square.FromColumnAndRow(2, 0).ToBlock(Dimensions.FromWidthAndHeight(3, 1)),
+                    Square.FromColumnAndRow(2, 1).ToBlock(Dimensions.FromWidthAndHeight(3, 4))
+                ]
+            },
+            {
+                ShikakuProblem.FromGrid(new int?[,]
+                {
+                    { 0005, null, 0004, null, null },
+                    { null, null, null, 0004, null },
+                    { null, null, null, null, null },
+                    { null, null, null, null, null },
+                    { null, null, null, null, 0012 }
+                }),
+                [
+                    Square.FromColumnAndRow(0, 0).ToBlock(Dimensions.FromWidthAndHeight(1, 5)),
+                    Square.FromColumnAndRow(1, 0).ToBlock(Dimensions.FromWidthAndHeight(4, 1)),
+                    Square.FromColumnAndRow(1, 1).ToBlock(Dimensions.FromWidthAndHeight(4, 1)),
+                    Square.FromColumnAndRow(1, 2).ToBlock(Dimensions.FromWidthAndHeight(4, 3))
+                ]
+            },
+            {
+                ShikakuProblem.FromGrid(new int?[,]
+                {
+                    { 0005, null, 0004, null, null },
+                    { null, null, null, 0004, null },
+                    { null, null, null, null, null },
+                    { null, null, null, null, null },
+                    { null, null, null, null, 0012 }
+                }),
+                [
+                    Square.FromColumnAndRow(0, 0).ToBlock(Dimensions.FromWidthAndHeight(1, 5)),
+                    Square.FromColumnAndRow(1, 0).ToBlock(Dimensions.FromWidthAndHeight(2, 2)),
+                    Square.FromColumnAndRow(1, 2).ToBlock(Dimensions.FromWidthAndHeight(4, 3)),
+                    Square.FromColumnAndRow(3, 0).ToBlock(Dimensions.FromWidthAndHeight(2, 2))
+                ]
+            },
+            {
+                ShikakuProblem.FromGrid(new int?[,]
+                {
+                    { 0005, 0002, 0002, null, null },
+                    { null, null, null, 0004, null },
+                    { null, 0008, null, null, null },
+                    { null, null, null, null, null },
+                    { null, null, null, null, 0004 }
+                }),
+                [
+                    Square.FromColumnAndRow(0, 0).ToBlock(Dimensions.FromWidthAndHeight(1, 5)),
+                    Square.FromColumnAndRow(1, 0).ToBlock(Dimensions.FromWidthAndHeight(1, 2)),
+                    Square.FromColumnAndRow(1, 2).ToBlock(Dimensions.FromWidthAndHeight(4, 2)),
+                    Square.FromColumnAndRow(1, 4).ToBlock(Dimensions.FromWidthAndHeight(4, 1)),
+                    Square.FromColumnAndRow(2, 0).ToBlock(Dimensions.FromWidthAndHeight(1, 2)),
+                    Square.FromColumnAndRow(3, 0).ToBlock(Dimensions.FromWidthAndHeight(2, 2))
+                ]
+            }
+        };
+
+        [Theory]
+        [MemberData(nameof(PositiveTestCases), MemberType = typeof(VerifyCorrectMethod))]
+        public void VerifyCorrect_GivenCorrectSolution_ReturnsSuccessfulResult(ShikakuProblem sut, IReadOnlyList<Block> solution)
+        {
+            // Act
+            CheckingResult result = sut.VerifyCorrect(solution);
+
+            // Assert
+            result.Should().BeSuccessful().And.HaveNullFirstError();
+        }
+
+        [Fact]
+        public void VerifyCorrect_SolutionIsEmptyList_ReturnsUnsuccessfulResult()
+        {
+            // Arrange
+            ShikakuProblem sut = ShikakuProblem.FromGrid(new int?[,]
+            {
+                { null, null, null, null, null },
+                { null, null, null, null, null },
+                { null, null, 0025, null, null },
+                { null, null, null, null, null },
+                { null, null, null, null, null }
+            });
+
+            IReadOnlyList<Block> solution = Array.Empty<Block>();
+
+            // Act
+            CheckingResult result = sut.VerifyCorrect(solution);
+
+            // Assert
+            result.Should().BeUnsuccessful()
+                .And.HaveFirstError("Solution has 0 blocks, but problem has 1 hint.");
+        }
+
+        [Fact]
+        public void VerifyCorrect_SolutionHasTooFewItems_ReturnsUnsuccessfulResult()
+        {
+            // Arrange
+            ShikakuProblem sut = ShikakuProblem.FromGrid(new int?[,]
+            {
+                { 0005, null, null, null, null },
+                { null, null, null, null, null },
+                { null, null, 0010, null, null },
+                { null, null, null, null, null },
+                { null, null, null, null, 0010 }
+            });
+
+            IReadOnlyList<Block> solution =
+            [
+                Square.FromColumnAndRow(0, 0).ToBlock(Dimensions.FromWidthAndHeight(5, 1)),
+                Square.FromColumnAndRow(0, 1).ToBlock(Dimensions.FromWidthAndHeight(5, 2))
+            ];
+
+            // Act
+            CheckingResult result = sut.VerifyCorrect(solution);
+
+            // Assert
+            result.Should().BeUnsuccessful()
+                .And.HaveFirstError("Solution has 2 blocks, but problem has 3 hints.");
+        }
+
+        [Fact]
+        public void VerifyCorrect_SolutionHasTooManyItems_ReturnsUnsuccessfulResult()
+        {
+            // Arrange
+            ShikakuProblem sut = ShikakuProblem.FromGrid(new int?[,]
+            {
+                { null, null, null, null, null },
+                { null, null, null, null, null },
+                { null, null, 0025, null, null },
+                { null, null, null, null, null },
+                { null, null, null, null, null }
+            });
+
+            IReadOnlyList<Block> solution =
+            [
+                Square.FromColumnAndRow(0, 0).ToBlock(Dimensions.FromWidthAndHeight(5, 1)),
+                Square.FromColumnAndRow(0, 1).ToBlock(Dimensions.FromWidthAndHeight(5, 2))
+            ];
+
+            // Act
+            CheckingResult result = sut.VerifyCorrect(solution);
+
+            // Assert
+            result.Should().BeUnsuccessful()
+                .And.HaveFirstError("Solution has 2 blocks, but problem has 1 hint.");
+        }
+
+        [Fact]
+        public void VerifyCorrect_BlockAreasDoNotSumToGridArea_ReturnsUnsuccessfulResult()
+        {
+            // Arrange
+            ShikakuProblem sut = ShikakuProblem.FromGrid(new int?[,]
+            {
+                { 0005, null, null, null, null },
+                { null, null, null, null, null },
+                { null, null, 0010, null, null },
+                { null, null, null, null, null },
+                { null, null, null, null, 0010 }
+            });
+
+            IReadOnlyList<Block> solution =
+            [
+                Square.FromColumnAndRow(0, 0).ToBlock(Dimensions.FromWidthAndHeight(3, 1)),
+                Square.FromColumnAndRow(0, 1).ToBlock(Dimensions.FromWidthAndHeight(5, 2)),
+                Square.FromColumnAndRow(3, 3).ToBlock(Dimensions.FromWidthAndHeight(2, 2))
+            ];
+
+            // Act
+            CheckingResult result = sut.VerifyCorrect(solution);
+
+            // Assert
+            result.Should().BeUnsuccessful()
+                .And.HaveFirstError("Block areas sum to 17, but grid area is 25.");
+        }
+
+        [Fact]
+        public void VerifyCorrect_BlockIsNotInsideGrid_ReturnsUnsuccessfulResult()
+        {
+            // Arrange
+            ShikakuProblem sut = ShikakuProblem.FromGrid(new int?[,]
+            {
+                { 0005, null, null, null, null },
+                { null, null, null, null, null },
+                { null, null, 0010, null, null },
+                { null, null, null, null, null },
+                { null, null, null, null, 0010 }
+            });
+
+            IReadOnlyList<Block> solution =
+            [
+                Square.FromColumnAndRow(0, 0).ToBlock(Dimensions.FromWidthAndHeight(5, 1)),
+                Square.FromColumnAndRow(0, 1).ToBlock(Dimensions.FromWidthAndHeight(5, 2)),
+                Square.FromColumnAndRow(3, 3).ToBlock(Dimensions.FromWidthAndHeight(5, 2))
+            ];
+
+            // Act
+            CheckingResult result = sut.VerifyCorrect(solution);
+
+            // Assert
+            result.Should().BeUnsuccessful()
+                .And.HaveFirstError("Block (3,3) [5x2] is not inside grid (0,0) [5x5].");
+        }
+
+        [Fact]
+        public void VerifyCorrect_OverlappingBlocks_ReturnsUnsuccessfulResult()
+        {
+            // Arrange
+            ShikakuProblem sut = ShikakuProblem.FromGrid(new int?[,]
+            {
+                { 0005, null, null, null, null },
+                { null, null, null, null, null },
+                { null, null, 0010, null, null },
+                { null, null, null, null, null },
+                { null, null, null, null, 0010 }
+            });
+
+            IReadOnlyList<Block> solution =
+            [
+                Square.FromColumnAndRow(0, 0).ToBlock(Dimensions.FromWidthAndHeight(5, 1)),
+                Square.FromColumnAndRow(0, 1).ToBlock(Dimensions.FromWidthAndHeight(5, 2)),
+                Square.FromColumnAndRow(3, 0).ToBlock(Dimensions.FromWidthAndHeight(2, 5))
+            ];
+
+            // Act
+            CheckingResult result = sut.VerifyCorrect(solution);
+
+            // Assert
+            result.Should().BeUnsuccessful()
+                .And.HaveFirstError("Blocks (0,0) [5x1] and (3,0) [2x5] overlap.");
+        }
+
+        [Fact]
+        public void VerifyCorrect_BlockContainsMoreThanOneHint_ReturnsUnsuccessfulResult()
+        {
+            // Arrange
+            ShikakuProblem sut = ShikakuProblem.FromGrid(new int?[,]
+            {
+                { 0005, null, null, null, null },
+                { null, null, null, null, null },
+                { null, null, 0010, 0010, null },
+                { null, null, null, null, null },
+                { null, null, null, null, null }
+            });
+
+            IReadOnlyList<Block> solution =
+            [
+                Square.FromColumnAndRow(0, 0).ToBlock(Dimensions.FromWidthAndHeight(5, 1)),
+                Square.FromColumnAndRow(0, 1).ToBlock(Dimensions.FromWidthAndHeight(5, 2)),
+                Square.FromColumnAndRow(0, 3).ToBlock(Dimensions.FromWidthAndHeight(5, 2))
+            ];
+
+            // Act
+            CheckingResult result = sut.VerifyCorrect(solution);
+
+            // Assert
+            result.Should().BeUnsuccessful()
+                .And.HaveFirstError("Block (0,1) [5x2] contains more than one hint.");
+        }
+
+        [Fact]
+        public void VerifyCorrect_BlockContainsHintWithNumberUnequalToItsArea_ReturnsUnsuccessfulResult()
+        {
+            // Arrange
+            ShikakuProblem sut = ShikakuProblem.FromGrid(new int?[,]
+            {
+                { 0005, null, null, null, null },
+                { null, null, null, null, null },
+                { null, null, 0010, null, null },
+                { null, null, null, null, null },
+                { null, null, null, null, 0010 }
+            });
+
+            IReadOnlyList<Block> solution =
+            [
+                Square.FromColumnAndRow(0, 0).ToBlock(Dimensions.FromWidthAndHeight(5, 1)),
+                Square.FromColumnAndRow(0, 1).ToBlock(Dimensions.FromWidthAndHeight(5, 3)),
+                Square.FromColumnAndRow(0, 4).ToBlock(Dimensions.FromWidthAndHeight(5, 1))
+            ];
+
+            // Act
+            CheckingResult result = sut.VerifyCorrect(solution);
+
+            // Assert
+            result.Should().BeUnsuccessful()
+                .And.HaveFirstError("Block (0,1) [5x3] contains hint (2,2) [10] with number not equal to its area.");
+        }
+
+        [Fact]
+        public void VerifyCorrect_SolutionArgIsNull_Throws()
+        {
+            // Arrange
+            ShikakuProblem sut = ShikakuProblem.FromGrid(new int?[,]
+            {
+                { null, null, null, null, null },
+                { null, null, null, null, null },
+                { null, null, 0025, null, null },
+                { null, null, null, null, null },
+                { null, null, null, null, null }
+            });
+
+            // Act
+            Action act = () => sut.VerifyCorrect(null!);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>()
+                .WithMessage("Value cannot be null. (Parameter 'solution')");
         }
     }
 

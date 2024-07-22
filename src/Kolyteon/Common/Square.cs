@@ -89,6 +89,28 @@ public readonly record struct Square : IComparable<Square>
     public bool Equals(Square other) => Column == other.Column && Row == other.Row;
 
     /// <summary>
+    ///     Indicates whether the square represented by this <see cref="Square" /> instance is located in a column to the right
+    ///     of that of the specified <see cref="Square" /> instance.
+    /// </summary>
+    /// <param name="other">The <see cref="Square" /> instance against which this instance is to be compared.</param>
+    /// <returns>
+    ///     <see langword="true" /> if this instance is located to the right of the <paramref name="other" /> parameter;
+    ///     otherwise, <see langword="false" />.
+    /// </returns>
+    public bool RightOf(in Square other) => Column > other.Column;
+
+    /// <summary>
+    ///     Indicates whether the square represented by this <see cref="Square" /> instance is located in a row below that of
+    ///     the specified <see cref="Square" /> instance.
+    /// </summary>
+    /// <param name="other">The <see cref="Square" /> instance against which this instance is to be compared.</param>
+    /// <returns>
+    ///     <see langword="true" /> if this instance is located below the <paramref name="other" /> parameter; otherwise,
+    ///     <see langword="false" />.
+    /// </returns>
+    public bool Below(in Square other) => Row > other.Row;
+
+    /// <summary>
     ///     Deconstructs this <see cref="Square" /> instance.
     /// </summary>
     /// <param name="column">The zero-based column index of the square.</param>

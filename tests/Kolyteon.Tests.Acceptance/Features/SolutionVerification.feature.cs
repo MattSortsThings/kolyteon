@@ -141,6 +141,84 @@ namespace Kolyteon.Tests.Acceptance.Features
             await this.ScenarioCleanupAsync();
         }
         
+        [Xunit.SkippableFactAttribute(DisplayName="Verify a Shikaku problem solution")]
+        [Xunit.TraitAttribute("FeatureTitle", "Solution Verification")]
+        [Xunit.TraitAttribute("Description", "Verify a Shikaku problem solution")]
+        [Xunit.TraitAttribute("Category", "E/2")]
+        public async System.Threading.Tasks.Task VerifyAShikakuProblemSolution()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "E/2"};
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Verify a Shikaku problem solution", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 22
+    this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 23
+        await testRunner.GivenAsync("I have created a Shikaku problem from the following grid", @"03 __ __ __ __ __ __ 07 __ __
+__ __ __ __ __ __ __ __ __ __
+__ __ __ __ __ __ __ __ __ __
+__ __ __ 14 __ __ __ __ __ __
+__ __ __ __ __ __ __ __ __ __
+05 __ 10 __ __ __ 21 __ __ __
+03 __ __ __ __ __ __ __ __ __
+__ __ 03 __ __ __ __ __ __ __
+__ __ __ __ __ __ __ 16 __ __
+__ __ __ __ __ __ __ __ __ 18", ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+                global::Reqnroll.Table table2 = new global::Reqnroll.Table(new string[] {
+                            "Origin Square",
+                            "Dimensions"});
+                table2.AddRow(new string[] {
+                            "(0,0)",
+                            "3x1"});
+                table2.AddRow(new string[] {
+                            "(0,1)",
+                            "1x5"});
+                table2.AddRow(new string[] {
+                            "(0,6)",
+                            "3x1"});
+                table2.AddRow(new string[] {
+                            "(0,7)",
+                            "3x1"});
+                table2.AddRow(new string[] {
+                            "(0,8)",
+                            "8x2"});
+                table2.AddRow(new string[] {
+                            "(1,1)",
+                            "2x5"});
+                table2.AddRow(new string[] {
+                            "(3,0)",
+                            "7x1"});
+                table2.AddRow(new string[] {
+                            "(3,1)",
+                            "2x7"});
+                table2.AddRow(new string[] {
+                            "(5,1)",
+                            "3x7"});
+                table2.AddRow(new string[] {
+                            "(8,1)",
+                            "2x9"});
+#line 36
+        await testRunner.AndAsync("I have proposed the following blocks as a solution to the Shikaku problem", ((string)(null)), table2, "And ");
+#line hidden
+#line 48
+        await testRunner.WhenAsync("I ask the Shikaku problem to verify the correctness of the proposed solution", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 49
+        await testRunner.ThenAsync("the verification result should be successful", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
         [System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "2.0.0.0")]
         [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
         public class FixtureData : object, Xunit.IAsyncLifetime
