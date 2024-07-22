@@ -120,6 +120,14 @@ public readonly record struct Square : IComparable<Square>
     public Block ToBlock(Dimensions dimensions) => new(this, dimensions);
 
     /// <summary>
+    ///     Creates and returns a new <see cref="NumberedSquare" /> instance with this <see cref="Square" /> instance as its
+    ///     <see cref="NumberedSquare.Square" /> and the specified <see cref="NumberedSquare.Number" /> value.
+    /// </summary>
+    /// <param name="number">The integer number that fills the square.</param>
+    /// <returns>A new <see cref="NumberedSquare" /> instance.</returns>
+    public NumberedSquare ToNumberedSquare(int number) => new(this, number);
+
+    /// <summary>
     ///     Creates and returns a new <see cref="Square" /> instance with the specified <see cref="Column" /> and
     ///     <see cref="Row" />.
     /// </summary>

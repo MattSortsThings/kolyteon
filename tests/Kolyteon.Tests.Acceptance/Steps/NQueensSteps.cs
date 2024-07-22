@@ -56,8 +56,8 @@ internal sealed class NQueensSteps(ScenarioContext scenarioContext)
         scenarioContext.Add(Constants.Keys.VerificationResult, result);
     }
 
-    [Then("the deserialized and original N-Queens problem should be equal")]
-    public void ThenTheDeserializedAndOriginalNQueensProblemShouldBeEqual()
+    [Then("the deserialized and original N-Queens problems should be equal")]
+    public void ThenTheDeserializedAndOriginalNQueensProblemsShouldBeEqual()
     {
         NQueensProblem problem = scenarioContext.Get<NQueensProblem>(Constants.Keys.Problem);
         NQueensProblem? deserializedProblem = scenarioContext.Get<NQueensProblem?>(Constants.Keys.DeserializedProblem);

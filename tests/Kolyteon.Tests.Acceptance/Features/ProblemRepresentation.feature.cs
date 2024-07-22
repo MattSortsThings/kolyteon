@@ -117,7 +117,52 @@ namespace Kolyteon.Tests.Acceptance.Features
         await testRunner.WhenAsync("I deserialize an N-Queens problem from the JSON", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 10
-        await testRunner.ThenAsync("the deserialized and original N-Queens problem should be equal", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+        await testRunner.ThenAsync("the deserialized and original N-Queens problems should be equal", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Represent a Shikaku problem")]
+        [Xunit.TraitAttribute("FeatureTitle", "Problem Representation")]
+        [Xunit.TraitAttribute("Description", "Represent a Shikaku problem")]
+        [Xunit.TraitAttribute("Category", "E/1")]
+        public async System.Threading.Tasks.Task RepresentAShikakuProblem()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "E/1"};
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Represent a Shikaku problem", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 13
+    this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 14
+        await testRunner.GivenAsync("I have created a Shikaku problem from the following grid", @"03 __ __ __ __ __ __ 07 __ __
+__ __ __ __ __ __ __ __ __ __
+__ __ __ __ __ __ __ __ __ __
+__ __ __ 14 __ __ __ __ __ __
+__ __ __ __ __ __ __ __ __ __
+05 __ 10 __ __ __ 21 __ __ __
+03 __ __ __ __ __ __ __ __ __
+__ __ 03 __ __ __ __ __ __ __
+__ __ __ __ __ __ __ 16 __ __
+__ __ __ __ __ __ __ __ __ 18", ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 27
+        await testRunner.AndAsync("I have serialized the Shikaku problem to JSON", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 28
+        await testRunner.WhenAsync("I deserialize a Shikaku problem from the JSON", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 29
+        await testRunner.ThenAsync("the deserialized and original Shikaku problems should be equal", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

@@ -205,6 +205,28 @@ public static class SquareTests
     }
 
     [UnitTest]
+    public sealed class ToNumberedSquareMethod
+    {
+        [Fact]
+        public void ToNumberedSquare_GivenNumber_ReturnsNumberedSquareWithSelfAsSquareAndGivenNumber()
+        {
+            // Arrange
+            Square sut = Square.FromColumnAndRow(3, 2);
+            const int number = 4;
+
+            // Act
+            NumberedSquare result = sut.ToNumberedSquare(number);
+
+            // Assert
+            using (new AssertionScope())
+            {
+                result.Square.Should().Be(sut);
+                result.Number.Should().Be(number);
+            }
+        }
+    }
+
+    [UnitTest]
     public sealed class EqualityOperator
     {
         [Fact]

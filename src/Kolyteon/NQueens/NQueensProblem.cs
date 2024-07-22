@@ -42,7 +42,7 @@ public sealed record NQueensProblem : ISolutionVerifier<IReadOnlyList<Square>>
     /// </returns>
     public bool Equals(NQueensProblem? other)
     {
-        if (ReferenceEquals(null, other))
+        if (other is null)
         {
             return false;
         }
