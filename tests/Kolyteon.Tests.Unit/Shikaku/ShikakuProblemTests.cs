@@ -693,7 +693,8 @@ public static class ShikakuProblemTests
             Action act = () => ShikakuProblem.FromGrid(grid);
 
             // Assert
-            act.Should().Throw<InvalidProblemException>();
+            act.Should().Throw<InvalidProblemException>()
+                .WithMessage("Invalid problem grid dimensions [5x10]. Grid must be a square no smaller than 5x5.");
         }
 
         [Fact]
@@ -706,7 +707,8 @@ public static class ShikakuProblemTests
             Action act = () => ShikakuProblem.FromGrid(grid);
 
             // Assert
-            act.Should().Throw<InvalidProblemException>();
+            act.Should().Throw<InvalidProblemException>()
+                .WithMessage("Invalid problem grid dimensions [3x3]. Grid must be a square no smaller than 5x5.");
         }
 
         [Fact]
@@ -726,7 +728,8 @@ public static class ShikakuProblemTests
             Action act = () => ShikakuProblem.FromGrid(grid);
 
             // Assert
-            act.Should().Throw<InvalidProblemException>();
+            act.Should().Throw<InvalidProblemException>()
+                .WithMessage("Invalid hint (4,1) [1]. Hint number must be not less than 2.");
         }
 
         [Fact]
@@ -746,7 +749,8 @@ public static class ShikakuProblemTests
             Action act = () => ShikakuProblem.FromGrid(grid);
 
             // Assert
-            act.Should().Throw<InvalidProblemException>();
+            act.Should().Throw<InvalidProblemException>()
+                .WithMessage("Problem has zero hints.");
         }
 
         [Fact]
@@ -766,7 +770,8 @@ public static class ShikakuProblemTests
             Action act = () => ShikakuProblem.FromGrid(grid);
 
             // Assert
-            act.Should().Throw<InvalidProblemException>();
+            act.Should().Throw<InvalidProblemException>()
+                .WithMessage("Hint numbers sum to 10, but grid area is 25. Hint numbers must sum to grid area.");
         }
 
         [Fact]
@@ -786,7 +791,8 @@ public static class ShikakuProblemTests
             Action act = () => ShikakuProblem.FromGrid(grid);
 
             // Assert
-            act.Should().Throw<InvalidProblemException>();
+            act.Should().Throw<InvalidProblemException>()
+                .WithMessage("Hint numbers sum to 125, but grid area is 25. Hint numbers must sum to grid area.");
         }
     }
 

@@ -34,16 +34,16 @@ Verify the correctness of any proposed solution to any valid instance of a given
         __ __ __ __ __ __ __ __ __ 18
         """
         And I have proposed the following blocks as a solution to the Shikaku problem
-          | Origin Square | Dimensions |
-          | (0,0)         | 3x1        |
-          | (0,1)         | 1x5        |
-          | (0,6)         | 3x1        |
-          | (0,7)         | 3x1        |
-          | (0,8)         | 8x2        |
-          | (1,1)         | 2x5        |
-          | (3,0)         | 7x1        |
-          | (3,1)         | 2x7        |
-          | (5,1)         | 3x7        |
-          | (8,1)         | 2x9        |
+          | Block       |
+          | (0,0) [3x1] |
+          | (0,1) [1x5] |
+          | (0,6) [3x1] |
+          | (0,7) [3x1] |
+          | (0,8) [8x2] |
+          | (1,1) [2x5] |
+          | (3,0) [7x1] |
+          | (3,1) [2x7] |
+          | (5,1) [3x7] |
+          | (8,1) [2x9] |
         When I ask the Shikaku problem to verify the correctness of the proposed solution
         Then the verification result should be successful

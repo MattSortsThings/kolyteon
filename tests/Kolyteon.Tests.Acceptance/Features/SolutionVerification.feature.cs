@@ -110,26 +110,26 @@ namespace Kolyteon.Tests.Acceptance.Features
 #line 7
         await testRunner.GivenAsync("I have created an N-Queens problem for N = 8", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-                global::Reqnroll.Table table1 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table2 = new global::Reqnroll.Table(new string[] {
                             "Square"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "(0,6)"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "(1,4)"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "(2,2)"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "(3,0)"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "(4,5)"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "(5,7)"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "(6,1)"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "(7,3)"});
 #line 8
-        await testRunner.AndAsync("I have proposed the following squares as a solution to the N-Queens problem", ((string)(null)), table1, "And ");
+        await testRunner.AndAsync("I have proposed the following squares as a solution to the N-Queens problem", ((string)(null)), table2, "And ");
 #line hidden
 #line 18
         await testRunner.WhenAsync("I ask the N-Queens problem to verify the correctness of the proposed solution", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
@@ -173,41 +173,30 @@ __ __ 03 __ __ __ __ __ __ __
 __ __ __ __ __ __ __ 16 __ __
 __ __ __ __ __ __ __ __ __ 18", ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-                global::Reqnroll.Table table2 = new global::Reqnroll.Table(new string[] {
-                            "Origin Square",
-                            "Dimensions"});
-                table2.AddRow(new string[] {
-                            "(0,0)",
-                            "3x1"});
-                table2.AddRow(new string[] {
-                            "(0,1)",
-                            "1x5"});
-                table2.AddRow(new string[] {
-                            "(0,6)",
-                            "3x1"});
-                table2.AddRow(new string[] {
-                            "(0,7)",
-                            "3x1"});
-                table2.AddRow(new string[] {
-                            "(0,8)",
-                            "8x2"});
-                table2.AddRow(new string[] {
-                            "(1,1)",
-                            "2x5"});
-                table2.AddRow(new string[] {
-                            "(3,0)",
-                            "7x1"});
-                table2.AddRow(new string[] {
-                            "(3,1)",
-                            "2x7"});
-                table2.AddRow(new string[] {
-                            "(5,1)",
-                            "3x7"});
-                table2.AddRow(new string[] {
-                            "(8,1)",
-                            "2x9"});
+                global::Reqnroll.Table table3 = new global::Reqnroll.Table(new string[] {
+                            "Block"});
+                table3.AddRow(new string[] {
+                            "(0,0) [3x1]"});
+                table3.AddRow(new string[] {
+                            "(0,1) [1x5]"});
+                table3.AddRow(new string[] {
+                            "(0,6) [3x1]"});
+                table3.AddRow(new string[] {
+                            "(0,7) [3x1]"});
+                table3.AddRow(new string[] {
+                            "(0,8) [8x2]"});
+                table3.AddRow(new string[] {
+                            "(1,1) [2x5]"});
+                table3.AddRow(new string[] {
+                            "(3,0) [7x1]"});
+                table3.AddRow(new string[] {
+                            "(3,1) [2x7]"});
+                table3.AddRow(new string[] {
+                            "(5,1) [3x7]"});
+                table3.AddRow(new string[] {
+                            "(8,1) [2x9]"});
 #line 36
-        await testRunner.AndAsync("I have proposed the following blocks as a solution to the Shikaku problem", ((string)(null)), table2, "And ");
+        await testRunner.AndAsync("I have proposed the following blocks as a solution to the Shikaku problem", ((string)(null)), table3, "And ");
 #line hidden
 #line 48
         await testRunner.WhenAsync("I ask the Shikaku problem to verify the correctness of the proposed solution", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
