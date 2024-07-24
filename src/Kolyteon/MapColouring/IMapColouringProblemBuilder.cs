@@ -32,13 +32,13 @@ public interface IMapColouringProblemBuilder
         /// </summary>
         /// <param name="colours">The permitted colours all blocks in the problem. Any duplicate values will be discarded.</param>
         /// <returns>The same fluent builder instance, so that method invocations can be chained.</returns>
-        public IGlobalColoursBuilder UseGlobalColours(params Colour[] colours);
+        public IBlockAdder UseGlobalColours(params Colour[] colours);
 
         /// <summary>
         ///     Configures the builder to use a different set of permitted colours for each block added to the problem.
         /// </summary>
         /// <returns>The same fluent builder instance, so that method invocations can be chained.</returns>
-        public IBlockSpecificColoursBuilder UseBlockSpecificColours();
+        public IBlockAndColoursAdder UseBlockSpecificColours();
     }
 
     /// <summary>
@@ -48,14 +48,14 @@ public interface IMapColouringProblemBuilder
     ///     Any <see cref="MapColouringProblem" /> instance built using this API is guaranteed to represent a valid (but
     ///     not necessarily solvable) Map Colouring problem.
     /// </remarks>
-    public interface IGlobalColoursBuilder : ITerminal
+    public interface IBlockAdder : ITerminal
     {
         /// <summary>
         ///     Adds the specified block to the problem.
         /// </summary>
         /// <param name="block">The block to be added to the problem.</param>
         /// <returns>The same fluent builder instance, so that method invocations can be chained.</returns>
-        public IGlobalColoursBuilder AddBlock(Block block);
+        public IBlockAdder AddBlock(Block block);
     }
 
     /// <summary>
@@ -65,7 +65,7 @@ public interface IMapColouringProblemBuilder
     ///     Any <see cref="MapColouringProblem" /> instance built using this API is guaranteed to represent a valid (but
     ///     not necessarily solvable) Map Colouring problem.
     /// </remarks>
-    public interface IBlockSpecificColoursBuilder : ITerminal
+    public interface IBlockAndColoursAdder : ITerminal
     {
         /// <summary>
         ///     Adds the specified block to the problem, with the specified set of permitted colours.
@@ -73,7 +73,7 @@ public interface IMapColouringProblemBuilder
         /// <param name="block">The block to be added to the problem.</param>
         /// <param name="colours">The permitted colours for the block. Any duplicate values will be discarded.</param>
         /// <returns>The same fluent builder instance, so that method invocations can be chained.</returns>
-        public IBlockSpecificColoursBuilder AddBlockWithColours(Block block, params Colour[] colours);
+        public IBlockAndColoursAdder AddBlockWithColours(Block block, params Colour[] colours);
     }
 
     /// <summary>

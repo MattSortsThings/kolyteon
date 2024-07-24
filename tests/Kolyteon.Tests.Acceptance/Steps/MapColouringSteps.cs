@@ -12,7 +12,7 @@ internal sealed class MapColouringSteps(ScenarioContext scenarioContext)
     [Given("I have created a Map Colouring problem with a (.*) canvas and the following blocks")]
     public void GivenIHaveCreatedAMapColouringProblemWithACanvasAndTheFollowingBlocks(Dimensions size, Table table)
     {
-        IMapColouringProblemBuilder.IBlockSpecificColoursBuilder builder =
+        IMapColouringProblemBuilder.IBlockAndColoursAdder builder =
             MapColouringProblem.Create().WithCanvasSize(size).UseBlockSpecificColours();
 
         foreach ((Block block, Colour[] permittedColours) in table.CreateSet<BlockItem>())
