@@ -12,6 +12,7 @@ internal static class TestHooks
     {
         Service.Instance.ValueRetrievers.Register<BlockValueRetriever>();
         Service.Instance.ValueRetrievers.Register<SquareValueRetriever>();
+        Service.Instance.ValueRetrievers.Register<ColourValueRetriever>();
         Service.Instance.ValueRetrievers.Register<ColourArrayValueRetriever>();
     }
 }

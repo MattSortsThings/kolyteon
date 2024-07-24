@@ -8,7 +8,7 @@ namespace Kolyteon.MapColouring;
 ///     Represents a valid (but not necessarily solvable) Map Colouring problem.
 /// </summary>
 [Serializable]
-public sealed record MapColouringProblem
+public sealed record MapColouringProblem : ISolutionVerifier<IReadOnlyDictionary<Block, Colour>>
 {
     [JsonConstructor]
     internal MapColouringProblem(Block canvas, IReadOnlyList<BlockDatum> blockData)
@@ -56,6 +56,33 @@ public sealed record MapColouringProblem
         return Canvas.Equals(other.Canvas)
                && BlockData.Count == other.BlockData.Count
                && BlockData.OrderBy(datum => datum).SequenceEqual(other.BlockData.OrderBy(datum => datum));
+    }
+
+    /// <inheritdoc />
+    /// <remarks>
+    ///     <para>
+    ///         The solution to a <see cref="MapColouringProblem" /> instance is a dictionary of <see cref="Block" /> keys and
+    ///         <see cref="Colour" /> values, representing the colours with which the blocks are to be filled.
+    ///     </para>
+    ///     <para>
+    ///         This method applies the following checks in order to the <paramref name="solution" /> parameter:
+    ///         <list type="number">
+    ///             <item>The number of entries in the solution must be equal to the number of blocks in the problem.</item>
+    ///             <item>Every block in the problem must be a key in the solution.</item>
+    ///             <item>Every block must be assigned one of its permitted colours.</item>
+    ///             <item>No two adjacent blocks may be assigned the same colour.</item>
+    ///         </list>
+    ///     </para>
+    /// </remarks>
+    public CheckingResult VerifyCorrect(IReadOnlyDictionary<Block, Colour> solution)
+    {
+        ArgumentNullException.ThrowIfNull(solution);
+
+        return SolutionVerification.OneEntryPerBlock
+            .Then(SolutionVerification.EveryBlockIsSolutionKey)
+            .Then(SolutionVerification.EveryBlockHasPermittedColour)
+            .Then(SolutionVerification.NoAdjacentBlocksSameColour)
+            .VerifyCorrect(solution, this);
     }
 
     /// <summary>

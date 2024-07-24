@@ -65,8 +65,5 @@ internal sealed class NQueensSteps(ScenarioContext scenarioContext)
         deserializedProblem.Should().NotBeNull().And.Be(problem);
     }
 
-    internal sealed record SolutionItem
-    {
-        public Square Square { get; set; }
-    }
+    private sealed record SolutionItem(Square Square);
 }

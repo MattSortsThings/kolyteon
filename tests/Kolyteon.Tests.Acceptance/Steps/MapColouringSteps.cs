@@ -33,6 +33,15 @@ internal sealed class MapColouringSteps(ScenarioContext scenarioContext)
         scenarioContext.Add(Constants.Keys.Json, json);
     }
 
+    [Given("I have proposed the following block and colour dictionary as a solution to the Map Colouring problem")]
+    public void GivenIHaveProposedTheFollowingBlockAndColourDictionaryAsASolutionToTheMapColouringProblem(Table table)
+    {
+        IReadOnlyDictionary<Block, Colour> proposedSolution = table.CreateSet<SolutionItem>()
+            .ToDictionary(item => item.Block, item => item.Colour);
+
+        scenarioContext.Add(Constants.Keys.ProposedSolution, proposedSolution);
+    }
+
     [When("I deserialize a Map Colouring problem from the JSON")]
     public void WhenIDeserializeAMapColouringProblemFromTheJson()
     {
@@ -42,6 +51,18 @@ internal sealed class MapColouringSteps(ScenarioContext scenarioContext)
             JsonSerializer.Deserialize<MapColouringProblem>(json, JsonSerializerOptions.Default);
 
         scenarioContext.Add(Constants.Keys.DeserializedProblem, deserializedProblem);
+    }
+
+    [When("I ask the Map Colouring problem to verify the correctness of the proposed solution")]
+    public void WhenIAskTheMapColouringProblemToVerifyTheCorrectnessOfTheProposedSolution()
+    {
+        MapColouringProblem problem = scenarioContext.Get<MapColouringProblem>(Constants.Keys.Problem);
+        IReadOnlyDictionary<Block, Colour> proposedSolution =
+            scenarioContext.Get<IReadOnlyDictionary<Block, Colour>>(Constants.Keys.ProposedSolution);
+
+        CheckingResult verificationResult = problem.VerifyCorrect(proposedSolution);
+
+        scenarioContext.Add(Constants.Keys.VerificationResult, verificationResult);
     }
 
     [Then("the deserialized and original Map Colouring problems should be equal")]
@@ -54,4 +75,6 @@ internal sealed class MapColouringSteps(ScenarioContext scenarioContext)
     }
 
     private sealed record BlockItem(Block Block, Colour[] PermittedColours);
+
+    private sealed record SolutionItem(Block Block, Colour Colour);
 }

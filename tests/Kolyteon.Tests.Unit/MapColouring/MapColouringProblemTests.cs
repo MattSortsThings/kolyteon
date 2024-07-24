@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Kolyteon.Common;
 using Kolyteon.MapColouring;
+using Kolyteon.Tests.Utils.TestAssertions;
 
 namespace Kolyteon.Tests.Unit.MapColouring;
 
@@ -113,6 +114,302 @@ public static class MapColouringProblemTests
 
             // Assert
             result.Should().BeFalse();
+        }
+    }
+
+    [UnitTest]
+    public sealed class VerifyCorrectMethod
+    {
+        private static readonly Dimensions TenByTen = Dimensions.FromWidthAndHeight(10, 10);
+        private static readonly Dimensions FourByFour = Dimensions.FromWidthAndHeight(4, 4);
+
+        private static readonly Block TopLeftBlock = Square.FromColumnAndRow(0, 0).ToBlock(FourByFour);
+        private static readonly Block BottomLeftBlock = Square.FromColumnAndRow(0, 4).ToBlock(FourByFour);
+        private static readonly Block TopRightBlock = Square.FromColumnAndRow(4, 0).ToBlock(FourByFour);
+        private static readonly Block BottomRightBlock = Square.FromColumnAndRow(4, 4).ToBlock(FourByFour);
+
+        public static TheoryData<MapColouringProblem, IReadOnlyDictionary<Block, Colour>> PositiveTestCases => new()
+        {
+            {
+                MapColouringProblem.Create().WithCanvasSize(TenByTen)
+                    .UseGlobalColours(Colour.Red, Colour.Blue, Colour.Green)
+                    .AddBlock(TopLeftBlock)
+                    .AddBlock(TopRightBlock)
+                    .AddBlock(BottomLeftBlock)
+                    .AddBlock(BottomRightBlock).Build(),
+                new Dictionary<Block, Colour>
+                {
+                    [TopLeftBlock] = Colour.Red,
+                    [TopRightBlock] = Colour.Blue,
+                    [BottomLeftBlock] = Colour.Green,
+                    [BottomRightBlock] = Colour.Red
+                }
+            },
+            {
+                MapColouringProblem.Create().WithCanvasSize(TenByTen)
+                    .UseGlobalColours(Colour.Red, Colour.Blue, Colour.Green)
+                    .AddBlock(TopLeftBlock)
+                    .AddBlock(TopRightBlock)
+                    .AddBlock(BottomLeftBlock)
+                    .AddBlock(BottomRightBlock).Build(),
+                new Dictionary<Block, Colour>
+                {
+                    [TopLeftBlock] = Colour.Red,
+                    [TopRightBlock] = Colour.Green,
+                    [BottomLeftBlock] = Colour.Blue,
+                    [BottomRightBlock] = Colour.Red
+                }
+            },
+            {
+                MapColouringProblem.Create().WithCanvasSize(TenByTen)
+                    .UseGlobalColours(Colour.Red, Colour.Blue, Colour.Green)
+                    .AddBlock(TopLeftBlock)
+                    .AddBlock(TopRightBlock)
+                    .AddBlock(BottomLeftBlock)
+                    .AddBlock(BottomRightBlock).Build(),
+                new Dictionary<Block, Colour>
+                {
+                    [TopLeftBlock] = Colour.Red,
+                    [TopRightBlock] = Colour.Green,
+                    [BottomLeftBlock] = Colour.Green,
+                    [BottomRightBlock] = Colour.Blue
+                }
+            },
+            {
+                MapColouringProblem.Create().WithCanvasSize(TenByTen)
+                    .UseGlobalColours(Colour.Red, Colour.Blue, Colour.Green)
+                    .AddBlock(TopLeftBlock)
+                    .AddBlock(TopRightBlock)
+                    .AddBlock(BottomLeftBlock)
+                    .AddBlock(BottomRightBlock).Build(),
+                new Dictionary<Block, Colour>
+                {
+                    [TopLeftBlock] = Colour.Red,
+                    [TopRightBlock] = Colour.Blue,
+                    [BottomLeftBlock] = Colour.Blue,
+                    [BottomRightBlock] = Colour.Green
+                }
+            },
+            {
+                MapColouringProblem.Create().WithCanvasSize(TenByTen)
+                    .UseGlobalColours(Colour.Red, Colour.Blue, Colour.Green)
+                    .AddBlock(TopLeftBlock)
+                    .AddBlock(TopRightBlock)
+                    .AddBlock(BottomLeftBlock)
+                    .AddBlock(BottomRightBlock).Build(),
+                new Dictionary<Block, Colour>
+                {
+                    [TopLeftBlock] = Colour.Green,
+                    [TopRightBlock] = Colour.Blue,
+                    [BottomLeftBlock] = Colour.Red,
+                    [BottomRightBlock] = Colour.Green
+                }
+            },
+            {
+                MapColouringProblem.Create().WithCanvasSize(TenByTen)
+                    .UseGlobalColours(Colour.Red, Colour.Blue, Colour.Green)
+                    .AddBlock(TopLeftBlock)
+                    .AddBlock(TopRightBlock)
+                    .AddBlock(BottomLeftBlock)
+                    .AddBlock(BottomRightBlock).Build(),
+                new Dictionary<Block, Colour>
+                {
+                    [TopLeftBlock] = Colour.Green,
+                    [TopRightBlock] = Colour.Red,
+                    [BottomLeftBlock] = Colour.Blue,
+                    [BottomRightBlock] = Colour.Green
+                }
+            },
+            {
+                MapColouringProblem.Create().WithCanvasSize(TenByTen)
+                    .UseGlobalColours(Colour.Red, Colour.Blue, Colour.Green)
+                    .AddBlock(TopLeftBlock)
+                    .AddBlock(TopRightBlock)
+                    .AddBlock(BottomLeftBlock)
+                    .AddBlock(BottomRightBlock).Build(),
+                new Dictionary<Block, Colour>
+                {
+                    [TopLeftBlock] = Colour.Blue,
+                    [TopRightBlock] = Colour.Red,
+                    [BottomLeftBlock] = Colour.Green,
+                    [BottomRightBlock] = Colour.Blue
+                }
+            },
+            {
+                MapColouringProblem.Create().WithCanvasSize(TenByTen)
+                    .UseGlobalColours(Colour.Red, Colour.Blue, Colour.Green)
+                    .AddBlock(TopLeftBlock)
+                    .AddBlock(TopRightBlock)
+                    .AddBlock(BottomLeftBlock)
+                    .AddBlock(BottomRightBlock).Build(),
+                new Dictionary<Block, Colour>
+                {
+                    [TopLeftBlock] = Colour.Blue,
+                    [TopRightBlock] = Colour.Green,
+                    [BottomLeftBlock] = Colour.Red,
+                    [BottomRightBlock] = Colour.Blue
+                }
+            }
+        };
+
+        [Theory]
+        [MemberData(nameof(PositiveTestCases), MemberType = typeof(VerifyCorrectMethod))]
+        public void VerifySolved_GivenCorrectSolution_ReturnsSuccessfulResult(MapColouringProblem sut,
+            IReadOnlyDictionary<Block, Colour> solution)
+        {
+            // Act
+            CheckingResult result = sut.VerifyCorrect(solution);
+
+            // Assert
+            result.Should().BeSuccessful().And.HaveNullFirstError();
+        }
+
+        [Fact]
+        public void VerifyCorrect_SolutionIsEmptyDictionary_ReturnsUnsuccessfulResult()
+        {
+            // Arrange
+            MapColouringProblem sut = MapColouringProblem.Create().WithCanvasSize(TenByTen)
+                .UseGlobalColours(Colour.Red, Colour.Blue, Colour.Green)
+                .AddBlock(TopLeftBlock).Build();
+
+            Dictionary<Block, Colour> solution = [];
+
+            // Act
+            CheckingResult result = sut.VerifyCorrect(solution);
+
+            // Assert
+            result.Should().BeUnsuccessful()
+                .And.HaveFirstError("Solution has 0 entries, but problem has 1 block.");
+        }
+
+        [Fact]
+        public void VerifyCorrect_SolutionHasTooFewEntries_ReturnsUnsuccessfulResult()
+        {
+            // Arrange
+            MapColouringProblem sut = MapColouringProblem.Create().WithCanvasSize(TenByTen)
+                .UseGlobalColours(Colour.Red, Colour.Blue, Colour.Green)
+                .AddBlock(TopLeftBlock)
+                .AddBlock(TopRightBlock)
+                .AddBlock(BottomLeftBlock)
+                .AddBlock(BottomRightBlock).Build();
+
+            Dictionary<Block, Colour> solution = new() { [TopLeftBlock] = Colour.Red };
+
+            // Act
+            CheckingResult result = sut.VerifyCorrect(solution);
+
+            // Assert
+            result.Should().BeUnsuccessful()
+                .And.HaveFirstError("Solution has 1 entry, but problem has 4 blocks.");
+        }
+
+        [Fact]
+        public void VerifyCorrect_SolutionHasTooManyEntries_ReturnsUnsuccessfulResult()
+        {
+            // Arrange
+            MapColouringProblem sut = MapColouringProblem.Create().WithCanvasSize(TenByTen)
+                .UseGlobalColours(Colour.Red, Colour.Blue, Colour.Green)
+                .AddBlock(TopLeftBlock)
+                .AddBlock(TopRightBlock).Build();
+
+            Dictionary<Block, Colour> solution = new()
+            {
+                [TopLeftBlock] = Colour.Red,
+                [TopRightBlock] = Colour.Blue,
+                [BottomLeftBlock] = Colour.Blue,
+                [BottomRightBlock] = Colour.Green
+            };
+
+            // Act
+            CheckingResult result = sut.VerifyCorrect(solution);
+
+            // Assert
+            result.Should().BeUnsuccessful()
+                .And.HaveFirstError("Solution has 4 entries, but problem has 2 blocks.");
+        }
+
+        [Fact]
+        public void VerifyCorrect_BlockIsNotSolutionKey_ReturnsUnsuccessfulResult()
+        {
+            // Arrange
+            MapColouringProblem sut = MapColouringProblem.Create().WithCanvasSize(TenByTen)
+                .UseGlobalColours(Colour.Red, Colour.Blue, Colour.Green)
+                .AddBlock(TopLeftBlock)
+                .AddBlock(TopRightBlock).Build();
+
+            Dictionary<Block, Colour> solution = new() { [TopLeftBlock] = Colour.Red, [BottomRightBlock] = Colour.Red };
+
+            // Act
+            CheckingResult result = sut.VerifyCorrect(solution);
+
+            // Assert
+            result.Should().BeUnsuccessful()
+                .And.HaveFirstError("Block (4,0) [4x4] is not a key in the solution.");
+        }
+
+        [Fact]
+        public void VerifyCorrect_BlockAssignedNonPermittedColour_ReturnsUnsuccessfulResult()
+        {
+            // Arrange
+            MapColouringProblem sut = MapColouringProblem.Create().WithCanvasSize(TenByTen)
+                .UseGlobalColours(Colour.Red, Colour.Blue, Colour.Green)
+                .AddBlock(TopLeftBlock)
+                .AddBlock(TopRightBlock).Build();
+
+            Dictionary<Block, Colour> solution = new() { [TopLeftBlock] = Colour.Olive, [TopRightBlock] = Colour.Red };
+
+            // Act
+            CheckingResult result = sut.VerifyCorrect(solution);
+
+            // Assert
+            result.Should().BeUnsuccessful()
+                .And.HaveFirstError(
+                    "Block (0,0) [4x4] is assigned the colour 'Olive', which is not a member of its permitted colours set.");
+        }
+
+        [Fact]
+        public void VerifyCorrect_AdjacentBlocksAssignedSameColour_ReturnsUnsuccessfulResult()
+        {
+            // Arrange
+            MapColouringProblem sut = MapColouringProblem.Create().WithCanvasSize(TenByTen)
+                .UseGlobalColours(Colour.Red, Colour.Blue, Colour.Green)
+                .AddBlock(TopLeftBlock)
+                .AddBlock(TopRightBlock)
+                .AddBlock(BottomLeftBlock)
+                .AddBlock(BottomRightBlock).Build();
+
+            Dictionary<Block, Colour> solution = new()
+            {
+                [TopLeftBlock] = Colour.Red,
+                [TopRightBlock] = Colour.Green,
+                [BottomLeftBlock] = Colour.Blue,
+                [BottomRightBlock] = Colour.Green
+            };
+
+            // Act
+            CheckingResult result = sut.VerifyCorrect(solution);
+
+            // Assert
+            result.Should().BeUnsuccessful()
+                .And.HaveFirstError("Adjacent blocks (4,0) [4x4] and (4,4) [4x4] are both assigned the colour 'Green'.");
+        }
+
+        [Fact]
+        public void VerifySolved_SolutionArgIsNull_Throws()
+        {
+            // Arrange
+            MapColouringProblem sut = MapColouringProblem.Create()
+                .WithCanvasSize(TenByTen)
+                .UseGlobalColours(Colour.Black)
+                .AddBlock(TopLeftBlock)
+                .Build();
+
+            // Act
+            Action act = () => sut.VerifyCorrect(null!);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>()
+                .WithMessage("Value cannot be null. (Parameter 'solution')");
         }
     }
 

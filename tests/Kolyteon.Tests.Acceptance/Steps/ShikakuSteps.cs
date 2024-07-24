@@ -61,8 +61,5 @@ internal sealed class ShikakuSteps(ScenarioContext scenarioContext)
         deserializedProblem.Should().NotBeNull().And.Be(problem);
     }
 
-    internal sealed record SolutionItem
-    {
-        public Block Block { get; set; }
-    }
+    private sealed record SolutionItem(Block Block);
 }
