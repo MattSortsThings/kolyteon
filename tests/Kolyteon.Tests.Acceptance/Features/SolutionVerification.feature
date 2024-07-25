@@ -2,6 +2,29 @@ Feature: Solution Verification
 
 Verify the correctness of any proposed solution to any valid instance of a given problem type.
 
+    @B/2
+    Scenario: Verify a Graph Colouring problem solution
+        Given I have created a Graph Colouring problem with the following nodes and edges
+          | Node | Permitted Colours | Adjacent Nodes |
+          | x1   | Red,Blue,Green    | x2,x3,x4,x7    |
+          | x2   | Blue,Green        | x1,x6          |
+          | x3   | Red,Blue          | x1,x7          |
+          | x4   | Red,Blue          | x1,x5,x7       |
+          | x5   | Blue,Green        | x4,x6,x7       |
+          | x6   | Red,Green,Yellow  | x2,x5          |
+          | x7   | Red,Blue          | x1,x3,x4,x5    |
+        And I have proposed the following node and colour dictionary as a solution to the Graph Colouring problem
+          | Node | Colour |
+          | x1   | Green  |
+          | x2   | Blue   |
+          | x3   | Red    |
+          | x4   | Red    |
+          | x5   | Green  |
+          | x6   | Yellow |
+          | x7   | Blue   |
+        When I ask the Graph Colouring problem to verify the correctness of the proposed solution
+        Then the verification result should be successful
+
     @C/2
     Scenario: Verify a Map Colouring problem solution
         Given I have created a Map Colouring problem with a 10x10 canvas and the following blocks

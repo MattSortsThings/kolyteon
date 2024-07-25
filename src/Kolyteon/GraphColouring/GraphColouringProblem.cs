@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using Kolyteon.Common;
 using Kolyteon.GraphColouring.Internals;
 
 namespace Kolyteon.GraphColouring;
@@ -7,7 +8,7 @@ namespace Kolyteon.GraphColouring;
 ///     Represents a valid (but not necessarily solvable) Graph Colouring problem.
 /// </summary>
 [Serializable]
-public sealed record GraphColouringProblem
+public sealed record GraphColouringProblem : ISolutionVerifier<IReadOnlyDictionary<Node, Colour>>
 {
     [JsonConstructor]
     internal GraphColouringProblem(IReadOnlyList<NodeDatum> nodeData, IReadOnlyList<Edge> edges)
@@ -56,6 +57,33 @@ public sealed record GraphColouringProblem
                && Edges.Count == other.Edges.Count
                && NodeData.OrderBy(datum => datum).SequenceEqual(other.NodeData.OrderBy(datum => datum))
                && Edges.OrderBy(edge => edge).SequenceEqual(other.Edges.OrderBy(edge => edge));
+    }
+
+    /// <inheritdoc />
+    /// <remarks>
+    ///     <para>
+    ///         The solution to a <see cref="GraphColouringProblem" /> instance is a dictionary of <see cref="Node" /> keys and
+    ///         <see cref="Colour" /> values, representing the colours with which the nodes are to be filled.
+    ///     </para>
+    ///     <para>
+    ///         This method applies the following checks in order to the <paramref name="solution" /> parameter:
+    ///         <list type="number">
+    ///             <item>The number of entries in the solution must be equal to the number of nodes in the problem.</item>
+    ///             <item>Every node in the problem must be a key in the solution.</item>
+    ///             <item>Every node must be assigned one of its permitted colours.</item>
+    ///             <item>No two adjacent nodes may be assigned the same colour.</item>
+    ///         </list>
+    ///     </para>
+    /// </remarks>
+    public CheckingResult VerifyCorrect(IReadOnlyDictionary<Node, Colour> solution)
+    {
+        ArgumentNullException.ThrowIfNull(solution);
+
+        return SolutionValidation.OneEntryPerNode
+            .Then(SolutionValidation.EveryNodeIsSolutionKey)
+            .Then(SolutionValidation.EveryNodeHasPermittedColour)
+            .Then(SolutionValidation.NoAdjacentNodesSameColour)
+            .VerifyCorrect(solution, this);
     }
 
     /// <summary>

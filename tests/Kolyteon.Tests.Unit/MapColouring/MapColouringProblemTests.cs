@@ -132,6 +132,12 @@ public static class MapColouringProblemTests
         {
             {
                 MapColouringProblem.Create().WithCanvasSize(TenByTen)
+                    .UseGlobalColours(Colour.Black)
+                    .AddBlock(TopLeftBlock).Build(),
+                new Dictionary<Block, Colour> { [TopLeftBlock] = Colour.Black }
+            },
+            {
+                MapColouringProblem.Create().WithCanvasSize(TenByTen)
                     .UseGlobalColours(Colour.Red, Colour.Blue, Colour.Green)
                     .AddBlock(TopLeftBlock)
                     .AddBlock(TopRightBlock)
@@ -254,7 +260,7 @@ public static class MapColouringProblemTests
 
         [Theory]
         [MemberData(nameof(PositiveTestCases), MemberType = typeof(VerifyCorrectMethod))]
-        public void VerifySolved_GivenCorrectSolution_ReturnsSuccessfulResult(MapColouringProblem sut,
+        public void VerifyCorrect_GivenCorrectSolution_ReturnsSuccessfulResult(MapColouringProblem sut,
             IReadOnlyDictionary<Block, Colour> solution)
         {
             // Act
@@ -395,7 +401,7 @@ public static class MapColouringProblemTests
         }
 
         [Fact]
-        public void VerifySolved_SolutionArgIsNull_Throws()
+        public void VerifyCorrect_SolutionArgIsNull_Throws()
         {
             // Arrange
             MapColouringProblem sut = MapColouringProblem.Create()
@@ -717,10 +723,11 @@ public static class MapColouringProblemTests
             string json = JsonSerializer.Serialize(originalProblem, JsonSerializerOptions.Default);
 
             // Act
-            MapColouringProblem? result = JsonSerializer.Deserialize<MapColouringProblem>(json, JsonSerializerOptions.Default);
+            MapColouringProblem? deserializedProblem =
+                JsonSerializer.Deserialize<MapColouringProblem>(json, JsonSerializerOptions.Default);
 
             // Assert
-            result.Should().NotBeNull().And.Be(originalProblem);
+            deserializedProblem.Should().NotBeNull().And.Be(originalProblem);
         }
     }
 }

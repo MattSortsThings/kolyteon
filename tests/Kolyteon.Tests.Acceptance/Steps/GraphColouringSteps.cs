@@ -38,6 +38,15 @@ internal sealed class GraphColouringSteps(ScenarioContext scenarioContext)
         scenarioContext.Add(Constants.Keys.Json, json);
     }
 
+    [Given("I have proposed the following node and colour dictionary as a solution to the Graph Colouring problem")]
+    public void GivenIHaveProposedTheFollowingNodeAndColourDictionaryAsASolutionToTheGraphColouringProblem(Table table)
+    {
+        IReadOnlyDictionary<Node, Colour> proposedSolution = table.CreateSet<SolutionItem>()
+            .ToDictionary(item => item.Node, item => item.Colour);
+
+        scenarioContext.Add(Constants.Keys.ProposedSolution, proposedSolution);
+    }
+
     [When("I deserialize a Graph Colouring problem from the JSON")]
     public void WhenIDeserializeAGraphColouringProblemFromTheJson()
     {
@@ -47,6 +56,18 @@ internal sealed class GraphColouringSteps(ScenarioContext scenarioContext)
             JsonSerializer.Deserialize<GraphColouringProblem>(json, JsonSerializerOptions.Default);
 
         scenarioContext.Add(Constants.Keys.DeserializedProblem, deserializedProblem);
+    }
+
+    [When("I ask the Graph Colouring problem to verify the correctness of the proposed solution")]
+    public void WhenIAskTheGraphColouringProblemToVerifyTheCorrectnessOfTheProposedSolution()
+    {
+        GraphColouringProblem problem = scenarioContext.Get<GraphColouringProblem>(Constants.Keys.Problem);
+        IReadOnlyDictionary<Node, Colour> proposedSolution =
+            scenarioContext.Get<IReadOnlyDictionary<Node, Colour>>(Constants.Keys.ProposedSolution);
+
+        CheckingResult verificationResult = problem.VerifyCorrect(proposedSolution);
+
+        scenarioContext.Add(Constants.Keys.VerificationResult, verificationResult);
     }
 
     [Then("the deserialized and original Graph Colouring problems should be equal")]
@@ -63,4 +84,6 @@ internal sealed class GraphColouringSteps(ScenarioContext scenarioContext)
         item.AdjacentNodes.Select(adjacentNode => Edge.Between(item.Node, adjacentNode)));
 
     private sealed record NodeItem(Node Node, Colour[] PermittedColours, Node[] AdjacentNodes);
+
+    private sealed record SolutionItem(Node Node, Colour Colour);
 }
