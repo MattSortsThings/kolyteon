@@ -87,16 +87,16 @@ namespace Kolyteon.Tests.Acceptance.Features
             await this.TestTearDownAsync();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Represent a Map Colouring problem")]
+        [Xunit.SkippableFactAttribute(DisplayName="Represent a Graph Colouring problem")]
         [Xunit.TraitAttribute("FeatureTitle", "Problem Representation")]
-        [Xunit.TraitAttribute("Description", "Represent a Map Colouring problem")]
-        [Xunit.TraitAttribute("Category", "C/1")]
-        public async System.Threading.Tasks.Task RepresentAMapColouringProblem()
+        [Xunit.TraitAttribute("Description", "Represent a Graph Colouring problem")]
+        [Xunit.TraitAttribute("Category", "B/1")]
+        public async System.Threading.Tasks.Task RepresentAGraphColouringProblem()
         {
             string[] tagsOfScenario = new string[] {
-                    "C/1"};
+                    "B/1"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Represent a Map Colouring problem", null, tagsOfScenario, argumentsOfScenario, featureTags);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Represent a Graph Colouring problem", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 6
     this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -108,49 +108,117 @@ namespace Kolyteon.Tests.Acceptance.Features
             {
                 await this.ScenarioStartAsync();
                 global::Reqnroll.Table table1 = new global::Reqnroll.Table(new string[] {
+                            "Node",
+                            "Permitted Colours",
+                            "Adjacent Nodes"});
+                table1.AddRow(new string[] {
+                            "x1",
+                            "Red,Blue,Green",
+                            "x2,x3,x4,x7"});
+                table1.AddRow(new string[] {
+                            "x2",
+                            "Blue,Green",
+                            "x1,x6"});
+                table1.AddRow(new string[] {
+                            "x3",
+                            "Red,Blue",
+                            "x1,x7"});
+                table1.AddRow(new string[] {
+                            "x4",
+                            "Red,Blue",
+                            "x1,x5,x7"});
+                table1.AddRow(new string[] {
+                            "x5",
+                            "Blue,Green",
+                            "x4,x6,x7"});
+                table1.AddRow(new string[] {
+                            "x6",
+                            "Red,Green,Yellow",
+                            "x2,x5"});
+                table1.AddRow(new string[] {
+                            "x7",
+                            "Red,Blue",
+                            "x1,x3,x4,x5"});
+#line 7
+        await testRunner.GivenAsync("I have created a Graph Colouring problem with the following nodes and edges", ((string)(null)), table1, "Given ");
+#line hidden
+#line 16
+        await testRunner.AndAsync("I have serialized the Graph Colouring problem to JSON", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 17
+        await testRunner.WhenAsync("I deserialize a Graph Colouring problem from the JSON", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 18
+        await testRunner.ThenAsync("the deserialized and original Graph Colouring problems should be equal", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Represent a Map Colouring problem")]
+        [Xunit.TraitAttribute("FeatureTitle", "Problem Representation")]
+        [Xunit.TraitAttribute("Description", "Represent a Map Colouring problem")]
+        [Xunit.TraitAttribute("Category", "C/1")]
+        public async System.Threading.Tasks.Task RepresentAMapColouringProblem()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "C/1"};
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Represent a Map Colouring problem", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 21
+    this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+                global::Reqnroll.Table table2 = new global::Reqnroll.Table(new string[] {
                             "Block",
                             "Permitted Colours"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "(0,6) [5x2]",
                             "Red,Blue,Green"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "(0,8) [10x2]",
                             "Red"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "(1,0) [3x1]",
                             "Red,Blue,Green"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "(1,1) [3x3]",
                             "Red,Yellow"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "(4,0) [4x2]",
                             "Red,Blue,Green"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "(4,4) [6x2]",
                             "Red,Blue,Green,Yellow"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "(5,6) [5x2]",
                             "Red,Blue,Green"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "(8,0) [2x1]",
                             "Red,Green"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "(8,1) [1x1]",
                             "Red"});
-                table1.AddRow(new string[] {
+                table2.AddRow(new string[] {
                             "(9,1) [1x1]",
                             "Yellow"});
-#line 7
+#line 22
         await testRunner.GivenAsync("I have created a Map Colouring problem with a 10x10 canvas and the following bloc" +
-                        "ks", ((string)(null)), table1, "Given ");
+                        "ks", ((string)(null)), table2, "Given ");
 #line hidden
-#line 19
+#line 34
         await testRunner.AndAsync("I have serialized the Map Colouring problem to JSON", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 20
+#line 35
         await testRunner.WhenAsync("I deserialize a Map Colouring problem from the JSON", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 21
+#line 36
         await testRunner.ThenAsync("the deserialized and original Map Colouring problems should be equal", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -167,7 +235,7 @@ namespace Kolyteon.Tests.Acceptance.Features
                     "D/1"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Represent an N-Queens problem", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 24
+#line 39
     this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -177,16 +245,16 @@ namespace Kolyteon.Tests.Acceptance.Features
             else
             {
                 await this.ScenarioStartAsync();
-#line 25
+#line 40
         await testRunner.GivenAsync("I have created an N-Queens problem for N = 8", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 26
+#line 41
         await testRunner.AndAsync("I have serialized the N-Queens problem to JSON", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 27
+#line 42
         await testRunner.WhenAsync("I deserialize an N-Queens problem from the JSON", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 28
+#line 43
         await testRunner.ThenAsync("the deserialized and original N-Queens problems should be equal", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -203,7 +271,7 @@ namespace Kolyteon.Tests.Acceptance.Features
                     "E/1"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Represent a Shikaku problem", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 31
+#line 46
     this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -213,7 +281,7 @@ namespace Kolyteon.Tests.Acceptance.Features
             else
             {
                 await this.ScenarioStartAsync();
-#line 32
+#line 47
         await testRunner.GivenAsync("I have created a Shikaku problem from the following grid", @"03 __ __ __ __ __ __ 07 __ __
 __ __ __ __ __ __ __ __ __ __
 __ __ __ __ __ __ __ __ __ __
@@ -225,13 +293,13 @@ __ __ 03 __ __ __ __ __ __ __
 __ __ __ __ __ __ __ 16 __ __
 __ __ __ __ __ __ __ __ __ 18", ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 45
+#line 60
         await testRunner.AndAsync("I have serialized the Shikaku problem to JSON", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 46
+#line 61
         await testRunner.WhenAsync("I deserialize a Shikaku problem from the JSON", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 47
+#line 62
         await testRunner.ThenAsync("the deserialized and original Shikaku problems should be equal", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }

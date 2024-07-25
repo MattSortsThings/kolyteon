@@ -9,7 +9,7 @@ This document defines the Graph Colouring problem type as it is to be represente
     - [Common Element Types](#common-element-types)
     - [`Node` readonly record struct](#node-readonly-record-struct)
     - [`NodeDatum` record](#nodedatum-record)
-    - [`EdgeDatum` readonly record struct](#edgedatum-readonly-record-struct)
+    - [`Edge` record](#edge-record)
     - [`GraphColouringProblem` record](#graphcolouringproblem-record)
     - [`IReadOnlyDictionary<Node, Colour>` dictionary](#ireadonlydictionarynode-colour-dictionary)
   - [Solution Verification](#solution-verification)
@@ -50,7 +50,7 @@ The Graph Colouring problem type uses the following [common type](problem_defini
 - A `Node` is a (`Name`) tuple, where:
   - `Name` is a non-empty, non-white-space string identifying the node.
 - Two `Node` instances are compared by `Name`, using case-sensitive ordinal string comparison rules.
-- The string representation of a `Node` instance is its `Name`.
+- The string representation of the node with the name `"r0"` is `"(r0)"`.
 
 ### `NodeDatum` record
 
@@ -60,21 +60,21 @@ The Graph Colouring problem type uses the following [common type](problem_defini
   - `PermittedColours` is an immutable collection of `Colour` values.
 - Two `NodeDatum` instances are compared by `Node` value.
 
-### `EdgeDatum` readonly record struct
+### `Edge` record
 
-- An `EdgeDatum` instance represents an edge connecting two ordered nodes in a graph.
-- An `EdgeDatum` is a (`FirstNode`, `SecondNode`) tuple, where:
+- An `Edge` instance represents an edge connecting two ordered nodes in a graph.
+- An `Edge` is a (`FirstNode`, `SecondNode`) tuple, where:
   - `FirstNode` is the first `Node` value, and
   - `SecondNode` is the second `Node` value.
-- Two `EdgeDatum` instances are compared by `FirstNode`, then by `SecondNode`.
-- The string representation `EdgeDatum` between the nodes `r0` and `r1` is `"(r0)-(r1)"`.
+- Two `Edge` instances are compared by `FirstNode`, then by `SecondNode`.
+- The string representation `Edge` between the nodes with names `"r0"` and `"r1"` is `"(r0)-(r1)"`.
 
 ### `GraphColouringProblem` record
 
 - A `GraphColouringProblem` instance is an immutable, JSON-serializable data structure representing a valid (but not necessarily solvable) Graph Colouring problem.
-- A `GraphColouringProblem` is a (`NodeData`, `EdgeData`) tuple, where:
+- A `GraphColouringProblem` is a (`NodeData`, `Edges`) tuple, where:
   - `NodeData` is an immutable list of `NodeDatum` objects, and
-  - `EdgeData` is an immutable list of `EdgeDatum` values.
+  - `Edges` is an immutable list of `Edge` values.
 - A `GraphColouringProblem` can verify it is solved by a proposed solution.
 
 ### `IReadOnlyDictionary<Node, Colour>` dictionary
