@@ -5,25 +5,25 @@ namespace Kolyteon.MapColouring.Internals;
 
 internal static class ProblemValidation
 {
-    internal static IProblemValidator<MapColouringProblem> AtLeastOneBlock =>
-        new AtLeastOneBlockValidator();
+    internal static MapColouringProblemValidator AtLeastOneBlock => new AtLeastOneBlockValidator();
 
-    internal static IProblemValidator<MapColouringProblem> AllBlocksInCanvas =>
-        new AllBlocksInCanvasValidator();
+    internal static MapColouringProblemValidator AllBlocksInCanvas => new AllBlocksInCanvasValidator();
 
-    internal static IProblemValidator<MapColouringProblem> NoOverlappingBlocks =>
-        new NoOverlappingBlocksValidator();
+    internal static MapColouringProblemValidator NoOverlappingBlocks => new NoOverlappingBlocksValidator();
 
-    private sealed class AtLeastOneBlockValidator : IProblemValidator<MapColouringProblem>
+    internal abstract class MapColouringProblemValidator : ProblemValidator<MapColouringProblem>;
+
+    private sealed class AtLeastOneBlockValidator : MapColouringProblemValidator
     {
-        public CheckingResult Validate(MapColouringProblem problem) => problem.BlockData.Count == 0
-            ? CheckingResult.Failure("Problem has zero blocks.")
-            : CheckingResult.Success();
+        internal override CheckingResult Validate(MapColouringProblem problem) =>
+            problem.BlockData.Count == 0
+                ? CheckingResult.Failure("Problem has zero blocks.")
+                : CheckingResult.Success();
     }
 
-    private sealed class AllBlocksInCanvasValidator : IProblemValidator<MapColouringProblem>
+    private sealed class AllBlocksInCanvasValidator : MapColouringProblemValidator
     {
-        public CheckingResult Validate(MapColouringProblem problem)
+        internal override CheckingResult Validate(MapColouringProblem problem)
         {
             Block canvas = problem.Canvas;
 
@@ -34,9 +34,9 @@ internal static class ProblemValidation
         }
     }
 
-    private sealed class NoOverlappingBlocksValidator : IProblemValidator<MapColouringProblem>
+    private sealed class NoOverlappingBlocksValidator : MapColouringProblemValidator
     {
-        public CheckingResult Validate(MapColouringProblem problem) =>
+        internal override CheckingResult Validate(MapColouringProblem problem) =>
             problem.BlockData.Select(datum => datum.Block)
                 .SelectMany((blockAtI, i) => problem.BlockData.Take(i).Select(pastDatum => pastDatum.Block)
                     .Where(pastBlock => pastBlock.Overlaps(blockAtI)).Select(pastBlock =>

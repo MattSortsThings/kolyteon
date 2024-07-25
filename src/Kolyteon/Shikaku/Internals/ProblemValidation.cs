@@ -5,21 +5,19 @@ namespace Kolyteon.Shikaku.Internals;
 
 internal static class ProblemValidation
 {
-    internal static IProblemValidator<ShikakuProblem> ValidGridDimensions =>
-        new GridDimensionsValidator();
+    internal static ShikakuProblemValidator ValidGridDimensions => new GridDimensionsValidator();
 
-    internal static IProblemValidator<ShikakuProblem> AtLeastOneHint =>
-        new AtLeastOneHintValidator();
+    internal static ShikakuProblemValidator AtLeastOneHint => new AtLeastOneHintValidator();
 
-    internal static IProblemValidator<ShikakuProblem> NoHintNumberLessThanTwo =>
-        new NoHintNumberLessThanTwoValidator();
+    internal static ShikakuProblemValidator NoHintNumberLessThanTwo => new NoHintNumberLessThanTwoValidator();
 
-    internal static IProblemValidator<ShikakuProblem> HintNumbersSumToGridArea =>
-        new HintNumbersSumToGridAreaValidator();
+    internal static ShikakuProblemValidator HintNumbersSumToGridArea => new HintNumbersSumToGridAreaValidator();
 
-    private sealed class GridDimensionsValidator : IProblemValidator<ShikakuProblem>
+    internal abstract class ShikakuProblemValidator : ProblemValidator<ShikakuProblem>;
+
+    private sealed class GridDimensionsValidator : ShikakuProblemValidator
     {
-        public CheckingResult Validate(ShikakuProblem problem)
+        internal override CheckingResult Validate(ShikakuProblem problem)
         {
             (int width, int height) = problem.Grid.Dimensions;
 
@@ -33,38 +31,29 @@ internal static class ProblemValidation
         }
     }
 
-    private sealed class AtLeastOneHintValidator : IProblemValidator<ShikakuProblem>
+    private sealed class AtLeastOneHintValidator : ShikakuProblemValidator
     {
-        public CheckingResult Validate(ShikakuProblem problem) => problem.Hints.Count == 0
-            ? CheckingResult.Failure("Problem has zero hints.")
-            : CheckingResult.Success();
+        internal override CheckingResult Validate(ShikakuProblem problem) =>
+            problem.Hints.Count == 0
+                ? CheckingResult.Failure("Problem has zero hints.")
+                : CheckingResult.Success();
     }
 
-    private sealed class NoHintNumberLessThanTwoValidator : IProblemValidator<ShikakuProblem>
+    private sealed class NoHintNumberLessThanTwoValidator : ShikakuProblemValidator
     {
-        public CheckingResult Validate(ShikakuProblem problem)
-        {
-            foreach (NumberedSquare hint in problem.Hints)
-            {
-                if (hint.Number >= ShikakuProblem.MinHintNumber)
-                {
-                    continue;
-                }
-
-                return CheckingResult.Failure($"Invalid hint {hint}. Hint number must be not less than 2.");
-            }
-
-            return CheckingResult.Success();
-        }
+        internal override CheckingResult Validate(ShikakuProblem problem) =>
+            problem.Hints.Where(hint => hint.Number < ShikakuProblem.MinHintNumber)
+                .Select(hint => CheckingResult.Failure($"Invalid hint {hint}. Hint number must be not less than 2."))
+                .FirstOrDefault(CheckingResult.Success());
     }
 
-    private sealed class HintNumbersSumToGridAreaValidator : IProblemValidator<ShikakuProblem>
+    private sealed class HintNumbersSumToGridAreaValidator : ShikakuProblemValidator
     {
-        public CheckingResult Validate(ShikakuProblem problem)
+        internal override CheckingResult Validate(ShikakuProblem problem)
         {
-            ((_, (int width, int height)), IReadOnlyList<NumberedSquare> hints) = problem;
+            (Block grid, IReadOnlyList<NumberedSquare> hints) = problem;
 
-            int areaInSquares = width * height;
+            int areaInSquares = grid.AreaInSquares;
             int sumHintNumbers = hints.Sum(hint => hint.Number);
 
             return sumHintNumbers == areaInSquares
