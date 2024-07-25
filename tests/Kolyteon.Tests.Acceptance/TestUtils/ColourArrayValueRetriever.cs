@@ -9,5 +9,5 @@ internal sealed class ColourArrayValueRetriever : IValueRetriever
         keyValuePair.Key.EndsWith("Colours");
 
     public object Retrieve(KeyValuePair<string, string> keyValuePair, Type targetType, Type propertyType) =>
-        keyValuePair.Value.Split(",").Select(Colour.FromName).ToArray();
+        keyValuePair.Value.Split(", ").Select(Colour.FromName).ToArray();
 }

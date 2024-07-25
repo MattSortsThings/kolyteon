@@ -9,5 +9,5 @@ internal sealed class NodeArrayValueRetriever : IValueRetriever
         keyValuePair.Key.EndsWith("Nodes");
 
     public object Retrieve(KeyValuePair<string, string> keyValuePair, Type targetType, Type propertyType) =>
-        keyValuePair.Value.Split(",").Select(Node.FromName).ToArray();
+        keyValuePair.Value.Split(", ").Select(Node.FromName).ToArray();
 }

@@ -113,32 +113,32 @@ namespace Kolyteon.Tests.Acceptance.Features
                             "Adjacent Nodes"});
                 table1.AddRow(new string[] {
                             "x1",
-                            "Red,Blue,Green",
-                            "x2,x3,x4,x7"});
+                            "Red, Blue, Green",
+                            "x2, x3, x4, x7"});
                 table1.AddRow(new string[] {
                             "x2",
-                            "Blue,Green",
-                            "x1,x6"});
+                            "Blue, Green",
+                            "x1, x6"});
                 table1.AddRow(new string[] {
                             "x3",
-                            "Red,Blue",
-                            "x1,x7"});
+                            "Red, Blue",
+                            "x1, x7"});
                 table1.AddRow(new string[] {
                             "x4",
-                            "Red,Blue",
-                            "x1,x5,x7"});
+                            "Red, Blue",
+                            "x1, x5, x7"});
                 table1.AddRow(new string[] {
                             "x5",
-                            "Blue,Green",
-                            "x4,x6,x7"});
+                            "Blue, Green",
+                            "x4, x6, x7"});
                 table1.AddRow(new string[] {
                             "x6",
-                            "Red,Green,Yellow",
-                            "x2,x5"});
+                            "Red, Green, Yellow",
+                            "x2, x5"});
                 table1.AddRow(new string[] {
                             "x7",
-                            "Red,Blue",
-                            "x1,x3,x4,x5"});
+                            "Red, Blue",
+                            "x1, x3, x4, x5"});
 #line 7
         await testRunner.GivenAsync("I have created a Graph Colouring problem with the following nodes and edges", ((string)(null)), table1, "Given ");
 #line hidden
@@ -180,28 +180,28 @@ namespace Kolyteon.Tests.Acceptance.Features
                             "Permitted Colours"});
                 table2.AddRow(new string[] {
                             "(0,6) [5x2]",
-                            "Red,Blue,Green"});
+                            "Red, Blue, Green"});
                 table2.AddRow(new string[] {
                             "(0,8) [10x2]",
                             "Red"});
                 table2.AddRow(new string[] {
                             "(1,0) [3x1]",
-                            "Red,Blue,Green"});
+                            "Red, Blue, Green"});
                 table2.AddRow(new string[] {
                             "(1,1) [3x3]",
-                            "Red,Yellow"});
+                            "Red, Yellow"});
                 table2.AddRow(new string[] {
                             "(4,0) [4x2]",
-                            "Red,Blue,Green"});
+                            "Red, Blue, Green"});
                 table2.AddRow(new string[] {
                             "(4,4) [6x2]",
-                            "Red,Blue,Green,Yellow"});
+                            "Red, Blue, Green, Yellow"});
                 table2.AddRow(new string[] {
                             "(5,6) [5x2]",
-                            "Red,Blue,Green"});
+                            "Red, Blue, Green"});
                 table2.AddRow(new string[] {
                             "(8,0) [2x1]",
-                            "Red,Green"});
+                            "Red, Green"});
                 table2.AddRow(new string[] {
                             "(8,1) [1x1]",
                             "Red"});

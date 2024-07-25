@@ -6,13 +6,13 @@ Verify the correctness of any proposed solution to any valid instance of a given
     Scenario: Verify a Graph Colouring problem solution
         Given I have created a Graph Colouring problem with the following nodes and edges
           | Node | Permitted Colours | Adjacent Nodes |
-          | x1   | Red,Blue,Green    | x2,x3,x4,x7    |
-          | x2   | Blue,Green        | x1,x6          |
-          | x3   | Red,Blue          | x1,x7          |
-          | x4   | Red,Blue          | x1,x5,x7       |
-          | x5   | Blue,Green        | x4,x6,x7       |
-          | x6   | Red,Green,Yellow  | x2,x5          |
-          | x7   | Red,Blue          | x1,x3,x4,x5    |
+          | x1   | Red, Blue, Green    | x2, x3, x4, x7    |
+          | x2   | Blue, Green        | x1, x6          |
+          | x3   | Red, Blue          | x1, x7          |
+          | x4   | Red, Blue          | x1, x5, x7       |
+          | x5   | Blue, Green        | x4, x6, x7       |
+          | x6   | Red, Green, Yellow  | x2, x5          |
+          | x7   | Red, Blue          | x1, x3, x4, x5    |
         And I have proposed the following node and colour dictionary as a solution to the Graph Colouring problem
           | Node | Colour |
           | x1   | Green  |
@@ -29,14 +29,14 @@ Verify the correctness of any proposed solution to any valid instance of a given
     Scenario: Verify a Map Colouring problem solution
         Given I have created a Map Colouring problem with a 10x10 canvas and the following blocks
           | Block        | Permitted Colours     |
-          | (0,6) [5x2]  | Red,Blue,Green        |
+          | (0,6) [5x2]  | Red, Blue, Green        |
           | (0,8) [10x2] | Red                   |
-          | (1,0) [3x1]  | Red,Blue,Green        |
-          | (1,1) [3x3]  | Red,Yellow            |
-          | (4,0) [4x2]  | Red,Blue,Green        |
-          | (4,4) [6x2]  | Red,Blue,Green,Yellow |
-          | (5,6) [5x2]  | Red,Blue,Green        |
-          | (8,0) [2x1]  | Red,Green             |
+          | (1,0) [3x1]  | Red, Blue, Green        |
+          | (1,1) [3x3]  | Red, Yellow            |
+          | (4,0) [4x2]  | Red, Blue, Green        |
+          | (4,4) [6x2]  | Red, Blue, Green, Yellow |
+          | (5,6) [5x2]  | Red, Blue, Green        |
+          | (8,0) [2x1]  | Red, Green             |
           | (8,1) [1x1]  | Red                   |
           | (9,1) [1x1]  | Yellow                |
         And I have proposed the following block and colour dictionary as a solution to the Map Colouring problem
