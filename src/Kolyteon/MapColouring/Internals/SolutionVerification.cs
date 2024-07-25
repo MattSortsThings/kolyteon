@@ -5,22 +5,20 @@ namespace Kolyteon.MapColouring.Internals;
 
 internal static class SolutionVerification
 {
-    internal static ISolutionVerifier<IReadOnlyDictionary<Block, Colour>, MapColouringProblem> OneEntryPerBlock =>
-        new OneEntryPerBlockVerifier();
+    internal static MapColouringSolutionVerifier OneEntryPerBlock => new OneEntryPerBlockVerifier();
 
-    internal static ISolutionVerifier<IReadOnlyDictionary<Block, Colour>, MapColouringProblem> EveryBlockIsSolutionKey =>
-        new EveryBlockIsSolutionKeyVerifier();
+    internal static MapColouringSolutionVerifier EveryBlockIsSolutionKey => new EveryBlockIsSolutionKeyVerifier();
 
-    internal static ISolutionVerifier<IReadOnlyDictionary<Block, Colour>, MapColouringProblem> EveryBlockHasPermittedColour =>
-        new EveryBlockHasPermittedColourVerifier();
+    internal static MapColouringSolutionVerifier EveryBlockHasPermittedColour => new EveryBlockHasPermittedColourVerifier();
 
-    internal static ISolutionVerifier<IReadOnlyDictionary<Block, Colour>, MapColouringProblem> NoAdjacentBlocksSameColour =>
-        new NoAdjacentBlocksSameColourVerifier();
+    internal static MapColouringSolutionVerifier NoAdjacentBlocksSameColour => new NoAdjacentBlocksSameColourVerifier();
 
-    private sealed class OneEntryPerBlockVerifier
-        : ISolutionVerifier<IReadOnlyDictionary<Block, Colour>, MapColouringProblem>
+    internal abstract class MapColouringSolutionVerifier :
+        SolutionVerifier<IReadOnlyDictionary<Block, Colour>, MapColouringProblem>;
+
+    private sealed class OneEntryPerBlockVerifier : MapColouringSolutionVerifier
     {
-        public CheckingResult VerifyCorrect(IReadOnlyDictionary<Block, Colour> solution, MapColouringProblem problem)
+        internal override CheckingResult VerifyCorrect(IReadOnlyDictionary<Block, Colour> solution, MapColouringProblem problem)
         {
             int entries = solution.Count;
             int blocks = problem.BlockData.Count;
@@ -32,20 +30,20 @@ internal static class SolutionVerification
         }
     }
 
-    private sealed class EveryBlockIsSolutionKeyVerifier
-        : ISolutionVerifier<IReadOnlyDictionary<Block, Colour>, MapColouringProblem>
+    private sealed class EveryBlockIsSolutionKeyVerifier : MapColouringSolutionVerifier
     {
-        public CheckingResult VerifyCorrect(IReadOnlyDictionary<Block, Colour> solution, MapColouringProblem problem) => problem
+        internal override CheckingResult VerifyCorrect(IReadOnlyDictionary<Block, Colour> solution,
+            MapColouringProblem problem) => problem
             .BlockData.Select(datum => datum.Block)
             .Where(block => !solution.ContainsKey(block))
             .Select(block => CheckingResult.Failure($"Block {block} is not a key in the solution."))
             .FirstOrDefault(CheckingResult.Success());
     }
 
-    private sealed class EveryBlockHasPermittedColourVerifier
-        : ISolutionVerifier<IReadOnlyDictionary<Block, Colour>, MapColouringProblem>
+    private sealed class EveryBlockHasPermittedColourVerifier : MapColouringSolutionVerifier
     {
-        public CheckingResult VerifyCorrect(IReadOnlyDictionary<Block, Colour> solution, MapColouringProblem problem) => problem
+        internal override CheckingResult VerifyCorrect(IReadOnlyDictionary<Block, Colour> solution,
+            MapColouringProblem problem) => problem
             .BlockData.Join(solution,
                 datum => datum.Block,
                 entry => entry.Key,
@@ -55,16 +53,13 @@ internal static class SolutionVerification
                                                    $"which is not a member of its permitted colours set."))
             .FirstOrDefault(CheckingResult.Success());
 
-        private readonly record struct CheckingItem(
-            Block Block,
-            Colour AssignedColour,
-            bool IsPermitted);
+        private readonly record struct CheckingItem(Block Block, Colour AssignedColour, bool IsPermitted);
     }
 
-    private sealed class NoAdjacentBlocksSameColourVerifier
-        : ISolutionVerifier<IReadOnlyDictionary<Block, Colour>, MapColouringProblem>
+    private sealed class NoAdjacentBlocksSameColourVerifier : MapColouringSolutionVerifier
     {
-        public CheckingResult VerifyCorrect(IReadOnlyDictionary<Block, Colour> solution, MapColouringProblem problem) =>
+        internal override CheckingResult VerifyCorrect(IReadOnlyDictionary<Block, Colour> solution,
+            MapColouringProblem problem) =>
             problem.BlockData.Select(datum => datum.Block).SelectMany((blockAtI, i) =>
                 problem.BlockData.Take(i).Select(pastDatum => pastDatum.Block)
                     .Where(pastBlock => pastBlock.AdjacentTo(blockAtI))

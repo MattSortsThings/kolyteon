@@ -79,10 +79,10 @@ public sealed record GraphColouringProblem : ISolutionVerifier<IReadOnlyDictiona
     {
         ArgumentNullException.ThrowIfNull(solution);
 
-        return SolutionValidation.OneEntryPerNode
-            .Then(SolutionValidation.EveryNodeIsSolutionKey)
-            .Then(SolutionValidation.EveryNodeHasPermittedColour)
-            .Then(SolutionValidation.NoAdjacentNodesSameColour)
+        return SolutionVerification.OneEntryPerNode
+            .Then(SolutionVerification.EveryNodeIsSolutionKey)
+            .Then(SolutionVerification.EveryNodeHasPermittedColour)
+            .Then(SolutionVerification.NoAdjacentNodesSameColour)
             .VerifyCorrect(solution, this);
     }
 

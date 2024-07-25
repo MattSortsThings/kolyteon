@@ -5,21 +5,19 @@ namespace Kolyteon.NQueens.Internals;
 
 internal static class SolutionVerification
 {
-    internal static ISolutionVerifier<IReadOnlyList<Square>, NQueensProblem> OneSquarePerQueen =>
-        new OneSquarePerQueenVerifier();
+    internal static NQueensSolutionVerifier OneSquarePerQueen => new OneSquarePerQueenVerifier();
 
-    internal static ISolutionVerifier<IReadOnlyList<Square>, NQueensProblem> AllSquaresInChessBoard =>
-        new AllSquaresInChessBoardVerifier();
+    internal static NQueensSolutionVerifier AllSquaresInChessBoard => new AllSquaresInChessBoardVerifier();
 
-    internal static ISolutionVerifier<IReadOnlyList<Square>, NQueensProblem> AllSquaresUnique =>
-        new AllSquaresUniqueVerifier();
+    internal static NQueensSolutionVerifier AllSquaresUnique => new AllSquaresUniqueVerifier();
 
-    internal static ISolutionVerifier<IReadOnlyList<Square>, NQueensProblem> NoCapturingSquares =>
-        new NoCapturingSquaresVerifier();
+    internal static NQueensSolutionVerifier NoCapturingSquares => new NoCapturingSquaresVerifier();
 
-    private sealed class OneSquarePerQueenVerifier : ISolutionVerifier<IReadOnlyList<Square>, NQueensProblem>
+    internal abstract class NQueensSolutionVerifier : SolutionVerifier<IReadOnlyList<Square>, NQueensProblem>;
+
+    private sealed class OneSquarePerQueenVerifier : NQueensSolutionVerifier
     {
-        public CheckingResult VerifyCorrect(IReadOnlyList<Square> solution, NQueensProblem problem)
+        internal override CheckingResult VerifyCorrect(IReadOnlyList<Square> solution, NQueensProblem problem)
         {
             int squares = solution.Count;
             int queens = problem.Queens;
@@ -31,9 +29,9 @@ internal static class SolutionVerification
         }
     }
 
-    private sealed class AllSquaresInChessBoardVerifier : ISolutionVerifier<IReadOnlyList<Square>, NQueensProblem>
+    private sealed class AllSquaresInChessBoardVerifier : NQueensSolutionVerifier
     {
-        public CheckingResult VerifyCorrect(IReadOnlyList<Square> solution, NQueensProblem problem)
+        internal override CheckingResult VerifyCorrect(IReadOnlyList<Square> solution, NQueensProblem problem)
         {
             Block chessBoard = problem.ChessBoard;
 
@@ -45,9 +43,9 @@ internal static class SolutionVerification
         }
     }
 
-    private sealed class AllSquaresUniqueVerifier : ISolutionVerifier<IReadOnlyList<Square>, NQueensProblem>
+    private sealed class AllSquaresUniqueVerifier : NQueensSolutionVerifier
     {
-        public CheckingResult VerifyCorrect(IReadOnlyList<Square> solution, NQueensProblem problem) =>
+        internal override CheckingResult VerifyCorrect(IReadOnlyList<Square> solution, NQueensProblem problem) =>
             solution.SelectMany((squareAtI, i) =>
                     solution.Take(i)
                         .Where(pastSquare => pastSquare.Equals(squareAtI))
@@ -58,9 +56,9 @@ internal static class SolutionVerification
                 .FirstOrDefault(CheckingResult.Success());
     }
 
-    private sealed class NoCapturingSquaresVerifier : ISolutionVerifier<IReadOnlyList<Square>, NQueensProblem>
+    private sealed class NoCapturingSquaresVerifier : NQueensSolutionVerifier
     {
-        public CheckingResult VerifyCorrect(IReadOnlyList<Square> solution, NQueensProblem problem) =>
+        internal override CheckingResult VerifyCorrect(IReadOnlyList<Square> solution, NQueensProblem problem) =>
             solution.SelectMany(
                     (squareAtI, i) =>
                         solution.Take(i)
