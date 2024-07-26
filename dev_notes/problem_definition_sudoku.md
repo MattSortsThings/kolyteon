@@ -28,7 +28,7 @@ This document uses the example Sudoku problem shown below, with a solution. A re
 
 ## Problem Rules
 
-A Sudoku problem consists of a 9x9 grid of squares, subdivided into 9 3x3 sectors. Some of the squares contain fixed numbers from the range [1, 9].
+A Sudoku problem consists of a 9x9 grid of squares, subdivided into 9 3x3 sectors. Some of the squares contain filled squares from the range [1, 9].
 
 To solve the problem, one must fill in every empty square with a number from the range [1, 9], so that the numbers from 1 to 9 occur exactly once in every column, row, and sector.
 
@@ -64,10 +64,10 @@ The `Square` type is extended with a `Sector` value.
 ### `SudokuProblem` record
 
 - A `SudokuProblem` instance is an immutable, JSON-serializable data structure representing a valid (but not necessarily solvable) Sudoku problem.
-- A `SudokuProblem` is a (`Grid`, `Sectors`, `FixedNumbers`) tuple, where:
+- A `SudokuProblem` is a (`Grid`, `Sectors`, `FilledSquares`) tuple, where:
   - `Grid` is a `Block` value representing the problem grid, and
   - `Sectors` is an immutable list of `Block` values representing the 9 sectors of the problem grid, and
-  - `FixedNumbers` is an immutable list of `NumberedSquare` values denoting the fixed numbers in the problem grid.
+  - `FilledSquares` is an immutable list of `NumberedSquare` values denoting the problem grid squares with filled squares.
 - A `SudokuProblem` can verify it is solved by a proposed solution.
 
 ### `IReadOnlyList<NumberedSquare>` list
@@ -79,14 +79,14 @@ The `Square` type is extended with a `Sector` value.
 
 Given a `SudokuProblem` problem instance and an `IReadOnlyList<NumberedSquare>` solution instance, the problem is solved by the solution if all the following conditions are satisfied:
 
-1. The quantity of numbered squares in the solution is equal to the quantity of fixed numbers in the problem subtracted from the problem grid area.
+1. The quantity of numbered squares in the solution is equal to the quantity of filled squares in the problem subtracted from the problem grid area.
 2. Every numbered square in the solution has a unique square.
 3. Every numbered square in the solution has a number in the range [1, 9].
 4. Every numbered square in the solution has a square that fits inside the problem grid.
-5. Every numbered square in the solution has a square that is not a fixed number in the problem.
-6. When the fixed numbers in the problem and the numbered squares in the solution are combined, the numbers 1-9 occur once in every column.
-7. When the fixed numbers in the problem and the numbered squares in the solution are combined, the numbers 1-9 occur once in every row.
-8. When the fixed numbers in the problem and the numbered squares in the solution are combined, the numbers 1-9 occur once in every sector.
+5. Every numbered square in the solution has a square that is not a filled square in the problem.
+6. When the filled squares in the problem and the numbered squares in the solution are combined, the numbers 1-9 occur once in every column.
+7. When the filled squares in the problem and the numbered squares in the solution are combined, the numbers 1-9 occur once in every row.
+8. When the filled squares in the problem and the numbered squares in the solution are combined, the numbers 1-9 occur once in every sector.
 
 ## Binary CSP Modelling
 
@@ -99,9 +99,9 @@ The binary CSP variables are the ordered set of all empty squares in the problem
 The domain of a square variable is the set of all possible integers that may fill that square. This is generated using the following algorithm.
 
 1. Start with the set of consecutive integers {1, 2, 3, 4, 5, 6, 7, 8, 9}.
-2. For every fixed number in the same column as the present square, eliminate the number.
-3. For every fixed number in the same row as the present square, eliminate the number.
-4. For every fixed number in the same sector as the present square, eliminate the number.
+2. For every filled square in the same column as the present square, eliminate the number.
+3. For every filled square in the same row as the present square, eliminate the number.
+4. For every filled square in the same sector as the present square, eliminate the number.
 
 ### Constraints
 
