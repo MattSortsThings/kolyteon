@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Kolyteon.Common;
 using Kolyteon.Sudoku;
 using Kolyteon.Tests.Acceptance.TestUtils;
 using Reqnroll;
@@ -22,6 +23,16 @@ internal sealed class SudokuSteps(ScenarioContext scenarioContext)
         scenarioContext.Add(Constants.Keys.Json, json);
     }
 
+    [Given("I have proposed the following filled squares as a solution to the Sudoku problem")]
+    public void GivenIHaveProposedTheFollowingFilledSquaresAsASolutionToTheSudokuProblem(Table table)
+    {
+        IReadOnlyList<NumberedSquare> proposedSolution = table.CreateSet<SolutionItem>()
+            .Select(item => item.FilledSquare)
+            .ToArray();
+
+        scenarioContext.Add(Constants.Keys.ProposedSolution, proposedSolution);
+    }
+
     [When("I deserialize a Sudoku problem from the JSON")]
     public void WhenIDeserializeASudokuProblemFromTheJson()
     {
@@ -32,6 +43,18 @@ internal sealed class SudokuSteps(ScenarioContext scenarioContext)
         scenarioContext.Add(Constants.Keys.DeserializedProblem, deserializedProblem);
     }
 
+    [When("I ask the Sudoku problem to verify the correctness of the proposed solution")]
+    public void WhenIAskTheSudokuProblemToVerifyTheCorrectnessOfTheProposedSolution()
+    {
+        SudokuProblem problem = scenarioContext.Get<SudokuProblem>(Constants.Keys.Problem);
+        IReadOnlyList<NumberedSquare> proposedSolution =
+            scenarioContext.Get<IReadOnlyList<NumberedSquare>>(Constants.Keys.ProposedSolution);
+
+        CheckingResult verificationResult = problem.VerifyCorrect(proposedSolution);
+
+        scenarioContext.Add(Constants.Keys.VerificationResult, verificationResult);
+    }
+
     [Then("the deserialized and original Sudoku problems should be equal")]
     public void ThenTheDeserializedAndOriginalSudokuProblemsShouldBeEqual()
     {
@@ -40,4 +63,6 @@ internal sealed class SudokuSteps(ScenarioContext scenarioContext)
 
         deserializedProblem.Should().NotBeNull().And.Be(problem);
     }
+
+    private readonly record struct SolutionItem(NumberedSquare FilledSquare);
 }

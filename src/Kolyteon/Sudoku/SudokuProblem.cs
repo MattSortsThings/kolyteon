@@ -8,7 +8,7 @@ namespace Kolyteon.Sudoku;
 ///     Represents a valid (but not necessarily solvable) Sudoku problem.
 /// </summary>
 [Serializable]
-public sealed record SudokuProblem
+public sealed record SudokuProblem : ISolutionVerifier<IReadOnlyList<NumberedSquare>>
 {
     internal const int MinNumber = 1;
     internal const int MaxNumber = 9;
@@ -66,6 +66,46 @@ public sealed record SudokuProblem
 
         return FilledSquares.Count == other.FilledSquares.Count
                && FilledSquares.OrderBy(square => square).SequenceEqual(other.FilledSquares.OrderBy(square => square));
+    }
+
+    /// <inheritdoc />
+    /// <remarks>
+    ///     <para>
+    ///         The solution to a <see cref="SudokuProblem" /> instance is a list of <see cref="NumberedSquare" /> values,
+    ///         representing the numbers that are to be added into the empty squares in the problem grid.
+    ///     </para>
+    ///     <para>
+    ///         This method applies the following checks in order to the <paramref name="solution" /> parameter:
+    ///         <list type="number">
+    ///             <item>
+    ///                 The number of filled squares in the solution must be equal to the number of empty squares in the
+    ///                 problem.
+    ///             </item>
+    ///             <item>Every filled square in the solution must be located inside the grid.</item>
+    ///             <item>Every filled square in the solution must be filled with a number in the range [1,9].</item>
+    ///             <item>
+    ///                 When the filled squares in the problem and solution are combined, no square may be filled more than
+    ///                 once.
+    ///             </item>
+    ///             <item>
+    ///                 When the filled squares in the problem and solution are combined, no number may occur more than once
+    ///                 in any column, row, or sector.
+    ///             </item>
+    ///         </list>
+    ///     </para>
+    /// </remarks>
+    public CheckingResult VerifyCorrect(IReadOnlyList<NumberedSquare> solution)
+    {
+        ArgumentNullException.ThrowIfNull(solution);
+
+        return SolutionVerification.OneFilledSquarePerEmptySquare
+            .Then(SolutionVerification.AllFilledSquaresInGrid)
+            .Then(SolutionVerification.AllFilledSquareNumbersInRange)
+            .Then(SolutionVerification.NoSquareFilledMoreThanOnce)
+            .Then(SolutionVerification.NoDuplicateNumbersInSameColumn)
+            .Then(SolutionVerification.NoDuplicateNumbersInSameRow)
+            .Then(SolutionVerification.NoDuplicateNumbersInSameSector)
+            .VerifyCorrect(solution, this);
     }
 
     /// <summary>

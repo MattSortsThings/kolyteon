@@ -407,6 +407,97 @@ __ __ __ __ __ __ __ __ __ 18", ((global::Reqnroll.Table)(null)), "Given ");
             await this.ScenarioCleanupAsync();
         }
         
+        [Xunit.SkippableFactAttribute(DisplayName="Verify a Sudoku problem solution")]
+        [Xunit.TraitAttribute("FeatureTitle", "Solution Verification")]
+        [Xunit.TraitAttribute("Description", "Verify a Sudoku problem solution")]
+        [Xunit.TraitAttribute("Category", "F/2")]
+        public async System.Threading.Tasks.Task VerifyASudokuProblemSolution()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "F/2"};
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Verify a Sudoku problem solution", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 104
+    this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 105
+        await testRunner.GivenAsync("I have created a Sudoku problem from the following grid", "02 __ 04 05 06 __ 09 01 03\r\n01 05 09 03 04 02 06 __ 07\r\n08 03 __ __ __ __ 02 05 0" +
+                        "4\r\n03 02 01 06 __ __ __ __ 09\r\n09 __ 05 __ __ __ 01 __ 02\r\n06 04 07 02 01 09 05 " +
+                        "__ 08\r\n__ __ 08 09 __ 06 03 04 05\r\n__ 06 02 04 07 __ __ 09 01\r\n04 __ 03 08 __ 01" +
+                        " 07 02 06", ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+                global::Reqnroll.Table table9 = new global::Reqnroll.Table(new string[] {
+                            "Filled Square"});
+                table9.AddRow(new string[] {
+                            "(0,6) [7]"});
+                table9.AddRow(new string[] {
+                            "(0,7) [5]"});
+                table9.AddRow(new string[] {
+                            "(1,0) [7]"});
+                table9.AddRow(new string[] {
+                            "(1,4) [8]"});
+                table9.AddRow(new string[] {
+                            "(1,6) [1]"});
+                table9.AddRow(new string[] {
+                            "(1,8) [9]"});
+                table9.AddRow(new string[] {
+                            "(2,2) [6]"});
+                table9.AddRow(new string[] {
+                            "(3,2) [1]"});
+                table9.AddRow(new string[] {
+                            "(3,4) [7]"});
+                table9.AddRow(new string[] {
+                            "(4,2) [9]"});
+                table9.AddRow(new string[] {
+                            "(4,3) [8]"});
+                table9.AddRow(new string[] {
+                            "(4,4) [3]"});
+                table9.AddRow(new string[] {
+                            "(4,6) [2]"});
+                table9.AddRow(new string[] {
+                            "(4,8) [5]"});
+                table9.AddRow(new string[] {
+                            "(5,0) [8]"});
+                table9.AddRow(new string[] {
+                            "(5,2) [7]"});
+                table9.AddRow(new string[] {
+                            "(5,3) [5]"});
+                table9.AddRow(new string[] {
+                            "(5,4) [4]"});
+                table9.AddRow(new string[] {
+                            "(5,7) [3]"});
+                table9.AddRow(new string[] {
+                            "(6,3) [4]"});
+                table9.AddRow(new string[] {
+                            "(6,7) [8]"});
+                table9.AddRow(new string[] {
+                            "(7,1) [8]"});
+                table9.AddRow(new string[] {
+                            "(7,3) [7]"});
+                table9.AddRow(new string[] {
+                            "(7,4) [6]"});
+                table9.AddRow(new string[] {
+                            "(7,5) [3]"});
+#line 117
+        await testRunner.AndAsync("I have proposed the following filled squares as a solution to the Sudoku problem", ((string)(null)), table9, "And ");
+#line hidden
+#line 144
+        await testRunner.WhenAsync("I ask the Sudoku problem to verify the correctness of the proposed solution", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 145
+        await testRunner.ThenAsync("the verification result should be successful", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
         [System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "2.0.0.0")]
         [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
         public class FixtureData : object, Xunit.IAsyncLifetime

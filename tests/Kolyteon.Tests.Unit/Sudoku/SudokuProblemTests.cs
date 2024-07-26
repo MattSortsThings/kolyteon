@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using Kolyteon.Common;
 using Kolyteon.Sudoku;
+using Kolyteon.Tests.Utils.TestAssertions;
 
 namespace Kolyteon.Tests.Unit.Sudoku;
 
@@ -121,6 +122,455 @@ public static class SudokuProblemTests
 
             // Assert
             result.Should().BeFalse();
+        }
+    }
+
+    [UnitTest]
+    public sealed class VerifyCorrectMethod
+    {
+        public static TheoryData<int?[,], IReadOnlyList<NumberedSquare>> PositiveTestCases => new()
+        {
+            {
+                new int?[,]
+                {
+                    { null, 0002, 0003, 0004, 0005, 0006, 0007, 0008, 0009 },
+                    { 0004, 0005, 0006, 0007, 0008, 0009, 0001, 0002, 0003 },
+                    { 0007, 0008, 0009, 0001, 0002, 0003, 0004, 0005, 0006 },
+                    { 0002, 0003, 0004, 0005, 0006, 0007, 0008, 0009, 0001 },
+                    { 0005, 0006, 0007, 0008, 0009, 0001, 0002, 0003, 0004 },
+                    { 0008, 0009, 0001, 0002, 0003, 0004, 0005, 0006, 0007 },
+                    { 0003, 0004, 0005, 0006, 0007, 0008, 0009, 0001, 0002 },
+                    { 0006, 0007, 0008, 0009, 0001, 0002, 0003, 0004, 0005 },
+                    { 0009, 0001, 0002, 0003, 0004, 0005, 0006, 0007, 0008 }
+                },
+                [
+                    Square.FromColumnAndRow(0, 0).ToNumberedSquare(1)
+                ]
+            },
+            {
+                new int?[,]
+                {
+                    { null, 0002, 0003, 0004, 0005, 0006, 0007, 0008, 0009 },
+                    { 0004, 0005, 0006, 0007, 0008, 0009, 0001, 0002, 0003 },
+                    { 0007, 0008, 0009, 0001, 0002, 0003, 0004, 0005, 0006 },
+                    { 0002, 0003, 0004, 0005, 0006, 0007, 0008, 0009, 0001 },
+                    { 0005, 0006, 0007, 0008, 0009, 0001, 0002, 0003, 0004 },
+                    { 0008, 0009, 0001, 0002, 0003, 0004, 0005, 0006, 0007 },
+                    { 0003, 0004, 0005, 0006, 0007, 0008, 0009, 0001, 0002 },
+                    { 0006, 0007, 0008, 0009, 0001, 0002, 0003, 0004, 0005 },
+                    { 0009, 0001, 0002, 0003, 0004, 0005, 0006, 0007, null }
+                },
+                [
+                    Square.FromColumnAndRow(0, 0).ToNumberedSquare(1),
+                    Square.FromColumnAndRow(8, 8).ToNumberedSquare(8)
+                ]
+            },
+            {
+                new int?[,]
+                {
+                    { null, null, 0003, 0004, 0005, 0006, 0007, 0008, 0009 },
+                    { 0004, 0005, 0006, 0007, 0008, 0009, 0001, 0002, 0003 },
+                    { 0007, 0008, 0009, 0001, 0002, 0003, 0004, 0005, 0006 },
+                    { 0002, 0003, 0004, 0005, 0006, 0007, 0008, 0009, 0001 },
+                    { 0005, 0006, 0007, 0008, 0009, 0001, 0002, 0003, 0004 },
+                    { 0008, 0009, 0001, 0002, 0003, 0004, 0005, 0006, 0007 },
+                    { 0003, 0004, 0005, 0006, 0007, 0008, 0009, 0001, 0002 },
+                    { 0006, 0007, 0008, 0009, 0001, 0002, 0003, 0004, 0005 },
+                    { 0009, 0001, 0002, 0003, 0004, 0005, 0006, 0007, null }
+                },
+                [
+                    Square.FromColumnAndRow(0, 0).ToNumberedSquare(1),
+                    Square.FromColumnAndRow(1, 0).ToNumberedSquare(2),
+                    Square.FromColumnAndRow(8, 8).ToNumberedSquare(8)
+                ]
+            },
+            {
+                new int?[,]
+                {
+                    { null, null, 0003, 0004, 0005, 0006, 0007, 0008, 0009 },
+                    { null, 0005, 0006, 0007, 0008, 0009, 0001, 0002, 0003 },
+                    { 0007, 0008, 0009, 0001, 0002, 0003, 0004, 0005, 0006 },
+                    { 0002, 0003, 0004, 0005, 0006, 0007, 0008, 0009, 0001 },
+                    { 0005, 0006, 0007, 0008, 0009, 0001, 0002, 0003, 0004 },
+                    { 0008, 0009, 0001, 0002, 0003, 0004, 0005, 0006, 0007 },
+                    { 0003, 0004, 0005, 0006, 0007, 0008, 0009, 0001, 0002 },
+                    { 0006, 0007, 0008, 0009, 0001, 0002, 0003, 0004, 0005 },
+                    { 0009, 0001, 0002, 0003, 0004, 0005, 0006, 0007, null }
+                },
+                [
+                    Square.FromColumnAndRow(0, 0).ToNumberedSquare(1),
+                    Square.FromColumnAndRow(0, 1).ToNumberedSquare(4),
+                    Square.FromColumnAndRow(1, 0).ToNumberedSquare(2),
+                    Square.FromColumnAndRow(8, 8).ToNumberedSquare(8)
+                ]
+            },
+            {
+                new int?[,]
+                {
+                    { null, null, 0003, 0004, 0005, 0006, 0007, 0008, 0009 },
+                    { null, null, 0006, 0007, 0008, 0009, 0001, 0002, 0003 },
+                    { 0007, 0008, 0009, 0001, 0002, 0003, 0004, 0005, 0006 },
+                    { 0002, 0003, 0004, 0005, 0006, 0007, 0008, 0009, 0001 },
+                    { 0005, 0006, 0007, 0008, 0009, 0001, 0002, 0003, 0004 },
+                    { 0008, 0009, 0001, 0002, 0003, 0004, 0005, 0006, 0007 },
+                    { 0003, 0004, 0005, 0006, 0007, 0008, 0009, 0001, 0002 },
+                    { 0006, 0007, 0008, 0009, 0001, 0002, 0003, 0004, 0005 },
+                    { 0009, 0001, 0002, 0003, 0004, 0005, 0006, 0007, null }
+                },
+                [
+                    Square.FromColumnAndRow(0, 0).ToNumberedSquare(1),
+                    Square.FromColumnAndRow(0, 1).ToNumberedSquare(4),
+                    Square.FromColumnAndRow(1, 0).ToNumberedSquare(2),
+                    Square.FromColumnAndRow(1, 1).ToNumberedSquare(5),
+                    Square.FromColumnAndRow(8, 8).ToNumberedSquare(8)
+                ]
+            }
+        };
+
+        [Theory]
+        [MemberData(nameof(PositiveTestCases), MemberType = typeof(VerifyCorrectMethod))]
+        public void VerifyCorrect_GivenCorrectSolution_ReturnsSuccessfulResult(int?[,] grid,
+            IReadOnlyList<NumberedSquare> solution)
+        {
+            // Arrange
+            SudokuProblem sut = SudokuProblem.FromGrid(grid);
+
+            // Act
+            CheckingResult result = sut.VerifyCorrect(solution);
+
+            // Assert
+            result.Should().BeSuccessful().And.HaveNullFirstError();
+        }
+
+        [Fact]
+        public void VerifyCorrect_SolutionIsEmptyList_ReturnsUnsuccessfulResult()
+        {
+            // Arrange
+            SudokuProblem sut = SudokuProblem.FromGrid(new int?[,]
+            {
+                { null, 0002, 0003, 0004, 0005, 0006, 0007, 0008, 0009 },
+                { 0004, 0005, 0006, 0007, 0008, 0009, 0001, 0002, 0003 },
+                { 0007, 0008, 0009, 0001, 0002, 0003, 0004, 0005, 0006 },
+                { 0002, 0003, 0004, 0005, 0006, 0007, 0008, 0009, 0001 },
+                { 0005, 0006, 0007, 0008, 0009, 0001, 0002, 0003, 0004 },
+                { 0008, 0009, 0001, 0002, 0003, 0004, 0005, 0006, 0007 },
+                { 0003, 0004, 0005, 0006, 0007, 0008, 0009, 0001, 0002 },
+                { 0006, 0007, 0008, 0009, 0001, 0002, 0003, 0004, 0005 },
+                { 0009, 0001, 0002, 0003, 0004, 0005, 0006, 0007, 0008 }
+            });
+
+            IReadOnlyList<NumberedSquare> solution = Array.Empty<NumberedSquare>();
+
+            // Act
+            CheckingResult result = sut.VerifyCorrect(solution);
+
+            // Assert
+            result.Should().BeUnsuccessful()
+                .And.HaveFirstError("Solution has 0 filled squares, but problem has 1 empty square.");
+        }
+
+        [Fact]
+        public void VerifyCorrect_SolutionHasTooFewItems_ReturnsUnsuccessfulResult()
+        {
+            // Arrange
+            SudokuProblem sut = SudokuProblem.FromGrid(new int?[,]
+            {
+                { null, 0002, 0003, 0004, 0005, 0006, 0007, 0008, 0009 },
+                { 0004, 0005, 0006, 0007, 0008, 0009, 0001, 0002, 0003 },
+                { 0007, 0008, 0009, 0001, 0002, 0003, 0004, 0005, 0006 },
+                { 0002, 0003, 0004, 0005, 0006, 0007, 0008, 0009, 0001 },
+                { 0005, 0006, 0007, 0008, null, 0001, 0002, 0003, 0004 },
+                { 0008, 0009, 0001, 0002, 0003, 0004, 0005, 0006, 0007 },
+                { 0003, 0004, 0005, 0006, 0007, 0008, 0009, 0001, 0002 },
+                { 0006, 0007, 0008, 0009, 0001, 0002, 0003, 0004, 0005 },
+                { 0009, 0001, 0002, 0003, 0004, 0005, 0006, 0007, null }
+            });
+
+            IReadOnlyList<NumberedSquare> solution =
+            [
+                Square.FromColumnAndRow(0, 0).ToNumberedSquare(1)
+            ];
+
+            // Act
+            CheckingResult result = sut.VerifyCorrect(solution);
+
+            // Assert
+            result.Should().BeUnsuccessful()
+                .And.HaveFirstError("Solution has 1 filled square, but problem has 3 empty squares.");
+        }
+
+        [Fact]
+        public void VerifyCorrect_SolutionHasTooManyItems_ReturnsUnsuccessfulResult()
+        {
+            // Arrange
+            SudokuProblem sut = SudokuProblem.FromGrid(new int?[,]
+            {
+                { null, 0002, 0003, 0004, 0005, 0006, 0007, 0008, 0009 },
+                { 0004, 0005, 0006, 0007, 0008, 0009, 0001, 0002, 0003 },
+                { 0007, 0008, 0009, 0001, 0002, 0003, 0004, 0005, 0006 },
+                { 0002, 0003, 0004, 0005, 0006, 0007, 0008, 0009, 0001 },
+                { 0005, 0006, 0007, 0008, 0009, 0001, 0002, 0003, 0004 },
+                { 0008, 0009, 0001, 0002, 0003, 0004, 0005, 0006, 0007 },
+                { 0003, 0004, 0005, 0006, 0007, 0008, 0009, 0001, 0002 },
+                { 0006, 0007, 0008, 0009, 0001, 0002, 0003, 0004, 0005 },
+                { 0009, 0001, 0002, 0003, 0004, 0005, 0006, 0007, null }
+            });
+
+            IReadOnlyList<NumberedSquare> solution =
+            [
+                Square.FromColumnAndRow(0, 0).ToNumberedSquare(1),
+                Square.FromColumnAndRow(1, 1).ToNumberedSquare(2),
+                Square.FromColumnAndRow(8, 8).ToNumberedSquare(8)
+            ];
+
+            // Act
+            CheckingResult result = sut.VerifyCorrect(solution);
+
+            // Assert
+            result.Should().BeUnsuccessful()
+                .And.HaveFirstError("Solution has 3 filled squares, but problem has 2 empty squares.");
+        }
+
+        [Fact]
+        public void VerifyCorrect_FilledSquareOutsideGrid_ReturnsUnsuccessfulResult()
+        {
+            // Arrange
+            SudokuProblem sut = SudokuProblem.FromGrid(new int?[,]
+            {
+                { null, 0002, 0003, 0004, 0005, 0006, 0007, 0008, 0009 },
+                { 0004, 0005, 0006, 0007, 0008, 0009, 0001, 0002, 0003 },
+                { 0007, 0008, 0009, 0001, 0002, 0003, 0004, 0005, 0006 },
+                { 0002, 0003, 0004, 0005, 0006, 0007, 0008, 0009, 0001 },
+                { 0005, 0006, 0007, 0008, 0009, 0001, 0002, 0003, 0004 },
+                { 0008, 0009, 0001, 0002, 0003, 0004, 0005, 0006, 0007 },
+                { 0003, 0004, 0005, 0006, 0007, 0008, 0009, 0001, 0002 },
+                { 0006, 0007, 0008, 0009, 0001, 0002, 0003, 0004, 0005 },
+                { 0009, 0001, 0002, 0003, 0004, 0005, 0006, 0007, null }
+            });
+
+            IReadOnlyList<NumberedSquare> solution =
+            [
+                Square.FromColumnAndRow(0, 0).ToNumberedSquare(1),
+                Square.FromColumnAndRow(9, 9).ToNumberedSquare(8)
+            ];
+
+            // Act
+            CheckingResult result = sut.VerifyCorrect(solution);
+
+            // Assert
+            result.Should().BeUnsuccessful()
+                .And.HaveFirstError("Filled square (9,9) [8] is not inside grid (0,0) [9x9].");
+        }
+
+        [Fact]
+        public void VerifyCorrect_SquareFilledWithNumberLessThanOne_ReturnsUnsuccessfulResult()
+        {
+            // Arrange
+            SudokuProblem sut = SudokuProblem.FromGrid(new int?[,]
+            {
+                { null, 0002, 0003, 0004, 0005, 0006, 0007, 0008, 0009 },
+                { 0004, 0005, 0006, 0007, 0008, 0009, 0001, 0002, 0003 },
+                { 0007, 0008, 0009, 0001, 0002, 0003, 0004, 0005, 0006 },
+                { 0002, 0003, 0004, 0005, 0006, 0007, 0008, 0009, 0001 },
+                { 0005, 0006, 0007, 0008, 0009, 0001, 0002, 0003, 0004 },
+                { 0008, 0009, 0001, 0002, 0003, 0004, 0005, 0006, 0007 },
+                { 0003, 0004, 0005, 0006, 0007, 0008, 0009, 0001, 0002 },
+                { 0006, 0007, 0008, 0009, 0001, 0002, 0003, 0004, 0005 },
+                { 0009, 0001, 0002, 0003, 0004, 0005, 0006, 0007, null }
+            });
+
+            IReadOnlyList<NumberedSquare> solution =
+            [
+                Square.FromColumnAndRow(0, 0).ToNumberedSquare(0),
+                Square.FromColumnAndRow(8, 8).ToNumberedSquare(8)
+            ];
+
+            // Act
+            CheckingResult result = sut.VerifyCorrect(solution);
+
+            // Assert
+            result.Should().BeUnsuccessful()
+                .And.HaveFirstError("Filled square (0,0) [0] has number outside permitted range [1,9].");
+        }
+
+        [Fact]
+        public void VerifyCorrect_SquareFilledWithNumberGreaterThanNine_ReturnsUnsuccessfulResult()
+        {
+            // Arrange
+            SudokuProblem sut = SudokuProblem.FromGrid(new int?[,]
+            {
+                { null, 0002, 0003, 0004, 0005, 0006, 0007, 0008, 0009 },
+                { 0004, 0005, 0006, 0007, 0008, 0009, 0001, 0002, 0003 },
+                { 0007, 0008, 0009, 0001, 0002, 0003, 0004, 0005, 0006 },
+                { 0002, 0003, 0004, 0005, 0006, 0007, 0008, 0009, 0001 },
+                { 0005, 0006, 0007, 0008, 0009, 0001, 0002, 0003, 0004 },
+                { 0008, 0009, 0001, 0002, 0003, 0004, 0005, 0006, 0007 },
+                { 0003, 0004, 0005, 0006, 0007, 0008, 0009, 0001, 0002 },
+                { 0006, 0007, 0008, 0009, 0001, 0002, 0003, 0004, 0005 },
+                { 0009, 0001, 0002, 0003, 0004, 0005, 0006, 0007, null }
+            });
+
+            IReadOnlyList<NumberedSquare> solution =
+            [
+                Square.FromColumnAndRow(0, 0).ToNumberedSquare(10),
+                Square.FromColumnAndRow(8, 8).ToNumberedSquare(8)
+            ];
+
+            // Act
+            CheckingResult result = sut.VerifyCorrect(solution);
+
+            // Assert
+            result.Should().BeUnsuccessful()
+                .And.HaveFirstError("Filled square (0,0) [10] has number outside permitted range [1,9].");
+        }
+
+        [Fact]
+        public void VerifyCorrect_SquareFilledMoreThanOnceInSolution_ReturnsUnsuccessfulResult()
+        {
+            // Arrange
+            SudokuProblem sut = SudokuProblem.FromGrid(new int?[,]
+            {
+                { null, 0002, 0003, 0004, 0005, 0006, 0007, 0008, 0009 },
+                { 0004, 0005, 0006, 0007, 0008, 0009, 0001, 0002, 0003 },
+                { 0007, 0008, 0009, 0001, 0002, 0003, 0004, 0005, 0006 },
+                { 0002, 0003, 0004, 0005, 0006, 0007, 0008, 0009, 0001 },
+                { 0005, 0006, 0007, 0008, 0009, 0001, 0002, 0003, 0004 },
+                { 0008, 0009, 0001, 0002, 0003, 0004, 0005, 0006, 0007 },
+                { 0003, 0004, 0005, 0006, 0007, 0008, 0009, 0001, 0002 },
+                { 0006, 0007, 0008, 0009, 0001, 0002, 0003, 0004, 0005 },
+                { 0009, 0001, 0002, 0003, 0004, 0005, 0006, 0007, null }
+            });
+
+            IReadOnlyList<NumberedSquare> solution =
+            [
+                Square.FromColumnAndRow(0, 0).ToNumberedSquare(1),
+                Square.FromColumnAndRow(0, 0).ToNumberedSquare(2)
+            ];
+
+            // Act
+            CheckingResult result = sut.VerifyCorrect(solution);
+
+            // Assert
+            result.Should().BeUnsuccessful()
+                .And.HaveFirstError("Square (0,0) is filled more than once.");
+        }
+
+        [Fact]
+        public void VerifyCorrect_SquareFilledMoreThanOnceInSolutionCombinedWithProblem_ReturnsUnsuccessfulResult()
+        {
+            // Arrange
+            SudokuProblem sut = SudokuProblem.FromGrid(new int?[,]
+            {
+                { null, 0002, 0003, 0004, 0005, 0006, 0007, 0008, 0009 },
+                { 0004, 0005, 0006, 0007, 0008, 0009, 0001, 0002, 0003 },
+                { 0007, 0008, 0009, 0001, 0002, 0003, 0004, 0005, 0006 },
+                { 0002, 0003, 0004, 0005, 0006, 0007, 0008, 0009, 0001 },
+                { 0005, 0006, 0007, 0008, 0009, 0001, 0002, 0003, 0004 },
+                { 0008, 0009, 0001, 0002, 0003, 0004, 0005, 0006, 0007 },
+                { 0003, 0004, 0005, 0006, 0007, 0008, 0009, 0001, 0002 },
+                { 0006, 0007, 0008, 0009, 0001, 0002, 0003, 0004, 0005 },
+                { 0009, 0001, 0002, 0003, 0004, 0005, 0006, 0007, null }
+            });
+
+            IReadOnlyList<NumberedSquare> solution =
+            [
+                Square.FromColumnAndRow(0, 0).ToNumberedSquare(1),
+                Square.FromColumnAndRow(1, 1).ToNumberedSquare(5)
+            ];
+
+            // Act
+            CheckingResult result = sut.VerifyCorrect(solution);
+
+            // Assert
+            result.Should().BeUnsuccessful()
+                .And.HaveFirstError("Square (1,1) is filled more than once.");
+        }
+
+        [Fact]
+        public void VerifyCorrect_DuplicateNumberInColumnInSolution_ReturnsUnsuccessfulResult()
+        {
+            // Arrange
+            SudokuProblem sut = SudokuProblem.FromGrid(new int?[,]
+            {
+                { null, 0002, 0003, 0004, 0005, 0006, 0007, 0008, 0009 },
+                { null, 0005, 0006, 0007, 0008, 0009, 0001, 0002, 0003 },
+                { 0007, 0008, 0009, 0001, 0002, 0003, 0004, 0005, 0006 },
+                { 0002, 0003, 0004, 0005, 0006, 0007, 0008, 0009, 0001 },
+                { 0005, 0006, 0007, 0008, 0009, 0001, 0002, 0003, 0004 },
+                { 0008, 0009, 0001, 0002, 0003, 0004, 0005, 0006, 0007 },
+                { 0003, 0004, 0005, 0006, 0007, 0008, 0009, 0001, 0002 },
+                { 0006, 0007, 0008, 0009, 0001, 0002, 0003, 0004, 0005 },
+                { 0009, 0001, 0002, 0003, 0004, 0005, 0006, 0007, 0008 }
+            });
+
+            IReadOnlyList<NumberedSquare> solution =
+            [
+                Square.FromColumnAndRow(0, 0).ToNumberedSquare(1),
+                Square.FromColumnAndRow(0, 1).ToNumberedSquare(1)
+            ];
+
+            // Act
+            CheckingResult result = sut.VerifyCorrect(solution);
+
+            // Assert
+            result.Should().BeUnsuccessful()
+                .And.HaveFirstError("Number 1 occurs more than once in column 0.");
+        }
+
+        [Fact]
+        public void VerifyCorrect_DuplicateNumberInColumnInSolutionCombinedWithProblem_ReturnsUnsuccessfulResult()
+        {
+            // Arrange
+            SudokuProblem sut = SudokuProblem.FromGrid(new int?[,]
+            {
+                { null, 0002, 0003, 0004, 0005, 0006, 0007, 0008, 0009 },
+                { null, 0005, 0006, 0007, 0008, 0009, 0001, 0002, 0003 },
+                { 0007, 0008, 0009, 0001, 0002, 0003, 0004, 0005, 0006 },
+                { 0002, 0003, 0004, 0005, 0006, 0007, 0008, 0009, 0001 },
+                { 0005, 0006, 0007, 0008, 0009, 0001, 0002, 0003, 0004 },
+                { 0008, 0009, 0001, 0002, 0003, 0004, 0005, 0006, 0007 },
+                { 0003, 0004, 0005, 0006, 0007, 0008, 0009, 0001, 0002 },
+                { 0006, 0007, 0008, 0009, 0001, 0002, 0003, 0004, 0005 },
+                { 0009, 0001, 0002, 0003, 0004, 0005, 0006, 0007, 0008 }
+            });
+
+            IReadOnlyList<NumberedSquare> solution =
+            [
+                Square.FromColumnAndRow(0, 0).ToNumberedSquare(1),
+                Square.FromColumnAndRow(0, 1).ToNumberedSquare(2)
+            ];
+
+            // Act
+            CheckingResult result = sut.VerifyCorrect(solution);
+
+            // Assert
+            result.Should().BeUnsuccessful()
+                .And.HaveFirstError("Number 2 occurs more than once in column 0.");
+        }
+
+        [Fact]
+        public void VerifyCorrect_SolutionArgIsNull_Throws()
+        {
+            // Arrange
+            SudokuProblem sut = SudokuProblem.FromGrid(new int?[,]
+            {
+                { null, null, null, null, null, null, null, null, null },
+                { null, null, null, 0008, null, null, null, null, null },
+                { null, null, null, null, null, null, null, null, null },
+                { null, null, null, null, null, null, null, null, 0002 },
+                { null, null, null, null, null, null, null, null, null },
+                { null, null, null, null, null, null, null, null, null },
+                { null, null, null, null, null, null, null, null, null },
+                { 0001, null, null, null, null, null, null, null, null },
+                { null, null, null, null, null, null, null, null, null }
+            });
+
+            // Act
+            Action act = () => sut.VerifyCorrect(null!);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>()
+                .WithMessage("Value cannot be null. (Parameter 'solution')");
         }
     }
 

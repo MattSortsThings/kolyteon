@@ -14,6 +14,7 @@ internal static class TestHooks
         Service.Instance.ValueRetrievers.Register<SquareValueRetriever>();
         Service.Instance.ValueRetrievers.Register<ColourValueRetriever>();
         Service.Instance.ValueRetrievers.Register<ColourArrayValueRetriever>();
+        Service.Instance.ValueRetrievers.Register<NumberedSquareValueRetriever>();
         Service.Instance.ValueRetrievers.Register<NodeValueRetriever>();
         Service.Instance.ValueRetrievers.Register<NodeArrayValueRetriever>();
     }
