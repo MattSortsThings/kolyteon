@@ -1,5 +1,3 @@
-using NetArchTest.Rules;
-
 namespace Kolyteon.Tests.Architecture.TestUtils;
 
 internal static class TestResultExtensions

@@ -1,5 +1,4 @@
 using FluentAssertions.Primitives;
-using NetArchTest.Rules;
 
 namespace Kolyteon.Tests.Architecture.TestUtils;
 

@@ -1,20 +1,43 @@
 using System.Reflection;
-using Kolyteon.Placeholders;
+using Kolyteon.Common;
 using Kolyteon.Tests.Architecture.TestUtils;
-using NetArchTest.Rules;
 
 namespace Kolyteon.Tests.Architecture;
 
 [ArchitectureTest]
 public sealed class LibraryArchitectureTests
 {
-    private static readonly Assembly AssemblyUnderTest = typeof(PlaceholderEnum).Assembly;
+    private static readonly Assembly AssemblyUnderTest = typeof(Colour).Assembly;
+
+    [Theory]
+    [InlineData("Kolyteon.GraphColouring")]
+    [InlineData("Kolyteon.MapColouring")]
+    [InlineData("Kolyteon.NQueens")]
+    [InlineData("Kolyteon.Shikaku")]
+    [InlineData("Kolyteon.Sudoku")]
+    public void PublicProblemTypes_ShouldBeImmutable(string problemNamespace)
+    {
+        // Arrange
+        ConditionList conditions = Types.InAssembly(AssemblyUnderTest)
+            .That()
+            .ResideInNamespace(problemNamespace)
+            .And()
+            .ArePublic()
+            .Should()
+            .BeImmutable();
+
+        // Act
+        TestResult result = conditions.GetResult();
+
+        // Assert
+        result.Should().BeSuccessful();
+    }
 
     [Fact]
     public void PublicNonAnonymousTypes_ShouldNotResideInNamespaceContainingDotInternals()
     {
         // Arrange
-        ConditionList condition = Types.InAssembly(AssemblyUnderTest)
+        ConditionList conditions = Types.InAssembly(AssemblyUnderTest)
             .That()
             .ArePublic()
             .And()
@@ -23,7 +46,7 @@ public sealed class LibraryArchitectureTests
             .ResideInNamespaceContaining(".Internals");
 
         // Act
-        TestResult result = condition.GetResult();
+        TestResult result = conditions.GetResult();
 
         // Assert
         result.Should().BeSuccessful();
@@ -33,7 +56,7 @@ public sealed class LibraryArchitectureTests
     public void NonPublicNonNestedNonAnonymousTypes_ShouldResideInNamespaceContainingDotInternals()
     {
         // Arrange
-        ConditionList condition = Types.InAssembly(AssemblyUnderTest)
+        ConditionList conditions = Types.InAssembly(AssemblyUnderTest)
             .That()
             .AreNotPublic()
             .And()
@@ -44,7 +67,7 @@ public sealed class LibraryArchitectureTests
             .ResideInNamespaceContaining(".Internals");
 
         // Act
-        TestResult result = condition.GetResult();
+        TestResult result = conditions.GetResult();
 
         // Assert
         result.Should().BeSuccessful();
