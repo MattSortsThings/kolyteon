@@ -1,5 +1,6 @@
 using Kolyteon.Common;
 using Kolyteon.Futoshiki;
+using Kolyteon.Tests.Utils.TestAssertions;
 
 namespace Kolyteon.Tests.Unit.Futoshiki;
 
@@ -216,6 +217,409 @@ public static class FutoshikiProblemTests
 
             // Assert
             result.Should().BeFalse();
+        }
+    }
+
+    [UnitTest]
+    public sealed class VerifyCorrectMethod
+    {
+        public static TheoryData<FutoshikiProblem, IReadOnlyList<NumberedSquare>> PositiveTestCases => new()
+        {
+            {
+                FutoshikiProblem.Create()
+                    .FromGrid(new int?[,]
+                    {
+                        { 0001, 0002, 0003, 0004 },
+                        { 0002, 0003, 0004, 0001 },
+                        { 0003, 0004, 0001, 0002 },
+                        { 0004, 0001, 0002, null }
+                    }).Build(),
+                [
+                    Square.FromColumnAndRow(3, 3).ToNumberedSquare(3)
+                ]
+            },
+            {
+                FutoshikiProblem.Create()
+                    .FromGrid(new int?[,]
+                    {
+                        { 0001, 0002, 0003, 0004 },
+                        { 0002, 0003, 0004, 0001 },
+                        { 0003, 0004, 0001, 0002 },
+                        { 0004, null, 0002, null }
+                    }).Build(),
+                [
+                    Square.FromColumnAndRow(1, 3).ToNumberedSquare(1),
+                    Square.FromColumnAndRow(3, 3).ToNumberedSquare(3)
+                ]
+            },
+            {
+                FutoshikiProblem.Create()
+                    .FromGrid(new int?[,]
+                    {
+                        { 0001, 0002, 0003, 0004 },
+                        { 0002, 0003, 0004, 0001 },
+                        { 0003, 0004, 0001, 0002 },
+                        { 0004, null, 0002, null }
+                    })
+                    .AddSign(GreaterThanSign.Between(Square.FromColumnAndRow(0, 3), Square.FromColumnAndRow(1, 3)))
+                    .AddSign(LessThanSign.Between(Square.FromColumnAndRow(3, 2), Square.FromColumnAndRow(3, 3)))
+                    .Build(),
+                [
+                    Square.FromColumnAndRow(1, 3).ToNumberedSquare(1),
+                    Square.FromColumnAndRow(3, 3).ToNumberedSquare(3)
+                ]
+            },
+            {
+                FutoshikiProblem.Create()
+                    .FromGrid(new int?[,]
+                    {
+                        { 0001, 0002, 0003, 0004 },
+                        { 0002, 0003, 0004, 0001 },
+                        { 0003, 0004, 0001, null },
+                        { null, null, 0002, null }
+                    })
+                    .AddSign(GreaterThanSign.Between(Square.FromColumnAndRow(0, 3), Square.FromColumnAndRow(1, 3)))
+                    .AddSign(LessThanSign.Between(Square.FromColumnAndRow(3, 2), Square.FromColumnAndRow(3, 3)))
+                    .Build(),
+                [
+                    Square.FromColumnAndRow(0, 3).ToNumberedSquare(4),
+                    Square.FromColumnAndRow(1, 3).ToNumberedSquare(1),
+                    Square.FromColumnAndRow(3, 2).ToNumberedSquare(2),
+                    Square.FromColumnAndRow(3, 3).ToNumberedSquare(3)
+                ]
+            }
+        };
+
+        [Theory]
+        [MemberData(nameof(PositiveTestCases), MemberType = typeof(VerifyCorrectMethod))]
+        public void VerifyCorrect_GivenCorrectSolution_ReturnsSuccessfulResult(FutoshikiProblem sut,
+            IReadOnlyList<NumberedSquare> solution)
+        {
+            // Act
+            CheckingResult result = sut.VerifyCorrect(solution);
+
+            // Assert
+            result.Should().BeSuccessful().And.HaveNullFirstError();
+        }
+
+        [Fact]
+        public void VerifyCorrect_SolutionIsEmptyList_ReturnsUnsuccessfulResult()
+        {
+            // Arrange
+            FutoshikiProblem sut = FutoshikiProblem.Create()
+                .FromGrid(new int?[,]
+                {
+                    { null, 0002, 0003, 0004 },
+                    { 0002, 0003, 0004, 0001 },
+                    { 0003, 0004, 0001, 0002 },
+                    { 0004, 0001, 0002, 0003 }
+                }).Build();
+
+            IReadOnlyList<NumberedSquare> solution = Array.Empty<NumberedSquare>();
+
+            // Act
+            CheckingResult result = sut.VerifyCorrect(solution);
+
+            // Assert
+            result.Should().BeUnsuccessful()
+                .And.HaveFirstError("Solution has 0 filled squares, but problem has 1 empty square.");
+        }
+
+        [Fact]
+        public void VerifyCorrect_SolutionHasTooFewItems_ReturnsUnsuccessfulResult()
+        {
+            // Arrange
+            FutoshikiProblem sut = FutoshikiProblem.Create()
+                .FromGrid(new int?[,]
+                {
+                    { null, null, 0003, 0004 },
+                    { 0002, 0003, 0004, 0001 },
+                    { 0003, 0004, 0001, 0002 },
+                    { 0004, 0001, 0002, 0003 }
+                }).Build();
+
+            IReadOnlyList<NumberedSquare> solution =
+            [
+                Square.FromColumnAndRow(0, 0).ToNumberedSquare(1)
+            ];
+
+            // Act
+            CheckingResult result = sut.VerifyCorrect(solution);
+
+            // Assert
+            result.Should().BeUnsuccessful()
+                .And.HaveFirstError("Solution has 1 filled square, but problem has 2 empty squares.");
+        }
+
+        [Fact]
+        public void VerifyCorrect_SolutionHasTooManyItems_ReturnsUnsuccessfulResult()
+        {
+            // Arrange
+            FutoshikiProblem sut = FutoshikiProblem.Create()
+                .FromGrid(new int?[,]
+                {
+                    { null, null, 0003, 0004 },
+                    { 0002, 0003, 0004, 0001 },
+                    { 0003, 0004, 0001, 0002 },
+                    { 0004, 0001, 0002, 0003 }
+                }).Build();
+
+            IReadOnlyList<NumberedSquare> solution =
+            [
+                Square.FromColumnAndRow(0, 0).ToNumberedSquare(1),
+                Square.FromColumnAndRow(1, 0).ToNumberedSquare(2),
+                Square.FromColumnAndRow(3, 3).ToNumberedSquare(3)
+            ];
+
+            // Act
+            CheckingResult result = sut.VerifyCorrect(solution);
+
+            // Assert
+            result.Should().BeUnsuccessful()
+                .And.HaveFirstError("Solution has 3 filled squares, but problem has 2 empty squares.");
+        }
+
+        [Fact]
+        public void VerifyCorrect_FilledSquareOutsideGrid_ReturnsUnsuccessfulResult()
+        {
+            // Arrange
+            FutoshikiProblem sut = FutoshikiProblem.Create()
+                .FromGrid(new int?[,]
+                {
+                    { null, null, 0003, 0004 },
+                    { 0002, 0003, 0004, 0001 },
+                    { 0003, 0004, 0001, 0002 },
+                    { 0004, 0001, 0002, 0003 }
+                }).Build();
+
+            IReadOnlyList<NumberedSquare> solution =
+            [
+                Square.FromColumnAndRow(0, 0).ToNumberedSquare(1),
+                Square.FromColumnAndRow(4, 4).ToNumberedSquare(2)
+            ];
+
+            // Act
+            CheckingResult result = sut.VerifyCorrect(solution);
+
+            // Assert
+            result.Should().BeUnsuccessful()
+                .And.HaveFirstError("Filled square (4,4) [2] is not inside grid (0,0) [4x4].");
+        }
+
+        [Fact]
+        public void VerifyCorrect_SquareFilledWithNumberLessThanOne_ReturnsUnsuccessfulResult()
+        {
+            // Arrange
+            FutoshikiProblem sut = FutoshikiProblem.Create()
+                .FromGrid(new int?[,]
+                {
+                    { null, null, 0003, 0004 },
+                    { 0002, 0003, 0004, 0001 },
+                    { 0003, 0004, 0001, 0002 },
+                    { 0004, 0001, 0002, 0003 }
+                }).Build();
+
+            IReadOnlyList<NumberedSquare> solution =
+            [
+                Square.FromColumnAndRow(0, 0).ToNumberedSquare(1),
+                Square.FromColumnAndRow(1, 0).ToNumberedSquare(0)
+            ];
+
+            // Act
+            CheckingResult result = sut.VerifyCorrect(solution);
+
+            // Assert
+            result.Should().BeUnsuccessful()
+                .And.HaveFirstError("Filled square (1,0) [0] has number outside permitted range [1,4].");
+        }
+
+        [Fact]
+        public void VerifyCorrect_SquareFilledWithNumberGreaterThanGridSideLength_ReturnsUnsuccessfulResult()
+        {
+            // Arrange
+            FutoshikiProblem sut = FutoshikiProblem.Create()
+                .FromGrid(new int?[,]
+                {
+                    { null, null, 0003, 0004 },
+                    { 0002, 0003, 0004, 0001 },
+                    { 0003, 0004, 0001, 0002 },
+                    { 0004, 0001, 0002, 0003 }
+                }).Build();
+
+            IReadOnlyList<NumberedSquare> solution =
+            [
+                Square.FromColumnAndRow(0, 0).ToNumberedSquare(1),
+                Square.FromColumnAndRow(1, 0).ToNumberedSquare(5)
+            ];
+
+            // Act
+            CheckingResult result = sut.VerifyCorrect(solution);
+
+            // Assert
+            result.Should().BeUnsuccessful()
+                .And.HaveFirstError("Filled square (1,0) [5] has number outside permitted range [1,4].");
+        }
+
+        [Fact]
+        public void VerifyCorrect_SquareFilledMoreThanOnceInSolution_ReturnsUnsuccessfulResult()
+        {
+            // Arrange
+            FutoshikiProblem sut = FutoshikiProblem.Create()
+                .FromGrid(new int?[,]
+                {
+                    { null, null, 0003, 0004 },
+                    { 0002, 0003, 0004, 0001 },
+                    { 0003, 0004, 0001, 0002 },
+                    { 0004, 0001, 0002, 0003 }
+                }).Build();
+
+            IReadOnlyList<NumberedSquare> solution =
+            [
+                Square.FromColumnAndRow(0, 0).ToNumberedSquare(1),
+                Square.FromColumnAndRow(0, 0).ToNumberedSquare(2)
+            ];
+
+            // Act
+            CheckingResult result = sut.VerifyCorrect(solution);
+
+            // Assert
+            result.Should().BeUnsuccessful()
+                .And.HaveFirstError("Square (0,0) is filled more than once.");
+        }
+
+        [Fact]
+        public void VerifyCorrect_SquareFilledMoreThanOnceInSolutionCombinedWithProblem_ReturnsUnsuccessfulResult()
+        {
+            // Arrange
+            FutoshikiProblem sut = FutoshikiProblem.Create()
+                .FromGrid(new int?[,]
+                {
+                    { null, null, 0003, 0004 },
+                    { 0002, 0003, 0004, 0001 },
+                    { 0003, 0004, 0001, 0002 },
+                    { 0004, 0001, 0002, 0003 }
+                }).Build();
+
+            IReadOnlyList<NumberedSquare> solution =
+            [
+                Square.FromColumnAndRow(0, 0).ToNumberedSquare(1),
+                Square.FromColumnAndRow(3, 3).ToNumberedSquare(3)
+            ];
+
+            // Act
+            CheckingResult result = sut.VerifyCorrect(solution);
+
+            // Assert
+            result.Should().BeUnsuccessful()
+                .And.HaveFirstError("Square (3,3) is filled more than once.");
+        }
+
+        [Fact]
+        public void VerifyCorrect_DuplicateNumberInColumnOrRow_ReturnsUnsuccessfulResult()
+        {
+            // Arrange
+            FutoshikiProblem sut = FutoshikiProblem.Create()
+                .FromGrid(new int?[,]
+                {
+                    { null, null, 0003, 0004 },
+                    { null, null, 0004, 0003 },
+                    { 0003, 0004, 0001, 0002 },
+                    { 0004, 0003, 0002, 0001 }
+                }).Build();
+
+            IReadOnlyList<NumberedSquare> solution =
+            [
+                Square.FromColumnAndRow(0, 0).ToNumberedSquare(1),
+                Square.FromColumnAndRow(1, 0).ToNumberedSquare(2),
+                Square.FromColumnAndRow(0, 1).ToNumberedSquare(1),
+                Square.FromColumnAndRow(1, 1).ToNumberedSquare(1)
+            ];
+
+            // Act
+            CheckingResult result = sut.VerifyCorrect(solution);
+
+            // Assert
+            result.Should().BeUnsuccessful()
+                .And.HaveFirstError("Number 1 occurs more than once in column 0.");
+        }
+
+        [Fact]
+        public void VerifyCorrect_GreaterThanSignNotSatisfied_ReturnsUnsuccessfulResult()
+        {
+            // Arrange
+            FutoshikiProblem sut = FutoshikiProblem.Create()
+                .FromGrid(new int?[,]
+                {
+                    { 0001, 0002, 0003, 0004 },
+                    { 0002, null, 0004, 0001 },
+                    { 0003, null, 0001, 0002 },
+                    { 0004, 0001, 0002, 0003 }
+                })
+                .AddSign(GreaterThanSign.Between(Square.FromColumnAndRow(0, 1), Square.FromColumnAndRow(1, 1)))
+                .Build();
+
+            IReadOnlyList<NumberedSquare> solution =
+            [
+                Square.FromColumnAndRow(1, 1).ToNumberedSquare(3),
+                Square.FromColumnAndRow(1, 2).ToNumberedSquare(4)
+            ];
+
+            // Act
+            CheckingResult result = sut.VerifyCorrect(solution);
+
+            // Assert
+            result.Should().BeUnsuccessful()
+                .And.HaveFirstError("Sign (0,1)>(1,1) is not satisfied.");
+        }
+
+        [Fact]
+        public void VerifyCorrect_LessThanSignNotSatisfied_ReturnsUnsuccessfulResult()
+        {
+            // Arrange
+            FutoshikiProblem sut = FutoshikiProblem.Create()
+                .FromGrid(new int?[,]
+                {
+                    { 0001, 0002, 0003, 0004 },
+                    { 0002, null, 0004, 0001 },
+                    { 0003, null, 0001, 0002 },
+                    { 0004, 0001, 0002, 0003 }
+                })
+                .AddSign(LessThanSign.Between(Square.FromColumnAndRow(1, 2), Square.FromColumnAndRow(2, 2)))
+                .Build();
+
+            IReadOnlyList<NumberedSquare> solution =
+            [
+                Square.FromColumnAndRow(1, 1).ToNumberedSquare(3),
+                Square.FromColumnAndRow(1, 2).ToNumberedSquare(4)
+            ];
+
+            // Act
+            CheckingResult result = sut.VerifyCorrect(solution);
+
+            // Assert
+            result.Should().BeUnsuccessful()
+                .And.HaveFirstError("Sign (1,2)<(2,2) is not satisfied.");
+        }
+
+        [Fact]
+        public void VerifyCorrect_SolutionArgIsNull_Throws()
+        {
+            // Arrange
+            FutoshikiProblem sut = FutoshikiProblem.Create()
+                .FromGrid(new int?[,]
+                {
+                    { null, null, null, null },
+                    { null, null, null, null },
+                    { null, null, null, null },
+                    { null, null, null, null }
+                }).Build();
+
+            // Act
+            Action act = () => sut.VerifyCorrect(null!);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>()
+                .WithMessage("Value cannot be null. (Parameter 'solution')");
         }
     }
 

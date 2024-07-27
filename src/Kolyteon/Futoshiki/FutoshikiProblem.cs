@@ -8,7 +8,7 @@ namespace Kolyteon.Futoshiki;
 ///     Represents a valid (but not necessarily solvable) Futoshiki problem.
 /// </summary>
 [Serializable]
-public sealed record FutoshikiProblem
+public sealed record FutoshikiProblem : ISolutionVerifier<IReadOnlyList<NumberedSquare>>
 {
     internal const int MinGridSideLength = 4;
     internal const int MaxGridSideLength = 9;
@@ -88,6 +88,53 @@ public sealed record FutoshikiProblem
                && FilledSquares.OrderBy(square => square).SequenceEqual(other.FilledSquares.OrderBy(square => square))
                && GreaterThanSigns.OrderBy(sign => sign).SequenceEqual(other.GreaterThanSigns.OrderBy(sign => sign))
                && LessThanSigns.OrderBy(sign => sign).SequenceEqual(other.LessThanSigns.OrderBy(sign => sign));
+    }
+
+    /// <inheritdoc />
+    /// <remarks>
+    ///     <para>
+    ///         The solution to a <see cref="FutoshikiProblem" /> instance is a list of <see cref="NumberedSquare" /> values,
+    ///         representing the numbers that are to be added into the empty squares in the problem grid.
+    ///     </para>
+    ///     <para>
+    ///         This method applies the following checks in order to the <paramref name="solution" /> parameter:
+    ///         <list type="number">
+    ///             <item>
+    ///                 The number of filled squares in the solution must be equal to the number of empty squares in the
+    ///                 problem.
+    ///             </item>
+    ///             <item>Every filled square in the solution must be located inside the grid.</item>
+    ///             <item>
+    ///                 Every filled square in the solution must be filled with a number no smaller than 1 and no greater
+    ///                 than the grid side length.
+    ///             </item>
+    ///             <item>
+    ///                 When the filled squares in the problem and solution are combined, no square may be filled more than
+    ///                 once.
+    ///             </item>
+    ///             <item>
+    ///                 When the filled squares in the problem and solution are combined, no number may occur more than once
+    ///                 in any column or row.
+    ///             </item>
+    ///             <item>
+    ///                 WHen the filled squares in the problem and solution are combined, every greater than ( &gt; ) and
+    ///                 less than ( &lt; ) sign in the problem must be satisfied.
+    ///             </item>
+    ///         </list>
+    ///     </para>
+    /// </remarks>
+    public CheckingResult VerifyCorrect(IReadOnlyList<NumberedSquare> solution)
+    {
+        ArgumentNullException.ThrowIfNull(solution);
+
+        return SolutionVerification.OneFilledSquarePerEmptySquare
+            .Then(SolutionVerification.AllFilledSquaresInGrid)
+            .Then(SolutionVerification.AllFilledSquareNumbersInRange)
+            .Then(SolutionVerification.NoSquareFilledMoreThanOnce)
+            .Then(SolutionVerification.NoDuplicateNumbersInSameColumn)
+            .Then(SolutionVerification.NoDuplicateNumbersInSameRow)
+            .Then(SolutionVerification.AllSignsSatisfied)
+            .VerifyCorrect(solution, this);
     }
 
     /// <summary>

@@ -30,7 +30,7 @@ This document uses the example Futoshiki problem shown below, with a solution.
 
 ## Problem Rules
 
-A Futoshiki problem consists of an *N*x*N* grid of squares, for a fixed value *N* &isin; [4, 9]. Some of the squares contain fixed numbers from the range [1, *N*]. Greater than (>) and less than (<) signs are located between some pairs of adjacent squares.
+A Futoshiki problem consists of an *N*x*N* grid of squares, for a fixed value *N* &isin; [4, 9]. Some of the squares contain filled squares from the range [1, *N*]. Greater than (>) and less than (<) signs are located between some pairs of adjacent squares.
 
 To solve the problem, one must fill every empty square with a number from the range [1, *N*], so that the numbers from 1 to *N* occur exactly once in every column and every row and every greater than and less than sign is true for its adjacent square pair.
 
@@ -76,10 +76,9 @@ The Futoshiki problem type uses the following [common types](problem_definition_
 ### `FutoshikiProblem` record
 
 - A `FutoshikiProblem` instance is an immutable, JSON-serializable data structure representing a valid (but not necessarily solvable) Futoshiki problem.
-- A `FutoshikiProblem` is a (`Grid`, `MaxNumber`, `FixedNumbers`, `GreaterThanSigns`, `LessThanSigns`) tuple, where:
+- A `FutoshikiProblem` is a (`Grid`, `FilledSquares`, `GreaterThanSigns`, `LessThanSigns`) tuple, where:
   - `Grid` is a `Block` representing the problem grid, and
-  - `MaxNumber` is an integer in the range [4, 9] indicating the range of numbers to be added, and
-  - `FixedNumbers` is an immutable list of `NumberedSquare` values denoting the fixed numbers in the problem grid, and
+  - `FilledSquares` is an immutable list of `NumberedSquare` values denoting the filled squares in the problem grid, and
   - `GreaterThanSigns` is an immutable list of `GreaterThanSign` values denoting the greater than signs in the problem grid, and
   - `LessThanSigns` is an immutable list of `LessThanSign` values denoting the less than signs in the problem grid.
 - A `FutoshikiProblem` can verify it is solved by a proposed solution.
@@ -93,15 +92,15 @@ The Futoshiki problem type uses the following [common types](problem_definition_
 
 Given a `FutoshikiProblem` problem instance and an `IReadOnlyList<NumberedSquare>` solution instance, the problem is solved by the solution if all the following conditions are satisfied:
 
-1. The quantity of numbered squares in the solution is equal to the quantity of fixed numbers in the problem subtracted from the problem grid area.
+1. The quantity of numbered squares in the solution is equal to the quantity of filled squares in the problem subtracted from the problem grid area.
 2. Every numbered square in the solution has a unique square.
 3. Every numbered square in the solution has a number in the range [1, `MaxNumber`].
 4. Every numbered square in the solution has a square that fits inside the problem grid.
-5. Every numbered square in the solution has a square that is not a fixed number in the problem.
-6. When the fixed numbers in the problem and the numbered squares in the solution are combined, the numbers 1-`MaxNumber` occur once in every column.
-7. When the fixed numbers in the problem and the numbered squares in the solution are combined, the numbers 1-`MaxNumber` occur once in every row.
-8. When the fixed numbers in the problem and the numbered squares in the solution are combined, every greater than sign in the problem is satisfied.
-9. When the fixed numbers in the problem and the numbered squares in the solution are combined, every less than sign in the problem is satisfied.
+5. Every numbered square in the solution has a square that is not a filled square in the problem.
+6. When the filled squares in the problem and the numbered squares in the solution are combined, the numbers 1-`MaxNumber` occur once in every column.
+7. When the filled squares in the problem and the numbered squares in the solution are combined, the numbers 1-`MaxNumber` occur once in every row.
+8. When the filled squares in the problem and the numbered squares in the solution are combined, every greater than sign in the problem is satisfied.
+9. When the filled squares in the problem and the numbered squares in the solution are combined, every less than sign in the problem is satisfied.
 
 ## Binary CSP Modelling
 
@@ -114,9 +113,9 @@ The binary CSP variables are the ordered set of all empty squares in the problem
 The domain of a square variable is the ordered list of possible integers that may fill that square. For a problem of size *N*, a square's domain is generated using the following algorithm:
 
 1. Start with the set of all consecutive numbers {1, 2, ..., *N*}.
-2. For every fixed number in the same column or row as the present square, eliminate that number.
-3. For every fixed number in an adjacent square where the present square is greater than the adjacent square, eliminate all numbers less than or equal to the fixed number.
-4. For every fixed number in an adjacent square where the present square is less than the adjacent square, eliminate all numbers greater than or equal to the fixed number.
+2. For every filled square in the same column or row as the present square, eliminate that number.
+3. For every filled square in an adjacent square where the present square is greater than the adjacent square, eliminate all numbers less than or equal to the filled square.
+4. For every filled square in an adjacent square where the present square is less than the adjacent square, eliminate all numbers greater than or equal to the filled square.
 
 ### Constraints
 

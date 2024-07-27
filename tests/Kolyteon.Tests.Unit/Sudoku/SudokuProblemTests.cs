@@ -487,38 +487,7 @@ public static class SudokuProblemTests
         }
 
         [Fact]
-        public void VerifyCorrect_DuplicateNumberInColumnInSolution_ReturnsUnsuccessfulResult()
-        {
-            // Arrange
-            SudokuProblem sut = SudokuProblem.FromGrid(new int?[,]
-            {
-                { null, 0002, 0003, 0004, 0005, 0006, 0007, 0008, 0009 },
-                { null, 0005, 0006, 0007, 0008, 0009, 0001, 0002, 0003 },
-                { 0007, 0008, 0009, 0001, 0002, 0003, 0004, 0005, 0006 },
-                { 0002, 0003, 0004, 0005, 0006, 0007, 0008, 0009, 0001 },
-                { 0005, 0006, 0007, 0008, 0009, 0001, 0002, 0003, 0004 },
-                { 0008, 0009, 0001, 0002, 0003, 0004, 0005, 0006, 0007 },
-                { 0003, 0004, 0005, 0006, 0007, 0008, 0009, 0001, 0002 },
-                { 0006, 0007, 0008, 0009, 0001, 0002, 0003, 0004, 0005 },
-                { 0009, 0001, 0002, 0003, 0004, 0005, 0006, 0007, 0008 }
-            });
-
-            IReadOnlyList<NumberedSquare> solution =
-            [
-                Square.FromColumnAndRow(0, 0).ToNumberedSquare(1),
-                Square.FromColumnAndRow(0, 1).ToNumberedSquare(1)
-            ];
-
-            // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
-
-            // Assert
-            result.Should().BeUnsuccessful()
-                .And.HaveFirstError("Number 1 occurs more than once in column 0.");
-        }
-
-        [Fact]
-        public void VerifyCorrect_DuplicateNumberInColumnInSolutionCombinedWithProblem_ReturnsUnsuccessfulResult()
+        public void VerifyCorrect_DuplicateNumberInColumnRowOrSector_ReturnsUnsuccessfulResult()
         {
             // Arrange
             SudokuProblem sut = SudokuProblem.FromGrid(new int?[,]

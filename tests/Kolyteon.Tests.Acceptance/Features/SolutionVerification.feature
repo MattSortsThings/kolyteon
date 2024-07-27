@@ -2,6 +2,44 @@ Feature: Solution Verification
 
 Verify the correctness of any proposed solution to any valid instance of a given problem type.
 
+    @A/2
+    Scenario: Verify a Futoshiki problem solution
+        Given I have created a Futoshiki problem matching the following diagram
+        """
+        +---+---+---+---+---+
+        | 1 |   <   < 4 |   |
+        +---+---+-<-+---+---+
+        |   | 3 |   |   |   |
+        +---+---+---+->-+---+
+        |   <   | 5 |   <   |
+        +---+---+---+---+---+
+        | 4 |   > 1 |   |   |
+        +---+---+---+---+---+
+        |   | 1 |   | 3 |   |
+        +---+---+---+---+---+
+        """
+        And I have proposed the following filled squares as a solution to the Futoshiki problem
+          | Filled Square |
+          | (0,1) [2]     |
+          | (0,2) [3]     |
+          | (0,4) [5]     |
+          | (1,0) [2]     |
+          | (1,2) [4]     |
+          | (1,3) [5]     |
+          | (2,0) [3]     |
+          | (2,1) [4]     |
+          | (2,4) [2]     |
+          | (3,1) [5]     |
+          | (3,2) [1]     |
+          | (3,3) [2]     |
+          | (4,0) [5]     |
+          | (4,1) [1]     |
+          | (4,2) [2]     |
+          | (4,3) [3]     |
+          | (4,4) [4]     |
+        When I ask the Futoshiki problem to verify the correctness of the proposed solution
+        Then the verification result should be successful
+
     @B/2
     Scenario: Verify a Graph Colouring problem solution
         Given I have created a Graph Colouring problem with the following nodes and edges
