@@ -2,6 +2,26 @@ Feature: Problem Representation
 
 Represent any valid instance of a given problem type as an immutable, serializable data structure.
 
+    @A/1
+    Scenario: Represent a Futoshiki problem
+        Given I have created a Futoshiki problem matching the following diagram
+        """
+        +---+---+---+---+---+
+        | 1 |   <   < 4 |   |
+        +---+---+-<-+---+---+
+        |   | 3 |   |   |   |
+        +---+---+---+->-+---+
+        |   <   | 5 |   <   |
+        +---+---+---+---+---+
+        | 4 |   > 1 |   |   |
+        +---+---+---+---+---+
+        |   | 1 |   | 3 |   |
+        +---+---+---+---+---+
+        """
+        And I have serialized the Futoshiki problem to JSON
+        When I deserialize a Futoshiki problem from the JSON
+        Then the deserialized and original Futoshiki problems should be equal
+
     @B/1
     Scenario: Represent a Graph Colouring problem
         Given I have created a Graph Colouring problem with the following nodes and edges
