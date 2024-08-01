@@ -1,5 +1,7 @@
 using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
 using Kolyteon.Common;
+using Kolyteon.Futoshiki.Internals;
 
 namespace Kolyteon.Futoshiki;
 
@@ -7,8 +9,10 @@ namespace Kolyteon.Futoshiki;
 ///     Represents a greater than ( &gt; ) sign between two adjacent squares in a problem grid.
 /// </summary>
 [Serializable]
-public sealed record GreaterThanSign : IComparable<GreaterThanSign>
+public sealed partial record GreaterThanSign : IComparable<GreaterThanSign>
 {
+    private static readonly Regex GreaterThanSignRegex = GeneratedGreaterThanSignRegex();
+
     [JsonConstructor]
     internal GreaterThanSign(Square firstSquare, Square secondSquare)
     {
@@ -149,4 +153,41 @@ public sealed record GreaterThanSign : IComparable<GreaterThanSign>
 
         return squareA.CompareTo(squareB) < 0 ? new GreaterThanSign(squareA, squareB) : new GreaterThanSign(squareB, squareA);
     }
+
+    /// <summary>
+    ///     Converts the string representation of a greater than sign to its <see cref="GreaterThanSign" /> equivalent.
+    /// </summary>
+    /// <param name="value">A string in the format <c>"({Column1},{Row1})&gt;({Column2},{Row2})"</c>, to be parsed.</param>
+    /// <returns>A new <see cref="GreaterThanSign" /> instance.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="value" /> is <see langword="null" />.</exception>
+    /// <exception cref="FormatException">
+    ///     A valid <see cref="GreaterThanSign" /> instance could not be parsed from the <see cref="value" /> parameter.
+    /// </exception>
+    public static GreaterThanSign Parse(string value)
+    {
+        ArgumentNullException.ThrowIfNull(value);
+
+        try
+        {
+            return TryParse(value);
+        }
+        catch (ArgumentException)
+        {
+            throw new FormatException($"String '{value}' was not recognized as a valid GreaterThanSign.");
+        }
+    }
+
+    private static GreaterThanSign TryParse(string value)
+    {
+        Match match = GreaterThanSignRegex.Match(value);
+
+        return match.Success
+            ? match.ToGreaterThanSign()
+            : throw new FormatException($"String '{value}' was not recognized as a valid GreaterThanSign.");
+    }
+
+    [GeneratedRegex(@"^\((?<column1>[0-9]+),(?<row1>[0-9]+)\)\>\((?<column2>[0-9]+),(?<row2>[0-9]+)\)$",
+        RegexOptions.Compiled,
+        500)]
+    private static partial Regex GeneratedGreaterThanSignRegex();
 }

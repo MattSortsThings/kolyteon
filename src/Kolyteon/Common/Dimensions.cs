@@ -1,4 +1,6 @@
 using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
+using Kolyteon.Common.Internals;
 
 namespace Kolyteon.Common;
 
@@ -6,9 +8,10 @@ namespace Kolyteon.Common;
 ///     Represents the dimensions of a rectangular block of squares.
 /// </summary>
 [Serializable]
-public readonly record struct Dimensions : IComparable<Dimensions>
+public readonly partial record struct Dimensions : IComparable<Dimensions>
 {
     private const int MinSideLengthInSquares = 1;
+    private static readonly Regex DimensionsRegex = GeneratedDimensionsRegex();
 
     /// <summary>
     ///     Initializes a new <see cref="Dimensions" /> instance with the minimum <see cref="WidthInSquares" /> value of 1 and
@@ -133,4 +136,41 @@ public readonly record struct Dimensions : IComparable<Dimensions>
 
         return new Dimensions(widthInSquares, heightInSquares);
     }
+
+    /// <summary>
+    ///     Converts the string representation of a set of dimensions to its <see cref="Dimensions" /> equivalent.
+    /// </summary>
+    /// <param name="value">A string in the format <c>"{WidthInSquares}x{HeightInSquares}"</c>, to be parsed.</param>
+    /// <returns>A new <see cref="Dimensions" /> instance.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="value" /> is <see langword="null" />.</exception>
+    /// <exception cref="FormatException">
+    ///     A valid <see cref="Dimensions" /> instance could not be parsed from the <see cref="value" /> parameter.
+    /// </exception>
+    public static Dimensions Parse(string value)
+    {
+        ArgumentNullException.ThrowIfNull(value);
+
+        try
+        {
+            return TryParse(value);
+        }
+        catch (ArgumentOutOfRangeException)
+        {
+            throw new FormatException($"String '{value}' was not recognized as a valid Dimensions.");
+        }
+    }
+
+    private static Dimensions TryParse(string value)
+    {
+        Match match = DimensionsRegex.Match(value);
+
+        return match.Success
+            ? match.ToDimensions()
+            : throw new FormatException($"String '{value}' was not recognized as a valid Dimensions.");
+    }
+
+    [GeneratedRegex(@"^(?<width>[0-9]+)x(?<height>[0-9]+)$",
+        RegexOptions.Compiled,
+        500)]
+    private static partial Regex GeneratedDimensionsRegex();
 }

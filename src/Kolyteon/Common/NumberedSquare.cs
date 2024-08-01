@@ -1,4 +1,6 @@
 using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
+using Kolyteon.Common.Internals;
 
 namespace Kolyteon.Common;
 
@@ -6,8 +8,10 @@ namespace Kolyteon.Common;
 ///     Represents a specific square, located on a 2-dimensional axis of squares, that is filled with an integer number.
 /// </summary>
 [Serializable]
-public readonly record struct NumberedSquare : IComparable<NumberedSquare>
+public readonly partial record struct NumberedSquare : IComparable<NumberedSquare>
 {
+    private static readonly Regex NumberedSquareRegex = GeneratedNumberedSquareRegex();
+
     /// <summary>
     ///     Initializes a new <see cref="NumberedSquare" /> instance with its <see cref="NumberedSquare.Square" /> value having
     ///     <see cref="Square.Column" /> and <see cref="Square.Row" /> values of 0 and a <see cref="Number" /> value of 0.
@@ -106,4 +110,41 @@ public readonly record struct NumberedSquare : IComparable<NumberedSquare>
     /// </summary>
     /// <returns>A string representing this instance, in the format <c>"{Square} [{Number}]"</c>.</returns>
     public override string ToString() => $"{Square} [{Number}]";
+
+    /// <summary>
+    ///     Converts the string representation of a numbered square to its <see cref="NumberedSquare" /> equivalent.
+    /// </summary>
+    /// <param name="value">A string in the format <c>"({Column},{Row}) [{Number}]"</c>, to be parsed.</param>
+    /// <returns>A new <see cref="NumberedSquare" /> instance.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="value" /> is <see langword="null" />.</exception>
+    /// <exception cref="FormatException">
+    ///     A valid <see cref="NumberedSquare" /> instance could not be parsed from the <see cref="value" /> parameter.
+    /// </exception>
+    public static NumberedSquare Parse(string value)
+    {
+        ArgumentNullException.ThrowIfNull(value);
+
+        try
+        {
+            return TryParse(value);
+        }
+        catch (ArgumentException)
+        {
+            throw new FormatException($"String '{value}' was not recognized as a valid NumberedSquare.");
+        }
+    }
+
+    private static NumberedSquare TryParse(string value)
+    {
+        Match match = NumberedSquareRegex.Match(value);
+
+        return match.Success
+            ? match.ToNumberedSquare()
+            : throw new FormatException($"String '{value}' was not recognized as a valid NumberedSquare.");
+    }
+
+    [GeneratedRegex(@"^\((?<column>[0-9]+),(?<row>[0-9]+)\) \[(?<number>[0-9]+)\]$",
+        RegexOptions.Compiled,
+        500)]
+    private static partial Regex GeneratedNumberedSquareRegex();
 }

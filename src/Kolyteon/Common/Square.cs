@@ -1,4 +1,6 @@
 using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
+using Kolyteon.Common.Internals;
 
 namespace Kolyteon.Common;
 
@@ -6,9 +8,10 @@ namespace Kolyteon.Common;
 ///     Represents a specific square located on a 2-dimensional axis of squares.
 /// </summary>
 [Serializable]
-public readonly record struct Square : IComparable<Square>
+public readonly partial record struct Square : IComparable<Square>
 {
     private const int MinColumnAndRow = 0;
+    private static readonly Regex SquareRegex = GeneratedSquareRegex();
 
     /// <summary>
     ///     Initializes a new <see cref="Square" /> instance with the <see cref="Column" /> value of 0 and the
@@ -166,4 +169,41 @@ public readonly record struct Square : IComparable<Square>
 
         return new Square(column, row);
     }
+
+    /// <summary>
+    ///     Converts the string representation of a square to its <see cref="Square" /> equivalent.
+    /// </summary>
+    /// <param name="value">A string in the format <c>"({Column},{Row})"</c>, to be parsed.</param>
+    /// <returns>A new <see cref="Square" /> instance.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="value" /> is <see langword="null" />.</exception>
+    /// <exception cref="FormatException">
+    ///     A valid <see cref="Square" /> instance could not be parsed from the <see cref="value" /> parameter.
+    /// </exception>
+    public static Square Parse(string value)
+    {
+        ArgumentNullException.ThrowIfNull(value);
+
+        try
+        {
+            return TryParse(value);
+        }
+        catch (ArgumentOutOfRangeException)
+        {
+            throw new FormatException($"String '{value}' was not recognized as a valid Square.");
+        }
+    }
+
+    private static Square TryParse(string value)
+    {
+        Match match = SquareRegex.Match(value);
+
+        return match.Success
+            ? match.ToSquare()
+            : throw new FormatException($"String '{value}' was not recognized as a valid Square.");
+    }
+
+    [GeneratedRegex(@"^\((?<column>[0-9]+),(?<row>[0-9]+)\)$",
+        RegexOptions.Compiled,
+        500)]
+    private static partial Regex GeneratedSquareRegex();
 }

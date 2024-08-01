@@ -153,13 +153,5 @@ internal sealed class Transformations
     }
 
     [StepArgumentTransformation]
-    internal static Dimensions ToDimensions(string text)
-    {
-        string[] items = text.Split('x');
-
-        int width = int.Parse(items[0]);
-        int height = int.Parse(items[1]);
-
-        return Dimensions.FromWidthAndHeight(width, height);
-    }
+    internal static Dimensions ToDimensions(string text) => Dimensions.Parse(text);
 }

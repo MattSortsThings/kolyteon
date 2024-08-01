@@ -364,6 +364,59 @@ public static class DimensionsTests
     }
 
     [UnitTest]
+    public sealed class ParseStaticMethod
+    {
+        public static TheoryData<string, Dimensions> HappyPathTestCases => new()
+        {
+            { "1x1", Dimensions.FromWidthAndHeight(1, 1) },
+            { "7x3", Dimensions.FromWidthAndHeight(7, 3) },
+            { "10x300", Dimensions.FromWidthAndHeight(10, 300) },
+            { "5x5", Dimensions.FromWidthAndHeight(5, 5) }
+        };
+
+        [Theory]
+        [MemberData(nameof(HappyPathTestCases), MemberType = typeof(ParseStaticMethod))]
+        public void Parse_GivenStringInCorrectFormat_ReturnsParsedDimensions(string value, Dimensions expected)
+        {
+            // Act
+            Dimensions result = Dimensions.Parse(value);
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
+        [Fact]
+        public void Parse_ValueArgIsNull_Throws()
+        {
+            // Act
+            Action act = () => Dimensions.Parse(null!);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>()
+                .WithMessage("Value cannot be null. (Parameter 'value')");
+        }
+
+        [Theory]
+        [InlineData(" ")]
+        [InlineData("0x0")]
+        [InlineData("0x1")]
+        [InlineData("1x0")]
+        [InlineData("1 1")]
+        [InlineData("[1x1]")]
+        public void Parse_ValueArgIsInWrongFormat_Throws(string value)
+        {
+            // Act
+            Action act = () => Dimensions.Parse(value);
+
+            // Assert
+            string expectedMessage = $"String '{value}' was not recognized as a valid Dimensions.";
+
+            act.Should().Throw<FormatException>()
+                .WithMessage(expectedMessage);
+        }
+    }
+
+    [UnitTest]
     public sealed class Serialization
     {
         [Theory]

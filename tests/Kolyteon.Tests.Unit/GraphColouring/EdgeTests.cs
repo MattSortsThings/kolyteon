@@ -327,6 +327,59 @@ public static class EdgeTests
     }
 
     [UnitTest]
+    public sealed class ParseStaticMethod
+    {
+        public static TheoryData<string, Edge> HappyPathTestCases => new()
+        {
+            { "(A)-(B)", Edge.Between(Node.FromName("A"), Node.FromName("B")) },
+            { "(FairIsle)-(Viking)", Edge.Between(Node.FromName("FairIsle"), Node.FromName("Viking")) },
+            { "(n0)-(n1)", Edge.Between(Node.FromName("n0"), Node.FromName("n1")) }
+        };
+
+        [Theory]
+        [MemberData(nameof(HappyPathTestCases), MemberType = typeof(ParseStaticMethod))]
+        public void Parse_GivenStringInCorrectFormat_ReturnsParsedEdge(string value, Edge expected)
+        {
+            // Act
+            Edge result = Edge.Parse(value);
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
+        [Fact]
+        public void Parse_ValueArgIsNull_Throws()
+        {
+            // Act
+            Action act = () => Edge.Parse(null!);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>()
+                .WithMessage("Value cannot be null. (Parameter 'value')");
+        }
+
+        [Theory]
+        [InlineData(" ")]
+        [InlineData("A B")]
+        [InlineData("A-B")]
+        [InlineData("(A) (B)")]
+        [InlineData("( )-(B)")]
+        [InlineData("[A]-[B]")]
+        [InlineData("(A)-(A)")]
+        public void Parse_ValueArgIsInWrongFormat_Throws(string value)
+        {
+            // Act
+            Action act = () => Edge.Parse(value);
+
+            // Assert
+            string expectedMessage = $"String '{value}' was not recognized as a valid Edge.";
+
+            act.Should().Throw<FormatException>()
+                .WithMessage(expectedMessage);
+        }
+    }
+
+    [UnitTest]
     public sealed class Serialization
     {
         [Theory]

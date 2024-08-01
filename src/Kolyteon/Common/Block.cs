@@ -1,4 +1,6 @@
 using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
+using Kolyteon.Common.Internals;
 
 namespace Kolyteon.Common;
 
@@ -6,8 +8,10 @@ namespace Kolyteon.Common;
 ///     Represents a rectangular block of squares located on a 2-dimensional axis of squares.
 /// </summary>
 [Serializable]
-public readonly record struct Block : IComparable<Block>
+public readonly partial record struct Block : IComparable<Block>
 {
+    private static readonly Regex BlockRegex = GeneratedBlockRegex();
+
     /// <summary>
     ///     Initializes a new <see cref="Block" /> instance with an <see cref="OriginSquare" /> value having
     ///     <see cref="Square.Column" /> and <see cref="Square.Row" /> values of 0 and a <see cref="Dimensions" /> value having
@@ -190,4 +194,43 @@ public readonly record struct Block : IComparable<Block>
     /// </summary>
     /// <returns>A string representing this instance, in the format <c>"{OriginSquare} [{Dimensions}]"</c>.</returns>
     public override string ToString() => $"{OriginSquare} [{Dimensions}]";
+
+    /// <summary>
+    ///     Converts the string representation of a block to its <see cref="Block" /> equivalent.
+    /// </summary>
+    /// <param name="value">
+    ///     A string in the format <c>"({OriginColumn},{OriginRow}] [{Width}x{Height}]"</c>, to be parsed.
+    /// </param>
+    /// <returns>A new <see cref="Block" /> instance.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="value" /> is <see langword="null" />.</exception>
+    /// <exception cref="FormatException">
+    ///     A valid <see cref="Block" /> instance could not be parsed from the <see cref="value" /> parameter.
+    /// </exception>
+    public static Block Parse(string value)
+    {
+        ArgumentNullException.ThrowIfNull(value);
+
+        try
+        {
+            return TryParse(value);
+        }
+        catch (ArgumentOutOfRangeException)
+        {
+            throw new FormatException($"String '{value}' was not recognized as a valid Block.");
+        }
+    }
+
+    private static Block TryParse(string value)
+    {
+        Match match = BlockRegex.Match(value);
+
+        return match.Success
+            ? match.ToBlock()
+            : throw new FormatException($"String '{value}' was not recognized as a valid Block.");
+    }
+
+    [GeneratedRegex(@"^\((?<column>[0-9]+),(?<row>[0-9]+)\) \[(?<width>[0-9]+)x(?<height>[0-9]+)\]$",
+        RegexOptions.Compiled,
+        500)]
+    private static partial Regex GeneratedBlockRegex();
 }

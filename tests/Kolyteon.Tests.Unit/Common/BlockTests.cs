@@ -892,6 +892,62 @@ public static class BlockTests
     }
 
     [UnitTest]
+    public sealed class ParseStaticMethod
+    {
+        public static TheoryData<string, Block> HappyPathTestCases => new()
+        {
+            { "(0,0) [1x1]", Square.FromColumnAndRow(0, 0).ToBlock(Dimensions.FromWidthAndHeight(1, 1)) },
+            { "(7,3) [5x1]", Square.FromColumnAndRow(7, 3).ToBlock(Dimensions.FromWidthAndHeight(5, 1)) },
+            { "(10,300) [10x30]", Square.FromColumnAndRow(10, 300).ToBlock(Dimensions.FromWidthAndHeight(10, 30)) },
+            { "(1,0) [9x9]", Square.FromColumnAndRow(1, 0).ToBlock(Dimensions.FromWidthAndHeight(9, 9)) }
+        };
+
+        [Theory]
+        [MemberData(nameof(HappyPathTestCases), MemberType = typeof(ParseStaticMethod))]
+        public void Parse_GivenStringInCorrectFormat_ReturnsParsedBlock(string value, Block expected)
+        {
+            // Act
+            Block result = Block.Parse(value);
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
+        [Fact]
+        public void Parse_ValueArgIsNull_Throws()
+        {
+            // Act
+            Action act = () => Block.Parse(null!);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>()
+                .WithMessage("Value cannot be null. (Parameter 'value')");
+        }
+
+        [Theory]
+        [InlineData(" ")]
+        [InlineData("0,0 1x1")]
+        [InlineData("0")]
+        [InlineData("(0 0) 1")]
+        [InlineData("(0, 0)")]
+        [InlineData("[0,0] (1x1)")]
+        [InlineData("(0,0) [0x0]")]
+        [InlineData("(0,0) [0x1]")]
+        [InlineData("(0,0) [1x0]")]
+        public void Parse_ValueArgIsInWrongFormat_Throws(string value)
+        {
+            // Act
+            Action act = () => Block.Parse(value);
+
+            // Assert
+            string expectedMessage = $"String '{value}' was not recognized as a valid Block.";
+
+            act.Should().Throw<FormatException>()
+                .WithMessage(expectedMessage);
+        }
+    }
+
+    [UnitTest]
     public sealed class Serialization
     {
         public static TheoryData<Square, Dimensions> TestCases => new()

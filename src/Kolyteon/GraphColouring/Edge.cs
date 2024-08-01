@@ -1,4 +1,6 @@
 using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
+using Kolyteon.GraphColouring.Internals;
 
 namespace Kolyteon.GraphColouring;
 
@@ -6,8 +8,10 @@ namespace Kolyteon.GraphColouring;
 ///     Represents an undirected edge between two different nodes in a graph.
 /// </summary>
 [Serializable]
-public sealed record Edge : IComparable<Edge>
+public sealed partial record Edge : IComparable<Edge>
 {
+    private static readonly Regex EdgeRegex = GeneratedEdgeRegex();
+
     [JsonConstructor]
     internal Edge(Node firstNode, Node secondNode)
     {
@@ -150,4 +154,39 @@ public sealed record Edge : IComparable<Edge>
             _ => throw new ArgumentException("Nodes must be different.")
         };
     }
+
+    /// <summary>
+    ///     Converts the string representation of an edge to its <see cref="Edge" /> equivalent.
+    /// </summary>
+    /// <param name="value">A string in the format <c>"({Node1Name})-({Node2Name})"</c>, to be parsed.</param>
+    /// <returns>A new <see cref="Edge" /> instance.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="value" /> is <see langword="null" />.</exception>
+    /// <exception cref="FormatException">
+    ///     A valid <see cref="Edge" /> instance could not be parsed from the <see cref="value" /> parameter.
+    /// </exception>
+    public static Edge Parse(string value)
+    {
+        ArgumentNullException.ThrowIfNull(value);
+
+        try
+        {
+            return TryParse(value);
+        }
+        catch (ArgumentException)
+        {
+            throw new FormatException($"String '{value}' was not recognized as a valid Edge.");
+        }
+    }
+
+    private static Edge TryParse(string value)
+    {
+        Match match = EdgeRegex.Match(value);
+
+        return match.Success
+            ? match.ToEdge()
+            : throw new FormatException($"String '{value}' was not recognized as a valid Edge.");
+    }
+
+    [GeneratedRegex(@"^\((?<node1>\w+)\)-\((?<node2>\w+)\)$", RegexOptions.Compiled, 500)]
+    private static partial Regex GeneratedEdgeRegex();
 }

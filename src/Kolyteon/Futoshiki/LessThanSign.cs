@@ -1,5 +1,7 @@
 using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
 using Kolyteon.Common;
+using Kolyteon.Futoshiki.Internals;
 
 namespace Kolyteon.Futoshiki;
 
@@ -7,8 +9,10 @@ namespace Kolyteon.Futoshiki;
 ///     Represents a less than ( &lt; ) sign between two adjacent squares in a problem grid.
 /// </summary>
 [Serializable]
-public sealed record LessThanSign : IComparable<LessThanSign>
+public sealed partial record LessThanSign : IComparable<LessThanSign>
 {
+    private static readonly Regex LessThanSignRegex = GeneratedLessThanSignRegex();
+
     [JsonConstructor]
     internal LessThanSign(Square firstSquare, Square secondSquare)
     {
@@ -148,4 +152,41 @@ public sealed record LessThanSign : IComparable<LessThanSign>
 
         return squareA.CompareTo(squareB) < 0 ? new LessThanSign(squareA, squareB) : new LessThanSign(squareB, squareA);
     }
+
+    /// <summary>
+    ///     Converts the string representation of a less than sign to its <see cref="LessThanSign" /> equivalent.
+    /// </summary>
+    /// <param name="value">A string in the format <c>"({Column1},{Row1})&lt;({Column2},{Row2})"</c>, to be parsed.</param>
+    /// <returns>A new <see cref="LessThanSign" /> instance.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="value" /> is <see langword="null" />.</exception>
+    /// <exception cref="FormatException">
+    ///     A valid <see cref="LessThanSign" /> instance could not be parsed from the <see cref="value" /> parameter.
+    /// </exception>
+    public static LessThanSign Parse(string value)
+    {
+        ArgumentNullException.ThrowIfNull(value);
+
+        try
+        {
+            return TryParse(value);
+        }
+        catch (ArgumentException)
+        {
+            throw new FormatException($"String '{value}' was not recognized as a valid LessThanSign.");
+        }
+    }
+
+    private static LessThanSign TryParse(string value)
+    {
+        Match match = LessThanSignRegex.Match(value);
+
+        return match.Success
+            ? match.ToLessThanSign()
+            : throw new FormatException($"String '{value}' was not recognized as a valid LessThanSign.");
+    }
+
+    [GeneratedRegex(@"^\((?<column1>[0-9]+),(?<row1>[0-9]+)\)\<\((?<column2>[0-9]+),(?<row2>[0-9]+)\)$",
+        RegexOptions.Compiled,
+        500)]
+    private static partial Regex GeneratedLessThanSignRegex();
 }

@@ -63,6 +63,8 @@ public sealed class LibraryArchitectureTests
             .AreNotNested()
             .And()
             .DoNotHaveNameMatching("Anonymous")
+            .And()
+            .DoNotHaveNameMatching("<PrivateImplementationDetails>")
             .Should()
             .ResideInNamespaceContaining(".Internals");
 

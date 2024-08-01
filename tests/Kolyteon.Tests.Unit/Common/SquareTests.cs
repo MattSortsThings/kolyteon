@@ -473,6 +473,59 @@ public static class SquareTests
     }
 
     [UnitTest]
+    public sealed class ParseStaticMethod
+    {
+        public static TheoryData<string, Square> HappyPathTestCases => new()
+        {
+            { "(0,0)", Square.FromColumnAndRow(0, 0) },
+            { "(7,3)", Square.FromColumnAndRow(7, 3) },
+            { "(10,300)", Square.FromColumnAndRow(10, 300) },
+            { "(1,0)", Square.FromColumnAndRow(1, 0) }
+        };
+
+        [Theory]
+        [MemberData(nameof(HappyPathTestCases), MemberType = typeof(ParseStaticMethod))]
+        public void Parse_GivenStringInCorrectFormat_ReturnsParsedSquare(string value, Square expected)
+        {
+            // Act
+            Square result = Square.Parse(value);
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
+        [Fact]
+        public void Parse_ValueArgIsNull_Throws()
+        {
+            // Act
+            Action act = () => Square.Parse(null!);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>()
+                .WithMessage("Value cannot be null. (Parameter 'value')");
+        }
+
+        [Theory]
+        [InlineData(" ")]
+        [InlineData("0,0")]
+        [InlineData("0")]
+        [InlineData("(0 0)")]
+        [InlineData("(0, 0)")]
+        [InlineData("[0,0]")]
+        public void Parse_ValueArgIsInWrongFormat_Throws(string value)
+        {
+            // Act
+            Action act = () => Square.Parse(value);
+
+            // Assert
+            string expectedMessage = $"String '{value}' was not recognized as a valid Square.";
+
+            act.Should().Throw<FormatException>()
+                .WithMessage(expectedMessage);
+        }
+    }
+
+    [UnitTest]
     public sealed class Serialization
     {
         [Theory]

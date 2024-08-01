@@ -295,6 +295,59 @@ public static class NumberedSquareTests
     }
 
     [UnitTest]
+    public sealed class ParseStaticMethod
+    {
+        public static TheoryData<string, NumberedSquare> HappyPathTestCases => new()
+        {
+            { "(0,0) [0]", Square.FromColumnAndRow(0, 0).ToNumberedSquare(0) },
+            { "(7,3) [1]", Square.FromColumnAndRow(7, 3).ToNumberedSquare(1) },
+            { "(10,300) [50]", Square.FromColumnAndRow(10, 300).ToNumberedSquare(50) },
+            { "(1,0) [21]", Square.FromColumnAndRow(1, 0).ToNumberedSquare(21) }
+        };
+
+        [Theory]
+        [MemberData(nameof(HappyPathTestCases), MemberType = typeof(ParseStaticMethod))]
+        public void Parse_GivenStringInCorrectFormat_ReturnsParsedNumberedSquare(string value, NumberedSquare expected)
+        {
+            // Act
+            NumberedSquare result = NumberedSquare.Parse(value);
+
+            // Assert
+            result.Should().Be(expected);
+        }
+
+        [Fact]
+        public void Parse_ValueArgIsNull_Throws()
+        {
+            // Act
+            Action act = () => NumberedSquare.Parse(null!);
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>()
+                .WithMessage("Value cannot be null. (Parameter 'value')");
+        }
+
+        [Theory]
+        [InlineData(" ")]
+        [InlineData("0 0 0")]
+        [InlineData("(0,0)")]
+        [InlineData("(0,0) []")]
+        [InlineData("[0,0] [0]")]
+        [InlineData("[0,0]")]
+        public void Parse_ValueArgIsInWrongFormat_Throws(string value)
+        {
+            // Act
+            Action act = () => NumberedSquare.Parse(value);
+
+            // Assert
+            string expectedMessage = $"String '{value}' was not recognized as a valid NumberedSquare.";
+
+            act.Should().Throw<FormatException>()
+                .WithMessage(expectedMessage);
+        }
+    }
+
+    [UnitTest]
     public sealed class Serialization
     {
         public static TheoryData<Square, int> TestCases => new()
