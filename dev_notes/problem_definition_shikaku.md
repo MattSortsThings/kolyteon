@@ -113,7 +113,7 @@ The constraint graph of the binary CSP modelling the example problem is shown in
 
 - A `ShikakuConstraintGraph` instance:
   - extends `ConstraintGraph<NumberedSquare, Block, ShikakuProblem>`,
-  - implements `IModellingBinaryCsp<NumberedSquare, Block, ShikakuProblem>`, and
-  - implements `ISolvableBinaryCsp<NumberedSquare, Block>`.
+  - implements `IBinaryCsp<NumberedSquare, Block, ShikakuProblem>`, and
+  - implements `IReadOnlyBinaryCsp<NumberedSquare, Block>`.
 
 The `ShikakuConstraintGraph` class can model any valid Shikaku problem as a binary CSP.

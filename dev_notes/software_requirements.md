@@ -7,7 +7,7 @@ This document outlines the software requirements for the *Kolyteon* library (her
     - [A - Futoshiki](#a---futoshiki)
       - [A/1 - Problem Representation](#a1---problem-representation)
       - [A/2 - Solution Verification](#a2---solution-verification)
-      - [A/3 - Binary CSP Modelling](#a3---binary-csp-modelling)
+      - [A/3 - Problem Modelling](#a3---problem-modelling)
       - [A/4 - Problem Generation](#a4---problem-generation)
     - [B - Graph Colouring](#b---graph-colouring)
       - [B/1 - Problem Representation](#b1---problem-representation)
@@ -26,17 +26,16 @@ This document outlines the software requirements for the *Kolyteon* library (her
     - [E - Shikaku](#e---shikaku)
       - [E/1 - Problem Representation](#e1---problem-representation)
       - [E/2 - Solution Verification](#e2---solution-verification)
-      - [E/3 - Binary CSP Modelling](#e3---binary-csp-modelling)
+      - [E/3 - Problem Modelling](#e3---problem-modelling)
       - [E/4 - Problem Generation](#e4---problem-generation)
     - [F - Sudoku](#f---sudoku)
       - [F/1 - Problem Representation](#f1---problem-representation)
       - [F/2 - Solution Verification](#f2---solution-verification)
-      - [F/3 - Binary CSP Modelling](#f3---binary-csp-modelling)
+      - [F/3 - Problem Modelling](#f3---problem-modelling)
       - [F/4 - Problem Generation](#f4---problem-generation)
     - [G - Binary CSP Modelling](#g---binary-csp-modelling)
-      - [G/1 - Measurable Binary CSP API](#g1---measurable-binary-csp-api)
-      - [G/2 - Solvable Binary CSP API](#g2---solvable-binary-csp-api)
-      - [G/3 - Modelling Binary CSP API](#g3---modelling-binary-csp-api)
+      - [G/1 - ReadOnly Binary CSP API](#g1---readonly-binary-csp-api)
+      - [G/2 - Modelling Binary CSP API](#g2---modelling-binary-csp-api)
     - [H - Binary CSP Solving](#h---binary-csp-solving)
       - [H/1 - Solving](#h1---solving)
       - [H/2 - Solver Configuration](#h2---solver-configuration)
@@ -65,12 +64,13 @@ This document outlines the software requirements for the *Kolyteon* library (her
 | A/2/1 | A Futoshiki problem will confirm that a correct proposed solution is correct.      |
 | A/2/2 | A Futoshiki problem will confirm that an incorrect proposed solution is incorrect. |
 
-#### A/3 - Binary CSP Modelling
+#### A/3 - Problem Modelling
 
 | Code  | Summary                                                                                                                                   |
 |:------|:------------------------------------------------------------------------------------------------------------------------------------------|
 | A/3/1 | The library will allow the user to model any valid Futoshiki problem as a generic binary CSP.                                             |
 | A/3/2 | The user will be able to set the capacity of the binary CSP object at initialization and at runtime by passing in a single integer value. |
+| A/3/3 | The user will be able to initialize a generic binary CSP that is already modelling a specified problem.                                   |
 
 #### A/4 - Problem Generation
 
@@ -102,6 +102,7 @@ This document outlines the software requirements for the *Kolyteon* library (her
 |:------|:----------------------------------------------------------------------------------------------------------------------------------------------------------|
 | B/3/1 | The library will allow the user to model any valid Graph Colouring problem as a generic binary CSP, so that it can be solved using the binary CSP solver. |
 | B/3/2 | The user will be able to set the capacity of the binary CSP object at initialization and at runtime by passing in a single integer value.                 |
+| B/3/3 | The user will be able to initialize a generic binary CSP that is already modelling a specified problem.                                                   |
 
 #### B/4 - Problem generation
 
@@ -133,6 +134,7 @@ This document outlines the software requirements for the *Kolyteon* library (her
 |:------|:--------------------------------------------------------------------------------------------------------------------------------------------------------|
 | C/3/1 | The library will allow the user to model any valid Map Colouring problem as a generic binary CSP, so that it can be solved using the binary CSP solver. |
 | C/3/2 | The user will be able to set the capacity of the binary CSP object at initialization and at runtime by passing in a single integer value.               |
+| C/3/3 | The user will be able to initialize a generic binary CSP that is already modelling a specified problem.                                                 |
 
 #### C/4 - Problem generation
 
@@ -164,6 +166,7 @@ This document outlines the software requirements for the *Kolyteon* library (her
 |:------|:-----------------------------------------------------------------------------------------------------------------------------------------------------|
 | D/3/1 | The library will allow the user to model any valid *N*-Queens problem as a generic binary CSP, so that it can be solved using the binary CSP solver. |
 | D/3/2 | The user will be able to set the capacity of the binary CSP object at initialization and at runtime by passing in a single integer value.            |
+| D/3/3 | The user will be able to initialize a generic binary CSP that is already modelling a specified problem.                                              |
 
 ### E - Shikaku
 
@@ -182,12 +185,13 @@ This document outlines the software requirements for the *Kolyteon* library (her
 | E/2/1 | A Shikaku problem will confirm that a correct proposed solution is correct.      |
 | E/2/2 | A Shikaku problem will confirm that an incorrect proposed solution is incorrect. |
 
-#### E/3 - Binary CSP Modelling
+#### E/3 - Problem Modelling
 
 | Code  | Summary                                                                                                                                   |
 |:------|:------------------------------------------------------------------------------------------------------------------------------------------|
 | E/3/1 | The library will allow the user to model any valid Shikaku problem as a generic binary CSP.                                               |
 | E/3/2 | The user will be able to set the capacity of the binary CSP object at initialization and at runtime by passing in a single integer value. |
+| E/3/3 | The user will be able to initialize a generic binary CSP that is already modelling a specified problem.                                   |
 
 #### E/4 - Problem Generation
 
@@ -213,12 +217,13 @@ This document outlines the software requirements for the *Kolyteon* library (her
 | F/2/1 | A Sudoku problem will confirm that a correct proposed solution is correct.      |
 | F/2/2 | A Sudoku problem will confirm that an incorrect proposed solution is incorrect. |
 
-#### F/3 - Binary CSP Modelling
+#### F/3 - Problem Modelling
 
 | Code  | Summary                                                                                                                                   |
 |:------|:------------------------------------------------------------------------------------------------------------------------------------------|
 | F/3/1 | The library will allow the user to model any valid Sudoku problem as a generic binary CSP.                                                |
 | F/3/2 | The user will be able to set the capacity of the binary CSP object at initialization and at runtime by passing in a single integer value. |
+| F/3/3 | The user will be able to initialize a generic binary CSP that is already modelling a specified problem.                                   |
 
 #### F/4 - Problem Generation
 
@@ -229,23 +234,17 @@ This document outlines the software requirements for the *Kolyteon* library (her
 
 ### G - Binary CSP Modelling
 
-#### G/1 - Measurable Binary CSP API
-
-| Code  | Summary                                                                                                                                    |
-|:-----:|:-------------------------------------------------------------------------------------------------------------------------------------------|
-| G/1/1 | The library will expose an API of read-only properties and methods allowing the size and complexity of a binary CSP object to be measured. |
-
-#### G/2 - Solvable Binary CSP API
+#### G/1 - ReadOnly Binary CSP API
 
 | Code  | Summary                                                                                                                             |
 |:-----:|:------------------------------------------------------------------------------------------------------------------------------------|
-| G/2/1 | The library will expose an API of read-only properties and methods allowing a binary CSP object, modelling a problem, to be solved. |
+| G/1/2 | The library will expose an API of read-only properties and methods allowing a binary CSP object, modelling a problem, to be solved. |
 
-#### G/3 - Modelling Binary CSP API
+#### G/2 - Modelling Binary CSP API
 
 | Code  | Summary                                                                                                                        |
 |:-----:|:-------------------------------------------------------------------------------------------------------------------------------|
-| G/3/1 | The library will expose an API of properties and methods allowing a binary CSP object to model multiple problems sequentially. |
+| G/2/1 | The library will expose an API of properties and methods allowing a binary CSP object to model any instance of a problem type. |
 
 ### H - Binary CSP Solving
 

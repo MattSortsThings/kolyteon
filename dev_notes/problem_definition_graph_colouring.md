@@ -125,7 +125,7 @@ The constraint graph of the binary CSP modelling the example problem is shown in
 
 - A `GraphColouringConstraintGraph` instance:
   - extends `ConstraintGraph<Node, Colour, GraphColouringProblem>`,
-  - implements `IModellingBinaryCsp<Node, Colour, GraphColouringProblem>`, and
-  - implements `ISolvableBinaryCsp<Node, Colour>`.
+  - implements `IBinaryCsp<Node, Colour, GraphColouringProblem>`, and
+  - implements `IReadOnlyBinaryCsp<Node, Colour>`.
 
 The `GraphColouringConstraintGraph` class can model any valid Graph Colouring problem as a binary CSP.

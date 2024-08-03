@@ -108,7 +108,7 @@ The constraint graph of the binary CSP modelling the example problem is shown in
 
 - An `NQueensConstraintGraph` instance:
   - extends `ConstraintGraph<int, Square, NQueensProblem>`,
-  - implements `IModellingBinaryCsp<int, Square, NQueensProblem>`, and
-  - implements `ISolvableBinaryCsp<int, Square>`.
+  - implements `IBinaryCsp<int, Square, NQueensProblem>`, and
+  - implements `IReadOnlyBinaryCsp<int, Square>`.
 
 The `NQueensConstraintGraph` class can model any valid *N*-Queens problem as a binary CSP.

@@ -119,7 +119,7 @@ The constraint graph of the binary CSP modelling the example problem is shown in
 
 - A `MapColouringConstraintGraph` instance:
   - extends `ConstraintGraph<Block, Colour, MapColouringProblem>`,
-  - implements `IModellingBinaryCsp<Block, Colour, MapColouringProblem>`, and
-  - implements `ISolvableBinaryCsp<Block, Colour>`.
+  - implements `IBinaryCsp<Block, Colour, MapColouringProblem>`, and
+  - implements `IReadOnlyBinaryCsp<Block, Colour>`.
 
 The `MapColouringConstraintGraph` class can model any valid Map Colouring problem as a binary CSP.

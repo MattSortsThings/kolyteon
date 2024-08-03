@@ -127,7 +127,7 @@ The constraint graph of the binary CSP modelling the example problem is shown in
 
 - A `SudokuConstraintGraph` instance:
   - extends `ConstraintGraph<Square, int, SudokuProblem>`,
-  - implements `IModellingBinaryCsp<Square, int, SudokuProblem>`, and
-  - implements `ISolvableBinaryCsp<Square, int>`.
+  - implements `IBinaryCsp<Square, int, SudokuProblem>`, and
+  - implements `IReadOnlyBinaryCsp<Square, int>`.
 
 The `SudokuConstraintGraph` class can model any valid Sudoku problem as a binary CSP.

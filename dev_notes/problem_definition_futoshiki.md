@@ -62,7 +62,7 @@ The Futoshiki problem type uses the following [common types](problem_definition_
   - `FirstSquare` is the first `Square` value, and
   - `SecondSquare` is the second `Square` value.
 - Two `GreaterThanSign` instances are compared by `FirstSquare`, then by `SecondSquare`.
-- The string representation of the greater than sign between the square at column 1, row 2 and the square at column 2, row 2 is `"(1,2) > (2,2)"`.
+- The string representation of the greater than sign between the square at column 1, row 2 and the square at column 2, row 2 is `"(1,2)>(2,2)"`.
 
 ### `LessThanSign` readonly record struct
 
@@ -71,7 +71,7 @@ The Futoshiki problem type uses the following [common types](problem_definition_
   - `FirstSquare` is the first `Square` value, and
   - `SecondSquare` is the second `Square` value.
 - Two `LessThanSign` instances are compared by `FirstSquare`, then by `SecondSquare`.
-- The string representation of the less than sign between the square at column 0, row 0 and the square at column 0, row 1 is `"(0,0) > (0,1)"`.
+- The string representation of the less than sign between the square at column 0, row 0 and the square at column 0, row 1 is `"(0,0)<(0,1)"`.
 
 ### `FutoshikiProblem` record
 
@@ -145,7 +145,7 @@ The constraint graph of the binary CSP modelling the example problem is shown in
 
 - A `FutoshikiConstraintGraph` instance:
   - extends `ConstraintGraph<Square, int, FutoshikiProblem>`,
-  - implements `IModellingBinaryCsp<Square, int, FutoshikiProblem>`, and
-  - implements `ISolvableBinaryCsp<Square, int>`.
+  - implements `IBinaryCsp<Square, int, FutoshikiProblem>`, and
+  - implements `IReadOnlyBinaryCsp<Square, int>`.
 
 The `FutoshikiConstraintGraph` class can model any valid Futoshiki problem as a binary CSP.
