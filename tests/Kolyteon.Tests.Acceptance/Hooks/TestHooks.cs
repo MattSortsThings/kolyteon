@@ -1,6 +1,10 @@
+using Kolyteon.Common;
+using Kolyteon.Futoshiki;
+using Kolyteon.Modelling;
 using Kolyteon.Tests.Acceptance.TestUtils;
 using Reqnroll;
 using Reqnroll.Assist;
+using Reqnroll.BoDi;
 
 namespace Kolyteon.Tests.Acceptance.Hooks;
 
@@ -18,4 +22,14 @@ internal static class TestHooks
         Service.Instance.ValueRetrievers.Register<NodeValueRetriever>();
         Service.Instance.ValueRetrievers.Register<NodeArrayValueRetriever>();
     }
+
+    [BeforeTestRun]
+    internal static void RegisterBinaryCspFactories(IObjectContainer objectContainer) =>
+        objectContainer.RegisterFactoryAs(CreateSudokuBinaryCsp);
+
+    [AfterScenario]
+    internal static void ClearBinaryCsp(IBinaryCsp<Square, int, FutoshikiProblem> binaryCsp) => binaryCsp.Clear();
+
+    private static IBinaryCsp<Square, int, FutoshikiProblem> CreateSudokuBinaryCsp(IObjectContainer _) =>
+        new FutoshikiConstraintGraph(17);
 }

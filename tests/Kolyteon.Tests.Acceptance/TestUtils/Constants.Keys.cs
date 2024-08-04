@@ -1,6 +1,6 @@
 namespace Kolyteon.Tests.Acceptance.TestUtils;
 
-internal static class Constants
+internal static partial class Constants
 {
     internal static class Keys
     {

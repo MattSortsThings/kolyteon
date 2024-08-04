@@ -1,5 +1,6 @@
 using System.Reflection;
 using Kolyteon.Common;
+using Kolyteon.Modelling;
 using Kolyteon.Tests.Architecture.TestUtils;
 
 namespace Kolyteon.Tests.Architecture;
@@ -23,6 +24,8 @@ public sealed class LibraryArchitectureTests
             .ResideInNamespace(problemNamespace)
             .And()
             .ArePublic()
+            .And()
+            .DoNotInherit(typeof(ConstraintGraph<,,>))
             .Should()
             .BeImmutable();
 

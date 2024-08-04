@@ -9,8 +9,10 @@ namespace Kolyteon.Tests.Acceptance.TestUtils;
 [Binding]
 internal sealed class Transformations
 {
+    private const int FutoshikiSideLength = 4;
+
     [StepArgumentTransformation]
-    internal static FutoshikiProblem ToFiveByFiveFutoshikiProblem(string multiLineText)
+    internal static FutoshikiProblem ToFourByFourFutoshikiProblem(string multiLineText)
     {
         char[][] textGrid = multiLineText.Split('\n')
             .Select(line => line.Trim().ToCharArray())
@@ -27,11 +29,11 @@ internal sealed class Transformations
 
     private static int?[,] ParseGrid(char[][] textGrid)
     {
-        int?[,] grid = new int?[5, 5];
+        int?[,] grid = new int?[FutoshikiSideLength, FutoshikiSideLength];
 
-        for (int col = 0; col < 5; col++)
+        for (int col = 0; col < FutoshikiSideLength; col++)
         {
-            for (int row = 0; row < 5; row++)
+            for (int row = 0; row < FutoshikiSideLength; row++)
             {
                 int numberCol = (col * 4) + 2;
                 int numberRow = (row * 2) + 1;
@@ -48,9 +50,9 @@ internal sealed class Transformations
 
     private static IEnumerable<GreaterThanSign> ParseGreaterThanSigns(char[][] textGrid)
     {
-        for (int col = 0; col < 5; col++)
+        for (int col = 0; col < FutoshikiSideLength; col++)
         {
-            for (int row = 0; row < 5; row++)
+            for (int row = 0; row < FutoshikiSideLength; row++)
             {
                 int numberCol = (col * 4) + 2;
                 int numberRow = (row * 2) + 1;
@@ -75,9 +77,9 @@ internal sealed class Transformations
 
     private static IEnumerable<LessThanSign> ParseLessThanSigns(char[][] textGrid)
     {
-        for (int col = 0; col < 5; col++)
+        for (int col = 0; col < FutoshikiSideLength; col++)
         {
-            for (int row = 0; row < 5; row++)
+            for (int row = 0; row < FutoshikiSideLength; row++)
             {
                 int numberCol = (col * 4) + 2;
                 int numberRow = (row * 2) + 1;

@@ -6,17 +6,15 @@ Represent any valid instance of a given problem type as an immutable, serializab
     Scenario: Represent a Futoshiki problem
         Given I have created a Futoshiki problem matching the following diagram
         """
-        +---+---+---+---+---+
-        | 1 |   <   < 4 |   |
-        +---+---+-<-+---+---+
-        |   | 3 |   |   |   |
-        +---+---+---+->-+---+
-        |   <   | 5 |   <   |
-        +---+---+---+---+---+
-        | 4 |   > 1 |   |   |
-        +---+---+---+---+---+
-        |   | 1 |   | 3 |   |
-        +---+---+---+---+---+
+        +---+---+---+---+
+        |   | 2 <   |   |
+        +-<-+---+---+->-+
+        |   <   |   | 1 |
+        +---+---+---+---+
+        | 3 |   > 1 |   |
+        +---+->-+---+---+
+        | 4 >   |   | 3 |
+        +---+---+---+---+
         """
         And I have serialized the Futoshiki problem to JSON
         When I deserialize a Futoshiki problem from the JSON
