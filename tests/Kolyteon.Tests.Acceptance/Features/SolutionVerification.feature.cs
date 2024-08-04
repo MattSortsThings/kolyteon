@@ -369,33 +369,27 @@ namespace Kolyteon.Tests.Acceptance.Features
             {
                 await this.ScenarioStartAsync();
 #line 88
-        await testRunner.GivenAsync("I have created an N-Queens problem for N = 8", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+        await testRunner.GivenAsync("I have created an N-Queens problem for N = 5", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
                 global::Reqnroll.Table table10 = new global::Reqnroll.Table(new string[] {
                             "Square"});
                 table10.AddRow(new string[] {
-                            "(0,6)"});
+                            "(0,4)"});
                 table10.AddRow(new string[] {
-                            "(1,4)"});
+                            "(1,1)"});
                 table10.AddRow(new string[] {
-                            "(2,2)"});
+                            "(2,3)"});
                 table10.AddRow(new string[] {
                             "(3,0)"});
                 table10.AddRow(new string[] {
-                            "(4,5)"});
-                table10.AddRow(new string[] {
-                            "(5,7)"});
-                table10.AddRow(new string[] {
-                            "(6,1)"});
-                table10.AddRow(new string[] {
-                            "(7,3)"});
+                            "(4,2)"});
 #line 89
         await testRunner.AndAsync("I have proposed the following squares as a solution to the N-Queens problem", ((string)(null)), table10, "And ");
 #line hidden
-#line 99
+#line 96
         await testRunner.WhenAsync("I ask the N-Queens problem to verify the correctness of the proposed solution", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 100
+#line 97
         await testRunner.ThenAsync("the verification result should be successful", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -412,7 +406,7 @@ namespace Kolyteon.Tests.Acceptance.Features
                     "E/2"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Verify a Shikaku problem solution", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 103
+#line 100
     this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -422,7 +416,7 @@ namespace Kolyteon.Tests.Acceptance.Features
             else
             {
                 await this.ScenarioStartAsync();
-#line 104
+#line 101
         await testRunner.GivenAsync("I have created a Shikaku problem from the following grid", @"03 __ __ __ __ __ __ 07 __ __
 __ __ __ __ __ __ __ __ __ __
 __ __ __ __ __ __ __ __ __ __
@@ -456,13 +450,13 @@ __ __ __ __ __ __ __ __ __ 18", ((global::Reqnroll.Table)(null)), "Given ");
                             "(5,1) [3x7]"});
                 table11.AddRow(new string[] {
                             "(8,1) [2x9]"});
-#line 117
+#line 114
         await testRunner.AndAsync("I have proposed the following blocks as a solution to the Shikaku problem", ((string)(null)), table11, "And ");
 #line hidden
-#line 129
+#line 126
         await testRunner.WhenAsync("I ask the Shikaku problem to verify the correctness of the proposed solution", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 130
+#line 127
         await testRunner.ThenAsync("the verification result should be successful", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -479,7 +473,7 @@ __ __ __ __ __ __ __ __ __ 18", ((global::Reqnroll.Table)(null)), "Given ");
                     "F/2"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Verify a Sudoku problem solution", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 133
+#line 130
     this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -489,7 +483,7 @@ __ __ __ __ __ __ __ __ __ 18", ((global::Reqnroll.Table)(null)), "Given ");
             else
             {
                 await this.ScenarioStartAsync();
-#line 134
+#line 131
         await testRunner.GivenAsync("I have created a Sudoku problem from the following grid", "02 __ 04 05 06 __ 09 01 03\r\n01 05 09 03 04 02 06 __ 07\r\n08 03 __ __ __ __ 02 05 0" +
                         "4\r\n03 02 01 06 __ __ __ __ 09\r\n09 __ 05 __ __ __ 01 __ 02\r\n06 04 07 02 01 09 05 " +
                         "__ 08\r\n__ __ 08 09 __ 06 03 04 05\r\n__ 06 02 04 07 __ __ 09 01\r\n04 __ 03 08 __ 01" +
@@ -547,13 +541,13 @@ __ __ __ __ __ __ __ __ __ 18", ((global::Reqnroll.Table)(null)), "Given ");
                             "(7,4) [6]"});
                 table12.AddRow(new string[] {
                             "(7,5) [3]"});
-#line 146
+#line 143
         await testRunner.AndAsync("I have proposed the following filled squares as a solution to the Sudoku problem", ((string)(null)), table12, "And ");
 #line hidden
-#line 173
+#line 170
         await testRunner.WhenAsync("I ask the Sudoku problem to verify the correctness of the proposed solution", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 174
+#line 171
         await testRunner.ThenAsync("the verification result should be successful", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }

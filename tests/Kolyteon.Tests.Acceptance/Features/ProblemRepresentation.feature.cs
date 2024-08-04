@@ -285,7 +285,7 @@ namespace Kolyteon.Tests.Acceptance.Features
             {
                 await this.ScenarioStartAsync();
 #line 58
-        await testRunner.GivenAsync("I have created an N-Queens problem for N = 8", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+        await testRunner.GivenAsync("I have created an N-Queens problem for N = 5", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 59
         await testRunner.AndAsync("I have serialized the N-Queens problem to JSON", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");

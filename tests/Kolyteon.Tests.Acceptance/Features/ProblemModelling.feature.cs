@@ -282,6 +282,49 @@ namespace Kolyteon.Tests.Acceptance.Features
             await this.ScenarioCleanupAsync();
         }
         
+        [Xunit.SkippableFactAttribute(DisplayName="Model an N-Queens problem")]
+        [Xunit.TraitAttribute("FeatureTitle", "Problem Modelling")]
+        [Xunit.TraitAttribute("Description", "Model an N-Queens problem")]
+        [Xunit.TraitAttribute("Category", "D/3")]
+        public async System.Threading.Tasks.Task ModelAnN_QueensProblem()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "D/3"};
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Model an N-Queens problem", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 63
+    this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 64
+        await testRunner.GivenAsync("I have created an N-Queens problem for N = 5", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 65
+        await testRunner.WhenAsync("I model the N-Queens problem as a binary CSP", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 66
+        await testRunner.ThenAsync("the N-Queens binary CSP should have 5 variables", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 67
+        await testRunner.AndAsync("the N-Queens binary CSP should have 10 constraints", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 68
+        await testRunner.AndAsync("the N-Queens binary CSP should have a constraint density of 1.0", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 69
+        await testRunner.AndAsync("the N-Queens binary CSP should have a harmonic mean constraint tightness of 0.423" +
+                        "057", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
         [System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "2.0.0.0")]
         [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
         public class FixtureData : object, Xunit.IAsyncLifetime

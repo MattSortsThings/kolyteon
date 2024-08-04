@@ -58,3 +58,12 @@ Model any valid instance of a given problem type as a generic binary CSP.
         And the Map Colouring binary CSP should have 10 constraints
         And the Map Colouring binary CSP should have a constraint density of 0.277778
         And the Map Colouring binary CSP should have a harmonic mean constraint tightness of 0.263158
+
+    @D/3
+    Scenario: Model an N-Queens problem
+        Given I have created an N-Queens problem for N = 5
+        When I model the N-Queens problem as a binary CSP
+        Then the N-Queens binary CSP should have 5 variables
+        And the N-Queens binary CSP should have 10 constraints
+        And the N-Queens binary CSP should have a constraint density of 1.0
+        And the N-Queens binary CSP should have a harmonic mean constraint tightness of 0.423057
