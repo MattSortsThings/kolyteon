@@ -208,6 +208,80 @@ namespace Kolyteon.Tests.Acceptance.Features
             await this.ScenarioCleanupAsync();
         }
         
+        [Xunit.SkippableFactAttribute(DisplayName="Model a Map Colouring problem")]
+        [Xunit.TraitAttribute("FeatureTitle", "Problem Modelling")]
+        [Xunit.TraitAttribute("Description", "Model a Map Colouring problem")]
+        [Xunit.TraitAttribute("Category", "C/3")]
+        public async System.Threading.Tasks.Task ModelAMapColouringProblem()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "C/3"};
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Model a Map Colouring problem", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 44
+    this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+                global::Reqnroll.Table table2 = new global::Reqnroll.Table(new string[] {
+                            "Block",
+                            "Permitted Colours"});
+                table2.AddRow(new string[] {
+                            "(0,6) [5x2]",
+                            "Red, Blue, Green"});
+                table2.AddRow(new string[] {
+                            "(0,8) [10x2]",
+                            "Red"});
+                table2.AddRow(new string[] {
+                            "(1,0) [3x1]",
+                            "Red, Blue, Green"});
+                table2.AddRow(new string[] {
+                            "(1,1) [3x3]",
+                            "Red, Yellow"});
+                table2.AddRow(new string[] {
+                            "(4,0) [4x2]",
+                            "Red, Blue, Green"});
+                table2.AddRow(new string[] {
+                            "(4,4) [6x2]",
+                            "Red, Blue, Green, Yellow"});
+                table2.AddRow(new string[] {
+                            "(5,6) [5x2]",
+                            "Red, Blue, Green"});
+                table2.AddRow(new string[] {
+                            "(8,0) [2x1]",
+                            "Red, Green"});
+                table2.AddRow(new string[] {
+                            "(8,1) [2x1]",
+                            "Blue"});
+#line 45
+        await testRunner.GivenAsync("I have created a Map Colouring problem with a 10x10 canvas and the following bloc" +
+                        "ks", ((string)(null)), table2, "Given ");
+#line hidden
+#line 56
+        await testRunner.WhenAsync("I model the Map Colouring problem as a binary CSP", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 57
+        await testRunner.ThenAsync("the Map Colouring binary CSP should have 9 variables", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 58
+        await testRunner.AndAsync("the Map Colouring binary CSP should have 10 constraints", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 59
+        await testRunner.AndAsync("the Map Colouring binary CSP should have a constraint density of 0.277778", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 60
+        await testRunner.AndAsync("the Map Colouring binary CSP should have a harmonic mean constraint tightness of " +
+                        "0.263158", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
         [System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "2.0.0.0")]
         [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
         public class FixtureData : object, Xunit.IAsyncLifetime

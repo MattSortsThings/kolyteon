@@ -1,6 +1,7 @@
 using Kolyteon.Common;
 using Kolyteon.Futoshiki;
 using Kolyteon.GraphColouring;
+using Kolyteon.MapColouring;
 using Kolyteon.Modelling;
 using Kolyteon.Tests.Acceptance.TestUtils;
 using Reqnroll;
@@ -29,6 +30,7 @@ internal static class TestHooks
     {
         objectContainer.RegisterFactoryAs(CreateFutoshikiBinaryCsp);
         objectContainer.RegisterFactoryAs(CreateGraphColouringBinaryCsp);
+        objectContainer.RegisterFactoryAs(CreateMapColouringBinaryCsp);
     }
 
     [AfterScenario]
@@ -37,9 +39,15 @@ internal static class TestHooks
     [AfterScenario]
     internal static void ClearBinaryCsp(IBinaryCsp<Node, Colour, GraphColouringProblem> binaryCsp) => binaryCsp.Clear();
 
+    [AfterScenario]
+    internal static void ClearBinaryCsp(IBinaryCsp<Block, Colour, MapColouringProblem> binaryCsp) => binaryCsp.Clear();
+
     private static IBinaryCsp<Square, int, FutoshikiProblem> CreateFutoshikiBinaryCsp(IObjectContainer _) =>
         new FutoshikiConstraintGraph(10);
 
     private static IBinaryCsp<Node, Colour, GraphColouringProblem> CreateGraphColouringBinaryCsp(IObjectContainer _) =>
         new GraphColouringConstraintGraph(8);
+
+    private static IBinaryCsp<Block, Colour, MapColouringProblem> CreateMapColouringBinaryCsp(IObjectContainer _) =>
+        new MapColouringConstraintGraph(10);
 }

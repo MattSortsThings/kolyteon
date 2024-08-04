@@ -106,12 +106,12 @@ internal sealed class GraphColouringSteps
         _binaryCsp.Constraints.Should().Be(expected);
 
     [Then("the Graph Colouring binary CSP should have a constraint density of (.*)")]
-    public void ThenTheGraphColouringBinaryCspShouldHaveAConstraintDensityOf(double expected) => _binaryCsp.ConstraintDensity
-        .Should().BeApproximately(expected, Constants.Precision.SixDecimalPlaces);
+    public void ThenTheGraphColouringBinaryCspShouldHaveAConstraintDensityOf(double expected) =>
+        _binaryCsp.ConstraintDensity.Should().BeApproximately(expected, Constants.Precision.SixDecimalPlaces);
 
     [Then("the Graph Colouring binary CSP should have a harmonic mean tightness of (.*)")]
-    public void ThenTheGraphColouringBinaryCspShouldHaveAHarmonicMeanTightnessOf(double expected) => _binaryCsp.MeanTightness
-        .Should().BeApproximately(expected, Constants.Precision.SixDecimalPlaces);
+    public void ThenTheGraphColouringBinaryCspShouldHaveAHarmonicMeanTightnessOf(double expected) =>
+        _binaryCsp.MeanTightness.Should().BeApproximately(expected, Constants.Precision.SixDecimalPlaces);
 
     private static IEnumerable<Edge> GetEdges(NodeItem[] nodeItems) => nodeItems.SelectMany(item =>
         item.AdjacentNodes.Select(adjacentNode => Edge.Between(item.Node, adjacentNode)));

@@ -1,11 +1,11 @@
 using Kolyteon.Common;
-using Kolyteon.GraphColouring;
+using Kolyteon.MapColouring;
 using Kolyteon.Modelling.Testing;
 using Kolyteon.Tests.Unit.TestUtils;
 
-namespace Kolyteon.Tests.Unit.GraphColouring;
+namespace Kolyteon.Tests.Unit.MapColouring;
 
-public static partial class GraphColouringConstraintGraphTests
+public static partial class MapColouringConstraintGraphTests
 {
     [UnitTest]
     public sealed class ParameterlessConstructor
@@ -14,7 +14,7 @@ public static partial class GraphColouringConstraintGraphTests
         public void ParameterlessConstructor_Initializes_AllPropertiesIncludingCapacityAreZero()
         {
             // Act
-            GraphColouringConstraintGraph result = new();
+            MapColouringConstraintGraph result = new();
 
             // Assert
             using (new AssertionScope())
@@ -38,7 +38,7 @@ public static partial class GraphColouringConstraintGraphTests
             const int capacity = 4;
 
             // Act
-            GraphColouringConstraintGraph result = new(capacity);
+            MapColouringConstraintGraph result = new(capacity);
 
             // Assert
             using (new AssertionScope())
@@ -55,7 +55,7 @@ public static partial class GraphColouringConstraintGraphTests
         public void CapacityArgConstructor_CapacityArgIsNegative_Throws()
         {
             // Act
-            Action act = () => _ = new GraphColouringConstraintGraph(-1);
+            Action act = () => _ = new MapColouringConstraintGraph(-1);
 
             // Assert
             act.Should().Throw<ArgumentOutOfRangeException>()
@@ -66,7 +66,7 @@ public static partial class GraphColouringConstraintGraphTests
     [UnitTest]
     public sealed class CapacityProperty
     {
-        private static GraphColouringProblem GetProblemWithTwoVariables() => TestCaseTwo.Problem;
+        private static MapColouringProblem GetProblemWithTwoVariables() => TestCaseTwo.Problem;
 
         [Theory]
         [InlineData(2)]
@@ -77,7 +77,7 @@ public static partial class GraphColouringConstraintGraphTests
             // Arrange
             const int initialCapacity = 3;
 
-            GraphColouringConstraintGraph sut = new(initialCapacity);
+            MapColouringConstraintGraph sut = new(initialCapacity);
 
             sut.Model(GetProblemWithTwoVariables());
 
@@ -97,8 +97,8 @@ public static partial class GraphColouringConstraintGraphTests
         public void CapacitySetter_GivenValueLessThanNumberOfVariables_Throws(int requiredCapacity)
         {
             // Arrange
-            GraphColouringConstraintGraph sut =
-                GraphColouringConstraintGraph.ModellingProblem(GetProblemWithTwoVariables());
+            MapColouringConstraintGraph sut =
+                MapColouringConstraintGraph.ModellingProblem(GetProblemWithTwoVariables());
 
             // Assert
             sut.Capacity.Should().Be(2);
@@ -115,7 +115,7 @@ public static partial class GraphColouringConstraintGraphTests
         public void CapacitySetter_GivenNegativeValue_Throws()
         {
             // Arrange
-            GraphColouringConstraintGraph sut = new();
+            MapColouringConstraintGraph sut = new();
 
             // Act
             Action act = () => sut.Capacity = -1;
@@ -129,7 +129,7 @@ public static partial class GraphColouringConstraintGraphTests
     [UnitTest]
     public sealed class ModelMethod
     {
-        public static TheoryData<GraphColouringProblem, IList<ConstraintGraphNode<Node, Colour>>> NodeTestCases => new()
+        public static TheoryData<MapColouringProblem, IList<ConstraintGraphNode<Block, Colour>>> NodeTestCases => new()
         {
             { TestCaseOne.Problem, TestCaseOne.ExpectedNodes },
             { TestCaseTwo.Problem, TestCaseTwo.ExpectedNodes },
@@ -138,7 +138,7 @@ public static partial class GraphColouringConstraintGraphTests
             { TestCaseFive.Problem, TestCaseFive.ExpectedNodes }
         };
 
-        public static TheoryData<GraphColouringProblem, IList<ConstraintGraphEdge<Node, Colour>>> EdgeTestCases => new()
+        public static TheoryData<MapColouringProblem, IList<ConstraintGraphEdge<Block, Colour>>> EdgeTestCases => new()
         {
             { TestCaseOne.Problem, TestCaseOne.ExpectedEdges },
             { TestCaseTwo.Problem, TestCaseTwo.ExpectedEdges },
@@ -149,11 +149,11 @@ public static partial class GraphColouringConstraintGraphTests
 
         [Theory]
         [MemberData(nameof(NodeTestCases), MemberType = typeof(ModelMethod))]
-        public void Model_GivenProblem_PopulatesNodes(GraphColouringProblem problem,
-            IList<ConstraintGraphNode<Node, Colour>> expectedNodes)
+        public void Model_GivenProblem_PopulatesNodes(MapColouringProblem problem,
+            IList<ConstraintGraphNode<Block, Colour>> expectedNodes)
         {
             // Arrange
-            GraphColouringConstraintGraph sut = new(4);
+            MapColouringConstraintGraph sut = new(4);
 
             // Act
             sut.Model(problem);
@@ -164,11 +164,11 @@ public static partial class GraphColouringConstraintGraphTests
 
         [Theory]
         [MemberData(nameof(EdgeTestCases), MemberType = typeof(ModelMethod))]
-        public void Model_GivenProblem_PopulatesEdges(GraphColouringProblem problem,
-            IList<ConstraintGraphEdge<Node, Colour>> expectedEdges)
+        public void Model_GivenProblem_PopulatesEdges(MapColouringProblem problem,
+            IList<ConstraintGraphEdge<Block, Colour>> expectedEdges)
         {
             // Arrange
-            GraphColouringConstraintGraph sut = new(4);
+            MapColouringConstraintGraph sut = new(4);
 
             // Act
             sut.Model(problem);
@@ -181,15 +181,15 @@ public static partial class GraphColouringConstraintGraphTests
         public void CanModelProblem_ThenClear_ThenModelAnotherProblem()
         {
             // Arrange
-            (GraphColouringProblem initialProblem,
-                IList<ConstraintGraphNode<Node, Colour>> expectedInitialNodes,
-                IList<ConstraintGraphEdge<Node, Colour>> expectedInitialEdges) = TestCaseOne;
+            (MapColouringProblem initialProblem,
+                IList<ConstraintGraphNode<Block, Colour>> expectedInitialNodes,
+                IList<ConstraintGraphEdge<Block, Colour>> expectedInitialEdges) = TestCaseOne;
 
-            (GraphColouringProblem finalProblem,
-                IList<ConstraintGraphNode<Node, Colour>> expectedFinalNodes,
-                IList<ConstraintGraphEdge<Node, Colour>> expectedFinalEdges) = TestCaseFive;
+            (MapColouringProblem finalProblem,
+                IList<ConstraintGraphNode<Block, Colour>> expectedFinalNodes,
+                IList<ConstraintGraphEdge<Block, Colour>> expectedFinalEdges) = TestCaseFive;
 
-            GraphColouringConstraintGraph sut = GraphColouringConstraintGraph.ModellingProblem(initialProblem);
+            MapColouringConstraintGraph sut = MapColouringConstraintGraph.ModellingProblem(initialProblem);
 
             // Assert
             using (new AssertionScope())
@@ -218,12 +218,12 @@ public static partial class GraphColouringConstraintGraphTests
         public void ModellingProblem_GivenProblem_ReturnsInstanceModellingProblem()
         {
             // Arrange
-            (GraphColouringProblem problem,
-                IList<ConstraintGraphNode<Node, Colour>> expectedNodes,
-                IList<ConstraintGraphEdge<Node, Colour>> expectedEdges) = TestCaseFive;
+            (MapColouringProblem problem,
+                IList<ConstraintGraphNode<Block, Colour>> expectedNodes,
+                IList<ConstraintGraphEdge<Block, Colour>> expectedEdges) = TestCaseFive;
 
             // Act
-            GraphColouringConstraintGraph result = GraphColouringConstraintGraph.ModellingProblem(problem);
+            MapColouringConstraintGraph result = MapColouringConstraintGraph.ModellingProblem(problem);
 
             // Assert
             using (new AssertionScope())
@@ -237,7 +237,7 @@ public static partial class GraphColouringConstraintGraphTests
         public void ModellingProblem_ProblemArgIsNull_Throws()
         {
             // Act
-            Action act = () => GraphColouringConstraintGraph.ModellingProblem(null!);
+            Action act = () => MapColouringConstraintGraph.ModellingProblem(null!);
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
