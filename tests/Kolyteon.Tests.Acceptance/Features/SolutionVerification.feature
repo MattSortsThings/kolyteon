@@ -35,22 +35,24 @@ Verify the correctness of any proposed solution to any valid instance of a given
     Scenario: Verify a Graph Colouring problem solution
         Given I have created a Graph Colouring problem with the following nodes and edges
           | Node | Permitted Colours  | Adjacent Nodes |
-          | x1   | Red, Blue, Green   | x2, x3, x4, x7 |
-          | x2   | Blue, Green        | x1, x6         |
-          | x3   | Red, Blue          | x1, x7         |
-          | x4   | Red, Blue          | x1, x5, x7     |
-          | x5   | Blue, Green        | x4, x6, x7     |
-          | x6   | Red, Green, Yellow | x2, x5         |
-          | x7   | Red, Blue          | x1, x3, x4, x5 |
+          | A    | Red, Blue, Green   | B, C, D, G     |
+          | B    | Blue, Green        | A, F           |
+          | C    | Red, Blue          | A, G           |
+          | D    | Red, Blue          | A, E, G, H     |
+          | E    | Blue, Green        | D, F, G        |
+          | F    | Red, Green, Yellow | B, E           |
+          | G    | Red, Blue          | A, C, D, E     |
+          | H    | Yellow             | D              |
         And I have proposed the following node and colour dictionary as a solution to the Graph Colouring problem
           | Node | Colour |
-          | x1   | Green  |
-          | x2   | Blue   |
-          | x3   | Red    |
-          | x4   | Red    |
-          | x5   | Green  |
-          | x6   | Yellow |
-          | x7   | Blue   |
+          | A    | Green  |
+          | B    | Blue   |
+          | C    | Red    |
+          | D    | Red    |
+          | E    | Green  |
+          | F    | Yellow |
+          | G    | Blue   |
+          | H    | Yellow |
         When I ask the Graph Colouring problem to verify the correctness of the proposed solution
         Then the verification result should be successful
 

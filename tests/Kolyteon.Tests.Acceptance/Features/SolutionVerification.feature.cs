@@ -112,31 +112,31 @@ namespace Kolyteon.Tests.Acceptance.Features
                         "---+---+---+\r\n| 3 |   > 1 |   |\r\n+---+->-+---+---+\r\n| 4 >   |   | 3 |\r\n+---+---+" +
                         "---+---+", ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-                global::Reqnroll.Table table3 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table4 = new global::Reqnroll.Table(new string[] {
                             "Filled Square"});
-                table3.AddRow(new string[] {
+                table4.AddRow(new string[] {
                             "(0,0) [1]"});
-                table3.AddRow(new string[] {
+                table4.AddRow(new string[] {
                             "(0,1) [2]"});
-                table3.AddRow(new string[] {
+                table4.AddRow(new string[] {
                             "(1,1) [3]"});
-                table3.AddRow(new string[] {
+                table4.AddRow(new string[] {
                             "(1,2) [4]"});
-                table3.AddRow(new string[] {
+                table4.AddRow(new string[] {
                             "(1,3) [1]"});
-                table3.AddRow(new string[] {
+                table4.AddRow(new string[] {
                             "(2,0) [3]"});
-                table3.AddRow(new string[] {
+                table4.AddRow(new string[] {
                             "(2,1) [4]"});
-                table3.AddRow(new string[] {
+                table4.AddRow(new string[] {
                             "(2,3) [2]"});
-                table3.AddRow(new string[] {
+                table4.AddRow(new string[] {
                             "(3,0) [4]"});
-                table3.AddRow(new string[] {
+                table4.AddRow(new string[] {
                             "(3,2) [2]"});
 #line 19
         await testRunner.AndAsync("I have proposed the following filled squares as a solution to the Futoshiki probl" +
-                        "em", ((string)(null)), table3, "And ");
+                        "em", ((string)(null)), table4, "And ");
 #line hidden
 #line 31
         await testRunner.WhenAsync("I ask the Futoshiki problem to verify the correctness of the proposed solution", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
@@ -168,74 +168,81 @@ namespace Kolyteon.Tests.Acceptance.Features
             else
             {
                 await this.ScenarioStartAsync();
-                global::Reqnroll.Table table4 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table5 = new global::Reqnroll.Table(new string[] {
                             "Node",
                             "Permitted Colours",
                             "Adjacent Nodes"});
-                table4.AddRow(new string[] {
-                            "x1",
+                table5.AddRow(new string[] {
+                            "A",
                             "Red, Blue, Green",
-                            "x2, x3, x4, x7"});
-                table4.AddRow(new string[] {
-                            "x2",
+                            "B, C, D, G"});
+                table5.AddRow(new string[] {
+                            "B",
                             "Blue, Green",
-                            "x1, x6"});
-                table4.AddRow(new string[] {
-                            "x3",
+                            "A, F"});
+                table5.AddRow(new string[] {
+                            "C",
                             "Red, Blue",
-                            "x1, x7"});
-                table4.AddRow(new string[] {
-                            "x4",
+                            "A, G"});
+                table5.AddRow(new string[] {
+                            "D",
                             "Red, Blue",
-                            "x1, x5, x7"});
-                table4.AddRow(new string[] {
-                            "x5",
+                            "A, E, G, H"});
+                table5.AddRow(new string[] {
+                            "E",
                             "Blue, Green",
-                            "x4, x6, x7"});
-                table4.AddRow(new string[] {
-                            "x6",
+                            "D, F, G"});
+                table5.AddRow(new string[] {
+                            "F",
                             "Red, Green, Yellow",
-                            "x2, x5"});
-                table4.AddRow(new string[] {
-                            "x7",
+                            "B, E"});
+                table5.AddRow(new string[] {
+                            "G",
                             "Red, Blue",
-                            "x1, x3, x4, x5"});
+                            "A, C, D, E"});
+                table5.AddRow(new string[] {
+                            "H",
+                            "Yellow",
+                            "D"});
 #line 36
-        await testRunner.GivenAsync("I have created a Graph Colouring problem with the following nodes and edges", ((string)(null)), table4, "Given ");
+        await testRunner.GivenAsync("I have created a Graph Colouring problem with the following nodes and edges", ((string)(null)), table5, "Given ");
 #line hidden
-                global::Reqnroll.Table table5 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table6 = new global::Reqnroll.Table(new string[] {
                             "Node",
                             "Colour"});
-                table5.AddRow(new string[] {
-                            "x1",
+                table6.AddRow(new string[] {
+                            "A",
                             "Green"});
-                table5.AddRow(new string[] {
-                            "x2",
+                table6.AddRow(new string[] {
+                            "B",
                             "Blue"});
-                table5.AddRow(new string[] {
-                            "x3",
+                table6.AddRow(new string[] {
+                            "C",
                             "Red"});
-                table5.AddRow(new string[] {
-                            "x4",
+                table6.AddRow(new string[] {
+                            "D",
                             "Red"});
-                table5.AddRow(new string[] {
-                            "x5",
+                table6.AddRow(new string[] {
+                            "E",
                             "Green"});
-                table5.AddRow(new string[] {
-                            "x6",
+                table6.AddRow(new string[] {
+                            "F",
                             "Yellow"});
-                table5.AddRow(new string[] {
-                            "x7",
+                table6.AddRow(new string[] {
+                            "G",
                             "Blue"});
-#line 45
+                table6.AddRow(new string[] {
+                            "H",
+                            "Yellow"});
+#line 46
         await testRunner.AndAsync("I have proposed the following node and colour dictionary as a solution to the Gra" +
-                        "ph Colouring problem", ((string)(null)), table5, "And ");
+                        "ph Colouring problem", ((string)(null)), table6, "And ");
 #line hidden
-#line 54
+#line 56
         await testRunner.WhenAsync("I ask the Graph Colouring problem to verify the correctness of the proposed solut" +
                         "ion", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 55
+#line 57
         await testRunner.ThenAsync("the verification result should be successful", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -252,7 +259,7 @@ namespace Kolyteon.Tests.Acceptance.Features
                     "C/2"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Verify a Map Colouring problem solution", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 58
+#line 60
     this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -262,85 +269,85 @@ namespace Kolyteon.Tests.Acceptance.Features
             else
             {
                 await this.ScenarioStartAsync();
-                global::Reqnroll.Table table6 = new global::Reqnroll.Table(new string[] {
-                            "Block",
-                            "Permitted Colours"});
-                table6.AddRow(new string[] {
-                            "(0,6) [5x2]",
-                            "Red, Blue, Green"});
-                table6.AddRow(new string[] {
-                            "(0,8) [10x2]",
-                            "Red"});
-                table6.AddRow(new string[] {
-                            "(1,0) [3x1]",
-                            "Red, Blue, Green"});
-                table6.AddRow(new string[] {
-                            "(1,1) [3x3]",
-                            "Red, Yellow"});
-                table6.AddRow(new string[] {
-                            "(4,0) [4x2]",
-                            "Red, Blue, Green"});
-                table6.AddRow(new string[] {
-                            "(4,4) [6x2]",
-                            "Red, Blue, Green, Yellow"});
-                table6.AddRow(new string[] {
-                            "(5,6) [5x2]",
-                            "Red, Blue, Green"});
-                table6.AddRow(new string[] {
-                            "(8,0) [2x1]",
-                            "Red, Green"});
-                table6.AddRow(new string[] {
-                            "(8,1) [1x1]",
-                            "Red"});
-                table6.AddRow(new string[] {
-                            "(9,1) [1x1]",
-                            "Yellow"});
-#line 59
-        await testRunner.GivenAsync("I have created a Map Colouring problem with a 10x10 canvas and the following bloc" +
-                        "ks", ((string)(null)), table6, "Given ");
-#line hidden
                 global::Reqnroll.Table table7 = new global::Reqnroll.Table(new string[] {
                             "Block",
-                            "Colour"});
+                            "Permitted Colours"});
                 table7.AddRow(new string[] {
                             "(0,6) [5x2]",
-                            "Blue"});
+                            "Red, Blue, Green"});
                 table7.AddRow(new string[] {
                             "(0,8) [10x2]",
                             "Red"});
                 table7.AddRow(new string[] {
                             "(1,0) [3x1]",
-                            "Red"});
+                            "Red, Blue, Green"});
                 table7.AddRow(new string[] {
                             "(1,1) [3x3]",
-                            "Yellow"});
+                            "Red, Yellow"});
                 table7.AddRow(new string[] {
                             "(4,0) [4x2]",
-                            "Blue"});
+                            "Red, Blue, Green"});
                 table7.AddRow(new string[] {
                             "(4,4) [6x2]",
-                            "Red"});
+                            "Red, Blue, Green, Yellow"});
                 table7.AddRow(new string[] {
                             "(5,6) [5x2]",
-                            "Green"});
+                            "Red, Blue, Green"});
                 table7.AddRow(new string[] {
                             "(8,0) [2x1]",
-                            "Green"});
+                            "Red, Green"});
                 table7.AddRow(new string[] {
                             "(8,1) [1x1]",
                             "Red"});
                 table7.AddRow(new string[] {
                             "(9,1) [1x1]",
                             "Yellow"});
-#line 71
-        await testRunner.AndAsync("I have proposed the following block and colour dictionary as a solution to the Ma" +
-                        "p Colouring problem", ((string)(null)), table7, "And ");
+#line 61
+        await testRunner.GivenAsync("I have created a Map Colouring problem with a 10x10 canvas and the following bloc" +
+                        "ks", ((string)(null)), table7, "Given ");
 #line hidden
-#line 83
+                global::Reqnroll.Table table8 = new global::Reqnroll.Table(new string[] {
+                            "Block",
+                            "Colour"});
+                table8.AddRow(new string[] {
+                            "(0,6) [5x2]",
+                            "Blue"});
+                table8.AddRow(new string[] {
+                            "(0,8) [10x2]",
+                            "Red"});
+                table8.AddRow(new string[] {
+                            "(1,0) [3x1]",
+                            "Red"});
+                table8.AddRow(new string[] {
+                            "(1,1) [3x3]",
+                            "Yellow"});
+                table8.AddRow(new string[] {
+                            "(4,0) [4x2]",
+                            "Blue"});
+                table8.AddRow(new string[] {
+                            "(4,4) [6x2]",
+                            "Red"});
+                table8.AddRow(new string[] {
+                            "(5,6) [5x2]",
+                            "Green"});
+                table8.AddRow(new string[] {
+                            "(8,0) [2x1]",
+                            "Green"});
+                table8.AddRow(new string[] {
+                            "(8,1) [1x1]",
+                            "Red"});
+                table8.AddRow(new string[] {
+                            "(9,1) [1x1]",
+                            "Yellow"});
+#line 73
+        await testRunner.AndAsync("I have proposed the following block and colour dictionary as a solution to the Ma" +
+                        "p Colouring problem", ((string)(null)), table8, "And ");
+#line hidden
+#line 85
         await testRunner.WhenAsync("I ask the Map Colouring problem to verify the correctness of the proposed solutio" +
                         "n", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 84
+#line 86
         await testRunner.ThenAsync("the verification result should be successful", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -357,7 +364,7 @@ namespace Kolyteon.Tests.Acceptance.Features
                     "D/2"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Verify an N-Queens problem solution", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 87
+#line 89
     this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -367,34 +374,34 @@ namespace Kolyteon.Tests.Acceptance.Features
             else
             {
                 await this.ScenarioStartAsync();
-#line 88
+#line 90
         await testRunner.GivenAsync("I have created an N-Queens problem for N = 8", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-                global::Reqnroll.Table table8 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table9 = new global::Reqnroll.Table(new string[] {
                             "Square"});
-                table8.AddRow(new string[] {
+                table9.AddRow(new string[] {
                             "(0,6)"});
-                table8.AddRow(new string[] {
+                table9.AddRow(new string[] {
                             "(1,4)"});
-                table8.AddRow(new string[] {
+                table9.AddRow(new string[] {
                             "(2,2)"});
-                table8.AddRow(new string[] {
+                table9.AddRow(new string[] {
                             "(3,0)"});
-                table8.AddRow(new string[] {
+                table9.AddRow(new string[] {
                             "(4,5)"});
-                table8.AddRow(new string[] {
+                table9.AddRow(new string[] {
                             "(5,7)"});
-                table8.AddRow(new string[] {
+                table9.AddRow(new string[] {
                             "(6,1)"});
-                table8.AddRow(new string[] {
+                table9.AddRow(new string[] {
                             "(7,3)"});
-#line 89
-        await testRunner.AndAsync("I have proposed the following squares as a solution to the N-Queens problem", ((string)(null)), table8, "And ");
+#line 91
+        await testRunner.AndAsync("I have proposed the following squares as a solution to the N-Queens problem", ((string)(null)), table9, "And ");
 #line hidden
-#line 99
+#line 101
         await testRunner.WhenAsync("I ask the N-Queens problem to verify the correctness of the proposed solution", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 100
+#line 102
         await testRunner.ThenAsync("the verification result should be successful", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -411,7 +418,7 @@ namespace Kolyteon.Tests.Acceptance.Features
                     "E/2"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Verify a Shikaku problem solution", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 103
+#line 105
     this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -421,7 +428,7 @@ namespace Kolyteon.Tests.Acceptance.Features
             else
             {
                 await this.ScenarioStartAsync();
-#line 104
+#line 106
         await testRunner.GivenAsync("I have created a Shikaku problem from the following grid", @"03 __ __ __ __ __ __ 07 __ __
 __ __ __ __ __ __ __ __ __ __
 __ __ __ __ __ __ __ __ __ __
@@ -433,35 +440,35 @@ __ __ 03 __ __ __ __ __ __ __
 __ __ __ __ __ __ __ 16 __ __
 __ __ __ __ __ __ __ __ __ 18", ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-                global::Reqnroll.Table table9 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table10 = new global::Reqnroll.Table(new string[] {
                             "Block"});
-                table9.AddRow(new string[] {
+                table10.AddRow(new string[] {
                             "(0,0) [3x1]"});
-                table9.AddRow(new string[] {
+                table10.AddRow(new string[] {
                             "(0,1) [1x5]"});
-                table9.AddRow(new string[] {
+                table10.AddRow(new string[] {
                             "(0,6) [3x1]"});
-                table9.AddRow(new string[] {
+                table10.AddRow(new string[] {
                             "(0,7) [3x1]"});
-                table9.AddRow(new string[] {
+                table10.AddRow(new string[] {
                             "(0,8) [8x2]"});
-                table9.AddRow(new string[] {
+                table10.AddRow(new string[] {
                             "(1,1) [2x5]"});
-                table9.AddRow(new string[] {
+                table10.AddRow(new string[] {
                             "(3,0) [7x1]"});
-                table9.AddRow(new string[] {
+                table10.AddRow(new string[] {
                             "(3,1) [2x7]"});
-                table9.AddRow(new string[] {
+                table10.AddRow(new string[] {
                             "(5,1) [3x7]"});
-                table9.AddRow(new string[] {
+                table10.AddRow(new string[] {
                             "(8,1) [2x9]"});
-#line 117
-        await testRunner.AndAsync("I have proposed the following blocks as a solution to the Shikaku problem", ((string)(null)), table9, "And ");
+#line 119
+        await testRunner.AndAsync("I have proposed the following blocks as a solution to the Shikaku problem", ((string)(null)), table10, "And ");
 #line hidden
-#line 129
+#line 131
         await testRunner.WhenAsync("I ask the Shikaku problem to verify the correctness of the proposed solution", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 130
+#line 132
         await testRunner.ThenAsync("the verification result should be successful", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -478,7 +485,7 @@ __ __ __ __ __ __ __ __ __ 18", ((global::Reqnroll.Table)(null)), "Given ");
                     "F/2"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Verify a Sudoku problem solution", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 133
+#line 135
     this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -488,71 +495,71 @@ __ __ __ __ __ __ __ __ __ 18", ((global::Reqnroll.Table)(null)), "Given ");
             else
             {
                 await this.ScenarioStartAsync();
-#line 134
+#line 136
         await testRunner.GivenAsync("I have created a Sudoku problem from the following grid", "02 __ 04 05 06 __ 09 01 03\r\n01 05 09 03 04 02 06 __ 07\r\n08 03 __ __ __ __ 02 05 0" +
                         "4\r\n03 02 01 06 __ __ __ __ 09\r\n09 __ 05 __ __ __ 01 __ 02\r\n06 04 07 02 01 09 05 " +
                         "__ 08\r\n__ __ 08 09 __ 06 03 04 05\r\n__ 06 02 04 07 __ __ 09 01\r\n04 __ 03 08 __ 01" +
                         " 07 02 06", ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-                global::Reqnroll.Table table10 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table11 = new global::Reqnroll.Table(new string[] {
                             "Filled Square"});
-                table10.AddRow(new string[] {
+                table11.AddRow(new string[] {
                             "(0,6) [7]"});
-                table10.AddRow(new string[] {
+                table11.AddRow(new string[] {
                             "(0,7) [5]"});
-                table10.AddRow(new string[] {
+                table11.AddRow(new string[] {
                             "(1,0) [7]"});
-                table10.AddRow(new string[] {
+                table11.AddRow(new string[] {
                             "(1,4) [8]"});
-                table10.AddRow(new string[] {
+                table11.AddRow(new string[] {
                             "(1,6) [1]"});
-                table10.AddRow(new string[] {
+                table11.AddRow(new string[] {
                             "(1,8) [9]"});
-                table10.AddRow(new string[] {
+                table11.AddRow(new string[] {
                             "(2,2) [6]"});
-                table10.AddRow(new string[] {
+                table11.AddRow(new string[] {
                             "(3,2) [1]"});
-                table10.AddRow(new string[] {
+                table11.AddRow(new string[] {
                             "(3,4) [7]"});
-                table10.AddRow(new string[] {
+                table11.AddRow(new string[] {
                             "(4,2) [9]"});
-                table10.AddRow(new string[] {
+                table11.AddRow(new string[] {
                             "(4,3) [8]"});
-                table10.AddRow(new string[] {
+                table11.AddRow(new string[] {
                             "(4,4) [3]"});
-                table10.AddRow(new string[] {
+                table11.AddRow(new string[] {
                             "(4,6) [2]"});
-                table10.AddRow(new string[] {
+                table11.AddRow(new string[] {
                             "(4,8) [5]"});
-                table10.AddRow(new string[] {
+                table11.AddRow(new string[] {
                             "(5,0) [8]"});
-                table10.AddRow(new string[] {
+                table11.AddRow(new string[] {
                             "(5,2) [7]"});
-                table10.AddRow(new string[] {
+                table11.AddRow(new string[] {
                             "(5,3) [5]"});
-                table10.AddRow(new string[] {
+                table11.AddRow(new string[] {
                             "(5,4) [4]"});
-                table10.AddRow(new string[] {
+                table11.AddRow(new string[] {
                             "(5,7) [3]"});
-                table10.AddRow(new string[] {
+                table11.AddRow(new string[] {
                             "(6,3) [4]"});
-                table10.AddRow(new string[] {
+                table11.AddRow(new string[] {
                             "(6,7) [8]"});
-                table10.AddRow(new string[] {
+                table11.AddRow(new string[] {
                             "(7,1) [8]"});
-                table10.AddRow(new string[] {
+                table11.AddRow(new string[] {
                             "(7,3) [7]"});
-                table10.AddRow(new string[] {
+                table11.AddRow(new string[] {
                             "(7,4) [6]"});
-                table10.AddRow(new string[] {
+                table11.AddRow(new string[] {
                             "(7,5) [3]"});
-#line 146
-        await testRunner.AndAsync("I have proposed the following filled squares as a solution to the Sudoku problem", ((string)(null)), table10, "And ");
+#line 148
+        await testRunner.AndAsync("I have proposed the following filled squares as a solution to the Sudoku problem", ((string)(null)), table11, "And ");
 #line hidden
-#line 173
+#line 175
         await testRunner.WhenAsync("I ask the Sudoku problem to verify the correctness of the proposed solution", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 174
+#line 176
         await testRunner.ThenAsync("the verification result should be successful", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }

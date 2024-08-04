@@ -50,7 +50,7 @@ The Graph Colouring problem type uses the following [common type](problem_defini
 - A `Node` is a (`Name`) tuple, where:
   - `Name` is a non-empty, non-white-space string identifying the node.
 - Two `Node` instances are compared by `Name`, using case-sensitive ordinal string comparison rules.
-- The string representation of the node with the name `"r0"` is `"(r0)"`.
+- The string representation of the node with the name `"A"` is `"(A)"`.
 
 ### `NodeDatum` record
 
@@ -67,7 +67,7 @@ The Graph Colouring problem type uses the following [common type](problem_defini
   - `FirstNode` is the first `Node` value, and
   - `SecondNode` is the second `Node` value.
 - Two `Edge` instances are compared by `FirstNode`, then by `SecondNode`.
-- The string representation `Edge` between the nodes with names `"r0"` and `"r1"` is `"(r0)-(r1)"`.
+- The string representation `Edge` between the nodes with names `"A"` and `"B"` is `"(A)-(B)"`.
 
 ### `GraphColouringProblem` record
 

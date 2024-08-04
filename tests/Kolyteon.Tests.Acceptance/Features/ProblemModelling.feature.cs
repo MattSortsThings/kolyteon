@@ -130,6 +130,84 @@ namespace Kolyteon.Tests.Acceptance.Features
             await this.ScenarioCleanupAsync();
         }
         
+        [Xunit.SkippableFactAttribute(DisplayName="Model a Graph Colouring problem")]
+        [Xunit.TraitAttribute("FeatureTitle", "Problem Modelling")]
+        [Xunit.TraitAttribute("Description", "Model a Graph Colouring problem")]
+        [Xunit.TraitAttribute("Category", "B/3")]
+        public async System.Threading.Tasks.Task ModelAGraphColouringProblem()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "B/3"};
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Model a Graph Colouring problem", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 26
+    this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+                global::Reqnroll.Table table1 = new global::Reqnroll.Table(new string[] {
+                            "Node",
+                            "Permitted Colours",
+                            "Adjacent Nodes"});
+                table1.AddRow(new string[] {
+                            "A",
+                            "Red, Blue, Green",
+                            "B, C, D, G"});
+                table1.AddRow(new string[] {
+                            "B",
+                            "Blue, Green",
+                            "A, F"});
+                table1.AddRow(new string[] {
+                            "C",
+                            "Red, Blue",
+                            "A, G"});
+                table1.AddRow(new string[] {
+                            "D",
+                            "Red, Blue",
+                            "A, E, G, H"});
+                table1.AddRow(new string[] {
+                            "E",
+                            "Blue, Green",
+                            "D, F, G"});
+                table1.AddRow(new string[] {
+                            "F",
+                            "Red, Green, Yellow",
+                            "B, E"});
+                table1.AddRow(new string[] {
+                            "G",
+                            "Red, Blue",
+                            "A, C, D, E"});
+                table1.AddRow(new string[] {
+                            "H",
+                            "Yellow",
+                            "D"});
+#line 27
+        await testRunner.GivenAsync("I have created a Graph Colouring problem with the following nodes and edges", ((string)(null)), table1, "Given ");
+#line hidden
+#line 37
+        await testRunner.WhenAsync("I model the Graph Colouring problem as a binary CSP", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 38
+        await testRunner.ThenAsync("the Graph Colouring binary CSP should have 8 variables", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 39
+        await testRunner.AndAsync("the Graph Colouring binary CSP should have 10 constraints", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 40
+        await testRunner.AndAsync("the Graph Colouring binary CSP should have a constraint density of 0.357143", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 41
+        await testRunner.AndAsync("the Graph Colouring binary CSP should have a harmonic mean tightness of 0.277777", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
         [System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "2.0.0.0")]
         [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
         public class FixtureData : object, Xunit.IAsyncLifetime
