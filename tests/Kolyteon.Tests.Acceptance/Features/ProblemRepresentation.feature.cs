@@ -357,10 +357,10 @@ namespace Kolyteon.Tests.Acceptance.Features
             {
                 await this.ScenarioStartAsync();
 #line 79
-        await testRunner.GivenAsync("I have created a Sudoku problem from the following grid", "02 __ 04 05 06 __ 09 01 03\r\n01 05 09 03 04 02 06 __ 07\r\n08 03 __ __ __ __ 02 05 0" +
-                        "4\r\n03 02 01 06 __ __ __ __ 09\r\n09 __ 05 __ __ __ 01 __ 02\r\n06 04 07 02 01 09 05 " +
-                        "__ 08\r\n__ __ 08 09 __ 06 03 04 05\r\n__ 06 02 04 07 __ __ 09 01\r\n04 __ 03 08 __ 01" +
-                        " 07 02 06", ((global::Reqnroll.Table)(null)), "Given ");
+        await testRunner.GivenAsync("I have created a Sudoku problem from the following grid", "__ 02 __ __ __ 06 07 08 __\r\n__ 05 06 07 08 09 01 02 03\r\n__ 08 09 01 02 03 04 05 0" +
+                        "6\r\n08 09 01 02 03 04 05 06 07\r\n02 03 04 05 __ 07 08 09 01\r\n05 06 07 08 09 01 02 " +
+                        "03 04\r\n06 07 08 09 01 02 03 04 05\r\n09 01 02 03 04 05 06 07 08\r\n__ 04 05 06 __ 08" +
+                        " 09 01 __", ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 91
         await testRunner.AndAsync("I have serialized the Sudoku problem to JSON", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");

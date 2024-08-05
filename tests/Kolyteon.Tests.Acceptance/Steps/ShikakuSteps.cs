@@ -86,12 +86,12 @@ internal sealed class ShikakuSteps
     public void ThenTheShikakuBinaryCspShouldHaveConstraints(int expected) => _binaryCsp.Constraints.Should().Be(expected);
 
     [Then("the Shikaku binary CSP should have a constraint density of (.*)")]
-    public void ThenTheShikakuBinaryCspShouldHaveAConstraintDensityOf(double expected) => _binaryCsp.ConstraintDensity.Should()
-        .BeApproximately(expected, Constants.Precision.SixDecimalPlaces);
+    public void ThenTheShikakuBinaryCspShouldHaveAConstraintDensityOf(double expected) =>
+        _binaryCsp.ConstraintDensity.Should().BeApproximately(expected, Constants.Precision.SixDecimalPlaces);
 
-    [Then("the Shikaku binary CSP should have a harmonic mean of (.*)")]
-    public void ThenTheShikakuBinaryCspShouldHaveAHarmonicMeanOf(double expected) => _binaryCsp.MeanTightness.Should()
-        .BeApproximately(expected, Constants.Precision.SixDecimalPlaces);
+    [Then("the Shikaku binary CSP should have a harmonic mean constraint tightness of (.*)")]
+    public void ThenTheShikakuBinaryCspShouldHaveAHarmonicMeanConstraintTightnessOf(double expected) =>
+        _binaryCsp.MeanTightness.Should().BeApproximately(expected, Constants.Precision.SixDecimalPlaces);
 
     private sealed record SolutionItem(Block Block);
 }

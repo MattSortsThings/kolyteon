@@ -82,4 +82,24 @@ Model any valid instance of a given problem type as a generic binary CSP.
         Then the Shikaku binary CSP should have 5 variables
         And the Shikaku binary CSP should have 5 constraints
         And the Shikaku binary CSP should have a constraint density of 0.5
-        And the Shikaku binary CSP should have a harmonic mean of 0.326797
+        And the Shikaku binary CSP should have a harmonic mean constraint tightness of 0.326797
+
+    @F/3
+    Scenario: Model a Sudoku problem
+        Given I have created a Sudoku problem from the following grid
+        """
+        __ 02 __ __ __ 06 07 08 __
+        __ 05 06 07 08 09 01 02 03
+        __ 08 09 01 02 03 04 05 06
+        08 09 01 02 03 04 05 06 07
+        02 03 04 05 __ 07 08 09 01
+        05 06 07 08 09 01 02 03 04
+        06 07 08 09 01 02 03 04 05
+        09 01 02 03 04 05 06 07 08
+        __ 04 05 06 __ 08 09 01 __
+        """
+        When I model the Sudoku problem as a binary CSP
+        Then the Sudoku binary CSP should have 11 variables
+        And the Sudoku binary CSP should have 4 constraints
+        And the Sudoku binary CSP should have a constraint density of 0.072727
+        And the Sudoku binary CSP should have a harmonic mean constraint tightness of 0.3333333

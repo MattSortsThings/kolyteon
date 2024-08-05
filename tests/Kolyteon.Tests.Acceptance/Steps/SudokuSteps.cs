@@ -1,5 +1,6 @@
 using System.Text.Json;
 using Kolyteon.Common;
+using Kolyteon.Modelling;
 using Kolyteon.Sudoku;
 using Kolyteon.Tests.Acceptance.TestUtils;
 using Reqnroll;
@@ -7,20 +8,29 @@ using Reqnroll;
 namespace Kolyteon.Tests.Acceptance.Steps;
 
 [Binding]
-internal sealed class SudokuSteps(ScenarioContext scenarioContext)
+internal sealed class SudokuSteps
 {
+    private readonly IBinaryCsp<Square, int, SudokuProblem> _binaryCsp;
+    private readonly ScenarioContext _scenarioContext;
+
+    public SudokuSteps(IBinaryCsp<Square, int, SudokuProblem> binaryCsp, ScenarioContext scenarioContext)
+    {
+        _binaryCsp = binaryCsp ?? throw new ArgumentNullException(nameof(binaryCsp));
+        _scenarioContext = scenarioContext ?? throw new ArgumentNullException(nameof(scenarioContext));
+    }
+
     [Given("I have created a Sudoku problem from the following grid")]
     public void GivenIHaveCreatedASudokuProblemFromTheFollowingGrid(SudokuProblem problem) =>
-        scenarioContext.Add(Constants.Keys.Problem, problem);
+        _scenarioContext.Add(Constants.Keys.Problem, problem);
 
     [Given("I have serialized the Sudoku problem to JSON")]
     public void GivenIHaveSerializedTheSudokuProblemToJson()
     {
-        SudokuProblem problem = scenarioContext.Get<SudokuProblem>(Constants.Keys.Problem);
+        SudokuProblem problem = _scenarioContext.Get<SudokuProblem>(Constants.Keys.Problem);
 
         string json = JsonSerializer.Serialize(problem, JsonSerializerOptions.Default);
 
-        scenarioContext.Add(Constants.Keys.Json, json);
+        _scenarioContext.Add(Constants.Keys.Json, json);
     }
 
     [Given("I have proposed the following filled squares as a solution to the Sudoku problem")]
@@ -30,39 +40,61 @@ internal sealed class SudokuSteps(ScenarioContext scenarioContext)
             .Select(item => item.FilledSquare)
             .ToArray();
 
-        scenarioContext.Add(Constants.Keys.ProposedSolution, proposedSolution);
+        _scenarioContext.Add(Constants.Keys.ProposedSolution, proposedSolution);
     }
 
     [When("I deserialize a Sudoku problem from the JSON")]
     public void WhenIDeserializeASudokuProblemFromTheJson()
     {
-        string json = scenarioContext.Get<string>(Constants.Keys.Json);
+        string json = _scenarioContext.Get<string>(Constants.Keys.Json);
 
         SudokuProblem? deserializedProblem = JsonSerializer.Deserialize<SudokuProblem>(json, JsonSerializerOptions.Default);
 
-        scenarioContext.Add(Constants.Keys.DeserializedProblem, deserializedProblem);
+        _scenarioContext.Add(Constants.Keys.DeserializedProblem, deserializedProblem);
     }
 
     [When("I ask the Sudoku problem to verify the correctness of the proposed solution")]
     public void WhenIAskTheSudokuProblemToVerifyTheCorrectnessOfTheProposedSolution()
     {
-        SudokuProblem problem = scenarioContext.Get<SudokuProblem>(Constants.Keys.Problem);
+        SudokuProblem problem = _scenarioContext.Get<SudokuProblem>(Constants.Keys.Problem);
         IReadOnlyList<NumberedSquare> proposedSolution =
-            scenarioContext.Get<IReadOnlyList<NumberedSquare>>(Constants.Keys.ProposedSolution);
+            _scenarioContext.Get<IReadOnlyList<NumberedSquare>>(Constants.Keys.ProposedSolution);
 
         CheckingResult verificationResult = problem.VerifyCorrect(proposedSolution);
 
-        scenarioContext.Add(Constants.Keys.VerificationResult, verificationResult);
+        _scenarioContext.Add(Constants.Keys.VerificationResult, verificationResult);
+    }
+
+    [When("I model the Sudoku problem as a binary CSP")]
+    public void WhenIModelTheSudokuProblemAsABinaryCsp()
+    {
+        SudokuProblem problem = _scenarioContext.Get<SudokuProblem>(Constants.Keys.Problem);
+
+        _binaryCsp.Model(problem);
     }
 
     [Then("the deserialized and original Sudoku problems should be equal")]
     public void ThenTheDeserializedAndOriginalSudokuProblemsShouldBeEqual()
     {
-        SudokuProblem problem = scenarioContext.Get<SudokuProblem>(Constants.Keys.Problem);
-        SudokuProblem? deserializedProblem = scenarioContext.Get<SudokuProblem?>(Constants.Keys.DeserializedProblem);
+        SudokuProblem problem = _scenarioContext.Get<SudokuProblem>(Constants.Keys.Problem);
+        SudokuProblem? deserializedProblem = _scenarioContext.Get<SudokuProblem?>(Constants.Keys.DeserializedProblem);
 
         deserializedProblem.Should().NotBeNull().And.Be(problem);
     }
+
+    [Then("the Sudoku binary CSP should have (.*) variables")]
+    public void ThenTheSudokuBinaryCspShouldHaveVariables(int expected) => _binaryCsp.Variables.Should().Be(expected);
+
+    [Then("the Sudoku binary CSP should have (.*) constraints")]
+    public void ThenTheSudokuBinaryCspShouldHaveConstraints(int expected) => _binaryCsp.Constraints.Should().Be(expected);
+
+    [Then("the Sudoku binary CSP should have a constraint density of (.*)")]
+    public void ThenTheSudokuBinaryCspShouldHaveAConstraintDensityOf(double expected) =>
+        _binaryCsp.ConstraintDensity.Should().BeApproximately(expected, Constants.Precision.SixDecimalPlaces);
+
+    [Then("the Sudoku binary CSP should have a harmonic mean constraint tightness of (.*)")]
+    public void ThenTheSudokuBinaryCspShouldHaveAHarmonicMeanConstraintTightnessOf(double expected) =>
+        _binaryCsp.MeanTightness.Should().BeApproximately(expected, Constants.Precision.SixDecimalPlaces);
 
     private readonly record struct SolutionItem(NumberedSquare FilledSquare);
 }

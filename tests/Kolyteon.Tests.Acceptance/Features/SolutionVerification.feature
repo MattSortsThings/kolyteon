@@ -120,42 +120,28 @@ Verify the correctness of any proposed solution to any valid instance of a given
     Scenario: Verify a Sudoku problem solution
         Given I have created a Sudoku problem from the following grid
         """
-        02 __ 04 05 06 __ 09 01 03
-        01 05 09 03 04 02 06 __ 07
-        08 03 __ __ __ __ 02 05 04
-        03 02 01 06 __ __ __ __ 09
-        09 __ 05 __ __ __ 01 __ 02
-        06 04 07 02 01 09 05 __ 08
-        __ __ 08 09 __ 06 03 04 05
-        __ 06 02 04 07 __ __ 09 01
-        04 __ 03 08 __ 01 07 02 06
+        __ 02 __ __ __ 06 07 08 __
+        __ 05 06 07 08 09 01 02 03
+        __ 08 09 01 02 03 04 05 06
+        08 09 01 02 03 04 05 06 07
+        02 03 04 05 __ 07 08 09 01
+        05 06 07 08 09 01 02 03 04
+        06 07 08 09 01 02 03 04 05
+        09 01 02 03 04 05 06 07 08
+        __ 04 05 06 __ 08 09 01 __
         """
         And I have proposed the following filled squares as a solution to the Sudoku problem
           | Filled Square |
-          | (0,6) [7]     |
-          | (0,7) [5]     |
-          | (1,0) [7]     |
-          | (1,4) [8]     |
-          | (1,6) [1]     |
-          | (1,8) [9]     |
-          | (2,2) [6]     |
-          | (3,2) [1]     |
-          | (3,4) [7]     |
-          | (4,2) [9]     |
-          | (4,3) [8]     |
-          | (4,4) [3]     |
-          | (4,6) [2]     |
-          | (4,8) [5]     |
-          | (5,0) [8]     |
-          | (5,2) [7]     |
-          | (5,3) [5]     |
-          | (5,4) [4]     |
-          | (5,7) [3]     |
-          | (6,3) [4]     |
-          | (6,7) [8]     |
-          | (7,1) [8]     |
-          | (7,3) [7]     |
-          | (7,4) [6]     |
-          | (7,5) [3]     |
+          | (0,0) [1]     |
+          | (0,1) [4]     |
+          | (0,2) [7]     |
+          | (0,8) [3]     |
+          | (2,0) [3]     |
+          | (3,0) [4]     |
+          | (4,0) [5]     |
+          | (4,4) [6]     |
+          | (4,8) [7]     |
+          | (8,0) [9]     |
+          | (8,8) [2]     |
         When I ask the Sudoku problem to verify the correctness of the proposed solution
         Then the verification result should be successful

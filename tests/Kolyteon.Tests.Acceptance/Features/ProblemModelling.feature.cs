@@ -361,7 +361,54 @@ namespace Kolyteon.Tests.Acceptance.Features
         await testRunner.AndAsync("the Shikaku binary CSP should have a constraint density of 0.5", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 85
-        await testRunner.AndAsync("the Shikaku binary CSP should have a harmonic mean of 0.326797", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+        await testRunner.AndAsync("the Shikaku binary CSP should have a harmonic mean constraint tightness of 0.3267" +
+                        "97", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Model a Sudoku problem")]
+        [Xunit.TraitAttribute("FeatureTitle", "Problem Modelling")]
+        [Xunit.TraitAttribute("Description", "Model a Sudoku problem")]
+        [Xunit.TraitAttribute("Category", "F/3")]
+        public async System.Threading.Tasks.Task ModelASudokuProblem()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "F/3"};
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Model a Sudoku problem", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 88
+    this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 89
+        await testRunner.GivenAsync("I have created a Sudoku problem from the following grid", "__ 02 __ __ __ 06 07 08 __\r\n__ 05 06 07 08 09 01 02 03\r\n__ 08 09 01 02 03 04 05 0" +
+                        "6\r\n08 09 01 02 03 04 05 06 07\r\n02 03 04 05 __ 07 08 09 01\r\n05 06 07 08 09 01 02 " +
+                        "03 04\r\n06 07 08 09 01 02 03 04 05\r\n09 01 02 03 04 05 06 07 08\r\n__ 04 05 06 __ 08" +
+                        " 09 01 __", ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 101
+        await testRunner.WhenAsync("I model the Sudoku problem as a binary CSP", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 102
+        await testRunner.ThenAsync("the Sudoku binary CSP should have 11 variables", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 103
+        await testRunner.AndAsync("the Sudoku binary CSP should have 4 constraints", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 104
+        await testRunner.AndAsync("the Sudoku binary CSP should have a constraint density of 0.072727", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 105
+        await testRunner.AndAsync("the Sudoku binary CSP should have a harmonic mean constraint tightness of 0.33333" +
+                        "33", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

@@ -78,15 +78,15 @@ Represent any valid instance of a given problem type as an immutable, serializab
     Scenario: Represent a Sudoku problem
         Given I have created a Sudoku problem from the following grid
         """
-        02 __ 04 05 06 __ 09 01 03
-        01 05 09 03 04 02 06 __ 07
-        08 03 __ __ __ __ 02 05 04
-        03 02 01 06 __ __ __ __ 09
-        09 __ 05 __ __ __ 01 __ 02
-        06 04 07 02 01 09 05 __ 08
-        __ __ 08 09 __ 06 03 04 05
-        __ 06 02 04 07 __ __ 09 01
-        04 __ 03 08 __ 01 07 02 06
+        __ 02 __ __ __ 06 07 08 __
+        __ 05 06 07 08 09 01 02 03
+        __ 08 09 01 02 03 04 05 06
+        08 09 01 02 03 04 05 06 07
+        02 03 04 05 __ 07 08 09 01
+        05 06 07 08 09 01 02 03 04
+        06 07 08 09 01 02 03 04 05
+        09 01 02 03 04 05 06 07 08
+        __ 04 05 06 __ 08 09 01 __
         """
         And I have serialized the Sudoku problem to JSON
         When I deserialize a Sudoku problem from the JSON
