@@ -67,3 +67,19 @@ Model any valid instance of a given problem type as a generic binary CSP.
         And the N-Queens binary CSP should have 10 constraints
         And the N-Queens binary CSP should have a constraint density of 1.0
         And the N-Queens binary CSP should have a harmonic mean constraint tightness of 0.423057
+
+    @E/3
+    Scenario: Model a Shikaku problem
+        Given I have created a Shikaku problem from the following grid
+        """
+        05 __ __ __ __
+        __ __ 08 __ __
+        __ __ __ 04 __
+        __ __ __ 06 02
+        __ __ __ __ __
+        """
+        When I model the Shikaku problem as a binary CSP
+        Then the Shikaku binary CSP should have 5 variables
+        And the Shikaku binary CSP should have 5 constraints
+        And the Shikaku binary CSP should have a constraint density of 0.5
+        And the Shikaku binary CSP should have a harmonic mean of 0.326797

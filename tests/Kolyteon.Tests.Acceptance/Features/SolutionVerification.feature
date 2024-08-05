@@ -100,29 +100,19 @@ Verify the correctness of any proposed solution to any valid instance of a given
     Scenario: Verify a Shikaku problem solution
         Given I have created a Shikaku problem from the following grid
         """
-        03 __ __ __ __ __ __ 07 __ __
-        __ __ __ __ __ __ __ __ __ __
-        __ __ __ __ __ __ __ __ __ __
-        __ __ __ 14 __ __ __ __ __ __
-        __ __ __ __ __ __ __ __ __ __
-        05 __ 10 __ __ __ 21 __ __ __
-        03 __ __ __ __ __ __ __ __ __
-        __ __ 03 __ __ __ __ __ __ __
-        __ __ __ __ __ __ __ 16 __ __
-        __ __ __ __ __ __ __ __ __ 18
+        05 __ __ __ __
+        __ __ 08 __ __
+        __ __ __ 04 __
+        __ __ __ 06 02
+        __ __ __ __ __
         """
         And I have proposed the following blocks as a solution to the Shikaku problem
           | Block       |
-          | (0,0) [3x1] |
-          | (0,1) [1x5] |
-          | (0,6) [3x1] |
-          | (0,7) [3x1] |
-          | (0,8) [8x2] |
-          | (1,1) [2x5] |
-          | (3,0) [7x1] |
-          | (3,1) [2x7] |
-          | (5,1) [3x7] |
-          | (8,1) [2x9] |
+          | (0,0) [1x5] |
+          | (1,0) [4x2] |
+          | (1,2) [4x1] |
+          | (1,3) [3x2] |
+          | (4,3) [1x2] |
         When I ask the Shikaku problem to verify the correctness of the proposed solution
         Then the verification result should be successful
 

@@ -91,7 +91,7 @@ The domain of a hint variable is the ordered set of all possible blocks that hav
 
 ### Constraints
 
-There is a theoretical binary constraint between every pair of hint variables for which the Manhattan distance between their squares is less than or equal to the greatest of their two numbers. This is an imprecise indicator of whether they could possibly have an overlapping block.
+There is a theoretical binary constraint between every pair of hint variables.
 
 The constraint predicate mandates that the two hint variables must be assigned non-overlapping block values.
 

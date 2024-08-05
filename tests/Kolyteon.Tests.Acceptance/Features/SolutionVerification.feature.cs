@@ -417,46 +417,27 @@ namespace Kolyteon.Tests.Acceptance.Features
             {
                 await this.ScenarioStartAsync();
 #line 101
-        await testRunner.GivenAsync("I have created a Shikaku problem from the following grid", @"03 __ __ __ __ __ __ 07 __ __
-__ __ __ __ __ __ __ __ __ __
-__ __ __ __ __ __ __ __ __ __
-__ __ __ 14 __ __ __ __ __ __
-__ __ __ __ __ __ __ __ __ __
-05 __ 10 __ __ __ 21 __ __ __
-03 __ __ __ __ __ __ __ __ __
-__ __ 03 __ __ __ __ __ __ __
-__ __ __ __ __ __ __ 16 __ __
-__ __ __ __ __ __ __ __ __ 18", ((global::Reqnroll.Table)(null)), "Given ");
+        await testRunner.GivenAsync("I have created a Shikaku problem from the following grid", "05 __ __ __ __\r\n__ __ 08 __ __\r\n__ __ __ 04 __\r\n__ __ __ 06 02\r\n__ __ __ __ __", ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
                 global::Reqnroll.Table table11 = new global::Reqnroll.Table(new string[] {
                             "Block"});
                 table11.AddRow(new string[] {
-                            "(0,0) [3x1]"});
+                            "(0,0) [1x5]"});
                 table11.AddRow(new string[] {
-                            "(0,1) [1x5]"});
+                            "(1,0) [4x2]"});
                 table11.AddRow(new string[] {
-                            "(0,6) [3x1]"});
+                            "(1,2) [4x1]"});
                 table11.AddRow(new string[] {
-                            "(0,7) [3x1]"});
+                            "(1,3) [3x2]"});
                 table11.AddRow(new string[] {
-                            "(0,8) [8x2]"});
-                table11.AddRow(new string[] {
-                            "(1,1) [2x5]"});
-                table11.AddRow(new string[] {
-                            "(3,0) [7x1]"});
-                table11.AddRow(new string[] {
-                            "(3,1) [2x7]"});
-                table11.AddRow(new string[] {
-                            "(5,1) [3x7]"});
-                table11.AddRow(new string[] {
-                            "(8,1) [2x9]"});
-#line 114
+                            "(4,3) [1x2]"});
+#line 109
         await testRunner.AndAsync("I have proposed the following blocks as a solution to the Shikaku problem", ((string)(null)), table11, "And ");
 #line hidden
-#line 126
+#line 116
         await testRunner.WhenAsync("I ask the Shikaku problem to verify the correctness of the proposed solution", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 127
+#line 117
         await testRunner.ThenAsync("the verification result should be successful", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -473,7 +454,7 @@ __ __ __ __ __ __ __ __ __ 18", ((global::Reqnroll.Table)(null)), "Given ");
                     "F/2"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Verify a Sudoku problem solution", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 130
+#line 120
     this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -483,7 +464,7 @@ __ __ __ __ __ __ __ __ __ 18", ((global::Reqnroll.Table)(null)), "Given ");
             else
             {
                 await this.ScenarioStartAsync();
-#line 131
+#line 121
         await testRunner.GivenAsync("I have created a Sudoku problem from the following grid", "02 __ 04 05 06 __ 09 01 03\r\n01 05 09 03 04 02 06 __ 07\r\n08 03 __ __ __ __ 02 05 0" +
                         "4\r\n03 02 01 06 __ __ __ __ 09\r\n09 __ 05 __ __ __ 01 __ 02\r\n06 04 07 02 01 09 05 " +
                         "__ 08\r\n__ __ 08 09 __ 06 03 04 05\r\n__ 06 02 04 07 __ __ 09 01\r\n04 __ 03 08 __ 01" +
@@ -541,13 +522,13 @@ __ __ __ __ __ __ __ __ __ 18", ((global::Reqnroll.Table)(null)), "Given ");
                             "(7,4) [6]"});
                 table12.AddRow(new string[] {
                             "(7,5) [3]"});
-#line 143
+#line 133
         await testRunner.AndAsync("I have proposed the following filled squares as a solution to the Sudoku problem", ((string)(null)), table12, "And ");
 #line hidden
-#line 170
+#line 160
         await testRunner.WhenAsync("I ask the Sudoku problem to verify the correctness of the proposed solution", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 171
+#line 161
         await testRunner.ThenAsync("the verification result should be successful", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }

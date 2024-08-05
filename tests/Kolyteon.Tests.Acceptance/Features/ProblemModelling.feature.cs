@@ -325,6 +325,48 @@ namespace Kolyteon.Tests.Acceptance.Features
             await this.ScenarioCleanupAsync();
         }
         
+        [Xunit.SkippableFactAttribute(DisplayName="Model a Shikaku problem")]
+        [Xunit.TraitAttribute("FeatureTitle", "Problem Modelling")]
+        [Xunit.TraitAttribute("Description", "Model a Shikaku problem")]
+        [Xunit.TraitAttribute("Category", "E/3")]
+        public async System.Threading.Tasks.Task ModelAShikakuProblem()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "E/3"};
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Model a Shikaku problem", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 72
+    this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 73
+        await testRunner.GivenAsync("I have created a Shikaku problem from the following grid", "05 __ __ __ __\r\n__ __ 08 __ __\r\n__ __ __ 04 __\r\n__ __ __ 06 02\r\n__ __ __ __ __", ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 81
+        await testRunner.WhenAsync("I model the Shikaku problem as a binary CSP", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 82
+        await testRunner.ThenAsync("the Shikaku binary CSP should have 5 variables", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 83
+        await testRunner.AndAsync("the Shikaku binary CSP should have 5 constraints", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 84
+        await testRunner.AndAsync("the Shikaku binary CSP should have a constraint density of 0.5", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 85
+        await testRunner.AndAsync("the Shikaku binary CSP should have a harmonic mean of 0.326797", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
         [System.CodeDom.Compiler.GeneratedCodeAttribute("Reqnroll", "2.0.0.0")]
         [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
         public class FixtureData : object, Xunit.IAsyncLifetime

@@ -64,16 +64,11 @@ Represent any valid instance of a given problem type as an immutable, serializab
     Scenario: Represent a Shikaku problem
         Given I have created a Shikaku problem from the following grid
         """
-        03 __ __ __ __ __ __ 07 __ __
-        __ __ __ __ __ __ __ __ __ __
-        __ __ __ __ __ __ __ __ __ __
-        __ __ __ 14 __ __ __ __ __ __
-        __ __ __ __ __ __ __ __ __ __
-        05 __ 10 __ __ __ 21 __ __ __
-        03 __ __ __ __ __ __ __ __ __
-        __ __ 03 __ __ __ __ __ __ __
-        __ __ __ __ __ __ __ 16 __ __
-        __ __ __ __ __ __ __ __ __ 18
+        05 __ __ __ __
+        __ __ 08 __ __
+        __ __ __ 04 __
+        __ __ __ 06 02
+        __ __ __ __ __
         """
         And I have serialized the Shikaku problem to JSON
         When I deserialize a Shikaku problem from the JSON
