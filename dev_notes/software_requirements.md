@@ -74,10 +74,10 @@ This document outlines the software requirements for the *Kolyteon* library (her
 
 #### A/4 - Problem Generation
 
-| Code  | Summary                                                                                                                                                                                         |
-|:------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| A/4/1 | The library will generate a random, valid, solvable Futoshiki problem when the user specifies the value of *N* (from the range [4, 9]) and the number of filled cells (from the range [1, 10]). |
-| A/4/2 | The user will be able to set the random number generation seed for the problem generation algorithm.                                                                                            |
+| Code  | Summary                                                                                                                                                                                                                                    |
+|:------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| A/4/1 | The library will generate a random, valid, solvable Futoshiki problem when the user specifies the problem grid side length (from the range \[4, \9]) and the number of empty squares (greater than 0 and less than the problem grid area). |
+| A/4/2 | The user will be able to set the random number generation seed for the problem generation algorithm.                                                                                                                                       |
 
 ### B - Graph Colouring
 
@@ -108,7 +108,7 @@ This document outlines the software requirements for the *Kolyteon* library (her
 
 | Code  | Summary                                                                                                                                                                                                                |
 |:------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| B/4/1 | The library will generate a random, valid, solvable Graph Colouring problem when the user specifies the number of nodes (from the range [1, 100]) and the global number of permitted colours (from the range [4, 16]). |
+| B/4/1 | The library will generate a random, valid, solvable Graph Colouring problem when the user specifies the number of nodes (from the range \[1, 50\]) and the global set of permitted colours (at least 4 unique values). |
 | B/4/2 | The user will be able to set the random number generation seed for the problem generation algorithm.                                                                                                                   |
 
 ### C - Map Colouring
@@ -140,7 +140,7 @@ This document outlines the software requirements for the *Kolyteon* library (her
 
 | Code  | Summary                                                                                                                                                                                                               |
 |:------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| C/4/1 | The library will generate a random, valid, solvable Map Colouring problem when the user specifies the number of blocks (from the range [1, 100]) and the global number of permitted colours (from the range [4, 16]). |
+| C/4/1 | The library will generate a random, valid, solvable Map Colouring problem when the user specifies the number of blocks (from the range \[1, 50\]) and the global set of permitted colours (at least 4 unique values). |
 | C/4/2 | The user will be able to set the random number generation seed for the problem generation algorithm.                                                                                                                  |
 
 ### D - *N*-Queens
@@ -195,10 +195,10 @@ This document outlines the software requirements for the *Kolyteon* library (her
 
 #### E/4 - Problem Generation
 
-| Code  | Summary                                                                                                                                   |
-|:------|:------------------------------------------------------------------------------------------------------------------------------------------|
-| E/4/1 | The library will generate a random, valid, solvable Shikaku problem when the user specifies the number of hints (from the range [1, 50]). |
-| E/4/2 | The user will be able to set the random number generation seed for the problem generation algorithm.                                      |
+| Code  | Summary                                                                                                                                                                                                                                                  |
+|:------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| E/4/1 | The library will generate a random, valid, solvable Shikaku problem when the user specifies the problem grid side length (from the range \[5, 20\]) and the number of hints (greater than 0 and less than or equal to 2 x the problem grid side length). |
+| E/4/2 | The user will be able to set the random number generation seed for the problem generation algorithm.                                                                                                                                                     |
 
 ### F - Sudoku
 
@@ -227,10 +227,10 @@ This document outlines the software requirements for the *Kolyteon* library (her
 
 #### F/4 - Problem Generation
 
-| Code  | Summary                                                                                                                                          |
-|:------|:-------------------------------------------------------------------------------------------------------------------------------------------------|
-| F/4/1 | The library will generate a random, valid, solvable Sudoku problem when the user specifies the number of fixed numbers (from the range [1, 80]). |
-| F/4/2 | The user will be able to set the random number generation seed for the problem generation algorithm.                                             |
+| Code  | Summary                                                                                                                                            |
+|:------|:---------------------------------------------------------------------------------------------------------------------------------------------------|
+| F/4/1 | The library will generate a random, valid, solvable Sudoku problem when the user specifies the number of fixed numbers (from the range \[1, 80\]). |
+| F/4/2 | The user will be able to set the random number generation seed for the problem generation algorithm.                                               |
 
 ### G - Binary CSP Modelling
 

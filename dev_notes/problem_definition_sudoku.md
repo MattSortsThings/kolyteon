@@ -17,6 +17,7 @@ This document defines the Sudoku problem type as it is to be represented and mod
     - [Constraints](#constraints)
     - [Constraint Graph of Example Problem](#constraint-graph-of-example-problem)
     - [`SudokuConstraintGraph` class](#sudokuconstraintgraph-class)
+  - [Solvable Problem Generation Algorithm](#solvable-problem-generation-algorithm)
 
 ## Example Problem and Solution
 
@@ -131,3 +132,23 @@ The constraint graph of the binary CSP modelling the example problem is shown in
   - implements `IReadOnlyBinaryCsp<Square, int>`.
 
 The `SudokuConstraintGraph` class can model any valid Sudoku problem as a binary CSP.
+
+## Solvable Problem Generation Algorithm
+
+The client specifies the following:
+
+- the quantity of empty squares, in the range \[1, 80\].
+
+The algorithm works as follows:
+
+1. Start with a populated 9x9 seed greed.
+2. Apply the following randomization techniques to the grid:
+   1. Rotate the grid.
+   2. Flip the grid vertically.
+   3. Flip the grid horizontally.
+   4. Swap two 3x9 vertical groups.
+   5. Swap two 9x3 horizontal groups.
+   6. Swap two 1x9 columns in the same vertical group.
+   7. Swap two 9x1 rows in the same horizontal group.
+   8. Swap all instances of one number with all instances of another number.
+3. Randomly erase numbers from the grid, up to the specified quantity of empty squares.

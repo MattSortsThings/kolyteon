@@ -19,6 +19,7 @@ This document defines the Graph Colouring problem type as it is to be represente
     - [Constraints](#constraints)
     - [Constraint Graph of Example Problem](#constraint-graph-of-example-problem)
     - [`GraphColouringConstraintGraph` class](#graphcolouringconstraintgraph-class)
+  - [Solvable Problem Generation Algorithm](#solvable-problem-generation-algorithm)
 
 ## Example Problem and Solution
 
@@ -129,3 +130,16 @@ The constraint graph of the binary CSP modelling the example problem is shown in
   - implements `IReadOnlyBinaryCsp<Node, Colour>`.
 
 The `GraphColouringConstraintGraph` class can model any valid Graph Colouring problem as a binary CSP.
+
+## Solvable Problem Generation Algorithm
+
+The client specifies the following:
+
+- the quantity of nodes, in the range \[1, 50\], and
+- a global permitted colours set, containing at least 4 values.
+
+The algorithm works as follows:
+
+1. Generate a Map Colouring problem using the [solvable Map Colouring problem generation algorithm](problem_definition_map_colouring.md#solvable-problem-generation-algorithm).
+2. Each block becomes a node.
+3. Each pair of adjacent blocks becomes an edge between the two nodes.

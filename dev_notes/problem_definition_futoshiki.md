@@ -19,6 +19,7 @@ This document defines the Futoshiki problem type as it is to be represented and 
     - [Constraints](#constraints)
     - [Constraint Graph of Example Problem](#constraint-graph-of-example-problem)
     - [`FutoshikiConstraintGraph` class](#futoshikiconstraintgraph-class)
+  - [Solvable Problem Generation Algorithm](#solvable-problem-generation-algorithm)
 
 ## Example Problem and Solution
 
@@ -149,3 +150,23 @@ The constraint graph of the binary CSP modelling the example problem is shown in
   - implements `IReadOnlyBinaryCsp<Square, int>`.
 
 The `FutoshikiConstraintGraph` class can model any valid Futoshiki problem as a binary CSP.
+
+## Solvable Problem Generation Algorithm
+
+The client specifies the following:
+
+- the problem grid side length, in the range \[4, 9\], and
+- the quantity of empty squares, greater than 0 and less than the grid area.
+
+The algorithm works as follows:
+
+1. Start with a populated *n*x*n* seed greed.
+2. Apply the following randomization techniques to the grid:
+   1. Rotate the grid.
+   2. Flip the grid vertically.
+   3. Flip the grid horizontally.
+   4. Swap two 1x9 columns in the same vertical group.
+   5. Swap two 9x1 rows in the same horizontal group.
+   6. Swap all instances of one number with all instances of another number.
+3. Add some greater than and less than signs to the grid.
+4. Randomly erase numbers from the grid, up to the specified quantity of empty squares. Prioritize erasing numbers from squares with signs.

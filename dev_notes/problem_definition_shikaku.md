@@ -17,6 +17,7 @@ This document defines the Shikaku problem type as it is to be represented and mo
     - [Constraints](#constraints)
     - [Constraint Graph of Example Problem](#constraint-graph-of-example-problem)
     - [`ShikakuConstraintGraph` class](#shikakuconstraintgraph-class)
+  - [Solvable Problem Generation Algorithm](#solvable-problem-generation-algorithm)
 
 ## Example Problem and Solution
 
@@ -117,3 +118,20 @@ The constraint graph of the binary CSP modelling the example problem is shown in
   - implements `IReadOnlyBinaryCsp<NumberedSquare, Block>`.
 
 The `ShikakuConstraintGraph` class can model any valid Shikaku problem as a binary CSP.
+
+## Solvable Problem Generation Algorithm
+
+The client specifies the following:
+
+- the problem grid side length, in the range \[5, 20\], and
+- the quantity of hints, greater than 0 and less than (2 x the grid side length).
+
+The algorithm works as follows:
+
+1. Start with two empty collections of divisible and indivisible blocks.
+2. Add a block representing the problem grid to the divisible block collection.
+3. Remove a divisible block.
+4. Divide the block into two, so that neither block has an area < 2.
+5. For each of the two new blocks, add it to the indivisible block collection if it has an area < 4, otherwise add it to the divisible block collection.
+6. If the total size of the indivisible and divisible block collections is less than the specified quantity of hints, go back to step 3.
+7. Convert each block to a hint in a square inside the block.

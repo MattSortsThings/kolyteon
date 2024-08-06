@@ -18,6 +18,7 @@ This document defines the Map Colouring problem type as it is to be represented 
     - [Constraints](#constraints)
     - [Constraint Graph of Example Problem](#constraint-graph-of-example-problem)
     - [`MapColouringConstraintGraph` class](#mapcolouringconstraintgraph-class)
+  - [Solvable Problem Generation Algorithm](#solvable-problem-generation-algorithm)
 
 ## Example Problem and Solution
 
@@ -123,3 +124,22 @@ The constraint graph of the binary CSP modelling the example problem is shown in
   - implements `IReadOnlyBinaryCsp<Block, Colour>`.
 
 The `MapColouringConstraintGraph` class can model any valid Map Colouring problem as a binary CSP.
+
+## Solvable Problem Generation Algorithm
+
+The client specifies the following:
+
+- the quantity of blocks, in the range \[1, 50\], and
+- a global permitted colours set, containing at least 4 values.
+
+The algorithm works as follows:
+
+1. Start with a 10x10 canvas.
+2. Start with two empty collections of divisible and indivisible blocks.
+3. Add a block representing the problem canvas to the divisible block collection.
+4. Remove a divisible block.
+5. Divide the block into two.
+6. For each of the two new blocks, add it to the indivisible block collection if it has an area = 1, otherwise add it to the divisible block collection.
+7. If the total size of the indivisible and divisible block collections is less than 1.2 x the specified quantity of blocks, go back to step 4.
+8. Remove a block.
+9. If the total size of the indivisible and divisible block collections is greater than the specified quantity of blocks, go back to step 8.
