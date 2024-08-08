@@ -21,6 +21,8 @@ internal static class NullableInt32ArrayExtensions
             hintsQuery.ToArray());
     }
 
+    internal static void EliminateNumberInSquare(this int?[,] grid, in Square square) => grid[square.Row, square.Column] = null;
+
     private static Block[] CreateSudokuGridSectors() =>
     [
         Square.FromColumnAndRow(0, 0).ToBlock(Dimensions.FromWidthAndHeight(3, 3)),

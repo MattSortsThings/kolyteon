@@ -11,11 +11,14 @@ namespace Kolyteon.Tests.Acceptance.Steps;
 internal sealed class SudokuSteps
 {
     private readonly IBinaryCsp<Square, int, SudokuProblem> _binaryCsp;
+    private readonly ISudokuGenerator _generator;
     private readonly ScenarioContext _scenarioContext;
 
-    public SudokuSteps(IBinaryCsp<Square, int, SudokuProblem> binaryCsp, ScenarioContext scenarioContext)
+    public SudokuSteps(IBinaryCsp<Square, int, SudokuProblem> binaryCsp, ISudokuGenerator generator,
+        ScenarioContext scenarioContext)
     {
         _binaryCsp = binaryCsp ?? throw new ArgumentNullException(nameof(binaryCsp));
+        _generator = generator ?? throw new ArgumentNullException(nameof(generator));
         _scenarioContext = scenarioContext ?? throw new ArgumentNullException(nameof(scenarioContext));
     }
 
@@ -42,6 +45,9 @@ internal sealed class SudokuSteps
 
         _scenarioContext.Add(Constants.Keys.ProposedSolution, proposedSolution);
     }
+
+    [Given("I have set the Sudoku generator seed value to (.*)")]
+    public void GivenIHaveSetTheSudokuGeneratorSeedValueTo(int seed) => _generator.UseSeed(seed);
 
     [When("I deserialize a Sudoku problem from the JSON")]
     public void WhenIDeserializeASudokuProblemFromTheJson()
@@ -73,6 +79,14 @@ internal sealed class SudokuSteps
         _binaryCsp.Model(problem);
     }
 
+    [When("I ask the Sudoku generator for a problem with (.*) empty squares")]
+    public void WhenIAskTheSudokuGeneratorForAProblemWithEmptySquares(int emptySquares)
+    {
+        SudokuProblem problem = _generator.Generate(emptySquares);
+
+        _scenarioContext.Add(Constants.Keys.Problem, problem);
+    }
+
     [Then("the deserialized and original Sudoku problems should be equal")]
     public void ThenTheDeserializedAndOriginalSudokuProblemsShouldBeEqual()
     {
@@ -95,6 +109,14 @@ internal sealed class SudokuSteps
     [Then("the Sudoku binary CSP should have a harmonic mean constraint tightness of (.*)")]
     public void ThenTheSudokuBinaryCspShouldHaveAHarmonicMeanConstraintTightnessOf(double expected) =>
         _binaryCsp.MeanTightness.Should().BeApproximately(expected, Constants.Precision.SixDecimalPlaces);
+
+    [Then("the Sudoku problem should have (.*) filled squares")]
+    public void ThenTheSudokuProblemShouldHaveFilledSquares(int expected)
+    {
+        SudokuProblem problem = _scenarioContext.Get<SudokuProblem>(Constants.Keys.Problem);
+
+        problem.FilledSquares.Should().HaveCount(expected);
+    }
 
     private readonly record struct SolutionItem(NumberedSquare FilledSquare);
 }

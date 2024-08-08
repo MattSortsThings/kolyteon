@@ -143,12 +143,9 @@ The algorithm works as follows:
 
 1. Start with a populated 9x9 seed greed.
 2. Apply the following randomization techniques to the grid:
-   1. Rotate the grid.
-   2. Flip the grid vertically.
-   3. Flip the grid horizontally.
-   4. Swap two 3x9 vertical groups.
-   5. Swap two 9x3 horizontal groups.
-   6. Swap two 1x9 columns in the same vertical group.
-   7. Swap two 9x1 rows in the same horizontal group.
-   8. Swap all instances of one number with all instances of another number.
+   1. Swap two 3x9 vertical stacks.
+   2. Swap two 9x3 horizontal bands.
+   3. Swap two 1x9 columns in the same vertical stack.
+   4. Swap two 9x1 rows in the same horizontal band.
+   5. Swap all instances of one number with all instances of another number.
 3. Randomly erase numbers from the grid, up to the specified quantity of empty squares.

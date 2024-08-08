@@ -6,28 +6,14 @@ using Kolyteon.Modelling;
 using Kolyteon.NQueens;
 using Kolyteon.Shikaku;
 using Kolyteon.Sudoku;
-using Kolyteon.Tests.Acceptance.TestUtils;
 using Reqnroll;
-using Reqnroll.Assist;
 using Reqnroll.BoDi;
 
 namespace Kolyteon.Tests.Acceptance.Hooks;
 
 [Binding]
-internal static class TestHooks
+internal static class BinaryCspHooks
 {
-    [BeforeTestRun]
-    internal static void RegisterValueRetrievers()
-    {
-        Service.Instance.ValueRetrievers.Register<BlockValueRetriever>();
-        Service.Instance.ValueRetrievers.Register<SquareValueRetriever>();
-        Service.Instance.ValueRetrievers.Register<ColourValueRetriever>();
-        Service.Instance.ValueRetrievers.Register<ColourArrayValueRetriever>();
-        Service.Instance.ValueRetrievers.Register<NumberedSquareValueRetriever>();
-        Service.Instance.ValueRetrievers.Register<NodeValueRetriever>();
-        Service.Instance.ValueRetrievers.Register<NodeArrayValueRetriever>();
-    }
-
     [BeforeTestRun]
     internal static void RegisterBinaryCspFactories(IObjectContainer objectContainer)
     {
