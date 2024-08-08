@@ -1,6 +1,7 @@
 using Kolyteon.Common;
 using Kolyteon.GraphColouring;
 using Kolyteon.MapColouring;
+using Kolyteon.Shikaku;
 using Kolyteon.Sudoku;
 
 namespace Kolyteon.Tests.Integration;
@@ -79,6 +80,40 @@ public abstract partial class ProblemGenerationTests
             result.Canvas.Should().Be(Block.Parse("(0,0) [10x10]"));
 
             result.BlockData.Sum(datum => datum.Block.AreaInSquares).Should().Be(100);
+        }
+    }
+
+    [Theory]
+    [InlineData(5, 1)]
+    [InlineData(5, 10)]
+    [InlineData(10, 1)]
+    [InlineData(10, 20)]
+    [InlineData(15, 1)]
+    [InlineData(15, 19)]
+    [InlineData(15, 30)]
+    [InlineData(20, 1)]
+    [InlineData(20, 19)]
+    [InlineData(20, 40)]
+    public void CanGenerateShikakuProblemFromGridSideLengthAndHints(int gridSideLength, int hints)
+    {
+        // Arrange
+        ShikakuGenerator generator = new(Seed);
+
+        // Act
+        ShikakuProblem result = generator.Generate(gridSideLength, hints);
+
+        // Assert
+        Block expectedGrid = Dimensions.FromWidthAndHeight(gridSideLength, gridSideLength).ToBlock();
+
+        using (new AssertionScope())
+        {
+            result.Grid.Should().Be(expectedGrid);
+
+            result.Hints.Should().BeInAscendingOrder()
+                .And.HaveCount(hints)
+                .And.AllSatisfy(hint => result.Grid.Contains(hint).Should().BeTrue());
+
+            result.Hints.Sum(hint => hint.Number).Should().Be(result.Grid.AreaInSquares);
         }
     }
 

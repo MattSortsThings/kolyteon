@@ -11,11 +11,15 @@ namespace Kolyteon.Tests.Acceptance.Steps;
 internal sealed class ShikakuSteps
 {
     private readonly IBinaryCsp<NumberedSquare, Block, ShikakuProblem> _binaryCsp;
+    private readonly IShikakuGenerator _generator;
     private readonly ScenarioContext _scenarioContext;
 
-    public ShikakuSteps(IBinaryCsp<NumberedSquare, Block, ShikakuProblem> binaryCsp, ScenarioContext scenarioContext)
+    public ShikakuSteps(IBinaryCsp<NumberedSquare, Block, ShikakuProblem> binaryCsp,
+        IShikakuGenerator generator,
+        ScenarioContext scenarioContext)
     {
         _binaryCsp = binaryCsp ?? throw new ArgumentNullException(nameof(binaryCsp));
+        _generator = generator ?? throw new ArgumentNullException(nameof(generator));
         _scenarioContext = scenarioContext ?? throw new ArgumentNullException(nameof(scenarioContext));
     }
 
@@ -40,6 +44,9 @@ internal sealed class ShikakuSteps
 
         _scenarioContext.Add(Constants.Keys.ProposedSolution, proposedSolution);
     }
+
+    [Given("I have set the Shikaku generator seed value to (.*)")]
+    public void GivenIHaveSetTheShikakuGeneratorSeedValueTo(int seed) => _generator.UseSeed(seed);
 
     [When("I deserialize a Shikaku problem from the JSON")]
     public void WhenIDeserializeAShikakuProblemFromTheJson()
@@ -70,6 +77,14 @@ internal sealed class ShikakuSteps
         _binaryCsp.Model(problem);
     }
 
+    [When("I ask the Shikaku generator for a problem with a grid side length of (.*) and (.*) hints")]
+    public void WhenIAskTheShikakuGeneratorForAProblemWithAGridSideLengthOfAndHints(int gridSideLength, int hints)
+    {
+        ShikakuProblem problem = _generator.Generate(gridSideLength, hints);
+
+        _scenarioContext.Add(Constants.Keys.Problem, problem);
+    }
+
     [Then("the deserialized and original Shikaku problems should be equal")]
     public void ThenTheDeserializedAndOriginalShikakuProblemsShouldBeEqual()
     {
@@ -92,6 +107,22 @@ internal sealed class ShikakuSteps
     [Then("the Shikaku binary CSP should have a harmonic mean constraint tightness of (.*)")]
     public void ThenTheShikakuBinaryCspShouldHaveAHarmonicMeanConstraintTightnessOf(double expected) =>
         _binaryCsp.MeanTightness.Should().BeApproximately(expected, Constants.Precision.SixDecimalPlaces);
+
+    [Then("the Shikaku problem should have (.*) hints")]
+    public void ThenTheShikakuProblemShouldHaveHints(int expectedHints)
+    {
+        ShikakuProblem problem = _scenarioContext.Get<ShikakuProblem>(Constants.Keys.Problem);
+
+        problem.Hints.Should().HaveCount(expectedHints);
+    }
+
+    [Then("the Shikaku problem should have a (.*) grid")]
+    public void ThenTheShikakuProblemShouldHaveAGrid(Dimensions expectedGridDimensions)
+    {
+        ShikakuProblem problem = _scenarioContext.Get<ShikakuProblem>(Constants.Keys.Problem);
+
+        problem.Grid.Dimensions.Should().Be(expectedGridDimensions);
+    }
 
     private sealed record SolutionItem(Block Block);
 }

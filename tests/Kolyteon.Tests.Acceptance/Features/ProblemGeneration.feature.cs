@@ -165,16 +165,16 @@ namespace Kolyteon.Tests.Acceptance.Features
             await this.ScenarioCleanupAsync();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Generate a Sudoku problem")]
+        [Xunit.SkippableFactAttribute(DisplayName="Generate a Shikaku problem")]
         [Xunit.TraitAttribute("FeatureTitle", "Problem Generation")]
-        [Xunit.TraitAttribute("Description", "Generate a Sudoku problem")]
-        [Xunit.TraitAttribute("Category", "F/4")]
-        public async System.Threading.Tasks.Task GenerateASudokuProblem()
+        [Xunit.TraitAttribute("Description", "Generate a Shikaku problem")]
+        [Xunit.TraitAttribute("Category", "E/4")]
+        public async System.Threading.Tasks.Task GenerateAShikakuProblem()
         {
             string[] tagsOfScenario = new string[] {
-                    "F/4"};
+                    "E/4"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Generate a Sudoku problem", null, tagsOfScenario, argumentsOfScenario, featureTags);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Generate a Shikaku problem", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 21
     this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -186,12 +186,49 @@ namespace Kolyteon.Tests.Acceptance.Features
             {
                 await this.ScenarioStartAsync();
 #line 22
-        await testRunner.GivenAsync("I have set the Sudoku generator seed value to 1701", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+        await testRunner.GivenAsync("I have set the Shikaku generator seed value to 1701", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 23
-        await testRunner.WhenAsync("I ask the Sudoku generator for a problem with 70 empty squares", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+        await testRunner.WhenAsync("I ask the Shikaku generator for a problem with a grid side length of 7 and 13 hin" +
+                        "ts", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 24
+        await testRunner.ThenAsync("the Shikaku problem should have 13 hints", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 25
+        await testRunner.AndAsync("the Shikaku problem should have a 7x7 grid", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Generate a Sudoku problem")]
+        [Xunit.TraitAttribute("FeatureTitle", "Problem Generation")]
+        [Xunit.TraitAttribute("Description", "Generate a Sudoku problem")]
+        [Xunit.TraitAttribute("Category", "F/4")]
+        public async System.Threading.Tasks.Task GenerateASudokuProblem()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "F/4"};
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Generate a Sudoku problem", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 28
+    this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 29
+        await testRunner.GivenAsync("I have set the Sudoku generator seed value to 1701", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 30
+        await testRunner.WhenAsync("I ask the Sudoku generator for a problem with 70 empty squares", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 31
         await testRunner.ThenAsync("the Sudoku problem should have 11 filled squares", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }

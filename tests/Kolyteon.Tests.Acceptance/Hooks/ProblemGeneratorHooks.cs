@@ -1,5 +1,6 @@
 using Kolyteon.GraphColouring;
 using Kolyteon.MapColouring;
+using Kolyteon.Shikaku;
 using Kolyteon.Sudoku;
 using Reqnroll;
 using Reqnroll.BoDi;
@@ -14,12 +15,15 @@ internal static class ProblemGeneratorHooks
     {
         objectContainer.RegisterFactoryAs(CreateGraphColouringGenerator);
         objectContainer.RegisterFactoryAs(CreateMapColouringGenerator);
+        objectContainer.RegisterFactoryAs(CreateShikakuGenerator);
         objectContainer.RegisterFactoryAs(CreateSudokuGenerator);
     }
 
     private static IGraphColouringGenerator CreateGraphColouringGenerator(IObjectContainer _) => new GraphColouringGenerator();
 
     private static IMapColouringGenerator CreateMapColouringGenerator(IObjectContainer _) => new MapColouringGenerator();
+
+    private static IShikakuGenerator CreateShikakuGenerator(IObjectContainer _) => new ShikakuGenerator();
 
     private static ISudokuGenerator CreateSudokuGenerator(IObjectContainer _) => new SudokuGenerator();
 }

@@ -17,6 +17,13 @@ Generate a random, solvable instance of a problem type from a specified size.
         Then the Map Colouring problem should have 20 blocks
         And every block in the Map Colouring problem should have the colours Red, Green, Yellow, Blue
 
+    @E/4
+    Scenario: Generate a Shikaku problem
+        Given I have set the Shikaku generator seed value to 1701
+        When I ask the Shikaku generator for a problem with a grid side length of 7 and 13 hints
+        Then the Shikaku problem should have 13 hints
+        And the Shikaku problem should have a 7x7 grid
+
     @F/4
     Scenario: Generate a Sudoku problem
         Given I have set the Sudoku generator seed value to 1701
