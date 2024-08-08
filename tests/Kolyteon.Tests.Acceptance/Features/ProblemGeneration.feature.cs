@@ -86,16 +86,16 @@ namespace Kolyteon.Tests.Acceptance.Features
             await this.TestTearDownAsync();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Generate a Sudoku problem")]
+        [Xunit.SkippableFactAttribute(DisplayName="Generate a Map Colouring problem")]
         [Xunit.TraitAttribute("FeatureTitle", "Problem Generation")]
-        [Xunit.TraitAttribute("Description", "Generate a Sudoku problem")]
-        [Xunit.TraitAttribute("Category", "F/4")]
-        public async System.Threading.Tasks.Task GenerateASudokuProblem()
+        [Xunit.TraitAttribute("Description", "Generate a Map Colouring problem")]
+        [Xunit.TraitAttribute("Category", "C/4")]
+        public async System.Threading.Tasks.Task GenerateAMapColouringProblem()
         {
             string[] tagsOfScenario = new string[] {
-                    "F/4"};
+                    "C/4"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Generate a Sudoku problem", null, tagsOfScenario, argumentsOfScenario, featureTags);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Generate a Map Colouring problem", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 6
     this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -107,12 +107,50 @@ namespace Kolyteon.Tests.Acceptance.Features
             {
                 await this.ScenarioStartAsync();
 #line 7
-        await testRunner.GivenAsync("I have set the Sudoku generator seed value to 1701", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+        await testRunner.GivenAsync("I have set the Map Colouring generator seed value to 1701", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 8
-        await testRunner.WhenAsync("I ask the Sudoku generator for a problem with 70 empty squares", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+        await testRunner.WhenAsync("I ask the Map Colouring generator for a problem with 20 blocks and the colours Re" +
+                        "d, Green, Yellow, Blue", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 9
+        await testRunner.ThenAsync("the Map Colouring problem should have 20 blocks", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 10
+        await testRunner.AndAsync("every block in the Map Colouring problem should have the colours Red, Green, Yell" +
+                        "ow, Blue", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Generate a Sudoku problem")]
+        [Xunit.TraitAttribute("FeatureTitle", "Problem Generation")]
+        [Xunit.TraitAttribute("Description", "Generate a Sudoku problem")]
+        [Xunit.TraitAttribute("Category", "F/4")]
+        public async System.Threading.Tasks.Task GenerateASudokuProblem()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "F/4"};
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Generate a Sudoku problem", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 13
+    this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 14
+        await testRunner.GivenAsync("I have set the Sudoku generator seed value to 1701", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 15
+        await testRunner.WhenAsync("I ask the Sudoku generator for a problem with 70 empty squares", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 16
         await testRunner.ThenAsync("the Sudoku problem should have 11 filled squares", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }

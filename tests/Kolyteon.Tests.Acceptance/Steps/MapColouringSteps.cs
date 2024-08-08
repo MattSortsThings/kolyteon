@@ -11,11 +11,15 @@ namespace Kolyteon.Tests.Acceptance.Steps;
 internal sealed class MapColouringSteps
 {
     private readonly IBinaryCsp<Block, Colour, MapColouringProblem> _binaryCsp;
+    private readonly IMapColouringGenerator _generator;
     private readonly ScenarioContext _scenarioContext;
 
-    public MapColouringSteps(IBinaryCsp<Block, Colour, MapColouringProblem> binaryCsp, ScenarioContext scenarioContext)
+    public MapColouringSteps(IBinaryCsp<Block, Colour, MapColouringProblem> binaryCsp,
+        IMapColouringGenerator generator,
+        ScenarioContext scenarioContext)
     {
         _binaryCsp = binaryCsp ?? throw new ArgumentNullException(nameof(binaryCsp));
+        _generator = generator ?? throw new ArgumentNullException(nameof(generator));
         _scenarioContext = scenarioContext ?? throw new ArgumentNullException(nameof(scenarioContext));
     }
 
@@ -52,6 +56,9 @@ internal sealed class MapColouringSteps
         _scenarioContext.Add(Constants.Keys.ProposedSolution, proposedSolution);
     }
 
+    [Given("I have set the Map Colouring generator seed value to (.*)")]
+    public void GivenIHaveSetTheMapColouringGeneratorSeedValueTo(int seed) => _generator.UseSeed(seed);
+
     [When("I deserialize a Map Colouring problem from the JSON")]
     public void WhenIDeserializeAMapColouringProblemFromTheJson()
     {
@@ -83,6 +90,14 @@ internal sealed class MapColouringSteps
         _binaryCsp.Model(problem);
     }
 
+    [When("I ask the Map Colouring generator for a problem with (.*) blocks and the colours (.*)")]
+    public void WhenIAskTheMapColouringGeneratorForAProblemWithBlocksAndTheColours(int blocks, HashSet<Colour> colours)
+    {
+        MapColouringProblem problem = _generator.Generate(blocks, colours);
+
+        _scenarioContext.Add(Constants.Keys.Problem, problem);
+    }
+
     [Then("the deserialized and original Map Colouring problems should be equal")]
     public void ThenTheDeserializedAndOriginalMapColouringProblemsShouldBeEqual()
     {
@@ -106,6 +121,23 @@ internal sealed class MapColouringSteps
     [Then("the Map Colouring binary CSP should have a harmonic mean constraint tightness of (.*)")]
     public void ThenTheMapColouringBinaryCspShouldHaveAHarmonicMeanConstraintTightnessOf(double expected) =>
         _binaryCsp.MeanTightness.Should().BeApproximately(expected, Constants.Precision.SixDecimalPlaces);
+
+    [Then("the Map Colouring problem should have (.*) blocks")]
+    public void ThenTheMapColouringProblemShouldHaveBlocks(int expectedBlocks)
+    {
+        MapColouringProblem problem = _scenarioContext.Get<MapColouringProblem>(Constants.Keys.Problem);
+
+        problem.BlockData.Should().HaveCount(expectedBlocks);
+    }
+
+    [Then("every block in the Map Colouring problem should have the colours (.*)")]
+    public void ThenEveryBlockInTheMapColouringProblemShouldHaveTheColours(HashSet<Colour> expectedColours)
+    {
+        MapColouringProblem problem = _scenarioContext.Get<MapColouringProblem>(Constants.Keys.Problem);
+
+        problem.BlockData.Should().AllSatisfy(datum =>
+            datum.PermittedColours.Should().BeEquivalentTo(expectedColours, options => options.WithoutStrictOrdering()));
+    }
 
     private sealed record BlockItem(Block Block, Colour[] PermittedColours);
 

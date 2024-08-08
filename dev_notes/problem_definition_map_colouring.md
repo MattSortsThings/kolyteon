@@ -140,6 +140,4 @@ The algorithm works as follows:
 4. Remove a divisible block.
 5. Divide the block into two.
 6. For each of the two new blocks, add it to the indivisible block collection if it has an area = 1, otherwise add it to the divisible block collection.
-7. If the total size of the indivisible and divisible block collections is less than 1.2 x the specified quantity of blocks, go back to step 4.
-8. Remove a block.
-9. If the total size of the indivisible and divisible block collections is greater than the specified quantity of blocks, go back to step 8.
+7. If the total size of the indivisible and divisible block collections is less than the specified quantity of blocks, go back to step 4.

@@ -1,4 +1,5 @@
 using Kolyteon.Common;
+using Kolyteon.MapColouring;
 using Kolyteon.Sudoku;
 
 namespace Kolyteon.Tests.Integration;
@@ -7,6 +8,44 @@ namespace Kolyteon.Tests.Integration;
 public abstract partial class ProblemGenerationTests
 {
     private protected abstract int Seed { get; }
+
+    [Theory]
+    [InlineData(1)]
+    [InlineData(2)]
+    [InlineData(10)]
+    [InlineData(11)]
+    [InlineData(20)]
+    [InlineData(30)]
+    [InlineData(39)]
+    [InlineData(40)]
+    [InlineData(49)]
+    [InlineData(50)]
+    public void CanGenerateMapColouringProblemFromBlocksAndPermittedColours(int blocks)
+    {
+        // Arrange
+        MapColouringGenerator generator = new(Seed);
+
+        HashSet<Colour> colours = [Colour.Black, Colour.Aqua, Colour.Fuchsia, Colour.Yellow, Colour.White];
+
+        // Act
+        MapColouringProblem result = generator.Generate(blocks, colours);
+
+        // Assert
+        using (new AssertionScope())
+        {
+            result.BlockData.Should().BeInAscendingOrder()
+                .And.HaveCount(blocks)
+                .And.AllSatisfy(datum =>
+                    result.Canvas.Contains(datum.Block).Should().BeTrue())
+                .And.AllSatisfy(datum =>
+                    datum.PermittedColours.Should()
+                        .BeEquivalentTo(colours, options => options.WithoutStrictOrdering()));
+
+            result.Canvas.Should().Be(Block.Parse("(0,0) [10x10]"));
+
+            result.BlockData.Sum(datum => datum.Block.AreaInSquares).Should().Be(100);
+        }
+    }
 
     [Theory]
     [InlineData(1)]
@@ -27,6 +66,7 @@ public abstract partial class ProblemGenerationTests
         // Act
         SudokuProblem result = generator.Generate(emptySquares);
 
+        // Assert
         using (new AssertionScope())
         {
             result.FilledSquares.Should().BeInAscendingOrder()

@@ -156,4 +156,8 @@ internal sealed class Transformations
 
     [StepArgumentTransformation]
     internal static Dimensions ToDimensions(string text) => Dimensions.Parse(text);
+
+    [StepArgumentTransformation]
+    internal static HashSet<Colour> ToColourHashSet(string text) =>
+        text.Split(", ").Select(Colour.FromName).ToHashSet();
 }
