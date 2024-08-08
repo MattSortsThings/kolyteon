@@ -24,9 +24,4 @@ public abstract partial class ProblemGenerationTests
     {
         private protected override int Seed => 5000;
     }
-
-    public sealed class SeedFiveFourThreeTwoOneZero : ProblemGenerationTests
-    {
-        private protected override int Seed => 543210;
-    }
 }

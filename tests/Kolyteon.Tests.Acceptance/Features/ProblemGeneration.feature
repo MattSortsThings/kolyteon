@@ -2,6 +2,14 @@ Feature: Problem Generation
 
 Generate a random, solvable instance of a problem type from a specified size.
 
+    @B/4
+    Scenario: Generate a Graph Colouring problem
+        Given I have set the Graph Colouring generator seed value to 1701
+        When I ask the Graph Colouring generator for a problem with 20 nodes and the colours Black, Fuchsia, Aqua, Lime
+        Then the Graph Colouring problem should have 20 nodes
+        And the Graph Colouring problem should have at least 1 edge
+        And every node in the Graph Colouring problem should have the colours Black, Fuchsia, Aqua, Lime
+
     @C/4
     Scenario: Generate a Map Colouring problem
         Given I have set the Map Colouring generator seed value to 1701

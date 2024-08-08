@@ -1,4 +1,5 @@
 using Kolyteon.Common;
+using Kolyteon.GraphColouring;
 using Kolyteon.MapColouring;
 using Kolyteon.Sudoku;
 
@@ -8,6 +9,40 @@ namespace Kolyteon.Tests.Integration;
 public abstract partial class ProblemGenerationTests
 {
     private protected abstract int Seed { get; }
+
+    [Theory]
+    [InlineData(1)]
+    [InlineData(2)]
+    [InlineData(10)]
+    [InlineData(11)]
+    [InlineData(20)]
+    [InlineData(30)]
+    [InlineData(39)]
+    [InlineData(40)]
+    [InlineData(49)]
+    [InlineData(50)]
+    public void CanGenerateGraphColouringProblemFromNodesAndPermittedColours(int nodes)
+    {
+        // Arrange
+        GraphColouringGenerator generator = new(Seed);
+
+        HashSet<Colour> colours = [Colour.Black, Colour.Aqua, Colour.Fuchsia, Colour.Yellow, Colour.White];
+
+        // Act
+        GraphColouringProblem result = generator.Generate(nodes, colours);
+
+        // Assert
+        using (new AssertionScope())
+        {
+            result.NodeData.Should().BeInAscendingOrder()
+                .And.HaveCount(nodes)
+                .And.AllSatisfy(datum =>
+                    datum.PermittedColours.Should()
+                        .BeEquivalentTo(colours, options => options.WithoutStrictOrdering()))
+                .And.AllSatisfy(datum =>
+                    datum.Node.Name.Should().MatchRegex(@"^N\d\d$"));
+        }
+    }
 
     [Theory]
     [InlineData(1)]

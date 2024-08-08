@@ -86,16 +86,16 @@ namespace Kolyteon.Tests.Acceptance.Features
             await this.TestTearDownAsync();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Generate a Map Colouring problem")]
+        [Xunit.SkippableFactAttribute(DisplayName="Generate a Graph Colouring problem")]
         [Xunit.TraitAttribute("FeatureTitle", "Problem Generation")]
-        [Xunit.TraitAttribute("Description", "Generate a Map Colouring problem")]
-        [Xunit.TraitAttribute("Category", "C/4")]
-        public async System.Threading.Tasks.Task GenerateAMapColouringProblem()
+        [Xunit.TraitAttribute("Description", "Generate a Graph Colouring problem")]
+        [Xunit.TraitAttribute("Category", "B/4")]
+        public async System.Threading.Tasks.Task GenerateAGraphColouringProblem()
         {
             string[] tagsOfScenario = new string[] {
-                    "C/4"};
+                    "B/4"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Generate a Map Colouring problem", null, tagsOfScenario, argumentsOfScenario, featureTags);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Generate a Graph Colouring problem", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 6
     this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -107,16 +107,57 @@ namespace Kolyteon.Tests.Acceptance.Features
             {
                 await this.ScenarioStartAsync();
 #line 7
-        await testRunner.GivenAsync("I have set the Map Colouring generator seed value to 1701", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+        await testRunner.GivenAsync("I have set the Graph Colouring generator seed value to 1701", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 8
+        await testRunner.WhenAsync("I ask the Graph Colouring generator for a problem with 20 nodes and the colours B" +
+                        "lack, Fuchsia, Aqua, Lime", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 9
+        await testRunner.ThenAsync("the Graph Colouring problem should have 20 nodes", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+#line 10
+        await testRunner.AndAsync("the Graph Colouring problem should have at least 1 edge", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 11
+        await testRunner.AndAsync("every node in the Graph Colouring problem should have the colours Black, Fuchsia," +
+                        " Aqua, Lime", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Generate a Map Colouring problem")]
+        [Xunit.TraitAttribute("FeatureTitle", "Problem Generation")]
+        [Xunit.TraitAttribute("Description", "Generate a Map Colouring problem")]
+        [Xunit.TraitAttribute("Category", "C/4")]
+        public async System.Threading.Tasks.Task GenerateAMapColouringProblem()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "C/4"};
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Generate a Map Colouring problem", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 14
+    this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 15
+        await testRunner.GivenAsync("I have set the Map Colouring generator seed value to 1701", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 16
         await testRunner.WhenAsync("I ask the Map Colouring generator for a problem with 20 blocks and the colours Re" +
                         "d, Green, Yellow, Blue", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 9
+#line 17
         await testRunner.ThenAsync("the Map Colouring problem should have 20 blocks", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 10
+#line 18
         await testRunner.AndAsync("every block in the Map Colouring problem should have the colours Red, Green, Yell" +
                         "ow, Blue", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
@@ -134,7 +175,7 @@ namespace Kolyteon.Tests.Acceptance.Features
                     "F/4"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Generate a Sudoku problem", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 13
+#line 21
     this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -144,13 +185,13 @@ namespace Kolyteon.Tests.Acceptance.Features
             else
             {
                 await this.ScenarioStartAsync();
-#line 14
+#line 22
         await testRunner.GivenAsync("I have set the Sudoku generator seed value to 1701", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 15
+#line 23
         await testRunner.WhenAsync("I ask the Sudoku generator for a problem with 70 empty squares", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 16
+#line 24
         await testRunner.ThenAsync("the Sudoku problem should have 11 filled squares", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
