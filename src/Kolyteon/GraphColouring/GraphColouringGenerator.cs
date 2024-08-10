@@ -4,6 +4,9 @@ using Kolyteon.GraphColouring.Internals;
 
 namespace Kolyteon.GraphColouring;
 
+/// <summary>
+///     Can generate a random, solvable Graph Colouring problem from parameters specified by the client.
+/// </summary>
 public sealed class GraphColouringGenerator : IGraphColouringGenerator
 {
     private const int MinNodes = 1;
@@ -43,21 +46,13 @@ public sealed class GraphColouringGenerator : IGraphColouringGenerator
         ArgumentNullException.ThrowIfNull(permittedColours);
         ThrowIfInsufficientColours(permittedColours, nameof(permittedColours));
 
-        IGraphColouringProblemBuilder.INodeAdder builder = InitializeBuilder(permittedColours);
-
         Block[] blocks = GenerateBlocks(nodes);
 
-        foreach (Node node in blocks.ToNodes())
-        {
-            builder.AddNode(node);
-        }
-
-        foreach (Edge edge in blocks.ToEdges())
-        {
-            builder.AddEdge(edge);
-        }
-
-        return builder.Build();
+        return GraphColouringProblem.Create()
+            .UseGlobalColours(permittedColours.ToArray())
+            .AddNodes(blocks.ToNodes())
+            .AddEdges(blocks.ToEdges())
+            .Build();
     }
 
     /// <inheritdoc />
@@ -116,9 +111,6 @@ public sealed class GraphColouringGenerator : IGraphColouringGenerator
             ? block.DivideOnRow(_random.Next(1, height))
             : block.DivideOnColumn(_random.Next(1, width));
     }
-
-    private static IGraphColouringProblemBuilder.INodeAdder InitializeBuilder(IEnumerable<Colour> permittedColours) =>
-        GraphColouringProblem.Create().UseGlobalColours(permittedColours.ToArray());
 
     private static void ThrowIfInvalidNodes(int nodes, string paramName)
     {

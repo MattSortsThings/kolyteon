@@ -39,6 +39,14 @@ public interface IGraphColouringProblemBuilder
         /// <param name="node">The node to be added to the graph.</param>
         /// <returns>The same fluent builder instance, so that method invocations can be chained.</returns>
         public INodeAdder AddNode(Node node);
+
+        /// <summary>
+        ///     Adds the specified nodes to the graph.
+        /// </summary>
+        /// <param name="nodes">The node to be added to the graph.</param>
+        /// <returns>The same fluent builder instance, so that method invocations can be chained.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="nodes" /> is <see langword="null" />.</exception>
+        public INodeAdder AddNodes(IEnumerable<Node> nodes);
     }
 
     /// <summary>
@@ -77,6 +85,18 @@ public interface IGraphColouringProblemBuilder
         /// <param name="edge">The edge to be added to the graph.</param>
         /// <returns>The same fluent builder instance, so that method invocations can be chained.</returns>
         public IEdgeAdder AddEdge(Edge edge);
+
+        /// <summary>
+        ///     Adds the specified edges to the graph, each edge connecting two nodes that have been added in previous method
+        ///     invocations.
+        /// </summary>
+        /// <remarks>
+        ///     Any identical edges will be discarded.
+        /// </remarks>
+        /// <param name="edges">The edges to be added to the graph.</param>
+        /// <returns>The same fluent builder instance, so that method invocations can be chained.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="edges" /> is <see langword="null" />.</exception>
+        public IEdgeAdder AddEdges(IEnumerable<Edge> edges);
     }
 
     /// <summary>

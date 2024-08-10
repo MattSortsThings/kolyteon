@@ -10,6 +10,7 @@ internal sealed class GraphColouringProblemBuilder : IGraphColouringProblemBuild
     private readonly List<NodeDatum> _nodeData = new(4);
     private HashSet<Colour>? _globalColours;
 
+    /// <inheritdoc />
     public IGraphColouringProblemBuilder.INodeAdder UseGlobalColours(params Colour[] colours)
     {
         _globalColours = colours.ToHashSet();
@@ -17,8 +18,10 @@ internal sealed class GraphColouringProblemBuilder : IGraphColouringProblemBuild
         return this;
     }
 
+    /// <inheritdoc />
     public IGraphColouringProblemBuilder.INodeAndColoursAdder UseNodeSpecificColours() => this;
 
+    /// <inheritdoc />
     public GraphColouringProblem Build()
     {
         GraphColouringProblem problem = new(_nodeData.OrderBy(datum => datum).ToArray(),
@@ -29,6 +32,7 @@ internal sealed class GraphColouringProblemBuilder : IGraphColouringProblemBuild
         return problem;
     }
 
+    /// <inheritdoc />
     public IGraphColouringProblemBuilder.IEdgeAdder AddEdge(Edge edge)
     {
         _edges.Add(edge);
@@ -36,6 +40,20 @@ internal sealed class GraphColouringProblemBuilder : IGraphColouringProblemBuild
         return this;
     }
 
+    /// <inheritdoc />
+    public IGraphColouringProblemBuilder.IEdgeAdder AddEdges(IEnumerable<Edge> edges)
+    {
+        ArgumentNullException.ThrowIfNull(edges);
+
+        foreach (Edge edge in edges)
+        {
+            _edges.Add(edge);
+        }
+
+        return this;
+    }
+
+    /// <inheritdoc />
     public IGraphColouringProblemBuilder.INodeAdder AddNode(Node node)
     {
         _nodeData.Add(new NodeDatum(node, _globalColours!));
@@ -43,6 +61,20 @@ internal sealed class GraphColouringProblemBuilder : IGraphColouringProblemBuild
         return this;
     }
 
+    /// <inheritdoc />
+    public IGraphColouringProblemBuilder.INodeAdder AddNodes(IEnumerable<Node> nodes)
+    {
+        ArgumentNullException.ThrowIfNull(nodes);
+
+        foreach (Node node in nodes)
+        {
+            _nodeData.Add(new NodeDatum(node, _globalColours!));
+        }
+
+        return this;
+    }
+
+    /// <inheritdoc />
     public IGraphColouringProblemBuilder.INodeAndColoursAdder AddNodeAndColours(Node node, params Colour[] colours)
     {
         _nodeData.Add(new NodeDatum(node, colours.ToHashSet()));

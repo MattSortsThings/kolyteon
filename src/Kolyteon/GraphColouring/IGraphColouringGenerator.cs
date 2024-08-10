@@ -17,8 +17,7 @@ public interface IGraphColouringGenerator
     /// <exception cref="ArgumentException"><paramref name="permittedColours" /> contains fewer than 4 values.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="permittedColours" /> is <see langword="null" />.</exception>
     /// <exception cref="ArgumentOutOfRangeException">
-    ///     <paramref name="nodes" /> is less than or equal to zero, or
-    ///     <paramref name="nodes" /> is greater than 50.
+    ///     <paramref name="nodes" /> is less than or equal to zero, or <paramref name="nodes" /> is greater than 50.
     /// </exception>
     public GraphColouringProblem Generate(int nodes, HashSet<Colour> permittedColours);
 

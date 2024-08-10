@@ -643,6 +643,34 @@ public static class GraphColouringProblemTests
         }
 
         [Fact]
+        public void FluentBuilder_AddingNullNodes_Throws()
+        {
+            // Act
+            Action act = () => GraphColouringProblem.Create()
+                .UseGlobalColours(Colour.Black, Colour.White)
+                .AddNodes(null!)
+                .Build();
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>()
+                .WithMessage("Value cannot be null. (Parameter 'nodes')");
+        }
+
+        [Fact]
+        public void FluentBuilder_AddingNullEdges_Throws()
+        {
+            // Act
+            Action act = () => GraphColouringProblem.Create()
+                .UseGlobalColours(Colour.Black, Colour.White)
+                .AddEdges(null!)
+                .Build();
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>()
+                .WithMessage("Value cannot be null. (Parameter 'edges')");
+        }
+
+        [Fact]
         public void FluentBuilder_ZeroNodes_Throws()
         {
             // Act
