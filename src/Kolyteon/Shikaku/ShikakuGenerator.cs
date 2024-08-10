@@ -44,7 +44,9 @@ public sealed class ShikakuGenerator : IShikakuGenerator
         ThrowIfInvalidGridSideLength(gridSideLength, nameof(gridSideLength));
         ThrowIfInvalidHints(hints, nameof(hints), gridSideLength);
 
-        int?[,] grid = MapToGrid(gridSideLength, GenerateBlocks(gridSideLength, hints));
+        Block[] blocks = GenerateBlocks(gridSideLength, hints);
+
+        int?[,] grid = MapToGrid(gridSideLength, blocks);
 
         return ShikakuProblem.FromGrid(grid);
     }
