@@ -9,6 +9,7 @@ internal sealed class FutoshikiProblemBuilder : IFutoshikiProblemBuilder, IFutos
     private NumberedSquare[]? _filledSquares;
     private Block _problemGrid;
 
+    /// <inheritdoc />
     public IFutoshikiProblemBuilder.ISignAdder FromGrid(int?[,] grid)
     {
         ArgumentNullException.ThrowIfNull(grid);
@@ -20,6 +21,7 @@ internal sealed class FutoshikiProblemBuilder : IFutoshikiProblemBuilder, IFutos
         return this;
     }
 
+    /// <inheritdoc />
     public FutoshikiProblem Build()
     {
         FutoshikiProblem problem = new(_problemGrid,
@@ -32,6 +34,7 @@ internal sealed class FutoshikiProblemBuilder : IFutoshikiProblemBuilder, IFutos
         return problem;
     }
 
+    /// <inheritdoc />
     public IFutoshikiProblemBuilder.ISignAdder AddSign(GreaterThanSign sign)
     {
         ArgumentNullException.ThrowIfNull(sign);
@@ -41,11 +44,36 @@ internal sealed class FutoshikiProblemBuilder : IFutoshikiProblemBuilder, IFutos
         return this;
     }
 
+    /// <inheritdoc />
     public IFutoshikiProblemBuilder.ISignAdder AddSign(LessThanSign sign)
     {
         ArgumentNullException.ThrowIfNull(sign);
 
         _lessThanSigns.Add(sign);
+
+        return this;
+    }
+
+    /// <inheritdoc />
+    public IFutoshikiProblemBuilder.ISignAdder AddSigns(IEnumerable<GreaterThanSign> signs)
+    {
+        ArgumentNullException.ThrowIfNull(signs);
+        foreach (GreaterThanSign sign in signs)
+        {
+            _greaterThanSigns.Add(sign);
+        }
+
+        return this;
+    }
+
+    /// <inheritdoc />
+    public IFutoshikiProblemBuilder.ISignAdder AddSigns(IEnumerable<LessThanSign> signs)
+    {
+        ArgumentNullException.ThrowIfNull(signs);
+        foreach (LessThanSign sign in signs)
+        {
+            _lessThanSigns.Add(sign);
+        }
 
         return this;
     }

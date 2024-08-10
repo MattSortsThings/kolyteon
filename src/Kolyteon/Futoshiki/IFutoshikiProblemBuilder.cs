@@ -71,6 +71,22 @@ public interface IFutoshikiProblemBuilder
         /// <returns>The same fluent builder instance, so that method invocations can be chained.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="sign" /> is <see langword="null" />.</exception>
         public ISignAdder AddSign(LessThanSign sign);
+
+        /// <summary>
+        ///     Adds the specified greater than ( &gt; ) signs to the problem.
+        /// </summary>
+        /// <param name="signs">The signs to be added. Any duplicate signs are will be discarded.</param>
+        /// <returns>The same fluent builder instance, so that method invocations can be chained.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="signs" /> is <see langword="null" />.</exception>
+        public ISignAdder AddSigns(IEnumerable<GreaterThanSign> signs);
+
+        /// <summary>
+        ///     Adds the specified less than ( &lt; ) signs to the problem.
+        /// </summary>
+        /// <param name="signs">The signs to be added. Any duplicate signs are will be discarded.</param>
+        /// <returns>The same fluent builder instance, so that method invocations can be chained.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="signs" /> is <see langword="null" />.</exception>
+        public ISignAdder AddSigns(IEnumerable<LessThanSign> signs);
     }
 
     /// <summary>

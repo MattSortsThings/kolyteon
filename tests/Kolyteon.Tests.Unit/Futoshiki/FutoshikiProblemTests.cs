@@ -1379,5 +1379,45 @@ public static class FutoshikiProblemTests
             act.Should().Throw<ArgumentNullException>()
                 .WithMessage("Value cannot be null. (Parameter 'sign')");
         }
+
+        [Fact]
+        public void FluentBuilder_AddingNullGreaterThanSigns_Throws()
+        {
+            // Arrange
+            int?[,] grid =
+            {
+                { null, null, null, null },
+                { null, null, null, null },
+                { null, null, null, null },
+                { null, null, null, null }
+            };
+
+            // Act
+            Action act = () => FutoshikiProblem.Create().FromGrid(grid).AddSigns((IEnumerable<GreaterThanSign>)null!).Build();
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>()
+                .WithMessage("Value cannot be null. (Parameter 'signs')");
+        }
+
+        [Fact]
+        public void FluentBuilder_AddingNullLessThanSigns_Throws()
+        {
+            // Arrange
+            int?[,] grid =
+            {
+                { null, null, null, null },
+                { null, null, null, null },
+                { null, null, null, null },
+                { null, null, null, null }
+            };
+
+            // Act
+            Action act = () => FutoshikiProblem.Create().FromGrid(grid).AddSigns((IEnumerable<LessThanSign>)null!).Build();
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>()
+                .WithMessage("Value cannot be null. (Parameter 'signs')");
+        }
     }
 }

@@ -49,22 +49,12 @@ public sealed class FutoshikiGenerator : IFutoshikiGenerator
         AddSigns(problem);
         EliminateNumbers(problem);
 
-        IFutoshikiProblemBuilder.ISignAdder builder = FutoshikiProblem.Create()
-            .FromGrid(problem.Grid);
-
-        foreach (GreaterThanSign sign in problem.GreaterThanSigns)
-        {
-            builder.AddSign(sign);
-        }
-
-        foreach (LessThanSign sign in problem.LessThanSigns)
-        {
-            builder.AddSign(sign);
-        }
-
-        return builder.Build();
+        return FutoshikiProblem.Create()
+            .FromGrid(problem.Grid)
+            .AddSigns(problem.GreaterThanSigns)
+            .AddSigns(problem.LessThanSigns)
+            .Build();
     }
-
 
     /// <inheritdoc />
     public void UseSeed(int seed) => _random.UseSeed(seed);
@@ -123,14 +113,13 @@ public sealed class FutoshikiGenerator : IFutoshikiGenerator
                 : (Square.FromColumnAndRow(column, row), Square.FromColumnAndRow(column + 1, row));
     }
 
-    private GeneratedProblem InitializeGeneratedProblem(int gridSideLength, int emptySquares) => new()
+    private GeneratedProblem InitializeGeneratedProblem(int gridSideLength, int emptySquares)
     {
-        Grid = InitializeGrid(gridSideLength),
-        GreaterThanSigns = new HashSet<GreaterThanSign>(emptySquares),
-        LessThanSigns = new HashSet<LessThanSign>(emptySquares),
-        RequiredSigns = Math.Min(emptySquares, _random.Next(gridSideLength, (int)Math.Pow(gridSideLength, 1.5))),
-        RequiredEmptySquares = emptySquares
-    };
+        int?[,] grid = InitializeGrid(gridSideLength);
+        int requiredSigns = Math.Min(emptySquares, _random.Next(gridSideLength, (int)Math.Pow(gridSideLength, 1.5)));
+
+        return new GeneratedProblem(grid, requiredSigns, emptySquares);
+    }
 
     private Action<int?[,]> SelectShuffleAction()
     {
@@ -237,17 +226,26 @@ public sealed class FutoshikiGenerator : IFutoshikiGenerator
 
     private sealed record GeneratedProblem
     {
-        public required int?[,] Grid { get; init; }
+        public GeneratedProblem(int?[,] grid, int requiredSigns, int requiredEmptySquares)
+        {
+            Grid = grid;
+            GreaterThanSigns = new HashSet<GreaterThanSign>(requiredSigns);
+            LessThanSigns = new HashSet<LessThanSign>(requiredSigns);
+            RequiredSigns = requiredSigns;
+            RequiredEmptySquares = requiredEmptySquares;
+        }
 
-        public required HashSet<GreaterThanSign> GreaterThanSigns { get; init; }
-
-        public required HashSet<LessThanSign> LessThanSigns { get; init; }
-
-        public required int RequiredSigns { get; init; }
+        private int RequiredSigns { get; init; }
 
         private int EmptySquares { get; set; }
 
-        public int RequiredEmptySquares { get; init; }
+        private int RequiredEmptySquares { get; init; }
+
+        public int?[,] Grid { get; init; }
+
+        public HashSet<GreaterThanSign> GreaterThanSigns { get; init; }
+
+        public HashSet<LessThanSign> LessThanSigns { get; init; }
 
         public bool CanAddAnotherSign => GreaterThanSigns.Count + LessThanSigns.Count < RequiredSigns;
 
