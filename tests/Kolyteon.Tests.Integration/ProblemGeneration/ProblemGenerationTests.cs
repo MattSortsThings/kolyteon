@@ -6,7 +6,7 @@ using Kolyteon.MapColouring;
 using Kolyteon.Shikaku;
 using Kolyteon.Sudoku;
 
-namespace Kolyteon.Tests.Integration;
+namespace Kolyteon.Tests.Integration.ProblemGeneration;
 
 [IntegrationTest]
 public abstract partial class ProblemGenerationTests
