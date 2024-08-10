@@ -1,4 +1,6 @@
+using System.Linq.Expressions;
 using Kolyteon.Common;
+using Kolyteon.Futoshiki;
 using Kolyteon.GraphColouring;
 using Kolyteon.MapColouring;
 using Kolyteon.Shikaku;
@@ -10,6 +12,52 @@ namespace Kolyteon.Tests.Integration;
 public abstract partial class ProblemGenerationTests
 {
     private protected abstract int Seed { get; }
+
+    [Theory]
+    [InlineData(4, 1, 15)]
+    [InlineData(4, 2, 14)]
+    [InlineData(4, 12, 4)]
+    [InlineData(4, 15, 1)]
+    [InlineData(5, 1, 24)]
+    [InlineData(5, 2, 23)]
+    [InlineData(5, 20, 5)]
+    [InlineData(5, 24, 1)]
+    [InlineData(9, 1, 80)]
+    [InlineData(9, 2, 79)]
+    [InlineData(9, 70, 11)]
+    [InlineData(9, 80, 1)]
+    public void CanGenerateFutoshikiProblemFromGridSideLengthAndEmptySquares(int gridSideLength,
+        int emptySquares,
+        int expectedFilledSquares)
+    {
+        // Arrange
+        FutoshikiGenerator generator = new(Seed);
+
+        // Act
+        FutoshikiProblem result = generator.Generate(gridSideLength, emptySquares);
+
+        // Assert
+        Block expectedGrid = Dimensions.FromWidthAndHeight(gridSideLength, gridSideLength).ToBlock();
+
+        using (new AssertionScope())
+        {
+            result.Grid.Should().Be(expectedGrid);
+
+            result.FilledSquares.Should().BeInAscendingOrder()
+                .And.HaveCount(expectedFilledSquares)
+                .And.AllSatisfy(filledSquare =>
+                    result.Grid.Contains(filledSquare).Should().BeTrue())
+                .And.AllSatisfy(filledSquare =>
+                    filledSquare.Number.Should().BeGreaterOrEqualTo(1).And.BeLessThanOrEqualTo(gridSideLength));
+
+            result.Should().Match(ProblemHasAtLeastOneSign());
+        }
+
+        return;
+
+        Expression<Func<FutoshikiProblem, bool>> ProblemHasAtLeastOneSign() =>
+            problem => problem.LessThanSigns.Count > 0 || problem.GreaterThanSigns.Count > 0;
+    }
 
     [Theory]
     [InlineData(1)]
@@ -111,7 +159,8 @@ public abstract partial class ProblemGenerationTests
 
             result.Hints.Should().BeInAscendingOrder()
                 .And.HaveCount(hints)
-                .And.AllSatisfy(hint => result.Grid.Contains(hint).Should().BeTrue());
+                .And.AllSatisfy(hint => result.Grid.Contains(hint).Should().BeTrue())
+                .And.AllSatisfy(hint => hint.Number.Should().BeGreaterOrEqualTo(2));
 
             result.Hints.Sum(hint => hint.Number).Should().Be(result.Grid.AreaInSquares);
         }
@@ -140,7 +189,11 @@ public abstract partial class ProblemGenerationTests
         using (new AssertionScope())
         {
             result.FilledSquares.Should().BeInAscendingOrder()
-                .And.HaveCount(81 - emptySquares);
+                .And.HaveCount(81 - emptySquares)
+                .And.AllSatisfy(filledSquare =>
+                    result.Grid.Contains(filledSquare).Should().BeTrue())
+                .And.AllSatisfy(filledSquare =>
+                    filledSquare.Number.Should().BeGreaterOrEqualTo(1).And.BeLessThanOrEqualTo(9));
 
             result.Grid.Should().Be(Block.Parse("(0,0) [9x9]"));
 

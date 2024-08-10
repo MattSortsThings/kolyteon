@@ -1,6 +1,5 @@
 using Kolyteon.Common;
 using Kolyteon.Common.Internals;
-using Kolyteon.Sudoku.Internals;
 
 namespace Kolyteon.Sudoku;
 
@@ -77,8 +76,8 @@ public sealed class SudokuGenerator : ISudokuGenerator
 
     private void SwapNumbers(int?[,] grid)
     {
-        int x = _random.Next(1, 9);
-        int y = _random.Next(1, 9);
+        int x = _random.Next(1, 10);
+        int y = _random.Next(1, 10);
 
         grid.SwapNumbers(x, y);
     }

@@ -31,4 +31,18 @@ internal static class NullableInt32ArrayExtensions
             (grid[rowX, column], grid[rowY, column]) = (grid[rowY, column], grid[rowX, column]);
         }
     }
+
+    internal static bool EliminateNumberInSquare(this int?[,] grid, in Square square)
+    {
+        (int column, int row) = square;
+
+        if (!grid[row, column].HasValue)
+        {
+            return false;
+        }
+
+        grid[row, column] = null;
+
+        return true;
+    }
 }

@@ -23,4 +23,8 @@ internal static class NullableInt32ArrayExtensions
             )
             .ToArray();
     }
+
+    internal static bool FirstIsGreaterThanSecond(this int?[,] grid, in Square firstSquare, in Square secondSquare) =>
+        grid[firstSquare.Row, firstSquare.Column].GetValueOrDefault() >
+        grid[secondSquare.Row, secondSquare.Column].GetValueOrDefault();
 }

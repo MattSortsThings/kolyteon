@@ -1,3 +1,4 @@
+using Kolyteon.Futoshiki;
 using Kolyteon.GraphColouring;
 using Kolyteon.MapColouring;
 using Kolyteon.Shikaku;
@@ -13,11 +14,14 @@ internal static class ProblemGeneratorHooks
     [BeforeTestRun]
     internal static void RegisterProblemGenerators(IObjectContainer objectContainer)
     {
+        objectContainer.RegisterFactoryAs(CreateFutoshikiGenerator);
         objectContainer.RegisterFactoryAs(CreateGraphColouringGenerator);
         objectContainer.RegisterFactoryAs(CreateMapColouringGenerator);
         objectContainer.RegisterFactoryAs(CreateShikakuGenerator);
         objectContainer.RegisterFactoryAs(CreateSudokuGenerator);
     }
+
+    private static IFutoshikiGenerator CreateFutoshikiGenerator(IObjectContainer _) => new FutoshikiGenerator();
 
     private static IGraphColouringGenerator CreateGraphColouringGenerator(IObjectContainer _) => new GraphColouringGenerator();
 

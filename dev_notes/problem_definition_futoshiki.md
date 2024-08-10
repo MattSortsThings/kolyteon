@@ -162,11 +162,8 @@ The algorithm works as follows:
 
 1. Start with a populated *n*x*n* seed greed.
 2. Apply the following randomization techniques to the grid:
-   1. Rotate the grid.
-   2. Flip the grid vertically.
-   3. Flip the grid horizontally.
-   4. Swap two 1x9 columns in the same vertical group.
-   5. Swap two 9x1 rows in the same horizontal group.
-   6. Swap all instances of one number with all instances of another number.
+   1. Swap two 1x9 columns in the same vertical group.
+   2. Swap two 9x1 rows in the same horizontal group.
+   3. Swap all instances of one number with all instances of another number.
 3. Add some greater than and less than signs to the grid.
 4. Randomly erase numbers from the grid, up to the specified quantity of empty squares. Prioritize erasing numbers from squares with signs.

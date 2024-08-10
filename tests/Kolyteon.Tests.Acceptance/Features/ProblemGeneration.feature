@@ -2,6 +2,14 @@ Feature: Problem Generation
 
 Generate a random, solvable instance of a problem type from a specified size.
 
+    @A/4
+    Scenario: Generate a Futoshiki problem
+        Given I have set the Futoshiki generator seed value to 1701
+        When I ask the Futoshiki generator for a problem with a grid side length of 5 and 20 empty squares
+        Then the Futoshiki problem should have 5 filled squares
+        And the Futoshiki problem should have a 5x5 grid
+        And the Futoshiki problem should have at least 1 sign
+
     @B/4
     Scenario: Generate a Graph Colouring problem
         Given I have set the Graph Colouring generator seed value to 1701

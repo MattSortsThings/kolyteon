@@ -11,11 +11,15 @@ namespace Kolyteon.Tests.Acceptance.Steps;
 internal sealed class FutoshikiSteps
 {
     private readonly IBinaryCsp<Square, int, FutoshikiProblem> _binaryCsp;
+    private readonly IFutoshikiGenerator _generator;
     private readonly ScenarioContext _scenarioContext;
 
-    public FutoshikiSteps(IBinaryCsp<Square, int, FutoshikiProblem> binaryCsp, ScenarioContext scenarioContext)
+    public FutoshikiSteps(IBinaryCsp<Square, int, FutoshikiProblem> binaryCsp,
+        IFutoshikiGenerator generator,
+        ScenarioContext scenarioContext)
     {
         _binaryCsp = binaryCsp ?? throw new ArgumentNullException(nameof(binaryCsp));
+        _generator = generator ?? throw new ArgumentNullException(nameof(generator));
         _scenarioContext = scenarioContext ?? throw new ArgumentNullException(nameof(scenarioContext));
     }
 
@@ -42,6 +46,9 @@ internal sealed class FutoshikiSteps
 
         _scenarioContext.Add(Constants.Keys.ProposedSolution, proposedSolution);
     }
+
+    [Given("I have set the Futoshiki generator seed value to (.*)")]
+    public void GivenIHaveSetTheFutoshikiGeneratorSeedValueTo(int seed) => _generator.UseSeed(seed);
 
     [When("I deserialize a Futoshiki problem from the JSON")]
     public void WhenIDeserializeAFutoshikiProblemFromTheJson()
@@ -74,6 +81,14 @@ internal sealed class FutoshikiSteps
         _binaryCsp.Model(problem);
     }
 
+    [When("I ask the Futoshiki generator for a problem with a grid side length of (.*) and (.*) empty squares")]
+    public void WhenIAskTheFutoshikiGeneratorForAProblemWithAGridSideLengthOfAndEmptySquares(int sideLength, int emptySquares)
+    {
+        FutoshikiProblem problem = _generator.Generate(sideLength, emptySquares);
+
+        _scenarioContext.Add(Constants.Keys.Problem, problem);
+    }
+
     [Then("the deserialized and original Futoshiki problems should be equal")]
     public void ThenTheDeserializedAndOriginalFutoshikiProblemsShouldBeEqual()
     {
@@ -96,6 +111,32 @@ internal sealed class FutoshikiSteps
     [Then("the Futoshiki binary CSP should have a harmonic mean tightness of (.*)")]
     public void ThenTheFutoshikiBinaryCspShouldHaveAHarmonicMeanTightnessOf(double expected) =>
         _binaryCsp.MeanTightness.Should().BeApproximately(expected, Constants.Precision.SixDecimalPlaces);
+
+    [Then("the Futoshiki problem should have (.*) filled squares")]
+    public void ThenTheFutoshikiProblemShouldHaveFilledSquares(int expectedFilledSquares)
+    {
+        FutoshikiProblem problem = _scenarioContext.Get<FutoshikiProblem>(Constants.Keys.Problem);
+
+        problem.FilledSquares.Should().HaveCount(expectedFilledSquares);
+    }
+
+    [Then("the Futoshiki problem should have a (.*) grid")]
+    public void ThenTheFutoshikiProblemShouldHaveAGrid(Dimensions expectedGridDimensions)
+    {
+        FutoshikiProblem problem = _scenarioContext.Get<FutoshikiProblem>(Constants.Keys.Problem);
+
+        problem.Grid.Dimensions.Should().Be(expectedGridDimensions);
+    }
+
+    [Then("the Futoshiki problem should have at least (.*) sign")]
+    public void ThenTheFutoshikiProblemShouldHaveAtLeastSign(int minExpectedSigns)
+    {
+        FutoshikiProblem problem = _scenarioContext.Get<FutoshikiProblem>(Constants.Keys.Problem);
+
+        int totalSigns = problem.GreaterThanSigns.Count + problem.LessThanSigns.Count;
+
+        totalSigns.Should().BeGreaterOrEqualTo(minExpectedSigns);
+    }
 
     private readonly record struct SolutionItem(NumberedSquare FilledSquare);
 }
