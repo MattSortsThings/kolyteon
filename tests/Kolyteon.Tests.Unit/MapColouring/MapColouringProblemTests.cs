@@ -655,6 +655,21 @@ public static class MapColouringProblemTests
         }
 
         [Fact]
+        public void FluentBuilder_AddingNullNodes_Throws()
+        {
+            // Act
+            Action act = () => MapColouringProblem.Create()
+                .WithCanvasSize(Dimensions.FromWidthAndHeight(10, 10))
+                .UseGlobalColours(Colour.Black)
+                .AddBlocks(null!)
+                .Build();
+
+            // Assert
+            act.Should().Throw<ArgumentNullException>()
+                .WithMessage("Value cannot be null. (Parameter 'blocks')");
+        }
+
+        [Fact]
         public void FluentBuilder_ZeroBlocks_Throws()
         {
             // Act

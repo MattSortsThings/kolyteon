@@ -11,6 +11,7 @@ internal sealed class MapColouringProblemBuilder : IMapColouringProblemBuilder,
     private Block _canvas;
     private HashSet<Colour>? _globalColours;
 
+    /// <inheritdoc />
     public MapColouringProblem Build()
     {
         MapColouringProblem problem = new(_canvas, _blockData.OrderBy(datum => datum).ToArray());
@@ -20,6 +21,7 @@ internal sealed class MapColouringProblemBuilder : IMapColouringProblemBuilder,
         return problem;
     }
 
+    /// <inheritdoc />
     public IMapColouringProblemBuilder.IBlockAdder AddBlock(Block block)
     {
         _blockData.Add(new BlockDatum(block, _globalColours!));
@@ -27,6 +29,20 @@ internal sealed class MapColouringProblemBuilder : IMapColouringProblemBuilder,
         return this;
     }
 
+    /// <inheritdoc />
+    public IMapColouringProblemBuilder.IBlockAdder AddBlocks(IEnumerable<Block> blocks)
+    {
+        ArgumentNullException.ThrowIfNull(blocks);
+
+        foreach (Block block in blocks)
+        {
+            _blockData.Add(new BlockDatum(block, _globalColours!));
+        }
+
+        return this;
+    }
+
+    /// <inheritdoc />
     public IMapColouringProblemBuilder.IBlockAndColoursAdder AddBlockWithColours(Block block, params Colour[] colours)
     {
         _blockData.Add(new BlockDatum(block, colours.ToHashSet()));
@@ -34,6 +50,7 @@ internal sealed class MapColouringProblemBuilder : IMapColouringProblemBuilder,
         return this;
     }
 
+    /// <inheritdoc />
     public IMapColouringProblemBuilder.IBlockAdder UseGlobalColours(params Colour[] colours)
     {
         _globalColours = colours.ToHashSet();
@@ -41,8 +58,10 @@ internal sealed class MapColouringProblemBuilder : IMapColouringProblemBuilder,
         return this;
     }
 
+    /// <inheritdoc />
     public IMapColouringProblemBuilder.IBlockAndColoursAdder UseBlockSpecificColours() => this;
 
+    /// <inheritdoc />
     public IMapColouringProblemBuilder.IColoursSetter WithCanvasSize(Dimensions dimensions)
     {
         _canvas = dimensions.ToBlock();

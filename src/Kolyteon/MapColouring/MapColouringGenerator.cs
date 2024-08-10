@@ -48,10 +48,11 @@ public sealed class MapColouringGenerator : IMapColouringGenerator
 
         Dimensions tenByTenCanvas = Dimensions.FromWidthAndHeight(10, 10);
 
-        return GenerateBlocks(tenByTenCanvas, blocks)
-            .Aggregate(InitializeBuilder(permittedColours, tenByTenCanvas),
-                (builder, block) => builder.AddBlock(block)
-            ).Build();
+        return MapColouringProblem.Create()
+            .WithCanvasSize(tenByTenCanvas)
+            .UseGlobalColours(permittedColours.ToArray())
+            .AddBlocks(GenerateBlocks(tenByTenCanvas, blocks))
+            .Build();
     }
 
     /// <inheritdoc />

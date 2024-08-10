@@ -56,6 +56,14 @@ public interface IMapColouringProblemBuilder
         /// <param name="block">The block to be added to the problem.</param>
         /// <returns>The same fluent builder instance, so that method invocations can be chained.</returns>
         public IBlockAdder AddBlock(Block block);
+
+        /// <summary>
+        ///     Adds the specified blocks to the problem.
+        /// </summary>
+        /// <param name="blocks">The blocks to be added to the problem.</param>
+        /// <returns>The same fluent builder instance, so that method invocations can be chained.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="blocks" /> is <see langword="null" />.</exception>
+        public IBlockAdder AddBlocks(IEnumerable<Block> blocks);
     }
 
     /// <summary>
