@@ -66,8 +66,8 @@ public static partial class MapColouringConstraintGraphTests
         Problem = MapColouringProblem.Create()
             .WithCanvasSize(Dimensions.FromWidthAndHeight(10, 10))
             .UseBlockSpecificColours()
-            .AddBlockWithColours(Block.Parse("(0,0) [3x3]"))
-            .AddBlockWithColours(Block.Parse("(3,0) [3x3]"), Colour.Black).Build(),
+            .AddBlockAndColours(Block.Parse("(0,0) [3x3]"))
+            .AddBlockAndColours(Block.Parse("(3,0) [3x3]"), Colour.Black).Build(),
         ExpectedNodes =
         [
             new ConstraintGraphNode<Block, Colour>
@@ -143,11 +143,11 @@ public static partial class MapColouringConstraintGraphTests
         Problem = MapColouringProblem.Create()
             .WithCanvasSize(Dimensions.FromWidthAndHeight(10, 10))
             .UseBlockSpecificColours()
-            .AddBlockWithColours(Block.Parse("(0,6) [3x1]"), Colour.Red, Colour.Blue)
-            .AddBlockWithColours(Block.Parse("(1,1) [2x3]"), Colour.Red, Colour.Blue)
-            .AddBlockWithColours(Block.Parse("(3,1) [4x2]"), Colour.Green, Colour.Red, Colour.Blue)
-            .AddBlockWithColours(Block.Parse("(3,3) [2x3]"), Colour.Red)
-            .AddBlockWithColours(Block.Parse("(5,3) [2x2]"), Colour.Yellow, Colour.Blue).Build(),
+            .AddBlockAndColours(Block.Parse("(0,6) [3x1]"), Colour.Red, Colour.Blue)
+            .AddBlockAndColours(Block.Parse("(1,1) [2x3]"), Colour.Red, Colour.Blue)
+            .AddBlockAndColours(Block.Parse("(3,1) [4x2]"), Colour.Green, Colour.Red, Colour.Blue)
+            .AddBlockAndColours(Block.Parse("(3,3) [2x3]"), Colour.Red)
+            .AddBlockAndColours(Block.Parse("(5,3) [2x2]"), Colour.Yellow, Colour.Blue).Build(),
         ExpectedNodes =
         [
             new ConstraintGraphNode<Block, Colour>

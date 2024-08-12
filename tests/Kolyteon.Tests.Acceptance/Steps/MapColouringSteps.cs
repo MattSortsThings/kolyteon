@@ -31,7 +31,7 @@ internal sealed class MapColouringSteps
 
         foreach ((Block block, Colour[] permittedColours) in table.CreateSet<BlockItem>())
         {
-            builder = builder.AddBlockWithColours(block, permittedColours);
+            builder = builder.AddBlockAndColours(block, permittedColours);
         }
 
         _scenarioContext.Add(Constants.Keys.Problem, builder.Build());

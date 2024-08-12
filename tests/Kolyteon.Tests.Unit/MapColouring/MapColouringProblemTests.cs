@@ -626,9 +626,9 @@ public static class MapColouringProblemTests
             MapColouringProblem result = MapColouringProblem.Create()
                 .WithCanvasSize(canvasDimensions)
                 .UseBlockSpecificColours()
-                .AddBlockWithColours(BlockB)
-                .AddBlockWithColours(BlockA, [Colour.Black])
-                .AddBlockWithColours(BlockC, [Colour.Red, Colour.Red, Colour.Black, Colour.White]).Build();
+                .AddBlockAndColours(BlockB)
+                .AddBlockAndColours(BlockA, [Colour.Black])
+                .AddBlockAndColours(BlockC, [Colour.Red, Colour.Red, Colour.Black, Colour.White]).Build();
 
             // Assert
             Block expectedCanvas = canvasDimensions.ToBlock();
@@ -690,8 +690,8 @@ public static class MapColouringProblemTests
             Action act = () => MapColouringProblem.Create()
                 .WithCanvasSize(Dimensions.FromWidthAndHeight(5, 5))
                 .UseBlockSpecificColours()
-                .AddBlockWithColours(Square.FromColumnAndRow(0, 0).ToBlock(Dimensions.FromWidthAndHeight(1, 1)))
-                .AddBlockWithColours(Square.FromColumnAndRow(4, 4).ToBlock(Dimensions.FromWidthAndHeight(99, 99)))
+                .AddBlockAndColours(Square.FromColumnAndRow(0, 0).ToBlock(Dimensions.FromWidthAndHeight(1, 1)))
+                .AddBlockAndColours(Square.FromColumnAndRow(4, 4).ToBlock(Dimensions.FromWidthAndHeight(99, 99)))
                 .Build();
 
             // Assert
@@ -706,8 +706,8 @@ public static class MapColouringProblemTests
             Action act = () => MapColouringProblem.Create()
                 .WithCanvasSize(Dimensions.FromWidthAndHeight(10, 10))
                 .UseBlockSpecificColours()
-                .AddBlockWithColours(Square.FromColumnAndRow(1, 1).ToBlock(Dimensions.FromWidthAndHeight(1, 1)))
-                .AddBlockWithColours(Square.FromColumnAndRow(0, 0).ToBlock(Dimensions.FromWidthAndHeight(5, 5)))
+                .AddBlockAndColours(Square.FromColumnAndRow(1, 1).ToBlock(Dimensions.FromWidthAndHeight(1, 1)))
+                .AddBlockAndColours(Square.FromColumnAndRow(0, 0).ToBlock(Dimensions.FromWidthAndHeight(5, 5)))
                 .Build();
 
             // Assert
@@ -726,12 +726,12 @@ public static class MapColouringProblemTests
             MapColouringProblem originalProblem = MapColouringProblem.Create()
                 .WithCanvasSize(Dimensions.FromWidthAndHeight(10, 10))
                 .UseBlockSpecificColours()
-                .AddBlockWithColours(Square.FromColumnAndRow(0, 0).ToBlock(Dimensions.FromWidthAndHeight(3, 3)),
+                .AddBlockAndColours(Square.FromColumnAndRow(0, 0).ToBlock(Dimensions.FromWidthAndHeight(3, 3)),
                     Colour.Black, Colour.White)
-                .AddBlockWithColours(Square.FromColumnAndRow(3, 3).ToBlock(Dimensions.FromWidthAndHeight(3, 3)),
+                .AddBlockAndColours(Square.FromColumnAndRow(3, 3).ToBlock(Dimensions.FromWidthAndHeight(3, 3)),
                     Colour.Black, Colour.Red, Colour.White, Colour.White)
-                .AddBlockWithColours(Square.FromColumnAndRow(3, 0).ToBlock(Dimensions.FromWidthAndHeight(3, 3)))
-                .AddBlockWithColours(Square.FromColumnAndRow(0, 3).ToBlock(Dimensions.FromWidthAndHeight(3, 3)),
+                .AddBlockAndColours(Square.FromColumnAndRow(3, 0).ToBlock(Dimensions.FromWidthAndHeight(3, 3)))
+                .AddBlockAndColours(Square.FromColumnAndRow(0, 3).ToBlock(Dimensions.FromWidthAndHeight(3, 3)),
                     Colour.Red)
                 .Build();
 

@@ -43,7 +43,7 @@ internal sealed class MapColouringProblemBuilder : IMapColouringProblemBuilder,
     }
 
     /// <inheritdoc />
-    public IMapColouringProblemBuilder.IBlockAndColoursAdder AddBlockWithColours(Block block, params Colour[] colours)
+    public IMapColouringProblemBuilder.IBlockAndColoursAdder AddBlockAndColours(Block block, params Colour[] colours)
     {
         _blockData.Add(new BlockDatum(block, colours.ToHashSet()));
 

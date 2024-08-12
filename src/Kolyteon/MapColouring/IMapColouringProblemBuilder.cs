@@ -81,7 +81,7 @@ public interface IMapColouringProblemBuilder
         /// <param name="block">The block to be added to the problem.</param>
         /// <param name="colours">The permitted colours for the block. Any duplicate values will be discarded.</param>
         /// <returns>The same fluent builder instance, so that method invocations can be chained.</returns>
-        public IBlockAndColoursAdder AddBlockWithColours(Block block, params Colour[] colours);
+        public IBlockAndColoursAdder AddBlockAndColours(Block block, params Colour[] colours);
     }
 
     /// <summary>
