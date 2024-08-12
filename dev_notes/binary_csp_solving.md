@@ -205,16 +205,16 @@ Eight checking strategies will be implemented.
 
 | Code |           Full Name           | Checking Strategy Type |
 |:----:|:-----------------------------:|:----------------------:|
-|  BT  |      Naive Backtracking       |       Look-back        |
-|  BJ  |          Backjumping          |       Look-back        |
-| GBJ  |    Graph-Based Backjumping    |       Look-back        |
-| CBJ  | Conflict-Directed Backjumping |       Look-back        |
-|  FC  |       Forward Checking        |       Look-ahead       |
-| PLA  |     Partial Looking Ahead     |       Look-ahead       |
-| FLA  |      Full Looking Ahead       |       Look-ahead       |
-| MAC  |  Maintaining Arc Consistency  |       Look-ahead       |
+|  BT  |      Naive Backtracking       |     Retrospective      |
+|  BJ  |          Backjumping          |     Retrospective      |
+| GBJ  |    Graph-Based Backjumping    |     Retrospective      |
+| CBJ  | Conflict-Directed Backjumping |     Retrospective      |
+|  FC  |       Forward Checking        |      Prospective       |
+| PLA  |     Partial Looking Ahead     |      Prospective       |
+| FLA  |      Full Looking Ahead       |      Prospective       |
+| MAC  |  Maintaining Arc Consistency  |      Prospective       |
 
-Look-back checking strategies work by checking the consistency of the present variable's assignment against the past assignments. Look-ahead checking strategies work by propagating the consequences of the present assignment through the domains of the future variables to see if the present assignment makes an assignment impossible for a future variable. Look-ahead strategies are generally superior to look-back strategies.
+Retrospective checking strategies work by checking the consistency of the present variable's assignment against the past assignments. Prospective checking strategies work by propagating the consequences of the present assignment through the domains of the future variables to see if the present assignment makes an assignment impossible for a future variable. Prospective strategies are generally superior to look-back strategies.
 
 #### Ordering Strategy
 

@@ -126,7 +126,7 @@ public sealed partial record Edge : IComparable<Edge>
     public override string ToString() => $"{FirstNode}-{SecondNode}";
 
     /// <summary>
-    ///     Returns the hash code for this <see cref="Node" /> instance.
+    ///     Returns the hash code for this <see cref="Edge" /> instance.
     /// </summary>
     /// <returns>A 32-bit signed integer hash code.</returns>
     public override int GetHashCode() => HashCode.Combine(FirstNode, SecondNode);
