@@ -25,6 +25,7 @@ Solve an instance of a problem type modelled as a binary CSP.
           | Checking | Ordering |
           | BT       | NO       |
           | BT       | BZ       |
+          | BT       | MT       |
 
     @B/5
     Scenario Outline: Solve a Graph Colouring problem
@@ -47,6 +48,7 @@ Solve an instance of a problem type modelled as a binary CSP.
           | Checking | Ordering |
           | BT       | NO       |
           | BT       | BZ       |
+          | BT       | MT       |
 
     @C/5
     Scenario Outline: Solve a Map Colouring problem
@@ -70,6 +72,7 @@ Solve an instance of a problem type modelled as a binary CSP.
           | Checking | Ordering |
           | BT       | NO       |
           | BT       | BZ       |
+          | BT       | MT       |
 
     @D/4
     Scenario Outline: Solve an N-Queens problem
@@ -83,6 +86,7 @@ Solve an instance of a problem type modelled as a binary CSP.
           | Checking | Ordering |
           | BT       | NO       |
           | BT       | BZ       |
+          | BT       | MT       |
 
     @E/5
     Scenario Outline: Solve a Shikaku problem
@@ -103,6 +107,7 @@ Solve an instance of a problem type modelled as a binary CSP.
           | Checking | Ordering |
           | BT       | NO       |
           | BT       | BZ       |
+          | BT       | MT       |
 
     @F/5
     Scenario Outline: Solve a Sudoku problem
@@ -127,3 +132,4 @@ Solve an instance of a problem type modelled as a binary CSP.
           | Checking | Ordering |
           | BT       | NO       |
           | BT       | BZ       |
+          | BT       | MT       |

@@ -9,6 +9,16 @@ internal sealed class OrderingStrategyFactory : IOrderingStrategyFactory
             return new NoStrategy();
         }
 
-        return new BzStrategy();
+        if (strategy == OrderingStrategy.BrelazHeuristic)
+        {
+            return new BzStrategy();
+        }
+
+        if (strategy == OrderingStrategy.MaxTightness)
+        {
+            return new MtStrategy();
+        }
+
+        throw new ArgumentException();
     }
 }
