@@ -25,6 +25,7 @@ Solve an instance of a problem type modelled as a binary CSP.
           | Checking | Ordering |
           | BT       | NO       |
           | BT       | BZ       |
+          | BT       | MC       |
           | BT       | MT       |
 
     @B/5
@@ -48,6 +49,7 @@ Solve an instance of a problem type modelled as a binary CSP.
           | Checking | Ordering |
           | BT       | NO       |
           | BT       | BZ       |
+          | BT       | MC       |
           | BT       | MT       |
 
     @C/5
@@ -72,6 +74,7 @@ Solve an instance of a problem type modelled as a binary CSP.
           | Checking | Ordering |
           | BT       | NO       |
           | BT       | BZ       |
+          | BT       | MC       |
           | BT       | MT       |
 
     @D/4
@@ -86,6 +89,7 @@ Solve an instance of a problem type modelled as a binary CSP.
           | Checking | Ordering |
           | BT       | NO       |
           | BT       | BZ       |
+          | BT       | MC       |
           | BT       | MT       |
 
     @E/5
@@ -107,6 +111,7 @@ Solve an instance of a problem type modelled as a binary CSP.
           | Checking | Ordering |
           | BT       | NO       |
           | BT       | BZ       |
+          | BT       | MC       |
           | BT       | MT       |
 
     @F/5
@@ -132,4 +137,5 @@ Solve an instance of a problem type modelled as a binary CSP.
           | Checking | Ordering |
           | BT       | NO       |
           | BT       | BZ       |
+          | BT       | MC       |
           | BT       | MT       |

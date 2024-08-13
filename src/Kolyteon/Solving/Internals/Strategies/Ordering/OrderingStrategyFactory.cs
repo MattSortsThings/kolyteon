@@ -2,23 +2,13 @@ namespace Kolyteon.Solving.Internals.Strategies.Ordering;
 
 internal sealed class OrderingStrategyFactory : IOrderingStrategyFactory
 {
-    public IOrderingStrategy Create(OrderingStrategy strategy)
+    private static readonly Dictionary<OrderingStrategy, Func<IOrderingStrategy>> OrderingStrategyInitializerLookup = new()
     {
-        if (strategy == OrderingStrategy.NaturalOrdering)
-        {
-            return new NoStrategy();
-        }
+        [OrderingStrategy.NaturalOrdering] = () => new NoStrategy(),
+        [OrderingStrategy.BrelazHeuristic] = () => new BzStrategy(),
+        [OrderingStrategy.MaxCardinality] = () => new McStrategy(),
+        [OrderingStrategy.MaxTightness] = () => new MtStrategy()
+    };
 
-        if (strategy == OrderingStrategy.BrelazHeuristic)
-        {
-            return new BzStrategy();
-        }
-
-        if (strategy == OrderingStrategy.MaxTightness)
-        {
-            return new MtStrategy();
-        }
-
-        throw new ArgumentException();
-    }
+    public IOrderingStrategy Create(OrderingStrategy strategy) => OrderingStrategyInitializerLookup[strategy].Invoke();
 }
