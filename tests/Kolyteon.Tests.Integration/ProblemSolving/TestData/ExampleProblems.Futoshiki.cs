@@ -91,6 +91,48 @@ public static partial class ExampleProblems
                             { null, null, null, null },
                             { null, null, null, 0002 }
                         }).AddSign(GreaterThanSign.Parse("(0,0)>(0,1)"))
+                        .Build()
+                ];
+
+                yield return
+                [
+                    FutoshikiProblem.Create()
+                        .FromGrid(new int?[,]
+                        {
+                            { null, null, null, null },
+                            { null, null, null, null },
+                            { null, null, null, null },
+                            { null, null, null, 0002 }
+                        }).AddSign(GreaterThanSign.Parse("(0,0)>(0,1)"))
+                        .AddSign(GreaterThanSign.Parse("(0,2)>(0,3)"))
+                        .Build()
+                ];
+
+                yield return
+                [
+                    FutoshikiProblem.Create()
+                        .FromGrid(new int?[,]
+                        {
+                            { null, null, null, null },
+                            { null, null, null, null },
+                            { null, null, null, null },
+                            { null, null, null, 0002 }
+                        }).AddSign(GreaterThanSign.Parse("(0,0)>(0,1)"))
+                        .AddSign(GreaterThanSign.Parse("(0,2)>(0,3)"))
+                        .AddSign(GreaterThanSign.Parse("(0,3)>(1,3)"))
+                        .Build()
+                ];
+
+                yield return
+                [
+                    FutoshikiProblem.Create()
+                        .FromGrid(new int?[,]
+                        {
+                            { null, null, null, null },
+                            { null, null, null, null },
+                            { null, null, null, null },
+                            { null, null, null, 0002 }
+                        }).AddSign(GreaterThanSign.Parse("(0,0)>(0,1)"))
                         .AddSign(GreaterThanSign.Parse("(0,2)>(0,3)"))
                         .AddSign(GreaterThanSign.Parse("(0,3)>(1,3)"))
                         .AddSign(LessThanSign.Parse("(2,2)<(3,2)"))
