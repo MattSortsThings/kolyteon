@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Kolyteon.Common;
 using Kolyteon.Modelling;
+using Kolyteon.Solving;
 using Kolyteon.Sudoku;
 using Kolyteon.Tests.Acceptance.TestUtils;
 using Reqnroll;
@@ -13,11 +14,15 @@ internal sealed class SudokuSteps
     private readonly IBinaryCsp<Square, int, SudokuProblem> _binaryCsp;
     private readonly ISudokuGenerator _generator;
     private readonly ScenarioContext _scenarioContext;
+    private readonly IBinaryCspSolver<Square, int> _solver;
 
-    public SudokuSteps(IBinaryCsp<Square, int, SudokuProblem> binaryCsp, ISudokuGenerator generator,
+    public SudokuSteps(IBinaryCsp<Square, int, SudokuProblem> binaryCsp,
+        IBinaryCspSolver<Square, int> solver,
+        ISudokuGenerator generator,
         ScenarioContext scenarioContext)
     {
         _binaryCsp = binaryCsp ?? throw new ArgumentNullException(nameof(binaryCsp));
+        _solver = solver ?? throw new ArgumentNullException(nameof(solver));
         _generator = generator ?? throw new ArgumentNullException(nameof(generator));
         _scenarioContext = scenarioContext ?? throw new ArgumentNullException(nameof(scenarioContext));
     }
@@ -48,6 +53,14 @@ internal sealed class SudokuSteps
 
     [Given("I have set the Sudoku generator seed value to (.*)")]
     public void GivenIHaveSetTheSudokuGeneratorSeedValueTo(int seed) => _generator.UseSeed(seed);
+
+    [Given("I have modelled the Sudoku problem as a binary CSP")]
+    public void GivenIHaveModelledTheSudokuProblemAsABinaryCsp()
+    {
+        SudokuProblem problem = _scenarioContext.Get<SudokuProblem>(Constants.Keys.Problem);
+
+        _binaryCsp.Model(problem);
+    }
 
     [When("I deserialize a Sudoku problem from the JSON")]
     public void WhenIDeserializeASudokuProblemFromTheJson()
@@ -85,6 +98,19 @@ internal sealed class SudokuSteps
         SudokuProblem problem = _generator.Generate(emptySquares);
 
         _scenarioContext.Add(Constants.Keys.Problem, problem);
+    }
+
+    [When(@"I solve the Sudoku binary CSP using the '(.*)'\+'(.*)' search algorithm")]
+    public void WhenISolveTheSudokuBinaryCspUsingTheSearchAlgorithm(CheckingStrategy checking, OrderingStrategy ordering)
+    {
+        _solver.CheckingStrategy = checking;
+        _solver.OrderingStrategy = ordering;
+
+        SolvingResult<Square, int> result = _solver.Solve(_binaryCsp);
+
+        NumberedSquare[] proposedSolution = result.Assignments.ToSudokuSolution();
+
+        _scenarioContext.Add(Constants.Keys.ProposedSolution, proposedSolution);
     }
 
     [Then("the deserialized and original Sudoku problems should be equal")]

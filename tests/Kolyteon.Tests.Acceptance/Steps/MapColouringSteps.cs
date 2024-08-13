@@ -2,6 +2,7 @@ using System.Text.Json;
 using Kolyteon.Common;
 using Kolyteon.MapColouring;
 using Kolyteon.Modelling;
+using Kolyteon.Solving;
 using Kolyteon.Tests.Acceptance.TestUtils;
 using Reqnroll;
 
@@ -13,12 +14,15 @@ internal sealed class MapColouringSteps
     private readonly IBinaryCsp<Block, Colour, MapColouringProblem> _binaryCsp;
     private readonly IMapColouringGenerator _generator;
     private readonly ScenarioContext _scenarioContext;
+    private readonly IBinaryCspSolver<Block, Colour> _solver;
 
     public MapColouringSteps(IBinaryCsp<Block, Colour, MapColouringProblem> binaryCsp,
+        IBinaryCspSolver<Block, Colour> solver,
         IMapColouringGenerator generator,
         ScenarioContext scenarioContext)
     {
         _binaryCsp = binaryCsp ?? throw new ArgumentNullException(nameof(binaryCsp));
+        _solver = solver ?? throw new ArgumentNullException(nameof(solver));
         _generator = generator ?? throw new ArgumentNullException(nameof(generator));
         _scenarioContext = scenarioContext ?? throw new ArgumentNullException(nameof(scenarioContext));
     }
@@ -59,6 +63,14 @@ internal sealed class MapColouringSteps
     [Given("I have set the Map Colouring generator seed value to (.*)")]
     public void GivenIHaveSetTheMapColouringGeneratorSeedValueTo(int seed) => _generator.UseSeed(seed);
 
+    [Given("I have modelled the Map Colouring problem as a binary CSP")]
+    public void GivenIHaveModelledTheMapColouringProblemAsABinaryCsp()
+    {
+        MapColouringProblem problem = _scenarioContext.Get<MapColouringProblem>(Constants.Keys.Problem);
+
+        _binaryCsp.Model(problem);
+    }
+
     [When("I deserialize a Map Colouring problem from the JSON")]
     public void WhenIDeserializeAMapColouringProblemFromTheJson()
     {
@@ -96,6 +108,19 @@ internal sealed class MapColouringSteps
         MapColouringProblem problem = _generator.Generate(blocks, colours);
 
         _scenarioContext.Add(Constants.Keys.Problem, problem);
+    }
+
+    [When(@"I solve the Map Colouring binary CSP using the '(.*)'\+'(.*)' search algorithm")]
+    public void WhenISolveTheMapColouringBinaryCspUsingTheSearchAlgorithm(CheckingStrategy checking, OrderingStrategy ordering)
+    {
+        _solver.CheckingStrategy = checking;
+        _solver.OrderingStrategy = ordering;
+
+        SolvingResult<Block, Colour> result = _solver.Solve(_binaryCsp);
+
+        Dictionary<Block, Colour> proposedSolution = result.Assignments.ToMapColouringSolution();
+
+        _scenarioContext.Add(Constants.Keys.ProposedSolution, proposedSolution);
     }
 
     [Then("the deserialized and original Map Colouring problems should be equal")]

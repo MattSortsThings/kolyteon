@@ -2,6 +2,7 @@ using System.Text.Json;
 using Kolyteon.Common;
 using Kolyteon.Modelling;
 using Kolyteon.Shikaku;
+using Kolyteon.Solving;
 using Kolyteon.Tests.Acceptance.TestUtils;
 using Reqnroll;
 
@@ -13,12 +14,15 @@ internal sealed class ShikakuSteps
     private readonly IBinaryCsp<NumberedSquare, Block, ShikakuProblem> _binaryCsp;
     private readonly IShikakuGenerator _generator;
     private readonly ScenarioContext _scenarioContext;
+    private readonly IBinaryCspSolver<NumberedSquare, Block> _solver;
 
     public ShikakuSteps(IBinaryCsp<NumberedSquare, Block, ShikakuProblem> binaryCsp,
+        IBinaryCspSolver<NumberedSquare, Block> solver,
         IShikakuGenerator generator,
         ScenarioContext scenarioContext)
     {
         _binaryCsp = binaryCsp ?? throw new ArgumentNullException(nameof(binaryCsp));
+        _solver = solver ?? throw new ArgumentNullException(nameof(solver));
         _generator = generator ?? throw new ArgumentNullException(nameof(generator));
         _scenarioContext = scenarioContext ?? throw new ArgumentNullException(nameof(scenarioContext));
     }
@@ -47,6 +51,14 @@ internal sealed class ShikakuSteps
 
     [Given("I have set the Shikaku generator seed value to (.*)")]
     public void GivenIHaveSetTheShikakuGeneratorSeedValueTo(int seed) => _generator.UseSeed(seed);
+
+    [Given("I have modelled the Shikaku problem as a binary CSP")]
+    public void GivenIHaveModelledTheShikakuProblemAsABinaryCsp()
+    {
+        ShikakuProblem problem = _scenarioContext.Get<ShikakuProblem>(Constants.Keys.Problem);
+
+        _binaryCsp.Model(problem);
+    }
 
     [When("I deserialize a Shikaku problem from the JSON")]
     public void WhenIDeserializeAShikakuProblemFromTheJson()
@@ -83,6 +95,19 @@ internal sealed class ShikakuSteps
         ShikakuProblem problem = _generator.Generate(gridSideLength, hints);
 
         _scenarioContext.Add(Constants.Keys.Problem, problem);
+    }
+
+    [When(@"I solve the Shikaku binary CSP using the '(.*)'\+'(.*)' search algorithm")]
+    public void WhenISolveTheShikakuBinaryCspUsingTheSearchAlgorithm(CheckingStrategy checking, OrderingStrategy ordering)
+    {
+        _solver.CheckingStrategy = checking;
+        _solver.OrderingStrategy = ordering;
+
+        SolvingResult<NumberedSquare, Block> result = _solver.Solve(_binaryCsp);
+
+        Block[] proposedSolution = result.Assignments.ToShikakuSolution();
+
+        _scenarioContext.Add(Constants.Keys.ProposedSolution, proposedSolution);
     }
 
     [Then("the deserialized and original Shikaku problems should be equal")]

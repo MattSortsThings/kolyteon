@@ -15,7 +15,7 @@ This document outlines the binary CSP solving terminology used in the *Kolyteon*
       - [`SearchLevel` integer](#searchlevel-integer)
       - [`Safe` boolean](#safe-boolean)
       - [`Simplify( )` method](#simplify--method)
-      - [`Reorder( )` method](#reorder--method)
+      - [`Optimize( )` method](#optimize--method)
       - [`Advance( )` method](#advance--method)
       - [`TryAssign( )` method](#tryassign--method)
       - [`Backtrack( )` method](#backtrack--method)
@@ -126,13 +126,13 @@ This property returns `true` if the present state of the search is such that the
 
 This method simplifies the problem and attempts to determine whether the binary CSP has no solution. It updates `Safe` before it terminates.
 
-#### `Reorder( )` method
+#### `Optimize( )` method
 
-This method reorders all future variables by swapping the first future variable with a selected future variable.
+This method reorders the variables by swapping an optimal future variable with the present variable. After this, it sets itself up for the next assigning step.
 
 #### `Advance( )` method
 
-This method advances to the next level of the search tree (by incrementing `SearchLevel`). If `SearchLevel` is not `LeafLevel`, it sets up the new present variable for assigning.
+This method advances to the next level of the search tree (by incrementing `SearchLevel`).
 
 #### `TryAssign( )` method
 
@@ -151,7 +151,7 @@ This method restores all the rejected domain values for the present variable. Th
 
 When the search level has reached the backtrack level:
 
-- If this is the root level, `Safe` is set to `true`. Otherwise,
+- If this is the root level, `Safe` is set to `false`. Otherwise,
   - If the new present variable has at least one domain value left to try as an assignment, `Safe` is set to `true`. Otherwise,
   - `Safe` is set to `false`.
 

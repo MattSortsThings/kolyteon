@@ -2,6 +2,7 @@ using System.Text.Json;
 using Kolyteon.Common;
 using Kolyteon.Futoshiki;
 using Kolyteon.Modelling;
+using Kolyteon.Solving;
 using Kolyteon.Tests.Acceptance.TestUtils;
 using Reqnroll;
 
@@ -13,12 +14,15 @@ internal sealed class FutoshikiSteps
     private readonly IBinaryCsp<Square, int, FutoshikiProblem> _binaryCsp;
     private readonly IFutoshikiGenerator _generator;
     private readonly ScenarioContext _scenarioContext;
+    private readonly IBinaryCspSolver<Square, int> _solver;
 
     public FutoshikiSteps(IBinaryCsp<Square, int, FutoshikiProblem> binaryCsp,
+        IBinaryCspSolver<Square, int> solver,
         IFutoshikiGenerator generator,
         ScenarioContext scenarioContext)
     {
         _binaryCsp = binaryCsp ?? throw new ArgumentNullException(nameof(binaryCsp));
+        _solver = solver ?? throw new ArgumentNullException(nameof(solver));
         _generator = generator ?? throw new ArgumentNullException(nameof(generator));
         _scenarioContext = scenarioContext ?? throw new ArgumentNullException(nameof(scenarioContext));
     }
@@ -49,6 +53,14 @@ internal sealed class FutoshikiSteps
 
     [Given("I have set the Futoshiki generator seed value to (.*)")]
     public void GivenIHaveSetTheFutoshikiGeneratorSeedValueTo(int seed) => _generator.UseSeed(seed);
+
+    [Given("I have modelled the Futoshiki problem as a binary CSP")]
+    public void GivenIHaveModelledTheFutoshikiProblemAsABinaryCsp()
+    {
+        FutoshikiProblem problem = _scenarioContext.Get<FutoshikiProblem>(Constants.Keys.Problem);
+
+        _binaryCsp.Model(problem);
+    }
 
     [When("I deserialize a Futoshiki problem from the JSON")]
     public void WhenIDeserializeAFutoshikiProblemFromTheJson()
@@ -87,6 +99,19 @@ internal sealed class FutoshikiSteps
         FutoshikiProblem problem = _generator.Generate(sideLength, emptySquares);
 
         _scenarioContext.Add(Constants.Keys.Problem, problem);
+    }
+
+    [When(@"I solve the Futoshiki binary CSP using the '(.*)'\+'(.*)' search algorithm")]
+    public void WhenISolveTheFutoshikiBinaryCspUsingTheSearchAlgorithm(CheckingStrategy checking, OrderingStrategy ordering)
+    {
+        _solver.CheckingStrategy = checking;
+        _solver.OrderingStrategy = ordering;
+
+        SolvingResult<Square, int> result = _solver.Solve(_binaryCsp);
+
+        NumberedSquare[] proposedSolution = result.Assignments.ToFutoshikiSolution();
+
+        _scenarioContext.Add(Constants.Keys.ProposedSolution, proposedSolution);
     }
 
     [Then("the deserialized and original Futoshiki problems should be equal")]

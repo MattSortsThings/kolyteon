@@ -2,6 +2,7 @@ using System.Text.Json;
 using Kolyteon.Common;
 using Kolyteon.GraphColouring;
 using Kolyteon.Modelling;
+using Kolyteon.Solving;
 using Kolyteon.Tests.Acceptance.TestUtils;
 using Reqnroll;
 
@@ -13,12 +14,15 @@ internal sealed class GraphColouringSteps
     private readonly IBinaryCsp<Node, Colour, GraphColouringProblem> _binaryCsp;
     private readonly IGraphColouringGenerator _generator;
     private readonly ScenarioContext _scenarioContext;
+    private readonly IBinaryCspSolver<Node, Colour> _solver;
 
     public GraphColouringSteps(IBinaryCsp<Node, Colour, GraphColouringProblem> binaryCsp,
+        IBinaryCspSolver<Node, Colour> solver,
         IGraphColouringGenerator generator,
         ScenarioContext scenarioContext)
     {
         _binaryCsp = binaryCsp ?? throw new ArgumentNullException(nameof(binaryCsp));
+        _solver = solver ?? throw new ArgumentNullException(nameof(solver));
         _generator = generator ?? throw new ArgumentNullException(nameof(generator));
         _scenarioContext = scenarioContext ?? throw new ArgumentNullException(nameof(scenarioContext));
     }
@@ -64,6 +68,14 @@ internal sealed class GraphColouringSteps
     [Given("I have set the Graph Colouring generator seed value to (.*)")]
     public void GivenIHaveSetTheGraphColouringGeneratorSeedValueTo(int seed) => _generator.UseSeed(seed);
 
+    [Given("I have modelled the Graph Colouring problem as a binary CSP")]
+    public void GivenIHaveModelledTheGraphColouringProblemAsABinaryCsp()
+    {
+        GraphColouringProblem problem = _scenarioContext.Get<GraphColouringProblem>(Constants.Keys.Problem);
+
+        _binaryCsp.Model(problem);
+    }
+
     [When("I deserialize a Graph Colouring problem from the JSON")]
     public void WhenIDeserializeAGraphColouringProblemFromTheJson()
     {
@@ -101,6 +113,19 @@ internal sealed class GraphColouringSteps
         GraphColouringProblem problem = _generator.Generate(nodes, permittedColours);
 
         _scenarioContext.Add(Constants.Keys.Problem, problem);
+    }
+
+    [When(@"I solve the Graph Colouring binary CSP using the '(.*)'\+'(.*)' search algorithm")]
+    public void WhenISolveTheGraphColouringBinaryCspUsingTheSearchAlgorithm(CheckingStrategy checking, OrderingStrategy ordering)
+    {
+        _solver.CheckingStrategy = checking;
+        _solver.OrderingStrategy = ordering;
+
+        SolvingResult<Node, Colour> result = _solver.Solve(_binaryCsp);
+
+        Dictionary<Node, Colour> proposedSolution = result.Assignments.ToGraphColouringSolution();
+
+        _scenarioContext.Add(Constants.Keys.ProposedSolution, proposedSolution);
     }
 
     [Then("the deserialized and original Graph Colouring problems should be equal")]

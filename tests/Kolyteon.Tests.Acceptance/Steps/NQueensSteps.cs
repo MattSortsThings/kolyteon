@@ -2,6 +2,7 @@ using System.Text.Json;
 using Kolyteon.Common;
 using Kolyteon.Modelling;
 using Kolyteon.NQueens;
+using Kolyteon.Solving;
 using Kolyteon.Tests.Acceptance.TestUtils;
 using Reqnroll;
 
@@ -12,10 +13,14 @@ internal sealed class NQueensSteps
 {
     private readonly IBinaryCsp<int, Square, NQueensProblem> _binaryCsp;
     private readonly ScenarioContext _scenarioContext;
+    private readonly IBinaryCspSolver<int, Square> _solver;
 
-    public NQueensSteps(IBinaryCsp<int, Square, NQueensProblem> binaryCsp, ScenarioContext scenarioContext)
+    public NQueensSteps(IBinaryCsp<int, Square, NQueensProblem> binaryCsp,
+        IBinaryCspSolver<int, Square> solver,
+        ScenarioContext scenarioContext)
     {
         _binaryCsp = binaryCsp ?? throw new ArgumentNullException(nameof(binaryCsp));
+        _solver = solver ?? throw new ArgumentNullException(nameof(solver));
         _scenarioContext = scenarioContext ?? throw new ArgumentNullException(nameof(scenarioContext));
     }
 
@@ -45,6 +50,14 @@ internal sealed class NQueensSteps
         _scenarioContext.Add(Constants.Keys.ProposedSolution, proposedSolution);
     }
 
+    [Given("I have modelled the N-Queens problem as a binary CSP")]
+    public void GivenIHaveModelledTheNQueensProblemAsABinaryCsp()
+    {
+        NQueensProblem problem = _scenarioContext.Get<NQueensProblem>(Constants.Keys.Problem);
+
+        _binaryCsp.Model(problem);
+    }
+
     [When("I deserialize an N-Queens problem from the JSON")]
     public void WhenIDeserializeAnNQueensProblemFromTheJson()
     {
@@ -72,6 +85,19 @@ internal sealed class NQueensSteps
         NQueensProblem problem = _scenarioContext.Get<NQueensProblem>(Constants.Keys.Problem);
 
         _binaryCsp.Model(problem);
+    }
+
+    [When(@"I solve the N-Queens binary CSP using the '(.*)'\+'(.*)' search algorithm")]
+    public void WhenISolveTheNQueensBinaryCspUsingTheSearchAlgorithm(CheckingStrategy checking, OrderingStrategy ordering)
+    {
+        _solver.CheckingStrategy = checking;
+        _solver.OrderingStrategy = ordering;
+
+        SolvingResult<int, Square> result = _solver.Solve(_binaryCsp);
+
+        Square[] proposedSolution = result.Assignments.ToNQueensSolution();
+
+        _scenarioContext.Add(Constants.Keys.ProposedSolution, proposedSolution);
     }
 
     [Then("the deserialized and original N-Queens problems should be equal")]

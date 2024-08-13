@@ -1,6 +1,7 @@
 using Kolyteon.Common;
 using Kolyteon.Futoshiki;
 using Kolyteon.Shikaku;
+using Kolyteon.Solving;
 using Kolyteon.Sudoku;
 using Reqnroll;
 
@@ -10,6 +11,12 @@ namespace Kolyteon.Tests.Acceptance.TestUtils;
 internal sealed class Transformations
 {
     private const int FutoshikiSideLength = 4;
+
+    [StepArgumentTransformation]
+    internal static CheckingStrategy ToCheckingStrategy(string code) => CheckingStrategy.FromCode(code);
+
+    [StepArgumentTransformation]
+    internal static OrderingStrategy ToOrderingStrategy(string code) => OrderingStrategy.FromCode(code);
 
     [StepArgumentTransformation]
     internal static FutoshikiProblem ToFourByFourFutoshikiProblem(string multiLineText)

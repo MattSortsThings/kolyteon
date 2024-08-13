@@ -44,6 +44,7 @@
     <Content Include="Features\ProblemGeneration.feature"/>
     <Content Include="Features\ProblemModelling.feature"/>
     <Content Include="Features\ProblemRepresentation.feature"/>
+    <Content Include="Features\ProblemSolving.feature"/>
     <Content Include="Features\SolutionVerification.feature"/>
   </ItemGroup>
 
