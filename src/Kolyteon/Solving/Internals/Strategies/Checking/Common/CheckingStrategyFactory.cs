@@ -9,6 +9,11 @@ internal sealed class CheckingStrategyFactory<TVariable, TDomainValue> : IChecki
 {
     public ICheckingStrategy<TVariable, TDomainValue> Create(CheckingStrategy strategy, int capacity)
     {
+        if (strategy == CheckingStrategy.FullLookingAhead)
+        {
+            return new FlaStrategy<TVariable, TDomainValue>(capacity);
+        }
+
         if (strategy == CheckingStrategy.PartialLookingAhead)
         {
             return new PlaStrategy<TVariable, TDomainValue>(capacity);

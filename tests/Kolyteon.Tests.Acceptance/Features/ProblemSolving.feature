@@ -47,6 +47,10 @@ Solve an instance of a problem type modelled as a binary CSP.
           | PLA      | BZ       |
           | PLA      | MC       |
           | PLA      | MT       |
+          | FLA      | NO       |
+          | FLA      | BZ       |
+          | FLA      | MC       |
+          | FLA      | MT       |
 
     @B/5
     Scenario Outline: Solve a Graph Colouring problem
@@ -91,6 +95,10 @@ Solve an instance of a problem type modelled as a binary CSP.
           | PLA      | BZ       |
           | PLA      | MC       |
           | PLA      | MT       |
+          | FLA      | NO       |
+          | FLA      | BZ       |
+          | FLA      | MC       |
+          | FLA      | MT       |
 
     @C/5
     Scenario Outline: Solve a Map Colouring problem
@@ -136,6 +144,10 @@ Solve an instance of a problem type modelled as a binary CSP.
           | PLA      | BZ       |
           | PLA      | MC       |
           | PLA      | MT       |
+          | FLA      | NO       |
+          | FLA      | BZ       |
+          | FLA      | MC       |
+          | FLA      | MT       |
 
     @D/4
     Scenario Outline: Solve an N-Queens problem
@@ -171,6 +183,10 @@ Solve an instance of a problem type modelled as a binary CSP.
           | PLA      | BZ       |
           | PLA      | MC       |
           | PLA      | MT       |
+          | FLA      | NO       |
+          | FLA      | BZ       |
+          | FLA      | MC       |
+          | FLA      | MT       |
 
     @E/5
     Scenario Outline: Solve a Shikaku problem
@@ -213,6 +229,10 @@ Solve an instance of a problem type modelled as a binary CSP.
           | PLA      | BZ       |
           | PLA      | MC       |
           | PLA      | MT       |
+          | FLA      | NO       |
+          | FLA      | BZ       |
+          | FLA      | MC       |
+          | FLA      | MT       |
 
     @F/5
     Scenario Outline: Solve a Sudoku problem
@@ -259,3 +279,7 @@ Solve an instance of a problem type modelled as a binary CSP.
           | PLA      | BZ       |
           | PLA      | MC       |
           | PLA      | MT       |
+          | FLA      | NO       |
+          | FLA      | BZ       |
+          | FLA      | MC       |
+          | FLA      | MT       |
