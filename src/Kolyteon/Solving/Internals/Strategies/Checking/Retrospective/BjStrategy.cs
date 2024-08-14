@@ -16,7 +16,7 @@ internal sealed class BjStrategy<TVariable, TDomainValue> :
 
     public override CheckingStrategy Identifier => CheckingStrategy.Backjumping;
 
-    internal override SearchTree<BjNode<TVariable, TDomainValue>, TVariable, TDomainValue> SearchTree { get; }
+    private protected override SearchTree<BjNode<TVariable, TDomainValue>, TVariable, TDomainValue> SearchTree { get; }
 
     private protected override void ReduceSearchTree() { }
 

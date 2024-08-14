@@ -17,7 +17,7 @@ internal sealed class BtStrategy<TVariable, TDomainValue> :
 
     public override CheckingStrategy Identifier => CheckingStrategy.NaiveBacktracking;
 
-    internal override SearchTree<BtNode<TVariable, TDomainValue>, TVariable, TDomainValue> SearchTree { get; }
+    private protected override SearchTree<BtNode<TVariable, TDomainValue>, TVariable, TDomainValue> SearchTree { get; }
 
     private protected override void ReduceSearchTree() { }
 

@@ -9,7 +9,7 @@ internal abstract class CheckingStrategy<TNode, TVariable, TDomainValue> : IChec
     where TVariable : struct, IComparable<TVariable>, IEquatable<TVariable>
     where TDomainValue : struct, IComparable<TDomainValue>, IEquatable<TDomainValue>
 {
-    internal abstract SearchTree<TNode, TVariable, TDomainValue> SearchTree { get; }
+    private protected abstract SearchTree<TNode, TVariable, TDomainValue> SearchTree { get; }
 
     public abstract CheckingStrategy Identifier { get; }
 
@@ -29,11 +29,8 @@ internal abstract class CheckingStrategy<TNode, TVariable, TDomainValue> : IChec
 
     public void Simplify()
     {
-        Safe = SearchTree.All(node => node.RemainingCandidates > 0);
-        if (Safe)
-        {
-            ReduceSearchTree();
-        }
+        ReduceSearchTree();
+        Safe = AllNodesHaveAtLeastOneCandidate();
     }
 
     public void TryAssign()
@@ -120,4 +117,6 @@ internal abstract class CheckingStrategy<TNode, TVariable, TDomainValue> : IChec
         UndoLastSafetyCheck();
         presentNode.RestoreRejectedCandidates();
     }
+
+    private bool AllNodesHaveAtLeastOneCandidate() => SearchTree.All(node => node.RemainingCandidates > 0);
 }

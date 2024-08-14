@@ -632,6 +632,33 @@ public static partial class ExampleProblems
                 yield return
                 [
                     GraphColouringProblem.Create()
+                        .UseGlobalColours(Colour.Red, Colour.White, Colour.Blue)
+                        .AddNodes([
+                            Node.FromName("NSW"),
+                            Node.FromName("NT"),
+                            Node.FromName("Q"),
+                            Node.FromName("SA"),
+                            Node.FromName("T"),
+                            Node.FromName("V"),
+                            Node.FromName("WA")
+                        ])
+                        .AddEdges([
+                                Edge.Parse("(NSW)-(Q)"),
+                                Edge.Parse("(NSW)-(SA)"),
+                                Edge.Parse("(NSW)-(V)"),
+                                Edge.Parse("(NT)-(Q)"),
+                                Edge.Parse("(NT)-(SA)"),
+                                Edge.Parse("(NT)-(WA)"),
+                                Edge.Parse("(Q)-(SA)"),
+                                Edge.Parse("(SA)-(V)"),
+                                Edge.Parse("(SA)-(WA)")
+                            ]
+                        ).Build()
+                ];
+
+                yield return
+                [
+                    GraphColouringProblem.Create()
                         .UseGlobalColours(Colour.Black, Colour.Aqua, Colour.Fuchsia, Colour.Yellow)
                         .AddNodes([
                             Node.FromName("A01"),
@@ -874,6 +901,94 @@ public static partial class ExampleProblems
                             Edge.Parse("(VA)-(WV)")
                         ]).Build()
                 ];
+
+                yield return
+                [
+                    GraphColouringProblem.Create()
+                        .UseGlobalColours(Colour.Black, Colour.Aqua, Colour.Fuchsia, Colour.Yellow)
+                        .AddNodes([
+                            Node.FromName("Bailey"),
+                            Node.FromName("Biscay"),
+                            Node.FromName("Cromarty"),
+                            Node.FromName("Dogger"),
+                            Node.FromName("Dover"),
+                            Node.FromName("Faeroes"),
+                            Node.FromName("FairIsle"),
+                            Node.FromName("Fastnet"),
+                            Node.FromName("Fisher"),
+                            Node.FromName("FitzRoy"),
+                            Node.FromName("Forth"),
+                            Node.FromName("Forties"),
+                            Node.FromName("GermanBight"),
+                            Node.FromName("Hebrides"),
+                            Node.FromName("Humber"),
+                            Node.FromName("IrishSea"),
+                            Node.FromName("Lundy"),
+                            Node.FromName("Malin"),
+                            Node.FromName("NorthUtsire"),
+                            Node.FromName("Plymouth"),
+                            Node.FromName("Portland"),
+                            Node.FromName("Rockall"),
+                            Node.FromName("Shannon"),
+                            Node.FromName("Sole"),
+                            Node.FromName("SoutheastIceland"),
+                            Node.FromName("SouthUtsire"),
+                            Node.FromName("Thames"),
+                            Node.FromName("Trafalgar"),
+                            Node.FromName("Tyne"),
+                            Node.FromName("Viking"),
+                            Node.FromName("Wight")
+                        ]).AddEdges([
+                            Edge.Parse("(Fisher)-(GermanBight)"),
+                            Edge.Parse("(Fisher)-(SouthUtsire)"),
+                            Edge.Parse("(FitzRoy)-(Sole)"),
+                            Edge.Parse("(FitzRoy)-(Trafalgar)"),
+                            Edge.Parse("(Forth)-(Forties)"),
+                            Edge.Parse("(Forth)-(Tyne)"),
+                            Edge.Parse("(Forties)-(SouthUtsire)"),
+                            Edge.Parse("(Forties)-(Viking)"),
+                            Edge.Parse("(GermanBight)-(Humber)"),
+                            Edge.Parse("(Hebrides)-(Malin)"),
+                            Edge.Parse("(Hebrides)-(Rockall)"),
+                            Edge.Parse("(Humber)-(Thames)"),
+                            Edge.Parse("(Humber)-(Tyne)"),
+                            Edge.Parse("(IrishSea)-(Lundy)"),
+                            Edge.Parse("(IrishSea)-(Malin)"),
+                            Edge.Parse("(Lundy)-(Plymouth)"),
+                            Edge.Parse("(Malin)-(Rockall)"),
+                            Edge.Parse("(NorthUtsire)-(SouthUtsire)"),
+                            Edge.Parse("(NorthUtsire)-(Viking)"),
+                            Edge.Parse("(Plymouth)-(Portland)"),
+                            Edge.Parse("(Plymouth)-(Sole)"),
+                            Edge.Parse("(Portland)-(Wight)"),
+                            Edge.Parse("(Rockall)-(Shannon)"),
+                            Edge.Parse("(Shannon)-(Sole)"),
+                            Edge.Parse("(SouthUtsire)-(Viking)")
+                        ]).Build()
+                ];
+
+                yield return
+                [
+                    GraphColouringProblem.Create()
+                        .UseGlobalColours(Colour.Black, Colour.Aqua, Colour.Fuchsia, Colour.Yellow)
+                        .AddNodes([
+                            Node.FromName("E"),
+                            Node.FromName("K"),
+                            Node.FromName("N"),
+                            Node.FromName("S"),
+                            Node.FromName("W")
+                        ])
+                        .AddEdges([
+                            Edge.Parse("(E)-(K)"),
+                            Edge.Parse("(E)-(N)"),
+                            Edge.Parse("(E)-(S)"),
+                            Edge.Parse("(K)-(N)"),
+                            Edge.Parse("(K)-(S)"),
+                            Edge.Parse("(N)-(S)"),
+                            Edge.Parse("(N)-(W)"),
+                            Edge.Parse("(S)-(W)")
+                        ]).Build()
+                ];
             }
 
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
@@ -1052,6 +1167,129 @@ public static partial class ExampleProblems
                         .AddEdge(Edge.Parse("(N09)-(N13)"))
                         .AddEdge(Edge.Parse("(N11)-(N12)"))
                         .Build()
+                ];
+
+                yield return
+                [
+                    GraphColouringProblem.Create()
+                        .UseGlobalColours(Colour.Blue, Colour.Yellow, Colour.Green)
+                        .AddNodes([
+                            Node.FromName("E"),
+                            Node.FromName("K"),
+                            Node.FromName("N"),
+                            Node.FromName("S"),
+                            Node.FromName("W")
+                        ])
+                        .AddEdges([
+                            Edge.Parse("(E)-(K)"),
+                            Edge.Parse("(E)-(N)"),
+                            Edge.Parse("(E)-(S)"),
+                            Edge.Parse("(K)-(N)"),
+                            Edge.Parse("(K)-(S)"),
+                            Edge.Parse("(N)-(S)"),
+                            Edge.Parse("(N)-(W)"),
+                            Edge.Parse("(S)-(W)")
+                        ]).Build()
+                ];
+
+                yield return
+                [
+                    GraphColouringProblem.Create()
+                        .UseGlobalColours(Colour.Black, Colour.White)
+                        .AddNodes([
+                            Node.FromName("NSW"),
+                            Node.FromName("NT"),
+                            Node.FromName("Q"),
+                            Node.FromName("SA"),
+                            Node.FromName("T"),
+                            Node.FromName("V"),
+                            Node.FromName("WA")
+                        ])
+                        .AddEdges([
+                                Edge.Parse("(NSW)-(Q)"),
+                                Edge.Parse("(NSW)-(SA)"),
+                                Edge.Parse("(NSW)-(V)"),
+                                Edge.Parse("(NT)-(Q)"),
+                                Edge.Parse("(NT)-(SA)"),
+                                Edge.Parse("(NT)-(WA)"),
+                                Edge.Parse("(Q)-(SA)"),
+                                Edge.Parse("(SA)-(V)"),
+                                Edge.Parse("(SA)-(WA)")
+                            ]
+                        ).Build()
+                ];
+
+                yield return
+                [
+                    GraphColouringProblem.Create()
+                        .UseGlobalColours(Colour.Red, Colour.White, Colour.Blue)
+                        .AddNodes([
+                            Node.FromName("A01"),
+                            Node.FromName("A02"),
+                            Node.FromName("A03"),
+                            Node.FromName("A04"),
+                            Node.FromName("A05"),
+                            Node.FromName("A06"),
+                            Node.FromName("A07"),
+                            Node.FromName("A08"),
+                            Node.FromName("A09"),
+                            Node.FromName("A10"),
+                            Node.FromName("A11"),
+                            Node.FromName("A12"),
+                            Node.FromName("A13"),
+                            Node.FromName("A14"),
+                            Node.FromName("A15"),
+                            Node.FromName("A16"),
+                            Node.FromName("A17"),
+                            Node.FromName("A18"),
+                            Node.FromName("A19"),
+                            Node.FromName("A20")
+                        ]).AddEdges([
+                            Edge.Parse("(A01)-(A02)"),
+                            Edge.Parse("(A01)-(A03)"),
+                            Edge.Parse("(A01)-(A04)"),
+                            Edge.Parse("(A01)-(A06)"),
+                            Edge.Parse("(A01)-(A07)"),
+                            Edge.Parse("(A01)-(A08)"),
+                            Edge.Parse("(A01)-(A09)"),
+                            Edge.Parse("(A02)-(A03)"),
+                            Edge.Parse("(A02)-(A09)"),
+                            Edge.Parse("(A02)-(A10)"),
+                            Edge.Parse("(A03)-(A04)"),
+                            Edge.Parse("(A03)-(A10)"),
+                            Edge.Parse("(A03)-(A11)"),
+                            Edge.Parse("(A04)-(A05)"),
+                            Edge.Parse("(A04)-(A11)"),
+                            Edge.Parse("(A04)-(A12)"),
+                            Edge.Parse("(A05)-(A06)"),
+                            Edge.Parse("(A05)-(A13)"),
+                            Edge.Parse("(A05)-(A14)"),
+                            Edge.Parse("(A06)-(A07)"),
+                            Edge.Parse("(A06)-(A14)"),
+                            Edge.Parse("(A06)-(A15)"),
+                            Edge.Parse("(A07)-(A08)"),
+                            Edge.Parse("(A07)-(A15)"),
+                            Edge.Parse("(A07)-(A16)"),
+                            Edge.Parse("(A08)-(A09)"),
+                            Edge.Parse("(A08)-(A16)"),
+                            Edge.Parse("(A08)-(A17)"),
+                            Edge.Parse("(A09)-(A10)"),
+                            Edge.Parse("(A09)-(A18)"),
+                            Edge.Parse("(A10)-(A11)"),
+                            Edge.Parse("(A10)-(A18)"),
+                            Edge.Parse("(A10)-(A19)"),
+                            Edge.Parse("(A11)-(A12)"),
+                            Edge.Parse("(A11)-(A20)"),
+                            Edge.Parse("(A12)-(A13)"),
+                            Edge.Parse("(A12)-(A20)"),
+                            Edge.Parse("(A13)-(A14)"),
+                            Edge.Parse("(A14)-(A15)"),
+                            Edge.Parse("(A15)-(A16)"),
+                            Edge.Parse("(A16)-(A17)"),
+                            Edge.Parse("(A17)-(A18)"),
+                            Edge.Parse("(A18)-(A19)"),
+                            Edge.Parse("(A19)-(A20)")
+                        ]).Build()
                 ];
             }
 

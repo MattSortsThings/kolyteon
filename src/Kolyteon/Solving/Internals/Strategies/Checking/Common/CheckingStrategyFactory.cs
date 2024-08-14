@@ -6,13 +6,23 @@ internal sealed class CheckingStrategyFactory<TVariable, TDomainValue> : IChecki
     where TVariable : struct, IComparable<TVariable>, IEquatable<TVariable>
     where TDomainValue : struct, IComparable<TDomainValue>, IEquatable<TDomainValue>
 {
-    private static readonly Dictionary<CheckingStrategy, Func<int, ICheckingStrategy<TVariable, TDomainValue>>> Lookup =
-        new()
+    public ICheckingStrategy<TVariable, TDomainValue> Create(CheckingStrategy strategy, int capacity)
+    {
+        if (strategy == CheckingStrategy.NaiveBacktracking)
         {
-            [CheckingStrategy.NaiveBacktracking] = capacity => new BtStrategy<TVariable, TDomainValue>(capacity),
-            [CheckingStrategy.Backjumping] = capacity => new BjStrategy<TVariable, TDomainValue>(capacity)
-        };
+            return new BtStrategy<TVariable, TDomainValue>(capacity);
+        }
 
-    public ICheckingStrategy<TVariable, TDomainValue> Create(CheckingStrategy strategy, int capacity) =>
-        Lookup[strategy].Invoke(capacity);
+        if (strategy == CheckingStrategy.Backjumping)
+        {
+            return new BjStrategy<TVariable, TDomainValue>(capacity);
+        }
+
+        if (strategy == CheckingStrategy.GraphBasedBackjumping)
+        {
+            return new GbjStrategy<TVariable, TDomainValue>(capacity);
+        }
+
+        throw new ArgumentException($"No implementation exists for Checking Strategy value '{strategy}'.");
+    }
 }
