@@ -147,5 +147,33 @@ public abstract partial class ProblemSolvingTests
 
             private protected override OrderingStrategy OrderingStrategy => OrderingStrategy.NaturalOrdering;
         }
+
+        public sealed class PlaPlusBz : ProblemSolvingTests
+        {
+            private protected override CheckingStrategy CheckingStrategy => CheckingStrategy.PartialLookingAhead;
+
+            private protected override OrderingStrategy OrderingStrategy => OrderingStrategy.BrelazHeuristic;
+        }
+
+        public sealed class PlaPlusMc : ProblemSolvingTests
+        {
+            private protected override CheckingStrategy CheckingStrategy => CheckingStrategy.PartialLookingAhead;
+
+            private protected override OrderingStrategy OrderingStrategy => OrderingStrategy.MaxCardinality;
+        }
+
+        public sealed class PlaPlusMt : ProblemSolvingTests
+        {
+            private protected override CheckingStrategy CheckingStrategy => CheckingStrategy.PartialLookingAhead;
+
+            private protected override OrderingStrategy OrderingStrategy => OrderingStrategy.MaxTightness;
+        }
+
+        public sealed class PlaPlusNo : ProblemSolvingTests
+        {
+            private protected override CheckingStrategy CheckingStrategy => CheckingStrategy.PartialLookingAhead;
+
+            private protected override OrderingStrategy OrderingStrategy => OrderingStrategy.NaturalOrdering;
+        }
     }
 }

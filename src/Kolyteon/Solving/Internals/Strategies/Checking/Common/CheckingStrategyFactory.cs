@@ -9,19 +9,14 @@ internal sealed class CheckingStrategyFactory<TVariable, TDomainValue> : IChecki
 {
     public ICheckingStrategy<TVariable, TDomainValue> Create(CheckingStrategy strategy, int capacity)
     {
-        if (strategy == CheckingStrategy.NaiveBacktracking)
+        if (strategy == CheckingStrategy.PartialLookingAhead)
         {
-            return new BtStrategy<TVariable, TDomainValue>(capacity);
+            return new PlaStrategy<TVariable, TDomainValue>(capacity);
         }
 
-        if (strategy == CheckingStrategy.Backjumping)
+        if (strategy == CheckingStrategy.ForwardChecking)
         {
-            return new BjStrategy<TVariable, TDomainValue>(capacity);
-        }
-
-        if (strategy == CheckingStrategy.GraphBasedBackjumping)
-        {
-            return new GbjStrategy<TVariable, TDomainValue>(capacity);
+            return new FcStrategy<TVariable, TDomainValue>(capacity);
         }
 
         if (strategy == CheckingStrategy.ConflictDirectedBackjumping)
@@ -29,9 +24,19 @@ internal sealed class CheckingStrategyFactory<TVariable, TDomainValue> : IChecki
             return new CbjStrategy<TVariable, TDomainValue>(capacity);
         }
 
-        if (strategy == CheckingStrategy.ForwardChecking)
+        if (strategy == CheckingStrategy.GraphBasedBackjumping)
         {
-            return new FcStrategy<TVariable, TDomainValue>(capacity);
+            return new GbjStrategy<TVariable, TDomainValue>(capacity);
+        }
+
+        if (strategy == CheckingStrategy.Backjumping)
+        {
+            return new BjStrategy<TVariable, TDomainValue>(capacity);
+        }
+
+        if (strategy == CheckingStrategy.NaiveBacktracking)
+        {
+            return new BtStrategy<TVariable, TDomainValue>(capacity);
         }
 
         throw new ArgumentException($"No implementation exists for Checking Strategy value '{strategy}'.");
