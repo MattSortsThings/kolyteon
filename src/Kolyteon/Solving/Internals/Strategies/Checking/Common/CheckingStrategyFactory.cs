@@ -23,6 +23,11 @@ internal sealed class CheckingStrategyFactory<TVariable, TDomainValue> : IChecki
             return new GbjStrategy<TVariable, TDomainValue>(capacity);
         }
 
+        if (strategy == CheckingStrategy.ConflictDirectedBackjumping)
+        {
+            return new CbjStrategy<TVariable, TDomainValue>(capacity);
+        }
+
         throw new ArgumentException($"No implementation exists for Checking Strategy value '{strategy}'.");
     }
 }
