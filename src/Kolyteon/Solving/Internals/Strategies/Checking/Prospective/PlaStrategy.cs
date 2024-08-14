@@ -104,14 +104,14 @@ internal sealed class PlaStrategy<TVariable, TDomainValue> :
 
         public override void Populate(SearchTree<PlaNode<TVariable, TDomainValue>, TVariable, TDomainValue> searchTree)
         {
-            int upperLimit = searchTree.Count;
+            int leafLevel = searchTree.LeafLevel;
 
-            for (int operandLevel = searchTree.SearchLevel + 1; operandLevel < upperLimit; operandLevel++)
+            for (int operandLevel = searchTree.SearchLevel + 1; operandLevel < leafLevel; operandLevel++)
             {
                 PlaNode<TVariable, TDomainValue> operandNode = searchTree[operandLevel];
-                int possibleContextNodes = operandNode.Degree;
+                int remaining = operandNode.Degree;
 
-                for (int contextLevel = operandLevel + 1; possibleContextNodes > 0 && contextLevel < upperLimit; contextLevel++)
+                for (int contextLevel = operandLevel + 1; remaining > 0 && contextLevel < leafLevel; contextLevel++)
                 {
                     PlaNode<TVariable, TDomainValue> contextNode = searchTree[contextLevel];
 
@@ -121,7 +121,7 @@ internal sealed class PlaStrategy<TVariable, TDomainValue> :
                     }
 
                     Enqueue(operandNode, contextNode);
-                    possibleContextNodes--;
+                    remaining--;
                 }
             }
         }

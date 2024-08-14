@@ -203,5 +203,33 @@ public abstract partial class ProblemSolvingTests
 
             private protected override OrderingStrategy OrderingStrategy => OrderingStrategy.NaturalOrdering;
         }
+
+        public sealed class MacPlusBz : ProblemSolvingTests
+        {
+            private protected override CheckingStrategy CheckingStrategy => CheckingStrategy.MaintainingArcConsistency;
+
+            private protected override OrderingStrategy OrderingStrategy => OrderingStrategy.BrelazHeuristic;
+        }
+
+        public sealed class MacPlusMc : ProblemSolvingTests
+        {
+            private protected override CheckingStrategy CheckingStrategy => CheckingStrategy.MaintainingArcConsistency;
+
+            private protected override OrderingStrategy OrderingStrategy => OrderingStrategy.MaxCardinality;
+        }
+
+        public sealed class MacPlusMt : ProblemSolvingTests
+        {
+            private protected override CheckingStrategy CheckingStrategy => CheckingStrategy.MaintainingArcConsistency;
+
+            private protected override OrderingStrategy OrderingStrategy => OrderingStrategy.MaxTightness;
+        }
+
+        public sealed class MacPlusNo : ProblemSolvingTests
+        {
+            private protected override CheckingStrategy CheckingStrategy => CheckingStrategy.MaintainingArcConsistency;
+
+            private protected override OrderingStrategy OrderingStrategy => OrderingStrategy.NaturalOrdering;
+        }
     }
 }
