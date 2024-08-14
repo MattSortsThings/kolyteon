@@ -39,6 +39,10 @@ Solve an instance of a problem type modelled as a binary CSP.
           | CBJ      | BZ       |
           | CBJ      | MC       |
           | CBJ      | MT       |
+          | FC       | NO       |
+          | FC       | BZ       |
+          | FC       | MC       |
+          | FC       | MT       |
 
     @B/5
     Scenario Outline: Solve a Graph Colouring problem
@@ -75,6 +79,10 @@ Solve an instance of a problem type modelled as a binary CSP.
           | CBJ      | BZ       |
           | CBJ      | MC       |
           | CBJ      | MT       |
+          | FC       | NO       |
+          | FC       | BZ       |
+          | FC       | MC       |
+          | FC       | MT       |
 
     @C/5
     Scenario Outline: Solve a Map Colouring problem
@@ -112,6 +120,10 @@ Solve an instance of a problem type modelled as a binary CSP.
           | CBJ      | BZ       |
           | CBJ      | MC       |
           | CBJ      | MT       |
+          | FC       | NO       |
+          | FC       | BZ       |
+          | FC       | MC       |
+          | FC       | MT       |
 
     @D/4
     Scenario Outline: Solve an N-Queens problem
@@ -139,6 +151,10 @@ Solve an instance of a problem type modelled as a binary CSP.
           | CBJ      | BZ       |
           | CBJ      | MC       |
           | CBJ      | MT       |
+          | FC       | NO       |
+          | FC       | BZ       |
+          | FC       | MC       |
+          | FC       | MT       |
 
     @E/5
     Scenario Outline: Solve a Shikaku problem
@@ -173,6 +189,10 @@ Solve an instance of a problem type modelled as a binary CSP.
           | CBJ      | BZ       |
           | CBJ      | MC       |
           | CBJ      | MT       |
+          | FC       | NO       |
+          | FC       | BZ       |
+          | FC       | MC       |
+          | FC       | MT       |
 
     @F/5
     Scenario Outline: Solve a Sudoku problem
@@ -211,3 +231,7 @@ Solve an instance of a problem type modelled as a binary CSP.
           | CBJ      | BZ       |
           | CBJ      | MC       |
           | CBJ      | MT       |
+          | FC       | NO       |
+          | FC       | BZ       |
+          | FC       | MC       |
+          | FC       | MT       |

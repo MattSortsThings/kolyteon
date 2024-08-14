@@ -1,3 +1,4 @@
+using Kolyteon.Solving.Internals.Strategies.Checking.Prospective;
 using Kolyteon.Solving.Internals.Strategies.Checking.Retrospective;
 
 namespace Kolyteon.Solving.Internals.Strategies.Checking.Common;
@@ -26,6 +27,11 @@ internal sealed class CheckingStrategyFactory<TVariable, TDomainValue> : IChecki
         if (strategy == CheckingStrategy.ConflictDirectedBackjumping)
         {
             return new CbjStrategy<TVariable, TDomainValue>(capacity);
+        }
+
+        if (strategy == CheckingStrategy.ForwardChecking)
+        {
+            return new FcStrategy<TVariable, TDomainValue>(capacity);
         }
 
         throw new ArgumentException($"No implementation exists for Checking Strategy value '{strategy}'.");
