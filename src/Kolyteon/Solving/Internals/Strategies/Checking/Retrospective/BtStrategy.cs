@@ -5,8 +5,8 @@ using Kolyteon.Solving.Internals.Strategies.Checking.Common;
 
 namespace Kolyteon.Solving.Internals.Strategies.Checking.Retrospective;
 
-internal sealed class
-    BtStrategy<TVariable, TDomainValue> : CheckingStrategy<BtNode<TVariable, TDomainValue>, TVariable, TDomainValue>
+internal sealed class BtStrategy<TVariable, TDomainValue> :
+    CheckingStrategy<BtNode<TVariable, TDomainValue>, TVariable, TDomainValue>
     where TVariable : struct, IComparable<TVariable>, IEquatable<TVariable>
     where TDomainValue : struct, IComparable<TDomainValue>, IEquatable<TDomainValue>
 {
@@ -22,8 +22,7 @@ internal sealed class
     private protected override void ReduceSearchTree() { }
 
     private protected override void SetupForAssigning() => SearchTree.GetPresentNode().RepopulateAncestors(SearchTree);
-
-    private protected override void SetupForBacktracking() { }
+    private protected override void SetupForBacktracking(int backtrackLevel) { }
 
     [SuppressMessage("ReSharper", "ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator")]
     private protected override void AddSafetyCheck()

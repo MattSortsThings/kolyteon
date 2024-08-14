@@ -8,15 +8,17 @@ internal abstract class SearchTree<TNode, TVariable, TDomainValue> : List<TNode>
     where TVariable : struct, IComparable<TVariable>, IEquatable<TVariable>
     where TDomainValue : struct, IComparable<TDomainValue>, IEquatable<TDomainValue>
 {
-    public const int RootLevel = -1;
-
     protected SearchTree(int capacity) : base(capacity)
     {
+        RootLevel = Constants.Levels.Root;
+        SearchLevel = Constants.Levels.Root;
     }
 
     public int LeafLevel => Count;
 
-    public int SearchLevel { get; set; } = RootLevel;
+    public int RootLevel { get; }
+
+    public int SearchLevel { get; set; }
 
     public TNode GetPresentNode() => this[SearchLevel];
 

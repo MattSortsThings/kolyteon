@@ -21,7 +21,7 @@ internal abstract class CheckingStrategy<TNode, TVariable, TDomainValue> : IChec
 
     public bool Safe { get; private protected set; }
 
-    public int RootLevel => SearchTree<TNode, TVariable, TDomainValue>.RootLevel;
+    public int RootLevel => SearchTree.RootLevel;
 
     public int LeafLevel => SearchTree.LeafLevel;
 
@@ -51,27 +51,24 @@ internal abstract class CheckingStrategy<TNode, TVariable, TDomainValue> : IChec
                 continue;
             }
 
-            UndoLastSafetyCheck();
             presentNode.RejectAssignment();
+            UndoLastSafetyCheck();
         }
     }
 
     public void Backtrack()
     {
-        SetupForBacktracking();
-
         TNode presentNode = SearchTree.GetPresentNode();
         presentNode.RestoreRejectedCandidates();
         int backtrackLevel = presentNode.BacktrackLevel;
+
+        SetupForBacktracking(backtrackLevel);
 
         SearchTree.SearchLevel--;
 
         while (SearchTree.SearchLevel > backtrackLevel)
         {
-            presentNode = SearchTree.GetPresentNode();
-            presentNode.RejectAssignment();
-            UndoLastSafetyCheck();
-            presentNode.RestoreRejectedCandidates();
+            UndoAllWorkAtInterveningLevel();
             SearchTree.SearchLevel--;
         }
 
@@ -110,9 +107,17 @@ internal abstract class CheckingStrategy<TNode, TVariable, TDomainValue> : IChec
 
     private protected abstract void SetupForAssigning();
 
-    private protected abstract void SetupForBacktracking();
+    private protected abstract void SetupForBacktracking(int backtrackLevel);
 
     private protected abstract void AddSafetyCheck();
 
     private protected abstract void UndoLastSafetyCheck();
+
+    private void UndoAllWorkAtInterveningLevel()
+    {
+        TNode presentNode = SearchTree.GetPresentNode();
+        presentNode.RejectAssignment();
+        UndoLastSafetyCheck();
+        presentNode.RestoreRejectedCandidates();
+    }
 }

@@ -19,6 +19,7 @@ public static partial class ExampleProblems
                 yield return [NQueensProblem.FromN(8)];
                 yield return [NQueensProblem.FromN(9)];
                 yield return [NQueensProblem.FromN(10)];
+                yield return [NQueensProblem.FromN(11)];
             }
 
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

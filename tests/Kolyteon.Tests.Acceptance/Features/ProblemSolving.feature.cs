@@ -94,6 +94,10 @@ namespace Kolyteon.Tests.Acceptance.Features
         [Xunit.InlineDataAttribute("BT", "BZ", new string[0])]
         [Xunit.InlineDataAttribute("BT", "MC", new string[0])]
         [Xunit.InlineDataAttribute("BT", "MT", new string[0])]
+        [Xunit.InlineDataAttribute("BJ", "NO", new string[0])]
+        [Xunit.InlineDataAttribute("BJ", "BZ", new string[0])]
+        [Xunit.InlineDataAttribute("BJ", "MC", new string[0])]
+        [Xunit.InlineDataAttribute("BJ", "MT", new string[0])]
         public async System.Threading.Tasks.Task SolveAFutoshikiProblem(string checking, string ordering, string[] exampleTags)
         {
             string[] @__tags = new string[] {
@@ -146,6 +150,10 @@ namespace Kolyteon.Tests.Acceptance.Features
         [Xunit.InlineDataAttribute("BT", "BZ", new string[0])]
         [Xunit.InlineDataAttribute("BT", "MC", new string[0])]
         [Xunit.InlineDataAttribute("BT", "MT", new string[0])]
+        [Xunit.InlineDataAttribute("BJ", "NO", new string[0])]
+        [Xunit.InlineDataAttribute("BJ", "BZ", new string[0])]
+        [Xunit.InlineDataAttribute("BJ", "MC", new string[0])]
+        [Xunit.InlineDataAttribute("BJ", "MT", new string[0])]
         public async System.Threading.Tasks.Task SolveAGraphColouringProblem(string checking, string ordering, string[] exampleTags)
         {
             string[] @__tags = new string[] {
@@ -159,7 +167,7 @@ namespace Kolyteon.Tests.Acceptance.Features
             argumentsOfScenario.Add("Checking", checking);
             argumentsOfScenario.Add("Ordering", ordering);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Solve a Graph Colouring problem", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 32
+#line 36
     this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -205,20 +213,20 @@ namespace Kolyteon.Tests.Acceptance.Features
                             "H",
                             "Yellow",
                             "D"});
-#line 33
+#line 37
         await testRunner.GivenAsync("I have created a Graph Colouring problem with the following nodes and edges", ((string)(null)), table5, "Given ");
 #line hidden
-#line 43
+#line 47
         await testRunner.AndAsync("I have modelled the Graph Colouring problem as a binary CSP", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 44
+#line 48
         await testRunner.WhenAsync(string.Format("I solve the Graph Colouring binary CSP using the \'{0}\'+\'{1}\' search algorithm", checking, ordering), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 45
+#line 49
         await testRunner.AndAsync("I ask the Graph Colouring problem to verify the correctness of the proposed solut" +
                         "ion", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 46
+#line 50
         await testRunner.ThenAsync("the verification result should be successful", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -233,6 +241,10 @@ namespace Kolyteon.Tests.Acceptance.Features
         [Xunit.InlineDataAttribute("BT", "BZ", new string[0])]
         [Xunit.InlineDataAttribute("BT", "MC", new string[0])]
         [Xunit.InlineDataAttribute("BT", "MT", new string[0])]
+        [Xunit.InlineDataAttribute("BJ", "NO", new string[0])]
+        [Xunit.InlineDataAttribute("BJ", "BZ", new string[0])]
+        [Xunit.InlineDataAttribute("BJ", "MC", new string[0])]
+        [Xunit.InlineDataAttribute("BJ", "MT", new string[0])]
         public async System.Threading.Tasks.Task SolveAMapColouringProblem(string checking, string ordering, string[] exampleTags)
         {
             string[] @__tags = new string[] {
@@ -246,7 +258,7 @@ namespace Kolyteon.Tests.Acceptance.Features
             argumentsOfScenario.Add("Checking", checking);
             argumentsOfScenario.Add("Ordering", ordering);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Solve a Map Colouring problem", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 56
+#line 64
     this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -286,21 +298,21 @@ namespace Kolyteon.Tests.Acceptance.Features
                 table6.AddRow(new string[] {
                             "(8,1) [2x1]",
                             "Blue"});
-#line 57
+#line 65
         await testRunner.GivenAsync("I have created a Map Colouring problem with a 10x10 canvas and the following bloc" +
                         "ks", ((string)(null)), table6, "Given ");
 #line hidden
-#line 68
+#line 76
         await testRunner.AndAsync("I have modelled the Map Colouring problem as a binary CSP", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 69
+#line 77
         await testRunner.WhenAsync(string.Format("I solve the Map Colouring binary CSP using the \'{0}\'+\'{1}\' search algorithm", checking, ordering), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 70
+#line 78
         await testRunner.AndAsync("I ask the Map Colouring problem to verify the correctness of the proposed solutio" +
                         "n", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 71
+#line 79
         await testRunner.ThenAsync("the verification result should be successful", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -315,6 +327,10 @@ namespace Kolyteon.Tests.Acceptance.Features
         [Xunit.InlineDataAttribute("BT", "BZ", new string[0])]
         [Xunit.InlineDataAttribute("BT", "MC", new string[0])]
         [Xunit.InlineDataAttribute("BT", "MT", new string[0])]
+        [Xunit.InlineDataAttribute("BJ", "NO", new string[0])]
+        [Xunit.InlineDataAttribute("BJ", "BZ", new string[0])]
+        [Xunit.InlineDataAttribute("BJ", "MC", new string[0])]
+        [Xunit.InlineDataAttribute("BJ", "MT", new string[0])]
         public async System.Threading.Tasks.Task SolveAnN_QueensProblem(string checking, string ordering, string[] exampleTags)
         {
             string[] @__tags = new string[] {
@@ -328,7 +344,7 @@ namespace Kolyteon.Tests.Acceptance.Features
             argumentsOfScenario.Add("Checking", checking);
             argumentsOfScenario.Add("Ordering", ordering);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Solve an N-Queens problem", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 81
+#line 93
     this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -338,19 +354,19 @@ namespace Kolyteon.Tests.Acceptance.Features
             else
             {
                 await this.ScenarioStartAsync();
-#line 82
+#line 94
         await testRunner.GivenAsync("I have created an N-Queens problem for N = 5", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 83
+#line 95
         await testRunner.AndAsync("I have modelled the N-Queens problem as a binary CSP", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 84
+#line 96
         await testRunner.WhenAsync(string.Format("I solve the N-Queens binary CSP using the \'{0}\'+\'{1}\' search algorithm", checking, ordering), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 85
+#line 97
         await testRunner.AndAsync("I ask the N-Queens problem to verify the correctness of the proposed solution", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 86
+#line 98
         await testRunner.ThenAsync("the verification result should be successful", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -365,6 +381,10 @@ namespace Kolyteon.Tests.Acceptance.Features
         [Xunit.InlineDataAttribute("BT", "BZ", new string[0])]
         [Xunit.InlineDataAttribute("BT", "MC", new string[0])]
         [Xunit.InlineDataAttribute("BT", "MT", new string[0])]
+        [Xunit.InlineDataAttribute("BJ", "NO", new string[0])]
+        [Xunit.InlineDataAttribute("BJ", "BZ", new string[0])]
+        [Xunit.InlineDataAttribute("BJ", "MC", new string[0])]
+        [Xunit.InlineDataAttribute("BJ", "MT", new string[0])]
         public async System.Threading.Tasks.Task SolveAShikakuProblem(string checking, string ordering, string[] exampleTags)
         {
             string[] @__tags = new string[] {
@@ -378,7 +398,7 @@ namespace Kolyteon.Tests.Acceptance.Features
             argumentsOfScenario.Add("Checking", checking);
             argumentsOfScenario.Add("Ordering", ordering);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Solve a Shikaku problem", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 96
+#line 112
     this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -388,19 +408,19 @@ namespace Kolyteon.Tests.Acceptance.Features
             else
             {
                 await this.ScenarioStartAsync();
-#line 97
+#line 113
         await testRunner.GivenAsync("I have created a Shikaku problem from the following grid", "05 __ __ __ __\r\n__ __ 08 __ __\r\n__ __ __ 04 __\r\n__ __ __ 06 02\r\n__ __ __ __ __", ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 105
+#line 121
         await testRunner.AndAsync("I have modelled the Shikaku problem as a binary CSP", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 106
+#line 122
         await testRunner.WhenAsync(string.Format("I solve the Shikaku binary CSP using the \'{0}\'+\'{1}\' search algorithm", checking, ordering), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 107
+#line 123
         await testRunner.AndAsync("I ask the Shikaku problem to verify the correctness of the proposed solution", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 108
+#line 124
         await testRunner.ThenAsync("the verification result should be successful", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -415,6 +435,10 @@ namespace Kolyteon.Tests.Acceptance.Features
         [Xunit.InlineDataAttribute("BT", "BZ", new string[0])]
         [Xunit.InlineDataAttribute("BT", "MC", new string[0])]
         [Xunit.InlineDataAttribute("BT", "MT", new string[0])]
+        [Xunit.InlineDataAttribute("BJ", "NO", new string[0])]
+        [Xunit.InlineDataAttribute("BJ", "BZ", new string[0])]
+        [Xunit.InlineDataAttribute("BJ", "MC", new string[0])]
+        [Xunit.InlineDataAttribute("BJ", "MT", new string[0])]
         public async System.Threading.Tasks.Task SolveASudokuProblem(string checking, string ordering, string[] exampleTags)
         {
             string[] @__tags = new string[] {
@@ -428,7 +452,7 @@ namespace Kolyteon.Tests.Acceptance.Features
             argumentsOfScenario.Add("Checking", checking);
             argumentsOfScenario.Add("Ordering", ordering);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Solve a Sudoku problem", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 118
+#line 138
     this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -438,22 +462,22 @@ namespace Kolyteon.Tests.Acceptance.Features
             else
             {
                 await this.ScenarioStartAsync();
-#line 119
+#line 139
         await testRunner.GivenAsync("I have created a Sudoku problem from the following grid", "__ 02 __ __ __ 06 07 08 __\r\n__ 05 06 07 08 09 01 02 03\r\n__ 08 09 01 02 03 04 05 0" +
                         "6\r\n08 09 01 02 03 04 05 06 07\r\n02 03 04 05 __ 07 08 09 01\r\n05 06 07 08 09 01 02 " +
                         "03 04\r\n06 07 08 09 01 02 03 04 05\r\n09 01 02 03 04 05 06 07 08\r\n__ 04 05 06 __ 08" +
                         " 09 01 __", ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 131
+#line 151
         await testRunner.AndAsync("I have modelled the Sudoku problem as a binary CSP", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 132
+#line 152
         await testRunner.WhenAsync(string.Format("I solve the Sudoku binary CSP using the \'{0}\'+\'{1}\' search algorithm", checking, ordering), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 133
+#line 153
         await testRunner.AndAsync("I ask the Sudoku problem to verify the correctness of the proposed solution", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 134
+#line 154
         await testRunner.ThenAsync("the verification result should be successful", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
