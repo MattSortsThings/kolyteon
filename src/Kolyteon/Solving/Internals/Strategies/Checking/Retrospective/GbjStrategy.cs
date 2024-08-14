@@ -18,12 +18,15 @@ internal sealed class GbjStrategy<TVariable, TDomainValue> :
 
     private protected override SearchTree<GbjNode<TVariable, TDomainValue>, TVariable, TDomainValue> SearchTree { get; }
 
-    private protected override void ReduceSearchTree() { }
+    private protected override void ReduceSearchTree()
+    {
+        // Not implemented in Graph-Based Backjumping.  
+    }
 
     private protected override void SetupForAssigning()
     {
         GbjNode<TVariable, TDomainValue> presentNode = SearchTree.GetPresentNode();
-        presentNode.RepopulateAncestors(SearchTree);
+        presentNode.PopulateAncestors(SearchTree);
         presentNode.ResetBacktrackLevel();
     }
 
@@ -37,7 +40,7 @@ internal sealed class GbjStrategy<TVariable, TDomainValue> :
         for (int level = SearchLevel; level > backtrackLevel; level--)
         {
             GbjNode<TVariable, TDomainValue> node = SearchTree[level];
-            node.Ancestors.Clear();
+            node.ClearAncestors();
             node.ResetBacktrackLevel();
         }
     }
@@ -55,7 +58,10 @@ internal sealed class GbjStrategy<TVariable, TDomainValue> :
         Safe = consistent;
     }
 
-    private protected override void UndoLastSafetyCheck() { }
+    private protected override void UndoLastSafetyCheck()
+    {
+        // Not implemented in Graph-Based Backjumping.  
+    }
 
     private sealed class GbjTree : SearchTree<GbjNode<TVariable, TDomainValue>, TVariable, TDomainValue>
     {

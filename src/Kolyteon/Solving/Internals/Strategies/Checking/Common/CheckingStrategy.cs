@@ -69,12 +69,12 @@ internal abstract class CheckingStrategy<TNode, TVariable, TDomainValue> : IChec
             SearchTree.SearchLevel--;
         }
 
-        if (SearchTree.SearchLevel > RootLevel)
+        if (SearchTree.SearchLevel > SearchTree.RootLevel)
         {
             presentNode = SearchTree.GetPresentNode();
             presentNode.RejectAssignment();
             UndoLastSafetyCheck();
-            Safe = presentNode.RemainingCandidates > 0;
+            Safe = !presentNode.Exhausted;
         }
         else
         {
@@ -82,7 +82,7 @@ internal abstract class CheckingStrategy<TNode, TVariable, TDomainValue> : IChec
         }
     }
 
-    public void Optimize(IOrderingStrategy orderingStrategy)
+    public void SelectNext(IOrderingStrategy orderingStrategy)
     {
         SearchTree.Reorder(orderingStrategy);
         SetupForAssigning();
@@ -118,5 +118,5 @@ internal abstract class CheckingStrategy<TNode, TVariable, TDomainValue> : IChec
         presentNode.RestoreRejectedCandidates();
     }
 
-    private bool AllNodesHaveAtLeastOneCandidate() => SearchTree.All(node => node.RemainingCandidates > 0);
+    private bool AllNodesHaveAtLeastOneCandidate() => SearchTree.All(node => !node.Exhausted);
 }

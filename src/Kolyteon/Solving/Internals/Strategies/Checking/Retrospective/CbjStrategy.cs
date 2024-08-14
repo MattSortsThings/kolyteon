@@ -18,9 +18,12 @@ internal sealed class CbjStrategy<TVariable, TDomainValue> :
 
     private protected override SearchTree<CbjNode<TVariable, TDomainValue>, TVariable, TDomainValue> SearchTree { get; }
 
-    private protected override void ReduceSearchTree() { }
+    private protected override void ReduceSearchTree()
+    {
+        // Not implemented in Conflict-Directed Backjumping.
+    }
 
-    private protected override void SetupForAssigning() => SearchTree.GetPresentNode().RepopulateAncestors(SearchTree);
+    private protected override void SetupForAssigning() => SearchTree.GetPresentNode().PopulateAncestors(SearchTree);
 
     private protected override void SetupForBacktracking(int backtrackLevel)
     {
@@ -32,7 +35,7 @@ internal sealed class CbjStrategy<TVariable, TDomainValue> :
         for (int level = SearchTree.SearchLevel; level > backtrackLevel; level--)
         {
             CbjNode<TVariable, TDomainValue> node = SearchTree[level];
-            node.Ancestors.Clear();
+            node.ClearAncestors();
             node.ResetBacktrackLevel();
         }
     }
@@ -55,7 +58,10 @@ internal sealed class CbjStrategy<TVariable, TDomainValue> :
         Safe = consistent;
     }
 
-    private protected override void UndoLastSafetyCheck() { }
+    private protected override void UndoLastSafetyCheck()
+    {
+        // Not implemented in Conflict-Directed Backjumping.
+    }
 
     private sealed class CbjTree : SearchTree<CbjNode<TVariable, TDomainValue>, TVariable, TDomainValue>
     {

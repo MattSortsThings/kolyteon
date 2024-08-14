@@ -25,13 +25,13 @@ internal sealed class FlaStrategy<TVariable, TDomainValue> :
 
     private protected override void ReduceSearchTree() => EnforceArcConsistency();
 
-    private protected override void SetupForAssigning() => SearchTree.GetPresentNode().RepopulateSuccessors(SearchTree);
+    private protected override void SetupForAssigning() => SearchTree.GetPresentNode().PopulateSuccessors(SearchTree);
 
     private protected override void SetupForBacktracking(int backtrackLevel)
     {
         for (int level = SearchTree.SearchLevel; level > backtrackLevel; level--)
         {
-            SearchTree[level].Successors.Clear();
+            SearchTree[level].ClearSuccessors();
         }
     }
 
@@ -55,7 +55,7 @@ internal sealed class FlaStrategy<TVariable, TDomainValue> :
         {
             ProspectiveNode<TVariable, TDomainValue> successorNode = presentNode.Successors[i];
             presentNode.Prune(successorNode);
-            noNodeExhausted = successorNode.RemainingCandidates > 0;
+            noNodeExhausted = !successorNode.Exhausted;
         }
 
         Safe = noNodeExhausted;

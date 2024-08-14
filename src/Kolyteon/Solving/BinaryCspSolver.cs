@@ -160,7 +160,7 @@ public sealed class BinaryCspSolver<TVariable, TDomainValue> : IBinaryCspSolver<
             }
             else
             {
-                _checkingStrategy.Optimize(_orderingStrategy);
+                _checkingStrategy.SelectNext(_orderingStrategy);
                 _state = SolvingState.Assigning;
             }
         }
@@ -195,7 +195,7 @@ public sealed class BinaryCspSolver<TVariable, TDomainValue> : IBinaryCspSolver<
         if (_checkingStrategy.Safe)
         {
             _checkingStrategy.Advance();
-            _checkingStrategy.Optimize(_orderingStrategy);
+            _checkingStrategy.SelectNext(_orderingStrategy);
             _state = SolvingState.Assigning;
         }
         else

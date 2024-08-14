@@ -49,7 +49,7 @@ internal interface ICheckingStrategy<TVariable, TDomainValue>
 
     public void Backtrack();
 
-    public void Optimize(IOrderingStrategy orderingStrategy);
+    public void SelectNext(IOrderingStrategy orderingStrategy);
 
     public void Populate(IReadOnlyBinaryCsp<TVariable, TDomainValue> binaryCsp);
 

@@ -18,16 +18,19 @@ internal sealed class BjStrategy<TVariable, TDomainValue> :
 
     private protected override SearchTree<BjNode<TVariable, TDomainValue>, TVariable, TDomainValue> SearchTree { get; }
 
-    private protected override void ReduceSearchTree() { }
+    private protected override void ReduceSearchTree()
+    {
+        // Not implemented in Backjumping.
+    }
 
-    private protected override void SetupForAssigning() => SearchTree.GetPresentNode().RepopulateAncestors(SearchTree);
+    private protected override void SetupForAssigning() => SearchTree.GetPresentNode().PopulateAncestors(SearchTree);
 
     private protected override void SetupForBacktracking(int backtrackLevel)
     {
         for (int level = SearchLevel; level > backtrackLevel; level--)
         {
             BjNode<TVariable, TDomainValue> node = SearchTree[level];
-            node.Ancestors.Clear();
+            node.ClearAncestors();
             node.ResetBacktrackLevel();
         }
     }
@@ -55,7 +58,10 @@ internal sealed class BjStrategy<TVariable, TDomainValue> :
         Safe = consistent;
     }
 
-    private protected override void UndoLastSafetyCheck() { }
+    private protected override void UndoLastSafetyCheck()
+    {
+        // Not implemented in Backjumping.
+    }
 
     private sealed class BjTree : SearchTree<BjNode<TVariable, TDomainValue>, TVariable, TDomainValue>
     {

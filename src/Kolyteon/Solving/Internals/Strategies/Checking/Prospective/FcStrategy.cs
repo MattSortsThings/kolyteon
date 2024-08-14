@@ -18,15 +18,18 @@ internal sealed class FcStrategy<TVariable, TDomainValue> :
 
     private protected override SearchTree<FcNode<TVariable, TDomainValue>, TVariable, TDomainValue> SearchTree { get; }
 
-    private protected override void ReduceSearchTree() { }
+    private protected override void ReduceSearchTree()
+    {
+        // Not implemented in Forward Checking.
+    }
 
-    private protected override void SetupForAssigning() => SearchTree.GetPresentNode().RepopulateSuccessors(SearchTree);
+    private protected override void SetupForAssigning() => SearchTree.GetPresentNode().PopulateSuccessors(SearchTree);
 
     private protected override void SetupForBacktracking(int backtrackLevel)
     {
         for (int level = SearchTree.SearchLevel; level > backtrackLevel; level--)
         {
-            SearchTree[level].Successors.Clear();
+            SearchTree[level].ClearSuccessors();
         }
     }
 
@@ -39,7 +42,7 @@ internal sealed class FcStrategy<TVariable, TDomainValue> :
         {
             ProspectiveNode<TVariable, TDomainValue> successorNode = presentNode.Successors[i];
             presentNode.Prune(successorNode);
-            noNodeExhausted = successorNode.RemainingCandidates > 0;
+            noNodeExhausted = !successorNode.Exhausted;
         }
 
         Safe = noNodeExhausted;

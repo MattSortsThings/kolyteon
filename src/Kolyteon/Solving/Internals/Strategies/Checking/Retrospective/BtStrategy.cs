@@ -19,10 +19,20 @@ internal sealed class BtStrategy<TVariable, TDomainValue> :
 
     private protected override SearchTree<BtNode<TVariable, TDomainValue>, TVariable, TDomainValue> SearchTree { get; }
 
-    private protected override void ReduceSearchTree() { }
+    private protected override void ReduceSearchTree()
+    {
+        // Not implemented in Naive Backtracking.
+    }
 
-    private protected override void SetupForAssigning() => SearchTree.GetPresentNode().RepopulateAncestors(SearchTree);
-    private protected override void SetupForBacktracking(int backtrackLevel) { }
+    private protected override void SetupForAssigning() => SearchTree.GetPresentNode().PopulateAncestors(SearchTree);
+
+    private protected override void SetupForBacktracking(int backtrackLevel)
+    {
+        for (int level = SearchLevel; level > backtrackLevel; level--)
+        {
+            SearchTree[level].ClearAncestors();
+        }
+    }
 
     [SuppressMessage("ReSharper", "ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator")]
     private protected override void AddSafetyCheck()
@@ -38,7 +48,10 @@ internal sealed class BtStrategy<TVariable, TDomainValue> :
         Safe = consistent;
     }
 
-    private protected override void UndoLastSafetyCheck() { }
+    private protected override void UndoLastSafetyCheck()
+    {
+        // Not implemented in Naive Backtracking.
+    }
 
     private sealed class BtTree : SearchTree<BtNode<TVariable, TDomainValue>, TVariable, TDomainValue>
     {

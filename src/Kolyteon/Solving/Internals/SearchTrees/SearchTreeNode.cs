@@ -21,11 +21,13 @@ internal abstract class SearchTreeNode<TVariable, TDomainValue> : IVisitableNode
         Degree = binaryCsp.GetDegreeAt(variableIndex);
     }
 
+    public bool Exhausted => Candidates.Count == 0;
+
     public Queue<int> Candidates { get; }
 
-    public List<int> RejectedCandidates { get; }
-
     public abstract int BacktrackLevel { get; }
+
+    private List<int> RejectedCandidates { get; }
 
     public int VariableIndex { get; }
 

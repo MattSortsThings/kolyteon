@@ -18,9 +18,9 @@ internal abstract class ProspectiveNode<TVariable, TDomainValue> : SearchTreeNod
 
     public List<ProspectiveNode<TVariable, TDomainValue>> Successors { get; }
 
-    public List<PruningMemo<TVariable, TDomainValue>> PruningMemos { get; }
+    private protected List<PruningMemo<TVariable, TDomainValue>> PruningMemos { get; }
 
-    public void RepopulateSuccessors(IReadOnlyList<ProspectiveNode<TVariable, TDomainValue>> searchTree)
+    public void PopulateSuccessors(IReadOnlyList<ProspectiveNode<TVariable, TDomainValue>> searchTree)
     {
         for (int level = SearchTreeLevel + 1; level < searchTree.Count && Successors.Count < Degree; level++)
         {
@@ -31,6 +31,8 @@ internal abstract class ProspectiveNode<TVariable, TDomainValue> : SearchTreeNod
             }
         }
     }
+
+    public void ClearSuccessors() => Successors.Clear();
 
     public void Prune(ProspectiveNode<TVariable, TDomainValue> operandNode)
     {

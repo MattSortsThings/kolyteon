@@ -15,7 +15,7 @@ This document outlines the binary CSP solving terminology used in the *Kolyteon*
       - [`SearchLevel` integer](#searchlevel-integer)
       - [`Safe` boolean](#safe-boolean)
       - [`Simplify( )` method](#simplify--method)
-      - [`Optimize( )` method](#optimize--method)
+      - [`SelectNext( )` method](#selectnext--method)
       - [`Advance( )` method](#advance--method)
       - [`TryAssign( )` method](#tryassign--method)
       - [`Backtrack( )` method](#backtrack--method)
@@ -82,8 +82,8 @@ The assigning step has three possible outcomes, labelled *p*, *q* and *r*.
 
 | Label |          Transition           | Details                                                                                                                                                    |
 |:-----:|:-----------------------------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------|
-|  *p*  |   `Assigning` -> `Finished`   | Consistent assignment made. Search has advanced to leaf level. Search has terminated at leaf level. Consistent full solution to binary CSP has been found. |
-|  *q*  |  `Assigning` -> `Assigning`   | Consistent assignment made. Search has advanced to next (non-leaf) level. Invoke assigning step next.                                                      |
+|  *p*  |  `Assigning` -> `Assigning`   | Consistent assignment made. Search has advanced to next (non-leaf) level. Invoke assigning step next.                                                      |
+|  *q*  |   `Assigning` -> `Finished`   | Consistent assignment made. Search has advanced to leaf level. Search has terminated at leaf level. Consistent full solution to binary CSP has been found. |
 |  *r*  | `Assigning` -> `Backtracking` | Present variable's domain is exhausted without finding consistent assignment. Search has remained at present level. Invoke backtracking step next.         |
 
 ### Backtracking Step
@@ -97,8 +97,8 @@ The backtracking step has three possible outcomes, labelled *x*, *y* and *z*.
 | Label |            Transition            | Details                                                                                                                         |
 |:-----:|:--------------------------------:|:--------------------------------------------------------------------------------------------------------------------------------|
 |  *x*  |   `Backtracking` -> `Finished`   | Search has backtracked to root level. Search has terminated at root level. Binary CSP has no solution.                          |
-|  *y*  |  `Backtracking` -> `Assigning`   | Search has backtracked to earlier (non-root) level. New present variable's domain is not exhausted. Invoke assigning step next. |
-|  *z*  | `Backtracking` -> `Backtracking` | Search has backtracked to earlier (non-root) level. New present variable's domain is exhausted. Invoke backtracking step next.  |
+|  *y*  | `Backtracking` -> `Backtracking` | Search has backtracked to earlier (non-root) level. New present variable's domain is exhausted. Invoke backtracking step next.  |
+|  *z*  |  `Backtracking` -> `Assigning`   | Search has backtracked to earlier (non-root) level. New present variable's domain is not exhausted. Invoke assigning step next. |
 
 ## Backtracking Search in Code
 
@@ -126,9 +126,9 @@ This property returns `true` if the present state of the search is such that the
 
 This method simplifies the problem and attempts to determine whether the binary CSP has no solution. It updates `Safe` before it terminates.
 
-#### `Optimize( )` method
+#### `SelectNext( )` method
 
-This method reorders the variables by swapping an optimal future variable with the present variable. After this, it sets itself up for the next assigning step.
+This method selects the next variable for assignment.
 
 #### `Advance( )` method
 
@@ -244,6 +244,7 @@ Checking strategy and ordering strategy are separately interchangeable when the 
 The binary CSP solving algorithm returns a data structure containing the following:
 
 - A list of the assignments, constituting the consistent full solution that was found, or an empty list if no solution found.
+- The backtracking search algorithm that was used.
 - The number of simplifying steps (always 1).
 - The number of assigning steps (always &ge; 0).
 - The number of backtracking steps (always &ge; 0).

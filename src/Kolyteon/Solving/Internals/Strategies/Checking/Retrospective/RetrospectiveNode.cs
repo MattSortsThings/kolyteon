@@ -15,7 +15,7 @@ internal abstract class RetrospectiveNode<TVariable, TDomainValue> : SearchTreeN
 
     public List<RetrospectiveNode<TVariable, TDomainValue>> Ancestors { get; }
 
-    public void RepopulateAncestors(IReadOnlyList<RetrospectiveNode<TVariable, TDomainValue>> searchTree)
+    public void PopulateAncestors(IReadOnlyList<RetrospectiveNode<TVariable, TDomainValue>> searchTree)
     {
         for (int level = 0; level < SearchTreeLevel && Ancestors.Count < Degree; level++)
         {
@@ -27,4 +27,6 @@ internal abstract class RetrospectiveNode<TVariable, TDomainValue> : SearchTreeN
             }
         }
     }
+
+    public void ClearAncestors() => Ancestors.Clear();
 }
