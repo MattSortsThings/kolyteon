@@ -3,11 +3,11 @@ using Kolyteon.Modelling;
 namespace Kolyteon.Solving;
 
 /// <summary>
-///     A configurable, synchronous, generic binary CSP solver.
+///     A silent, synchronous, configurable generic binary CSP solver.
 /// </summary>
 /// <typeparam name="TVariable">The binary CSP variable type.</typeparam>
 /// <typeparam name="TDomainValue">The binary CSP domain value type.</typeparam>
-public interface IBinaryCspSolver<TVariable, TDomainValue>
+public interface ISilentBinaryCspSolver<TVariable, TDomainValue>
     where TVariable : struct, IComparable<TVariable>, IEquatable<TVariable>
     where TDomainValue : struct, IComparable<TDomainValue>, IEquatable<TDomainValue>
 {

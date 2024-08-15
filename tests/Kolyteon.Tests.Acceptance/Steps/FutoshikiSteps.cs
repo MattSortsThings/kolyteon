@@ -14,10 +14,10 @@ internal sealed class FutoshikiSteps
     private readonly IBinaryCsp<Square, int, FutoshikiProblem> _binaryCsp;
     private readonly IFutoshikiGenerator _generator;
     private readonly ScenarioContext _scenarioContext;
-    private readonly IBinaryCspSolver<Square, int> _solver;
+    private readonly ISilentBinaryCspSolver<Square, int> _solver;
 
     public FutoshikiSteps(IBinaryCsp<Square, int, FutoshikiProblem> binaryCsp,
-        IBinaryCspSolver<Square, int> solver,
+        ISilentBinaryCspSolver<Square, int> solver,
         IFutoshikiGenerator generator,
         ScenarioContext scenarioContext)
     {

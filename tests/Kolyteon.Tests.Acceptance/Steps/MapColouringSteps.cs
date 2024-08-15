@@ -14,10 +14,10 @@ internal sealed class MapColouringSteps
     private readonly IBinaryCsp<Block, Colour, MapColouringProblem> _binaryCsp;
     private readonly IMapColouringGenerator _generator;
     private readonly ScenarioContext _scenarioContext;
-    private readonly IBinaryCspSolver<Block, Colour> _solver;
+    private readonly ISilentBinaryCspSolver<Block, Colour> _solver;
 
     public MapColouringSteps(IBinaryCsp<Block, Colour, MapColouringProblem> binaryCsp,
-        IBinaryCspSolver<Block, Colour> solver,
+        ISilentBinaryCspSolver<Block, Colour> solver,
         IMapColouringGenerator generator,
         ScenarioContext scenarioContext)
     {

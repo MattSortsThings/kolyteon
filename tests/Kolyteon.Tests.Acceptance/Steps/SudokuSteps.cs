@@ -14,10 +14,10 @@ internal sealed class SudokuSteps
     private readonly IBinaryCsp<Square, int, SudokuProblem> _binaryCsp;
     private readonly ISudokuGenerator _generator;
     private readonly ScenarioContext _scenarioContext;
-    private readonly IBinaryCspSolver<Square, int> _solver;
+    private readonly ISilentBinaryCspSolver<Square, int> _solver;
 
     public SudokuSteps(IBinaryCsp<Square, int, SudokuProblem> binaryCsp,
-        IBinaryCspSolver<Square, int> solver,
+        ISilentBinaryCspSolver<Square, int> solver,
         ISudokuGenerator generator,
         ScenarioContext scenarioContext)
     {

@@ -19,36 +19,36 @@ internal static class BinaryCspSolverHooks
         objectContainer.RegisterFactoryAs(CreateShikakuSolver);
     }
 
-    private static IBinaryCspSolver<Square, int> CreateFutoshikiAndSudokuSolver(IObjectContainer _) =>
-        BinaryCspSolver<Square, int>.Create()
+    private static ISilentBinaryCspSolver<Square, int> CreateFutoshikiAndSudokuSolver(IObjectContainer _) =>
+        SilentBinaryCspSolver<Square, int>.Create()
             .WithCapacity(12)
             .AndCheckingStrategy(CheckingStrategy.NaiveBacktracking)
             .AndOrderingStrategy(OrderingStrategy.NaturalOrdering)
             .Build();
 
-    private static IBinaryCspSolver<Node, Colour> CreateGraphColouringSolver(IObjectContainer _) =>
-        BinaryCspSolver<Node, Colour>.Create()
+    private static ISilentBinaryCspSolver<Node, Colour> CreateGraphColouringSolver(IObjectContainer _) =>
+        SilentBinaryCspSolver<Node, Colour>.Create()
             .WithCapacity(12)
             .AndCheckingStrategy(CheckingStrategy.NaiveBacktracking)
             .AndOrderingStrategy(OrderingStrategy.NaturalOrdering)
             .Build();
 
-    private static IBinaryCspSolver<Block, Colour> CreateMapColouringSolver(IObjectContainer _) =>
-        BinaryCspSolver<Block, Colour>.Create()
+    private static ISilentBinaryCspSolver<Block, Colour> CreateMapColouringSolver(IObjectContainer _) =>
+        SilentBinaryCspSolver<Block, Colour>.Create()
             .WithCapacity(12)
             .AndCheckingStrategy(CheckingStrategy.NaiveBacktracking)
             .AndOrderingStrategy(OrderingStrategy.NaturalOrdering)
             .Build();
 
-    private static IBinaryCspSolver<int, Square> CreateNQueensSolver(IObjectContainer _) =>
-        BinaryCspSolver<int, Square>.Create()
+    private static ISilentBinaryCspSolver<int, Square> CreateNQueensSolver(IObjectContainer _) =>
+        SilentBinaryCspSolver<int, Square>.Create()
             .WithCapacity(12)
             .AndCheckingStrategy(CheckingStrategy.NaiveBacktracking)
             .AndOrderingStrategy(OrderingStrategy.NaturalOrdering)
             .Build();
 
-    private static IBinaryCspSolver<NumberedSquare, Block> CreateShikakuSolver(IObjectContainer _) =>
-        BinaryCspSolver<NumberedSquare, Block>.Create()
+    private static ISilentBinaryCspSolver<NumberedSquare, Block> CreateShikakuSolver(IObjectContainer _) =>
+        SilentBinaryCspSolver<NumberedSquare, Block>.Create()
             .WithCapacity(12)
             .AndCheckingStrategy(CheckingStrategy.NaiveBacktracking)
             .AndOrderingStrategy(OrderingStrategy.NaturalOrdering)

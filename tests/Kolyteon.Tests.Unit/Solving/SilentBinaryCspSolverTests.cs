@@ -4,7 +4,7 @@ using Kolyteon.Tests.Unit.TestUtils;
 
 namespace Kolyteon.Tests.Unit.Solving;
 
-public static class BinaryCspSolverTests
+public static class SilentBinaryCspSolverTests
 {
     [UnitTest]
     public sealed class SolveMethod
@@ -18,7 +18,7 @@ public static class BinaryCspSolverTests
                 ['A'] = [0, 1, 2], ['B'] = [], ['C'] = [0, 1, 2]
             });
 
-            BinaryCspSolver<char, int> sut = BinaryCspSolver<char, int>.Create()
+            SilentBinaryCspSolver<char, int> sut = SilentBinaryCspSolver<char, int>.Create()
                 .WithCapacity(3)
                 .AndCheckingStrategy(CheckingStrategy.NaiveBacktracking)
                 .AndOrderingStrategy(OrderingStrategy.NaturalOrdering)
@@ -49,7 +49,7 @@ public static class BinaryCspSolverTests
                 ['A'] = [0, 1], ['B'] = [0, 1], ['C'] = [0, 1]
             });
 
-            BinaryCspSolver<char, int> sut = BinaryCspSolver<char, int>.Create()
+            SilentBinaryCspSolver<char, int> sut = SilentBinaryCspSolver<char, int>.Create()
                 .WithCapacity(3)
                 .AndCheckingStrategy(CheckingStrategy.NaiveBacktracking)
                 .AndOrderingStrategy(OrderingStrategy.NaturalOrdering)
@@ -80,7 +80,7 @@ public static class BinaryCspSolverTests
                 ['A'] = [0, 1, 2], ['B'] = [0, 1], ['C'] = [0]
             });
 
-            BinaryCspSolver<char, int> sut = BinaryCspSolver<char, int>.Create()
+            SilentBinaryCspSolver<char, int> sut = SilentBinaryCspSolver<char, int>.Create()
                 .WithCapacity(3)
                 .AndCheckingStrategy(CheckingStrategy.NaiveBacktracking)
                 .AndOrderingStrategy(OrderingStrategy.NaturalOrdering)
@@ -110,7 +110,7 @@ public static class BinaryCspSolverTests
         public void Solve_BinaryCspArgIsNull_Throws()
         {
             // Arrange
-            BinaryCspSolver<char, int> sut = BinaryCspSolver<char, int>.Create()
+            SilentBinaryCspSolver<char, int> sut = SilentBinaryCspSolver<char, int>.Create()
                 .WithCapacity(0)
                 .AndCheckingStrategy(CheckingStrategy.NaiveBacktracking)
                 .AndOrderingStrategy(OrderingStrategy.NaturalOrdering)
@@ -130,7 +130,7 @@ public static class BinaryCspSolverTests
             // Arrange
             TestConstraintGraph emptyBinaryCsp = new();
 
-            BinaryCspSolver<char, int> sut = BinaryCspSolver<char, int>.Create()
+            SilentBinaryCspSolver<char, int> sut = SilentBinaryCspSolver<char, int>.Create()
                 .WithCapacity(0)
                 .AndCheckingStrategy(CheckingStrategy.NaiveBacktracking)
                 .AndOrderingStrategy(OrderingStrategy.NaturalOrdering)
@@ -153,7 +153,7 @@ public static class BinaryCspSolverTests
                 ['A'] = [0, 1, 2], ['B'] = [0, 1], ['C'] = [0]
             });
 
-            BinaryCspSolver<char, int> sut = BinaryCspSolver<char, int>.Create()
+            SilentBinaryCspSolver<char, int> sut = SilentBinaryCspSolver<char, int>.Create()
                 .WithCapacity(3)
                 .AndCheckingStrategy(CheckingStrategy.NaiveBacktracking)
                 .AndOrderingStrategy(OrderingStrategy.NaturalOrdering)
@@ -184,7 +184,7 @@ public static class BinaryCspSolverTests
             OrderingStrategy orderingStrategy = OrderingStrategy.NaturalOrdering;
 
             // Act
-            BinaryCspSolver<char, int> result = BinaryCspSolver<char, int>.Create()
+            SilentBinaryCspSolver<char, int> result = SilentBinaryCspSolver<char, int>.Create()
                 .WithCapacity(capacity)
                 .AndCheckingStrategy(checkingStrategy)
                 .AndOrderingStrategy(orderingStrategy)
@@ -207,7 +207,7 @@ public static class BinaryCspSolverTests
             OrderingStrategy arbitraryOrderingStrategy = OrderingStrategy.NaturalOrdering;
 
             // Act
-            Action act = () => BinaryCspSolver<char, int>.Create()
+            Action act = () => SilentBinaryCspSolver<char, int>.Create()
                 .WithCapacity(-1)
                 .AndCheckingStrategy(arbitraryCheckingStrategy)
                 .AndOrderingStrategy(arbitraryOrderingStrategy)
@@ -227,7 +227,7 @@ public static class BinaryCspSolverTests
             OrderingStrategy arbitraryOrderingStrategy = OrderingStrategy.NaturalOrdering;
 
             // Act
-            Action act = () => BinaryCspSolver<char, int>.Create()
+            Action act = () => SilentBinaryCspSolver<char, int>.Create()
                 .WithCapacity(arbitraryCapacity)
                 .AndCheckingStrategy(null!)
                 .AndOrderingStrategy(arbitraryOrderingStrategy)
@@ -246,7 +246,7 @@ public static class BinaryCspSolverTests
             CheckingStrategy arbitraryCheckingStrategy = CheckingStrategy.NaiveBacktracking;
 
             // Act
-            Action act = () => BinaryCspSolver<char, int>.Create()
+            Action act = () => SilentBinaryCspSolver<char, int>.Create()
                 .WithCapacity(arbitraryCapacity)
                 .AndCheckingStrategy(arbitraryCheckingStrategy)
                 .AndOrderingStrategy(null!)

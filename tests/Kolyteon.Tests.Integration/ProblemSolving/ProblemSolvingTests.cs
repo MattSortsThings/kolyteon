@@ -21,11 +21,11 @@ public abstract partial class ProblemSolvingTests
 
     private SearchAlgorithm ExpectedSearchAlgorithm => new(CheckingStrategy, OrderingStrategy);
 
-    private BinaryCspSolver<TVariable, TDomainValue> ConfigureSolver<TVariable, TDomainValue>(
+    private SilentBinaryCspSolver<TVariable, TDomainValue> ConfigureSolver<TVariable, TDomainValue>(
         IReadOnlyBinaryCsp<TVariable, TDomainValue> binaryCsp)
         where TVariable : struct, IComparable<TVariable>, IEquatable<TVariable>
         where TDomainValue : struct, IComparable<TDomainValue>, IEquatable<TDomainValue> =>
-        BinaryCspSolver<TVariable, TDomainValue>.Create()
+        SilentBinaryCspSolver<TVariable, TDomainValue>.Create()
             .WithCapacity(binaryCsp.Variables)
             .AndCheckingStrategy(CheckingStrategy)
             .AndOrderingStrategy(OrderingStrategy)
@@ -38,7 +38,7 @@ public abstract partial class ProblemSolvingTests
         // Arrange
         IReadOnlyBinaryCsp<Square, int> binaryCsp = FutoshikiConstraintGraph.ModellingProblem(problem);
 
-        BinaryCspSolver<Square, int> solver = ConfigureSolver(binaryCsp);
+        SilentBinaryCspSolver<Square, int> solver = ConfigureSolver(binaryCsp);
 
         // Act
         SolvingResult<Square, int> result = solver.Solve(binaryCsp);
@@ -61,7 +61,7 @@ public abstract partial class ProblemSolvingTests
         // Arrange
         IReadOnlyBinaryCsp<Square, int> binaryCsp = FutoshikiConstraintGraph.ModellingProblem(problem);
 
-        BinaryCspSolver<Square, int> solver = ConfigureSolver(binaryCsp);
+        SilentBinaryCspSolver<Square, int> solver = ConfigureSolver(binaryCsp);
 
         // Act
         SolvingResult<Square, int> result = solver.Solve(binaryCsp);
@@ -84,7 +84,7 @@ public abstract partial class ProblemSolvingTests
         // Arrange
         IReadOnlyBinaryCsp<Node, Colour> binaryCsp = GraphColouringConstraintGraph.ModellingProblem(problem);
 
-        BinaryCspSolver<Node, Colour> solver = ConfigureSolver(binaryCsp);
+        SilentBinaryCspSolver<Node, Colour> solver = ConfigureSolver(binaryCsp);
 
         // Act
         SolvingResult<Node, Colour> result = solver.Solve(binaryCsp);
@@ -107,7 +107,7 @@ public abstract partial class ProblemSolvingTests
         // Arrange
         IReadOnlyBinaryCsp<Node, Colour> binaryCsp = GraphColouringConstraintGraph.ModellingProblem(problem);
 
-        BinaryCspSolver<Node, Colour> solver = ConfigureSolver(binaryCsp);
+        SilentBinaryCspSolver<Node, Colour> solver = ConfigureSolver(binaryCsp);
 
         // Act
         SolvingResult<Node, Colour> result = solver.Solve(binaryCsp);
@@ -130,7 +130,7 @@ public abstract partial class ProblemSolvingTests
         // Arrange
         IReadOnlyBinaryCsp<Block, Colour> binaryCsp = MapColouringConstraintGraph.ModellingProblem(problem);
 
-        BinaryCspSolver<Block, Colour> solver = ConfigureSolver(binaryCsp);
+        SilentBinaryCspSolver<Block, Colour> solver = ConfigureSolver(binaryCsp);
 
         // Act
         SolvingResult<Block, Colour> result = solver.Solve(binaryCsp);
@@ -153,7 +153,7 @@ public abstract partial class ProblemSolvingTests
         // Arrange
         IReadOnlyBinaryCsp<Block, Colour> binaryCsp = MapColouringConstraintGraph.ModellingProblem(problem);
 
-        BinaryCspSolver<Block, Colour> solver = ConfigureSolver(binaryCsp);
+        SilentBinaryCspSolver<Block, Colour> solver = ConfigureSolver(binaryCsp);
 
         // Act
         SolvingResult<Block, Colour> result = solver.Solve(binaryCsp);
@@ -176,7 +176,7 @@ public abstract partial class ProblemSolvingTests
         // Arrange
         IReadOnlyBinaryCsp<int, Square> binaryCsp = NQueensConstraintGraph.ModellingProblem(problem);
 
-        BinaryCspSolver<int, Square> solver = ConfigureSolver(binaryCsp);
+        SilentBinaryCspSolver<int, Square> solver = ConfigureSolver(binaryCsp);
 
         // Act
         SolvingResult<int, Square> result = solver.Solve(binaryCsp);
@@ -199,7 +199,7 @@ public abstract partial class ProblemSolvingTests
         // Arrange
         IReadOnlyBinaryCsp<int, Square> binaryCsp = NQueensConstraintGraph.ModellingProblem(problem);
 
-        BinaryCspSolver<int, Square> solver = ConfigureSolver(binaryCsp);
+        SilentBinaryCspSolver<int, Square> solver = ConfigureSolver(binaryCsp);
 
         // Act
         SolvingResult<int, Square> result = solver.Solve(binaryCsp);
@@ -222,7 +222,7 @@ public abstract partial class ProblemSolvingTests
         // Arrange
         IReadOnlyBinaryCsp<NumberedSquare, Block> binaryCsp = ShikakuConstraintGraph.ModellingProblem(problem);
 
-        BinaryCspSolver<NumberedSquare, Block> solver = ConfigureSolver(binaryCsp);
+        SilentBinaryCspSolver<NumberedSquare, Block> solver = ConfigureSolver(binaryCsp);
 
         // Act
         SolvingResult<NumberedSquare, Block> result = solver.Solve(binaryCsp);
@@ -245,7 +245,7 @@ public abstract partial class ProblemSolvingTests
         // Arrange
         IReadOnlyBinaryCsp<NumberedSquare, Block> binaryCsp = ShikakuConstraintGraph.ModellingProblem(problem);
 
-        BinaryCspSolver<NumberedSquare, Block> solver = ConfigureSolver(binaryCsp);
+        SilentBinaryCspSolver<NumberedSquare, Block> solver = ConfigureSolver(binaryCsp);
 
         // Act
         SolvingResult<NumberedSquare, Block> result = solver.Solve(binaryCsp);
@@ -268,7 +268,7 @@ public abstract partial class ProblemSolvingTests
         // Arrange
         IReadOnlyBinaryCsp<Square, int> binaryCsp = SudokuConstraintGraph.ModellingProblem(problem);
 
-        BinaryCspSolver<Square, int> solver = ConfigureSolver(binaryCsp);
+        SilentBinaryCspSolver<Square, int> solver = ConfigureSolver(binaryCsp);
 
         // Act
         SolvingResult<Square, int> result = solver.Solve(binaryCsp);
@@ -291,7 +291,7 @@ public abstract partial class ProblemSolvingTests
         // Arrange
         IReadOnlyBinaryCsp<Square, int> binaryCsp = SudokuConstraintGraph.ModellingProblem(problem);
 
-        BinaryCspSolver<Square, int> solver = ConfigureSolver(binaryCsp);
+        SilentBinaryCspSolver<Square, int> solver = ConfigureSolver(binaryCsp);
 
         // Act
         SolvingResult<Square, int> result = solver.Solve(binaryCsp);
@@ -317,7 +317,7 @@ public abstract partial class ProblemSolvingTests
 
         IBinaryCsp<int, Square, NQueensProblem> binaryCsp = NQueensConstraintGraph.ModellingProblem(solvableProblem1);
 
-        BinaryCspSolver<int, Square> solver = ConfigureSolver(binaryCsp);
+        SilentBinaryCspSolver<int, Square> solver = ConfigureSolver(binaryCsp);
 
         // Act
         SolvingResult<int, Square> firstResult = solver.Solve(binaryCsp);

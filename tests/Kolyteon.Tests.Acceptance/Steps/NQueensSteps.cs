@@ -13,10 +13,10 @@ internal sealed class NQueensSteps
 {
     private readonly IBinaryCsp<int, Square, NQueensProblem> _binaryCsp;
     private readonly ScenarioContext _scenarioContext;
-    private readonly IBinaryCspSolver<int, Square> _solver;
+    private readonly ISilentBinaryCspSolver<int, Square> _solver;
 
     public NQueensSteps(IBinaryCsp<int, Square, NQueensProblem> binaryCsp,
-        IBinaryCspSolver<int, Square> solver,
+        ISilentBinaryCspSolver<int, Square> solver,
         ScenarioContext scenarioContext)
     {
         _binaryCsp = binaryCsp ?? throw new ArgumentNullException(nameof(binaryCsp));

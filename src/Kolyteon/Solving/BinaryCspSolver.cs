@@ -1,38 +1,32 @@
-using System.Diagnostics;
 using Kolyteon.Modelling;
-using Kolyteon.Solving.Internals.Builders;
 using Kolyteon.Solving.Internals.Strategies.Checking.Common;
 using Kolyteon.Solving.Internals.Strategies.Ordering;
 
 namespace Kolyteon.Solving;
 
 /// <summary>
-///     A configurable, synchronous, generic binary CSP solver.
+///     Abstract base class for a configurable generic binary CSP solver.
 /// </summary>
 /// <typeparam name="TVariable">The binary CSP variable type.</typeparam>
 /// <typeparam name="TDomainValue">The binary CSP domain value type.</typeparam>
-public sealed class BinaryCspSolver<TVariable, TDomainValue> : IBinaryCspSolver<TVariable, TDomainValue>
+public abstract class BinaryCspSolver<TVariable, TDomainValue>
     where TVariable : struct, IComparable<TVariable>, IEquatable<TVariable>
     where TDomainValue : struct, IComparable<TDomainValue>, IEquatable<TDomainValue>
 {
     private readonly ICheckingStrategyFactory<TVariable, TDomainValue> _checkingStrategyFactory;
     private readonly IOrderingStrategyFactory _orderingStrategyFactory;
-    private int _assigningSteps;
-    private int _backtrackingSteps;
     private ICheckingStrategy<TVariable, TDomainValue> _checkingStrategy;
     private IOrderingStrategy _orderingStrategy;
-    private int _simplifyingSteps;
-    private SolvingState _state;
 
     internal BinaryCspSolver(ICheckingStrategyFactory<TVariable, TDomainValue> checkingStrategyFactory,
         IOrderingStrategyFactory orderingStrategyFactory,
         ICheckingStrategy<TVariable, TDomainValue> checkingStrategy,
         IOrderingStrategy orderingStrategy)
     {
-        _checkingStrategyFactory = checkingStrategyFactory;
-        _orderingStrategyFactory = orderingStrategyFactory;
-        _checkingStrategy = checkingStrategy;
-        _orderingStrategy = orderingStrategy;
+        _checkingStrategyFactory = checkingStrategyFactory ?? throw new ArgumentNullException(nameof(checkingStrategyFactory));
+        _orderingStrategyFactory = orderingStrategyFactory ?? throw new ArgumentNullException(nameof(orderingStrategyFactory));
+        _checkingStrategy = checkingStrategy ?? throw new ArgumentNullException(nameof(checkingStrategy));
+        _orderingStrategy = orderingStrategy ?? throw new ArgumentNullException(nameof(orderingStrategy));
     }
 
     /// <summary>
@@ -49,7 +43,6 @@ public sealed class BinaryCspSolver<TVariable, TDomainValue> : IBinaryCspSolver<
         set => _checkingStrategy.Capacity = value;
     }
 
-    /// <inheritdoc />
     public CheckingStrategy CheckingStrategy
     {
         get => _checkingStrategy.Identifier;
@@ -62,7 +55,6 @@ public sealed class BinaryCspSolver<TVariable, TDomainValue> : IBinaryCspSolver<
         }
     }
 
-    /// <inheritdoc />
     public OrderingStrategy OrderingStrategy
     {
         get => _orderingStrategy.Identifier;
@@ -75,145 +67,97 @@ public sealed class BinaryCspSolver<TVariable, TDomainValue> : IBinaryCspSolver<
         }
     }
 
-    /// <inheritdoc />
-    public SolvingResult<TVariable, TDomainValue> Solve(IReadOnlyBinaryCsp<TVariable, TDomainValue> binaryCsp,
-        CancellationToken cancellationToken = default)
-    {
-        ArgumentNullException.ThrowIfNull(binaryCsp);
-        ThrowIfNotModellingAProblem(binaryCsp);
+    private protected SolvingState State { get; private set; }
 
-        SolvingResult<TVariable, TDomainValue> result;
+    private protected int AssigningSteps { get; private set; }
 
-        Setup(binaryCsp);
-        try
-        {
-            result = Search(cancellationToken);
-        }
-        finally
-        {
-            Teardown();
-        }
+    private protected int BacktrackingSteps { get; private set; }
 
-        return result;
-    }
+    private protected int SimplifyingSteps { get; private set; }
 
-    public static IBinaryCspSolverBuilder<TVariable, TDomainValue> Create() =>
-        new BinaryCspSolverBuilder<TVariable, TDomainValue>();
-
-    private void Setup(IReadOnlyBinaryCsp<TVariable, TDomainValue> binaryCsp)
+    private protected void Setup(IReadOnlyBinaryCsp<TVariable, TDomainValue> binaryCsp)
     {
         _checkingStrategy.Populate(binaryCsp);
-        _state = SolvingState.Simplifying;
+        State = SolvingState.Simplifying;
     }
 
-    private void Teardown()
+    private protected void ExecuteAssigningStep()
     {
-        _checkingStrategy.Reset();
-        _state = SolvingState.Ready;
-        _assigningSteps = 0;
-        _simplifyingSteps = 0;
-        _backtrackingSteps = 0;
-    }
-
-    private SolvingResult<TVariable, TDomainValue> Search(CancellationToken cancellationToken)
-    {
-        while (true)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            switch (_state)
-            {
-                case SolvingState.Assigning:
-                    ExecuteAssigningStep();
-
-                    break;
-                case SolvingState.Backtracking:
-                    ExecuteBacktrackingStep();
-
-                    break;
-
-                case SolvingState.Simplifying:
-                    ExecuteSimplifyingStep();
-
-                    break;
-
-                case SolvingState.Ready:
-                    throw new UnreachableException();
-
-                case SolvingState.Finished:
-                default:
-                    return CreateSolvingResult();
-            }
-        }
-    }
-
-    private void ExecuteAssigningStep()
-    {
-        _assigningSteps++;
-
         _checkingStrategy.TryAssign();
         if (_checkingStrategy.Safe)
         {
             _checkingStrategy.Advance();
             if (_checkingStrategy.SearchLevel == _checkingStrategy.LeafLevel)
             {
-                _state = SolvingState.Finished;
+                State = SolvingState.Finished;
             }
             else
             {
                 _checkingStrategy.SelectNext(_orderingStrategy);
-                _state = SolvingState.Assigning;
+                State = SolvingState.Assigning;
             }
         }
         else
         {
-            _state = SolvingState.Backtracking;
+            State = SolvingState.Backtracking;
         }
+
+        AssigningSteps++;
     }
 
-    private void ExecuteBacktrackingStep()
+    private protected void ExecuteBacktrackingStep()
     {
-        _backtrackingSteps++;
-
         _checkingStrategy.Backtrack();
         if (_checkingStrategy.Safe)
         {
-            _state = SolvingState.Assigning;
+            State = SolvingState.Assigning;
         }
         else
         {
-            _state = _checkingStrategy.SearchLevel == _checkingStrategy.RootLevel
+            State = _checkingStrategy.SearchLevel == _checkingStrategy.RootLevel
                 ? SolvingState.Finished
                 : SolvingState.Backtracking;
         }
+
+        BacktrackingSteps++;
     }
 
-    private void ExecuteSimplifyingStep()
+    private protected void ExecuteSimplifyingStep()
     {
-        _simplifyingSteps++;
-
         _checkingStrategy.Simplify();
         if (_checkingStrategy.Safe)
         {
             _checkingStrategy.Advance();
             _checkingStrategy.SelectNext(_orderingStrategy);
-            _state = SolvingState.Assigning;
+            State = SolvingState.Assigning;
         }
         else
         {
-            _state = SolvingState.Finished;
+            State = SolvingState.Finished;
         }
+
+        SimplifyingSteps++;
     }
 
-    private SolvingResult<TVariable, TDomainValue> CreateSolvingResult() => new()
+    private protected SolvingResult<TVariable, TDomainValue> CreateSolvingResult() => new()
     {
         Assignments = _checkingStrategy.GetAllAssignments(),
         SearchAlgorithm = new SearchAlgorithm(CheckingStrategy, OrderingStrategy),
-        SimplifyingSteps = _simplifyingSteps,
-        AssigningSteps = _assigningSteps,
-        BacktrackingSteps = _backtrackingSteps
+        SimplifyingSteps = SimplifyingSteps,
+        AssigningSteps = AssigningSteps,
+        BacktrackingSteps = BacktrackingSteps
     };
 
-    private static void ThrowIfNotModellingAProblem(IReadOnlyBinaryCsp<TVariable, TDomainValue> binaryCsp)
+    private protected void Teardown()
+    {
+        _checkingStrategy.Reset();
+        State = SolvingState.Ready;
+        AssigningSteps = 0;
+        SimplifyingSteps = 0;
+        BacktrackingSteps = 0;
+    }
+
+    private protected static void ThrowIfNotModellingAProblem(IReadOnlyBinaryCsp<TVariable, TDomainValue> binaryCsp)
     {
         if (binaryCsp.Variables == 0)
         {

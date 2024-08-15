@@ -14,10 +14,10 @@ internal sealed class ShikakuSteps
     private readonly IBinaryCsp<NumberedSquare, Block, ShikakuProblem> _binaryCsp;
     private readonly IShikakuGenerator _generator;
     private readonly ScenarioContext _scenarioContext;
-    private readonly IBinaryCspSolver<NumberedSquare, Block> _solver;
+    private readonly ISilentBinaryCspSolver<NumberedSquare, Block> _solver;
 
     public ShikakuSteps(IBinaryCsp<NumberedSquare, Block, ShikakuProblem> binaryCsp,
-        IBinaryCspSolver<NumberedSquare, Block> solver,
+        ISilentBinaryCspSolver<NumberedSquare, Block> solver,
         IShikakuGenerator generator,
         ScenarioContext scenarioContext)
     {

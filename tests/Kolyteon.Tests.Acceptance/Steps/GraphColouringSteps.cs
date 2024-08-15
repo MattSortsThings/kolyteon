@@ -14,10 +14,10 @@ internal sealed class GraphColouringSteps
     private readonly IBinaryCsp<Node, Colour, GraphColouringProblem> _binaryCsp;
     private readonly IGraphColouringGenerator _generator;
     private readonly ScenarioContext _scenarioContext;
-    private readonly IBinaryCspSolver<Node, Colour> _solver;
+    private readonly ISilentBinaryCspSolver<Node, Colour> _solver;
 
     public GraphColouringSteps(IBinaryCsp<Node, Colour, GraphColouringProblem> binaryCsp,
-        IBinaryCspSolver<Node, Colour> solver,
+        ISilentBinaryCspSolver<Node, Colour> solver,
         IGraphColouringGenerator generator,
         ScenarioContext scenarioContext)
     {
