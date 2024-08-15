@@ -3,6 +3,7 @@ Feature: Problem Solving
 Solve an instance of a problem type modelled as a binary CSP.
 
     @A/5
+    @H/1
     Scenario Outline: Solve a Futoshiki problem
         Given I have created a Futoshiki problem matching the following diagram
         """
@@ -57,6 +58,7 @@ Solve an instance of a problem type modelled as a binary CSP.
           | MAC      | MT       |
 
     @B/5
+    @H/1
     Scenario Outline: Solve a Graph Colouring problem
         Given I have created a Graph Colouring problem with the following nodes and edges
           | Node | Permitted Colours  | Adjacent Nodes |
@@ -109,6 +111,7 @@ Solve an instance of a problem type modelled as a binary CSP.
           | MAC      | MT       |
 
     @C/5
+    @H/1
     Scenario Outline: Solve a Map Colouring problem
         Given I have created a Map Colouring problem with a 10x10 canvas and the following blocks
           | Block        | Permitted Colours        |
@@ -162,6 +165,7 @@ Solve an instance of a problem type modelled as a binary CSP.
           | MAC      | MT       |
 
     @D/4
+    @H/1
     Scenario Outline: Solve an N-Queens problem
         Given I have created an N-Queens problem for N = 5
         And I have modelled the N-Queens problem as a binary CSP
@@ -205,6 +209,7 @@ Solve an instance of a problem type modelled as a binary CSP.
           | MAC      | MT       |
 
     @E/5
+    @H/1
     Scenario Outline: Solve a Shikaku problem
         Given I have created a Shikaku problem from the following grid
         """
@@ -255,6 +260,7 @@ Solve an instance of a problem type modelled as a binary CSP.
           | MAC      | MT       |
 
     @F/5
+    @H/1
     Scenario Outline: Solve a Sudoku problem
         Given I have created a Sudoku problem from the following grid
         """

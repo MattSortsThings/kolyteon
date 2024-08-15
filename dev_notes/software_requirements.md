@@ -308,38 +308,35 @@ This document outlines the software requirements for the *Kolyteon* library (her
 | H/2/2 | The user will be able to set the binary CSP solver's ordering strategy at initialization and at runtime (but *not* when a solving operation is in progress) by passing in a single enumeration value. |
 | H/2/3 | The user will be able to set the binary CSP solver's capacity at initialization and at runtime (but *not* when a solving operation is in progress) by passing in a single integer value.              |
 
-### I - Observable Binary CSP Solving
+### I - Verbose Binary CSP Solving
 
 #### I/1 - Solving
 
-| Code  | Summary                                                                                                                                                                                                                                              |
-|:------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| I/1/1 | Given a binary CSP modelling a problem, the observable binary CSP solver returns a data structure containing the solution that was found (if any), the algorithm used, and the number of simplifying, assigning and backtracking steps.              |
-| I/1/2 | Given a binary CSP modelling a solvable problem, the observable binary CSP solver finds a valid solution to the problem, when configured with every possible algorithm.                                                                              |
-| I/1/3 | Given a binary CSP modelling an unsolvable problem, the observable binary CSP solver finds that there is no solution, when configured with every possible algorithm.                                                                                 |
-| I/1/4 | Given a sequence of binary CSPs modelling solvable and unsolvable problems, the observable binary CSP solver finds a valid solution or no solution (as appropriate) for each binary CSP sequentially, when configured with every possible algorithm. |
-| I/1/5 | The user will be able to cancel a solving operation using a cancellation token, causing an exception to be thrown.                                                                                                                                   |
+| Code  | Summary                                                                                                                                                                                                                                           |
+|:------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| I/1/1 | Given a binary CSP modelling a problem, the verbose binary CSP solver returns a data structure containing the solution that was found (if any), the algorithm used, and the number of simplifying, assigning and backtracking steps.              |
+| I/1/2 | Given a binary CSP modelling a solvable problem, the verbose binary CSP solver finds a valid solution to the problem, when configured with every possible algorithm.                                                                              |
+| I/1/3 | Given a binary CSP modelling an unsolvable problem, the verbose binary CSP solver finds that there is no solution, when configured with every possible algorithm.                                                                                 |
+| I/1/4 | Given a sequence of binary CSPs modelling solvable and unsolvable problems, the verbose binary CSP solver finds a valid solution or no solution (as appropriate) for each binary CSP sequentially, when configured with every possible algorithm. |
+| I/1/5 | The user will be able to cancel a solving operation using a cancellation token, causing an exception to be thrown.                                                                                                                                |
 
 #### I/2 - Solver Configuration
 
-| Code  | Summary                                                                                                                                                                                                          |
-|:------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| I/2/1 | The user will be able to set the observable binary CSP solver's checking strategy at initialization and at runtime (but *not* when a solving operation is in progress) by passing in a single enumeration value. |
-| I/2/2 | The user will be able to set the observable binary CSP solver's ordering strategy at initialization and at runtime (but *not* when a solving operation is in progress) by passing in a single enumeration value. |
-| I/2/3 | The user will be able to set the observable binary CSP solver's capacity at initialization and at runtime (but *not* when a solving operation is in progress) by passing in a single integer value.              |
-| I/2/4 | The user will be able to set the observable binary CSP solver's step delay in milliseconds at initialization and at runtime, by passing in a single integer value.                                               |
+| Code  | Summary                                                                                                                                                                                                       |
+|:------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| I/2/1 | The user will be able to set the verbose binary CSP solver's checking strategy at initialization and at runtime (but *not* when a solving operation is in progress) by passing in a single enumeration value. |
+| I/2/2 | The user will be able to set the verbose binary CSP solver's ordering strategy at initialization and at runtime (but *not* when a solving operation is in progress) by passing in a single enumeration value. |
+| I/2/3 | The user will be able to set the verbose binary CSP solver's capacity at initialization and at runtime (but *not* when a solving operation is in progress) by passing in a single integer value.              |
+| I/2/4 | The user will be able to set the verbose binary CSP solver's step delay in milliseconds at initialization and at runtime, by passing in a single integer value.                                               |
 
-#### I/3 - Observability
+#### I/3 - Reporting
 
-| Code  | Summary                                                                                                                                                                                                                                                |
-|:------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| I/3/1 | The observable binary CSP will expose a thread-safe solving operation API of read-only properties describing the search operation, including: the solver state, the step counts, the search level, the solution in progress, and the present variable. |
-| I/3/2 | The observable binary CSP will implement the 'pull-model observer pattern', providing a mechanism for observers to subscribe to the solving operation API.                                                                                             |
-| I/3/3 | The observable binary CSP will notify its observers after setup, after teardown, and after every search step.                                                                                                                                          |
-| I/3/4 | The observable binary CSP will notify its observers after completion of the solving operation, but it will be up to the observers to unsubscribe themselves.                                                                                           |
+| Code  | Summary                                                                                                                                 |
+|:------|:----------------------------------------------------------------------------------------------------------------------------------------|
+| I/3/1 | The observable binary CSP solver will publish a progress report to a specified progress reporter after each step of a solving operation |
 
 ## Non-Functional Requirements
 
 1. The library will depend on no other libraries except the native C# SDK.
 2. The modelling binary CSP base class will be abstract and extensible, with abstract and virtual methods to be extended by the user to create new problem-specific derivatives.
-3. The binary CSP solver and observable binary CSP solver will be closed, with all implementation details hidden from the user.
+3. The binary CSP solver and verbose binary CSP solver will be closed, with all implementation details hidden from the user.

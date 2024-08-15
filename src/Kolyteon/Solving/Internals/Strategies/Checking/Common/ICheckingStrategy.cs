@@ -56,4 +56,6 @@ internal interface ICheckingStrategy<TVariable, TDomainValue>
     public void Reset();
 
     public Assignment<TVariable, TDomainValue>[] GetAllAssignments();
+
+    public Assignment<TVariable, TDomainValue> GetMostRecentAssignment();
 }

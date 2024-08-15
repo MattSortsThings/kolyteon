@@ -1,6 +1,7 @@
 using Kolyteon.Common;
 using Kolyteon.GraphColouring;
 using Kolyteon.Solving;
+using Kolyteon.Tests.Acceptance.TestUtils;
 using Reqnroll;
 using Reqnroll.BoDi;
 
@@ -17,6 +18,21 @@ internal static class BinaryCspSolverHooks
         objectContainer.RegisterFactoryAs(CreateMapColouringSolver);
         objectContainer.RegisterFactoryAs(CreateNQueensSolver);
         objectContainer.RegisterFactoryAs(CreateShikakuSolver);
+    }
+
+    [BeforeTestRun]
+    internal static void RegisterNQueensVerboseSolverAndReporter(IObjectContainer objectContainer)
+    {
+        IVerboseBinaryCspSolver<int, Square> verboseSolver = VerboseBinaryCspSolver<int, Square>.Create()
+            .WithCapacity(4)
+            .AndCheckingStrategy(CheckingStrategy.NaiveBacktracking)
+            .AndOrderingStrategy(OrderingStrategy.NaturalOrdering)
+            .AndStepDelay(TimeSpan.Zero)
+            .Build();
+
+        objectContainer.RegisterInstanceAs(verboseSolver, typeof(IVerboseBinaryCspSolver<int, Square>));
+
+        objectContainer.RegisterInstanceAs(new NQueensSolvingProgressReporter());
     }
 
     private static ISilentBinaryCspSolver<Square, int> CreateFutoshikiAndSudokuSolver(IObjectContainer _) =>

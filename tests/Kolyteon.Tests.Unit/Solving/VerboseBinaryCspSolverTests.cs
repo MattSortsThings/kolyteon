@@ -1,16 +1,17 @@
 using Kolyteon.Modelling;
 using Kolyteon.Solving;
+using Kolyteon.Tests.Unit.Solving.TestUtils;
 using Kolyteon.Tests.Unit.TestUtils;
 
 namespace Kolyteon.Tests.Unit.Solving;
 
-public static class SilentBinaryCspSolverTests
+public static class VerboseBinaryCspSolverTests
 {
     [UnitTest]
-    public sealed class SolveMethod
+    public sealed class SolveAsyncMethod
     {
         [Fact]
-        public void Solve_GivenBinaryCspWithEmptyDomain_ReturnsResultWithZeroAssignments()
+        public async Task SolveAsync_GivenBinaryCspWithEmptyDomain_NotifiesReporterAndReturnsResultWithZeroAssignments()
         {
             // Arrange
             TestConstraintGraph binaryCsp = TestConstraintGraph.ModellingProblem(new TestProblem
@@ -18,14 +19,17 @@ public static class SilentBinaryCspSolverTests
                 ['A'] = [0, 1, 2], ['B'] = [], ['C'] = [0, 1, 2]
             });
 
-            SilentBinaryCspSolver<char, int> sut = SilentBinaryCspSolver<char, int>.Create()
+            VerboseBinaryCspSolver<char, int> sut = VerboseBinaryCspSolver<char, int>.Create()
                 .WithCapacity(3)
                 .AndCheckingStrategy(CheckingStrategy.NaiveBacktracking)
                 .AndOrderingStrategy(OrderingStrategy.NaturalOrdering)
+                .AndStepDelay(TimeSpan.Zero)
                 .Build();
 
+            TestSolvingProgressReporter<char, int> progressReporter = new();
+
             // Act
-            SolvingResult<char, int> result = sut.Solve(binaryCsp);
+            SolvingResult<char, int> result = await sut.SolveAsync(binaryCsp, progressReporter);
 
             // Assert
             SearchAlgorithm expectedAlgorithm = new(CheckingStrategy.NaiveBacktracking, OrderingStrategy.NaturalOrdering);
@@ -37,11 +41,12 @@ public static class SilentBinaryCspSolverTests
                 result.SimplifyingSteps.Should().Be(1);
                 result.AssigningSteps.Should().Be(0);
                 result.BacktrackingSteps.Should().Be(0);
+                progressReporter.VerifyEndStateMatchesResult(result);
             }
         }
 
         [Fact]
-        public void Solve_GivenBinaryCspWithNoSolution_ReturnsResultWithZeroAssignments()
+        public async Task SolveAsync_GivenBinaryCspWithNoSolution_NotifiesReporterAndReturnsResultWithZeroAssignments()
         {
             // Arrange
             TestConstraintGraph binaryCsp = TestConstraintGraph.ModellingProblem(new TestProblem
@@ -49,14 +54,17 @@ public static class SilentBinaryCspSolverTests
                 ['A'] = [0, 1], ['B'] = [0, 1], ['C'] = [0, 1]
             });
 
-            SilentBinaryCspSolver<char, int> sut = SilentBinaryCspSolver<char, int>.Create()
+            VerboseBinaryCspSolver<char, int> sut = VerboseBinaryCspSolver<char, int>.Create()
                 .WithCapacity(3)
                 .AndCheckingStrategy(CheckingStrategy.NaiveBacktracking)
                 .AndOrderingStrategy(OrderingStrategy.NaturalOrdering)
+                .AndStepDelay(TimeSpan.Zero)
                 .Build();
 
+            TestSolvingProgressReporter<char, int> progressReporter = new();
+
             // Act
-            SolvingResult<char, int> result = sut.Solve(binaryCsp);
+            SolvingResult<char, int> result = await sut.SolveAsync(binaryCsp, progressReporter);
 
             // Assert
             SearchAlgorithm expectedAlgorithm = new(CheckingStrategy.NaiveBacktracking, OrderingStrategy.NaturalOrdering);
@@ -68,11 +76,12 @@ public static class SilentBinaryCspSolverTests
                 result.SimplifyingSteps.Should().Be(1);
                 result.AssigningSteps.Should().BePositive();
                 result.BacktrackingSteps.Should().BePositive();
+                progressReporter.VerifyEndStateMatchesResult(result);
             }
         }
 
         [Fact]
-        public void Solve_GivenBinaryCspWithSolution_ReturnsResultWithCorrectAssignments()
+        public async Task SolveAsync_GivenBinaryCspWithSolution_NotifiesReporterAndReturnsResultWithCorrectAssignments()
         {
             // Arrange
             TestConstraintGraph binaryCsp = TestConstraintGraph.ModellingProblem(new TestProblem
@@ -80,14 +89,17 @@ public static class SilentBinaryCspSolverTests
                 ['A'] = [0, 1, 2], ['B'] = [0, 1], ['C'] = [0]
             });
 
-            SilentBinaryCspSolver<char, int> sut = SilentBinaryCspSolver<char, int>.Create()
+            VerboseBinaryCspSolver<char, int> sut = VerboseBinaryCspSolver<char, int>.Create()
                 .WithCapacity(3)
                 .AndCheckingStrategy(CheckingStrategy.NaiveBacktracking)
                 .AndOrderingStrategy(OrderingStrategy.NaturalOrdering)
+                .AndStepDelay(TimeSpan.Zero)
                 .Build();
 
+            TestSolvingProgressReporter<char, int> progressReporter = new();
+
             // Act
-            SolvingResult<char, int> result = sut.Solve(binaryCsp);
+            SolvingResult<char, int> result = await sut.SolveAsync(binaryCsp, progressReporter);
 
             // Assert
             SearchAlgorithm expectedAlgorithm = new(CheckingStrategy.NaiveBacktracking, OrderingStrategy.NaturalOrdering);
@@ -103,49 +115,77 @@ public static class SilentBinaryCspSolverTests
                 result.SimplifyingSteps.Should().Be(1);
                 result.AssigningSteps.Should().BePositive();
                 result.BacktrackingSteps.Should().BePositive();
+                progressReporter.VerifyEndStateMatchesResult(result);
             }
         }
 
         [Fact]
-        public void Solve_BinaryCspArgIsNull_Throws()
+        public async Task SolveAsync_BinaryCspArgIsNull_Throws()
         {
             // Arrange
-            SilentBinaryCspSolver<char, int> sut = SilentBinaryCspSolver<char, int>.Create()
-                .WithCapacity(0)
+            VerboseBinaryCspSolver<char, int> sut = VerboseBinaryCspSolver<char, int>.Create()
+                .WithCapacity(1)
                 .AndCheckingStrategy(CheckingStrategy.NaiveBacktracking)
                 .AndOrderingStrategy(OrderingStrategy.NaturalOrdering)
+                .AndStepDelay(TimeSpan.Zero)
                 .Build();
 
+            TestSolvingProgressReporter<char, int> progressReporter = new();
+
             // Act
-            Action act = () => sut.Solve(null!);
+            Func<Task> act = async () => _ = await sut.SolveAsync(null!, progressReporter);
 
             // Assert
-            act.Should().Throw<ArgumentNullException>()
+            await act.Should().ThrowAsync<ArgumentNullException>()
                 .WithMessage("Value cannot be null. (Parameter 'binaryCsp')");
         }
 
         [Fact]
-        public void Solve_GivenBinaryCspNotModellingAProblem_Throws()
+        public async Task SolveAsync_ProgressReporterArgIsNull_Throws()
         {
             // Arrange
-            TestConstraintGraph emptyBinaryCsp = new();
+            TestConstraintGraph binaryCsp = TestConstraintGraph.ModellingProblem(new TestProblem { ['A'] = [0] });
 
-            SilentBinaryCspSolver<char, int> sut = SilentBinaryCspSolver<char, int>.Create()
-                .WithCapacity(0)
+            VerboseBinaryCspSolver<char, int> sut = VerboseBinaryCspSolver<char, int>.Create()
+                .WithCapacity(1)
                 .AndCheckingStrategy(CheckingStrategy.NaiveBacktracking)
                 .AndOrderingStrategy(OrderingStrategy.NaturalOrdering)
+                .AndStepDelay(TimeSpan.Zero)
                 .Build();
 
             // Act
-            Action act = () => sut.Solve(emptyBinaryCsp);
+            Func<Task> act = async () => _ = await sut.SolveAsync(binaryCsp, null!);
 
             // Assert
-            act.Should().Throw<ArgumentException>()
+            await act.Should().ThrowAsync<ArgumentNullException>()
+                .WithMessage("Value cannot be null. (Parameter 'progressReporter')");
+        }
+
+        [Fact]
+        public async Task SolveAsync_GivenBinaryCspNotModellingAProblem_Throws()
+        {
+            // Arrange
+            TestConstraintGraph binaryCsp = new();
+
+            VerboseBinaryCspSolver<char, int> sut = VerboseBinaryCspSolver<char, int>.Create()
+                .WithCapacity(1)
+                .AndCheckingStrategy(CheckingStrategy.NaiveBacktracking)
+                .AndOrderingStrategy(OrderingStrategy.NaturalOrdering)
+                .AndStepDelay(TimeSpan.Zero)
+                .Build();
+
+            TestSolvingProgressReporter<char, int> progressReporter = new();
+
+            // Act
+            Func<Task> act = async () => _ = await sut.SolveAsync(binaryCsp, progressReporter);
+
+            // Assert
+            await act.Should().ThrowAsync<ArgumentException>()
                 .WithMessage("Binary CSP is not modelling a problem.");
         }
 
         [Fact]
-        public void Solve_CancellationRequestedViaCancellationToken_Throws()
+        public async Task SolveAsync_CancellationRequestedViaCancellationToken_Throws()
         {
             // Arrange
             TestConstraintGraph binaryCsp = TestConstraintGraph.ModellingProblem(new TestProblem
@@ -153,24 +193,28 @@ public static class SilentBinaryCspSolverTests
                 ['A'] = [0, 1, 2], ['B'] = [0, 1], ['C'] = [0]
             });
 
-            SilentBinaryCspSolver<char, int> sut = SilentBinaryCspSolver<char, int>.Create()
-                .WithCapacity(3)
+            VerboseBinaryCspSolver<char, int> sut = VerboseBinaryCspSolver<char, int>.Create()
+                .WithCapacity(1)
                 .AndCheckingStrategy(CheckingStrategy.NaiveBacktracking)
                 .AndOrderingStrategy(OrderingStrategy.NaturalOrdering)
+                .AndStepDelay(TimeSpan.Zero)
                 .Build();
 
+            TestSolvingProgressReporter<char, int> progressReporter = new();
+
             // Act
-            Action act = () =>
+            Func<Task> act = async () =>
             {
                 using CancellationTokenSource cts = new(TimeSpan.Zero);
-                _ = sut.Solve(binaryCsp, cts.Token);
+                _ = await sut.SolveAsync(binaryCsp, progressReporter, cts.Token);
             };
 
             // Assert
-            act.Should().Throw<OperationCanceledException>()
+            await act.Should().ThrowAsync<OperationCanceledException>()
                 .WithMessage("The binary CSP solving operation was cancelled.");
         }
     }
+
 
     [UnitTest]
     public sealed class FluentBuilder
@@ -182,12 +226,14 @@ public static class SilentBinaryCspSolverTests
             const int capacity = 4;
             CheckingStrategy checkingStrategy = CheckingStrategy.ForwardChecking;
             OrderingStrategy orderingStrategy = OrderingStrategy.BrelazHeuristic;
+            TimeSpan stepDelay = TimeSpan.FromSeconds(1);
 
             // Act
-            SilentBinaryCspSolver<char, int> result = SilentBinaryCspSolver<char, int>.Create()
+            VerboseBinaryCspSolver<char, int> result = VerboseBinaryCspSolver<char, int>.Create()
                 .WithCapacity(capacity)
                 .AndCheckingStrategy(checkingStrategy)
                 .AndOrderingStrategy(orderingStrategy)
+                .AndStepDelay(stepDelay)
                 .Build();
 
             // Assert
@@ -196,6 +242,7 @@ public static class SilentBinaryCspSolverTests
                 result.CheckingStrategy.Should().Be(checkingStrategy);
                 result.OrderingStrategy.Should().Be(orderingStrategy);
                 result.Capacity.Should().Be(capacity);
+                result.StepDelay.Should().Be(stepDelay);
             }
         }
 
@@ -205,12 +252,14 @@ public static class SilentBinaryCspSolverTests
             // Arrange
             CheckingStrategy arbitraryCheckingStrategy = CheckingStrategy.NaiveBacktracking;
             OrderingStrategy arbitraryOrderingStrategy = OrderingStrategy.NaturalOrdering;
+            TimeSpan arbitraryStepDelay = TimeSpan.FromSeconds(1);
 
             // Act
-            Action act = () => SilentBinaryCspSolver<char, int>.Create()
+            Action act = () => VerboseBinaryCspSolver<char, int>.Create()
                 .WithCapacity(-1)
                 .AndCheckingStrategy(arbitraryCheckingStrategy)
                 .AndOrderingStrategy(arbitraryOrderingStrategy)
+                .AndStepDelay(arbitraryStepDelay)
                 .Build();
 
             // Assert
@@ -225,12 +274,14 @@ public static class SilentBinaryCspSolverTests
             // Arrange
             const int arbitraryCapacity = 4;
             OrderingStrategy arbitraryOrderingStrategy = OrderingStrategy.NaturalOrdering;
+            TimeSpan arbitraryStepDelay = TimeSpan.FromSeconds(1);
 
             // Act
-            Action act = () => SilentBinaryCspSolver<char, int>.Create()
+            Action act = () => VerboseBinaryCspSolver<char, int>.Create()
                 .WithCapacity(arbitraryCapacity)
                 .AndCheckingStrategy(null!)
                 .AndOrderingStrategy(arbitraryOrderingStrategy)
+                .AndStepDelay(arbitraryStepDelay)
                 .Build();
 
             // Assert
@@ -244,12 +295,14 @@ public static class SilentBinaryCspSolverTests
             // Arrange
             const int arbitraryCapacity = 4;
             CheckingStrategy arbitraryCheckingStrategy = CheckingStrategy.NaiveBacktracking;
+            TimeSpan arbitraryStepDelay = TimeSpan.FromSeconds(1);
 
             // Act
-            Action act = () => SilentBinaryCspSolver<char, int>.Create()
+            Action act = () => VerboseBinaryCspSolver<char, int>.Create()
                 .WithCapacity(arbitraryCapacity)
                 .AndCheckingStrategy(arbitraryCheckingStrategy)
                 .AndOrderingStrategy(null!)
+                .AndStepDelay(arbitraryStepDelay)
                 .Build();
 
             // Assert

@@ -100,6 +100,8 @@ internal abstract class CheckingStrategy<TNode, TVariable, TDomainValue> : IChec
 
     public Assignment<TVariable, TDomainValue>[] GetAllAssignments() => SearchTree.GetAssignments();
 
+    public Assignment<TVariable, TDomainValue> GetMostRecentAssignment() => SearchTree[SearchLevel - 1].Map();
+
     private protected abstract void ReduceSearchTree();
 
     private protected abstract void SetupForAssigning();

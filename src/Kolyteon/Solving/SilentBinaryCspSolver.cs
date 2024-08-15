@@ -41,6 +41,10 @@ public sealed class SilentBinaryCspSolver<TVariable, TDomainValue> :
         {
             result = Search(cancellationToken);
         }
+        catch (OperationCanceledException ex)
+        {
+            throw new OperationCanceledException("The binary CSP solving operation was cancelled.", ex);
+        }
         finally
         {
             Teardown();
@@ -61,8 +65,7 @@ public sealed class SilentBinaryCspSolver<TVariable, TDomainValue> :
     {
         while (true)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-            switch (State)
+            switch (SolvingState)
             {
                 case SolvingState.Assigning:
                     ExecuteAssigningStep();
@@ -85,6 +88,8 @@ public sealed class SilentBinaryCspSolver<TVariable, TDomainValue> :
                 default:
                     return CreateSolvingResult();
             }
+
+            cancellationToken.ThrowIfCancellationRequested();
         }
     }
 }

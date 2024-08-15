@@ -67,18 +67,24 @@ public abstract class BinaryCspSolver<TVariable, TDomainValue>
         }
     }
 
-    private protected SolvingState State { get; private set; }
+    internal SolvingState SolvingState { get; private set; }
 
-    private protected int AssigningSteps { get; private set; }
+    internal int SimplifyingSteps { get; private set; }
 
-    private protected int BacktrackingSteps { get; private set; }
+    internal int AssigningSteps { get; private set; }
 
-    private protected int SimplifyingSteps { get; private set; }
+    internal int BacktrackingSteps { get; private set; }
+
+    internal int RootLevel => _checkingStrategy.RootLevel;
+
+    internal int LeafLevel => _checkingStrategy.LeafLevel;
+
+    internal int SearchLevel => _checkingStrategy.SearchLevel;
 
     private protected void Setup(IReadOnlyBinaryCsp<TVariable, TDomainValue> binaryCsp)
     {
         _checkingStrategy.Populate(binaryCsp);
-        State = SolvingState.Simplifying;
+        SolvingState = SolvingState.Simplifying;
     }
 
     private protected void ExecuteAssigningStep()
@@ -89,17 +95,17 @@ public abstract class BinaryCspSolver<TVariable, TDomainValue>
             _checkingStrategy.Advance();
             if (_checkingStrategy.SearchLevel == _checkingStrategy.LeafLevel)
             {
-                State = SolvingState.Finished;
+                SolvingState = SolvingState.Finished;
             }
             else
             {
                 _checkingStrategy.SelectNext(_orderingStrategy);
-                State = SolvingState.Assigning;
+                SolvingState = SolvingState.Assigning;
             }
         }
         else
         {
-            State = SolvingState.Backtracking;
+            SolvingState = SolvingState.Backtracking;
         }
 
         AssigningSteps++;
@@ -110,11 +116,11 @@ public abstract class BinaryCspSolver<TVariable, TDomainValue>
         _checkingStrategy.Backtrack();
         if (_checkingStrategy.Safe)
         {
-            State = SolvingState.Assigning;
+            SolvingState = SolvingState.Assigning;
         }
         else
         {
-            State = _checkingStrategy.SearchLevel == _checkingStrategy.RootLevel
+            SolvingState = _checkingStrategy.SearchLevel == _checkingStrategy.RootLevel
                 ? SolvingState.Finished
                 : SolvingState.Backtracking;
         }
@@ -129,15 +135,18 @@ public abstract class BinaryCspSolver<TVariable, TDomainValue>
         {
             _checkingStrategy.Advance();
             _checkingStrategy.SelectNext(_orderingStrategy);
-            State = SolvingState.Assigning;
+            SolvingState = SolvingState.Assigning;
         }
         else
         {
-            State = SolvingState.Finished;
+            SolvingState = SolvingState.Finished;
         }
 
         SimplifyingSteps++;
     }
+
+    private protected Assignment<TVariable, TDomainValue> GetMostRecentAssignment() =>
+        _checkingStrategy.GetMostRecentAssignment();
 
     private protected SolvingResult<TVariable, TDomainValue> CreateSolvingResult() => new()
     {
@@ -151,7 +160,7 @@ public abstract class BinaryCspSolver<TVariable, TDomainValue>
     private protected void Teardown()
     {
         _checkingStrategy.Reset();
-        State = SolvingState.Ready;
+        SolvingState = SolvingState.Ready;
         AssigningSteps = 0;
         SimplifyingSteps = 0;
         BacktrackingSteps = 0;

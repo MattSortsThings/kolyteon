@@ -627,8 +627,8 @@ public static class MapColouringProblemTests
                 .WithCanvasSize(canvasDimensions)
                 .UseBlockSpecificColours()
                 .AddBlockAndColours(BlockB)
-                .AddBlockAndColours(BlockA, [Colour.Black])
-                .AddBlockAndColours(BlockC, [Colour.Red, Colour.Red, Colour.Black, Colour.White]).Build();
+                .AddBlockAndColours(BlockA, Colour.Black)
+                .AddBlockAndColours(BlockC, Colour.Red, Colour.Red, Colour.Black, Colour.White).Build();
 
             // Assert
             Block expectedCanvas = canvasDimensions.ToBlock();

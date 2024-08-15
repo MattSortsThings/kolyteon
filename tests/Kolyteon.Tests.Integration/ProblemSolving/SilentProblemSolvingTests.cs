@@ -8,12 +8,12 @@ using Kolyteon.Shikaku;
 using Kolyteon.Solving;
 using Kolyteon.Sudoku;
 using Kolyteon.Tests.Integration.ProblemSolving.TestData;
-using Kolyteon.Tests.Utils.TestAssertions;
+using Kolyteon.Tests.Integration.ProblemSolving.TestUtils;
 
 namespace Kolyteon.Tests.Integration.ProblemSolving;
 
 [IntegrationTest]
-public abstract partial class ProblemSolvingTests
+public abstract partial class SilentProblemSolvingTests
 {
     private protected abstract CheckingStrategy CheckingStrategy { get; }
 
@@ -46,10 +46,8 @@ public abstract partial class ProblemSolvingTests
         // Assert
         using (new AssertionScope())
         {
-            problem.VerifyCorrect(result.Assignments.ToFutoshikiSolution()).Should().BeSuccessful();
-
+            result.VerifyCorrectSolution(problem);
             result.SearchAlgorithm.Should().Be(ExpectedSearchAlgorithm);
-
             result.TotalSteps.Should().BeGreaterThan(binaryCsp.Variables);
         }
     }
@@ -70,9 +68,7 @@ public abstract partial class ProblemSolvingTests
         using (new AssertionScope())
         {
             result.Assignments.Should().BeEmpty();
-
             result.SearchAlgorithm.Should().Be(ExpectedSearchAlgorithm);
-
             result.TotalSteps.Should().BePositive();
         }
     }
@@ -92,10 +88,8 @@ public abstract partial class ProblemSolvingTests
         // Assert
         using (new AssertionScope())
         {
-            problem.VerifyCorrect(result.Assignments.ToGraphColouringSolution()).Should().BeSuccessful();
-
+            result.VerifyCorrectSolution(problem);
             result.SearchAlgorithm.Should().Be(ExpectedSearchAlgorithm);
-
             result.TotalSteps.Should().BeGreaterThan(binaryCsp.Variables);
         }
     }
@@ -116,9 +110,7 @@ public abstract partial class ProblemSolvingTests
         using (new AssertionScope())
         {
             result.Assignments.Should().BeEmpty();
-
             result.SearchAlgorithm.Should().Be(ExpectedSearchAlgorithm);
-
             result.TotalSteps.Should().BePositive();
         }
     }
@@ -138,10 +130,8 @@ public abstract partial class ProblemSolvingTests
         // Assert
         using (new AssertionScope())
         {
-            problem.VerifyCorrect(result.Assignments.ToMapColouringSolution()).Should().BeSuccessful();
-
+            result.VerifyCorrectSolution(problem);
             result.SearchAlgorithm.Should().Be(ExpectedSearchAlgorithm);
-
             result.TotalSteps.Should().BeGreaterThan(binaryCsp.Variables);
         }
     }
@@ -162,9 +152,7 @@ public abstract partial class ProblemSolvingTests
         using (new AssertionScope())
         {
             result.Assignments.Should().BeEmpty();
-
             result.SearchAlgorithm.Should().Be(ExpectedSearchAlgorithm);
-
             result.TotalSteps.Should().BePositive();
         }
     }
@@ -184,10 +172,8 @@ public abstract partial class ProblemSolvingTests
         // Assert
         using (new AssertionScope())
         {
-            problem.VerifyCorrect(result.Assignments.ToNQueensSolution()).Should().BeSuccessful();
-
+            result.VerifyCorrectSolution(problem);
             result.SearchAlgorithm.Should().Be(ExpectedSearchAlgorithm);
-
             result.TotalSteps.Should().BeGreaterThan(binaryCsp.Variables);
         }
     }
@@ -208,9 +194,7 @@ public abstract partial class ProblemSolvingTests
         using (new AssertionScope())
         {
             result.Assignments.Should().BeEmpty();
-
             result.SearchAlgorithm.Should().Be(ExpectedSearchAlgorithm);
-
             result.TotalSteps.Should().BePositive();
         }
     }
@@ -230,10 +214,8 @@ public abstract partial class ProblemSolvingTests
         // Assert
         using (new AssertionScope())
         {
-            problem.VerifyCorrect(result.Assignments.ToShikakuSolution()).Should().BeSuccessful();
-
+            result.VerifyCorrectSolution(problem);
             result.SearchAlgorithm.Should().Be(ExpectedSearchAlgorithm);
-
             result.TotalSteps.Should().BeGreaterThan(binaryCsp.Variables);
         }
     }
@@ -254,9 +236,7 @@ public abstract partial class ProblemSolvingTests
         using (new AssertionScope())
         {
             result.Assignments.Should().BeEmpty();
-
             result.SearchAlgorithm.Should().Be(ExpectedSearchAlgorithm);
-
             result.TotalSteps.Should().BePositive();
         }
     }
@@ -276,10 +256,8 @@ public abstract partial class ProblemSolvingTests
         // Assert
         using (new AssertionScope())
         {
-            problem.VerifyCorrect(result.Assignments.ToSudokuSolution()).Should().BeSuccessful();
-
+            result.VerifyCorrectSolution(problem);
             result.SearchAlgorithm.Should().Be(ExpectedSearchAlgorithm);
-
             result.TotalSteps.Should().BeGreaterThan(binaryCsp.Variables);
         }
     }
@@ -300,9 +278,7 @@ public abstract partial class ProblemSolvingTests
         using (new AssertionScope())
         {
             result.Assignments.Should().BeEmpty();
-
             result.SearchAlgorithm.Should().Be(ExpectedSearchAlgorithm);
-
             result.TotalSteps.Should().BePositive();
         }
     }
@@ -320,25 +296,25 @@ public abstract partial class ProblemSolvingTests
         SilentBinaryCspSolver<int, Square> solver = ConfigureSolver(binaryCsp);
 
         // Act
-        SolvingResult<int, Square> firstResult = solver.Solve(binaryCsp);
+        SolvingResult<int, Square> resultForSolvableProblem1 = solver.Solve(binaryCsp);
 
         // Assert
-        solvableProblem1.VerifyCorrect(firstResult.Assignments.ToNQueensSolution()).Should().BeSuccessful();
+        resultForSolvableProblem1.VerifyCorrectSolution(solvableProblem1);
 
         // Act
         binaryCsp.Clear();
         binaryCsp.Model(unsolvableProblem);
-        SolvingResult<int, Square> secondResult = solver.Solve(binaryCsp);
+        SolvingResult<int, Square> resultForUnsolvableProblem = solver.Solve(binaryCsp);
 
         // Assert
-        secondResult.Assignments.Should().BeEmpty();
+        resultForUnsolvableProblem.Assignments.Should().BeEmpty();
 
         // Act
         binaryCsp.Clear();
         binaryCsp.Model(solvableProblem2);
-        SolvingResult<int, Square> thirdResult = solver.Solve(binaryCsp);
+        SolvingResult<int, Square> resultForSolvableProblem2 = solver.Solve(binaryCsp);
 
         // Assert
-        solvableProblem2.VerifyCorrect(thirdResult.Assignments.ToNQueensSolution()).Should().BeSuccessful();
+        resultForSolvableProblem2.VerifyCorrectSolution(solvableProblem2);
     }
 }
