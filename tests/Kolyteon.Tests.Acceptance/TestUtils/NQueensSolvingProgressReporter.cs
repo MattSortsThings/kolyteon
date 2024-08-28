@@ -7,7 +7,7 @@ internal sealed class NQueensSolvingProgressReporter : SolvingProgressReporter<i
 {
     public List<NQueensSolvingProgressReport> Reports { get; } = new(14);
 
-    protected override void OnSetup() => Reports.Clear();
+    protected override void OnReset() => Reports.Clear();
 
     protected override void OnReport() => Reports.Add(new NQueensSolvingProgressReport
     {

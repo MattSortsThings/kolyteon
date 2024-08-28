@@ -1,6 +1,7 @@
 using Kolyteon.Modelling;
 using Kolyteon.Solving;
 using Kolyteon.Tests.Unit.TestUtils;
+using Kolyteon.Tests.Utils.TestAssertions;
 
 namespace Kolyteon.Tests.Unit.Solving;
 
@@ -25,15 +26,15 @@ public static class SilentBinaryCspSolverTests
                 .Build();
 
             // Act
-            SolvingResult<char, int> result = sut.Solve(binaryCsp);
+            SolvingResult<char, int> result = sut.Solve(binaryCsp, CancellationToken.None);
 
             // Assert
-            SearchAlgorithm expectedAlgorithm = new(CheckingStrategy.NaiveBacktracking, OrderingStrategy.NaturalOrdering);
-
             using (new AssertionScope())
             {
                 result.Assignments.Should().BeEmpty();
-                result.SearchAlgorithm.Should().Be(expectedAlgorithm);
+
+                result.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy.NaiveBacktracking)
+                    .And.HaveOrderingStrategy(OrderingStrategy.NaturalOrdering);
                 result.SimplifyingSteps.Should().Be(1);
                 result.AssigningSteps.Should().Be(0);
                 result.BacktrackingSteps.Should().Be(0);
@@ -46,7 +47,7 @@ public static class SilentBinaryCspSolverTests
             // Arrange
             TestConstraintGraph binaryCsp = TestConstraintGraph.ModellingProblem(new TestProblem
             {
-                ['A'] = [0, 1], ['B'] = [0, 1], ['C'] = [0, 1]
+                ['A'] = [0, 1], ['B'] = [1], ['C'] = [0]
             });
 
             SilentBinaryCspSolver<char, int> sut = SilentBinaryCspSolver<char, int>.Create()
@@ -56,18 +57,18 @@ public static class SilentBinaryCspSolverTests
                 .Build();
 
             // Act
-            SolvingResult<char, int> result = sut.Solve(binaryCsp);
+            SolvingResult<char, int> result = sut.Solve(binaryCsp, CancellationToken.None);
 
             // Assert
-            SearchAlgorithm expectedAlgorithm = new(CheckingStrategy.NaiveBacktracking, OrderingStrategy.NaturalOrdering);
-
             using (new AssertionScope())
             {
                 result.Assignments.Should().BeEmpty();
-                result.SearchAlgorithm.Should().Be(expectedAlgorithm);
+
+                result.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy.NaiveBacktracking)
+                    .And.HaveOrderingStrategy(OrderingStrategy.NaturalOrdering);
                 result.SimplifyingSteps.Should().Be(1);
-                result.AssigningSteps.Should().BePositive();
-                result.BacktrackingSteps.Should().BePositive();
+                result.AssigningSteps.Should().Be(5);
+                result.BacktrackingSteps.Should().Be(4);
             }
         }
 
@@ -77,7 +78,7 @@ public static class SilentBinaryCspSolverTests
             // Arrange
             TestConstraintGraph binaryCsp = TestConstraintGraph.ModellingProblem(new TestProblem
             {
-                ['A'] = [0, 1, 2], ['B'] = [0, 1], ['C'] = [0]
+                ['A'] = [0, 1], ['B'] = [0], ['C'] = [2]
             });
 
             SilentBinaryCspSolver<char, int> sut = SilentBinaryCspSolver<char, int>.Create()
@@ -87,22 +88,21 @@ public static class SilentBinaryCspSolverTests
                 .Build();
 
             // Act
-            SolvingResult<char, int> result = sut.Solve(binaryCsp);
+            SolvingResult<char, int> result = sut.Solve(binaryCsp, CancellationToken.None);
 
             // Assert
-            SearchAlgorithm expectedAlgorithm = new(CheckingStrategy.NaiveBacktracking, OrderingStrategy.NaturalOrdering);
 
             using (new AssertionScope())
             {
-                result.Assignments.Should().BeEquivalentTo([
-                    new Assignment<char, int>('A', 2),
-                    new Assignment<char, int>('B', 1),
-                    new Assignment<char, int>('C', 0)
-                ]);
-                result.SearchAlgorithm.Should().Be(expectedAlgorithm);
+                result.Assignments.Should().Equal(new Assignment<char, int>('A', 1),
+                    new Assignment<char, int>('B', 0),
+                    new Assignment<char, int>('C', 2));
+
+                result.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy.NaiveBacktracking)
+                    .And.HaveOrderingStrategy(OrderingStrategy.NaturalOrdering);
                 result.SimplifyingSteps.Should().Be(1);
-                result.AssigningSteps.Should().BePositive();
-                result.BacktrackingSteps.Should().BePositive();
+                result.AssigningSteps.Should().Be(5);
+                result.BacktrackingSteps.Should().Be(1);
             }
         }
 

@@ -23,19 +23,19 @@ public sealed class VerboseBinaryCspSolver<TVariable, TDomainValue> : BinaryCspS
     public TimeSpan StepDelay { get; set; }
 
     public async Task<SolvingResult<TVariable, TDomainValue>> SolveAsync(IReadOnlyBinaryCsp<TVariable, TDomainValue> binaryCsp,
-        SolvingProgressReporter<TVariable, TDomainValue> progressReporter,
+        ISolvingProgress<TVariable, TDomainValue> progress,
         CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(binaryCsp);
-        ArgumentNullException.ThrowIfNull(progressReporter);
+        ArgumentNullException.ThrowIfNull(progress);
         ThrowIfNotModellingAProblem(binaryCsp);
 
         SolvingResult<TVariable, TDomainValue> result;
 
-        await SetupAsync(binaryCsp, progressReporter);
+        await SetupAsync(binaryCsp, progress);
         try
         {
-            result = await SearchAsync(progressReporter, cancellationToken);
+            result = await SearchAsync(progress, cancellationToken);
         }
         catch (TaskCanceledException ex)
         {
@@ -50,15 +50,15 @@ public sealed class VerboseBinaryCspSolver<TVariable, TDomainValue> : BinaryCspS
     }
 
     private async Task SetupAsync(IReadOnlyBinaryCsp<TVariable, TDomainValue> binaryCsp,
-        SolvingProgressReporter<TVariable, TDomainValue> progressReporter)
+        ISolvingProgress<TVariable, TDomainValue> progress)
     {
         Setup(binaryCsp);
-        progressReporter.Setup(this);
+        progress.Reset(LeafLevel);
         await Task.Delay(StepDelay);
     }
 
-    private async Task<SolvingResult<TVariable, TDomainValue>> SearchAsync(
-        SolvingProgressReporter<TVariable, TDomainValue> progressReporter, CancellationToken cancellationToken)
+    private async Task<SolvingResult<TVariable, TDomainValue>> SearchAsync(ISolvingProgress<TVariable, TDomainValue> progress,
+        CancellationToken cancellationToken)
     {
         while (true)
         {
@@ -66,19 +66,19 @@ public sealed class VerboseBinaryCspSolver<TVariable, TDomainValue> : BinaryCspS
             {
                 case SolvingState.Assigning:
                     ExecuteAssigningStep();
-                    NotifyOfAssigningStep(progressReporter);
+                    NotifyOfAssigningStep(progress);
 
 
                     break;
                 case SolvingState.Backtracking:
                     ExecuteBacktrackingStep();
-                    NotifyOfBacktrackingStep(progressReporter);
+                    NotifyOfBacktrackingStep(progress);
 
                     break;
 
                 case SolvingState.Simplifying:
                     ExecuteSimplifyingStep();
-                    NotifyOfSimplifyingStep(progressReporter);
+                    NotifyOfSimplifyingStep(progress);
 
                     break;
 
@@ -97,19 +97,19 @@ public sealed class VerboseBinaryCspSolver<TVariable, TDomainValue> : BinaryCspS
     public static IVerboseBinaryCspSolverBuilder<TVariable, TDomainValue> Create() =>
         new VerboseBinaryCspSolverBuilder<TVariable, TDomainValue>();
 
-    private void NotifyOfAssigningStep(SolvingProgressReporter<TVariable, TDomainValue> progressReporter) =>
-        progressReporter.Report(new SolvingStepDatum<TVariable, TDomainValue>(SolvingStepType.Assigning,
+    private void NotifyOfAssigningStep(ISolvingProgress<TVariable, TDomainValue> progress) =>
+        progress.Report(new SolvingStepDatum<TVariable, TDomainValue>(SolvingStepType.Assigning,
             SearchLevel,
             SolvingState,
             SolvingState is SolvingState.Assigning or SolvingState.Finished ? GetMostRecentAssignment() : null));
 
-    private void NotifyOfBacktrackingStep(SolvingProgressReporter<TVariable, TDomainValue> progressReporter) =>
-        progressReporter.Report(new SolvingStepDatum<TVariable, TDomainValue>(SolvingStepType.Backtracking,
+    private void NotifyOfBacktrackingStep(ISolvingProgress<TVariable, TDomainValue> progress) =>
+        progress.Report(new SolvingStepDatum<TVariable, TDomainValue>(SolvingStepType.Backtracking,
             SearchLevel,
             SolvingState));
 
-    private void NotifyOfSimplifyingStep(SolvingProgressReporter<TVariable, TDomainValue> progressReporter) =>
-        progressReporter.Report(new SolvingStepDatum<TVariable, TDomainValue>(SolvingStepType.Simplifying,
+    private void NotifyOfSimplifyingStep(ISolvingProgress<TVariable, TDomainValue> progress) =>
+        progress.Report(new SolvingStepDatum<TVariable, TDomainValue>(SolvingStepType.Simplifying,
             SearchLevel,
             SolvingState));
 }

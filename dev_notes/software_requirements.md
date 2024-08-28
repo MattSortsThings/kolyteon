@@ -45,10 +45,10 @@ This document outlines the software requirements for the *Kolyteon* library (her
     - [H - Binary CSP Solving](#h---binary-csp-solving)
       - [H/1 - Solving](#h1---solving)
       - [H/2 - Solver Configuration](#h2---solver-configuration)
-    - [I - Observable Binary CSP Solving](#i---observable-binary-csp-solving)
+    - [I - Verbose Binary CSP Solving](#i---verbose-binary-csp-solving)
       - [I/1 - Solving](#i1---solving)
       - [I/2 - Solver Configuration](#i2---solver-configuration)
-      - [I/3 - Observability](#i3---observability)
+      - [I/3 - Reporting](#i3---reporting)
   - [Non-Functional Requirements](#non-functional-requirements)
 
 ## Functional Requirements

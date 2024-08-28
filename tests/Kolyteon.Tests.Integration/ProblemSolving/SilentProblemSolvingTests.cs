@@ -9,6 +9,7 @@ using Kolyteon.Solving;
 using Kolyteon.Sudoku;
 using Kolyteon.Tests.Integration.ProblemSolving.TestData;
 using Kolyteon.Tests.Integration.ProblemSolving.TestUtils;
+using Kolyteon.Tests.Utils.TestAssertions;
 
 namespace Kolyteon.Tests.Integration.ProblemSolving;
 
@@ -18,8 +19,6 @@ public abstract partial class SilentProblemSolvingTests
     private protected abstract CheckingStrategy CheckingStrategy { get; }
 
     private protected abstract OrderingStrategy OrderingStrategy { get; }
-
-    private SearchAlgorithm ExpectedSearchAlgorithm => new(CheckingStrategy, OrderingStrategy);
 
     private SilentBinaryCspSolver<TVariable, TDomainValue> ConfigureSolver<TVariable, TDomainValue>(
         IReadOnlyBinaryCsp<TVariable, TDomainValue> binaryCsp)
@@ -47,7 +46,7 @@ public abstract partial class SilentProblemSolvingTests
         using (new AssertionScope())
         {
             result.VerifyCorrectSolution(problem);
-            result.SearchAlgorithm.Should().Be(ExpectedSearchAlgorithm);
+            result.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And.HaveOrderingStrategy(OrderingStrategy);
             result.TotalSteps.Should().BeGreaterThan(binaryCsp.Variables);
         }
     }
@@ -68,7 +67,7 @@ public abstract partial class SilentProblemSolvingTests
         using (new AssertionScope())
         {
             result.Assignments.Should().BeEmpty();
-            result.SearchAlgorithm.Should().Be(ExpectedSearchAlgorithm);
+            result.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And.HaveOrderingStrategy(OrderingStrategy);
             result.TotalSteps.Should().BePositive();
         }
     }
@@ -89,7 +88,7 @@ public abstract partial class SilentProblemSolvingTests
         using (new AssertionScope())
         {
             result.VerifyCorrectSolution(problem);
-            result.SearchAlgorithm.Should().Be(ExpectedSearchAlgorithm);
+            result.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And.HaveOrderingStrategy(OrderingStrategy);
             result.TotalSteps.Should().BeGreaterThan(binaryCsp.Variables);
         }
     }
@@ -110,7 +109,7 @@ public abstract partial class SilentProblemSolvingTests
         using (new AssertionScope())
         {
             result.Assignments.Should().BeEmpty();
-            result.SearchAlgorithm.Should().Be(ExpectedSearchAlgorithm);
+            result.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And.HaveOrderingStrategy(OrderingStrategy);
             result.TotalSteps.Should().BePositive();
         }
     }
@@ -131,7 +130,7 @@ public abstract partial class SilentProblemSolvingTests
         using (new AssertionScope())
         {
             result.VerifyCorrectSolution(problem);
-            result.SearchAlgorithm.Should().Be(ExpectedSearchAlgorithm);
+            result.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And.HaveOrderingStrategy(OrderingStrategy);
             result.TotalSteps.Should().BeGreaterThan(binaryCsp.Variables);
         }
     }
@@ -152,7 +151,7 @@ public abstract partial class SilentProblemSolvingTests
         using (new AssertionScope())
         {
             result.Assignments.Should().BeEmpty();
-            result.SearchAlgorithm.Should().Be(ExpectedSearchAlgorithm);
+            result.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And.HaveOrderingStrategy(OrderingStrategy);
             result.TotalSteps.Should().BePositive();
         }
     }
@@ -173,7 +172,7 @@ public abstract partial class SilentProblemSolvingTests
         using (new AssertionScope())
         {
             result.VerifyCorrectSolution(problem);
-            result.SearchAlgorithm.Should().Be(ExpectedSearchAlgorithm);
+            result.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And.HaveOrderingStrategy(OrderingStrategy);
             result.TotalSteps.Should().BeGreaterThan(binaryCsp.Variables);
         }
     }
@@ -194,7 +193,7 @@ public abstract partial class SilentProblemSolvingTests
         using (new AssertionScope())
         {
             result.Assignments.Should().BeEmpty();
-            result.SearchAlgorithm.Should().Be(ExpectedSearchAlgorithm);
+            result.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And.HaveOrderingStrategy(OrderingStrategy);
             result.TotalSteps.Should().BePositive();
         }
     }
@@ -215,7 +214,7 @@ public abstract partial class SilentProblemSolvingTests
         using (new AssertionScope())
         {
             result.VerifyCorrectSolution(problem);
-            result.SearchAlgorithm.Should().Be(ExpectedSearchAlgorithm);
+            result.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And.HaveOrderingStrategy(OrderingStrategy);
             result.TotalSteps.Should().BeGreaterThan(binaryCsp.Variables);
         }
     }
@@ -236,7 +235,7 @@ public abstract partial class SilentProblemSolvingTests
         using (new AssertionScope())
         {
             result.Assignments.Should().BeEmpty();
-            result.SearchAlgorithm.Should().Be(ExpectedSearchAlgorithm);
+            result.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And.HaveOrderingStrategy(OrderingStrategy);
             result.TotalSteps.Should().BePositive();
         }
     }
@@ -257,7 +256,7 @@ public abstract partial class SilentProblemSolvingTests
         using (new AssertionScope())
         {
             result.VerifyCorrectSolution(problem);
-            result.SearchAlgorithm.Should().Be(ExpectedSearchAlgorithm);
+            result.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And.HaveOrderingStrategy(OrderingStrategy);
             result.TotalSteps.Should().BeGreaterThan(binaryCsp.Variables);
         }
     }
@@ -278,7 +277,7 @@ public abstract partial class SilentProblemSolvingTests
         using (new AssertionScope())
         {
             result.Assignments.Should().BeEmpty();
-            result.SearchAlgorithm.Should().Be(ExpectedSearchAlgorithm);
+            result.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And.HaveOrderingStrategy(OrderingStrategy);
             result.TotalSteps.Should().BePositive();
         }
     }

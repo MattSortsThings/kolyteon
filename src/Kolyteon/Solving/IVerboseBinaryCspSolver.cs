@@ -22,9 +22,12 @@ public interface IVerboseBinaryCspSolver<TVariable, TDomainValue>
     /// </exception>
     public OrderingStrategy OrderingStrategy { get; set; }
 
+    /// <summary>
+    ///     Gets or sets the delay between each step of the backtracking search algorithm.
+    /// </summary>
     public TimeSpan StepDelay { get; set; }
 
     public Task<SolvingResult<TVariable, TDomainValue>> SolveAsync(IReadOnlyBinaryCsp<TVariable, TDomainValue> binaryCsp,
-        SolvingProgressReporter<TVariable, TDomainValue> progressReporter,
+        ISolvingProgress<TVariable, TDomainValue> progress,
         CancellationToken cancellationToken = default);
 }

@@ -6,7 +6,7 @@ public sealed class TestSolvingProgressReporter<TVariable, TDomainValue> : Solvi
     where TVariable : struct, IComparable<TVariable>, IEquatable<TVariable>
     where TDomainValue : struct, IComparable<TDomainValue>, IEquatable<TDomainValue>
 {
-    protected override void OnSetup() { }
+    protected override void OnReset() { }
 
     protected override void OnReport() { }
 }

@@ -2,6 +2,8 @@ using Kolyteon.Modelling;
 using Kolyteon.Solving;
 using Kolyteon.Tests.Unit.Solving.TestUtils;
 using Kolyteon.Tests.Unit.TestUtils;
+using Kolyteon.Tests.Utils.TestAssertions;
+using NSubstitute;
 
 namespace Kolyteon.Tests.Unit.Solving;
 
@@ -11,7 +13,7 @@ public static class VerboseBinaryCspSolverTests
     public sealed class SolveAsyncMethod
     {
         [Fact]
-        public async Task SolveAsync_GivenBinaryCspWithEmptyDomain_NotifiesReporterAndReturnsResultWithZeroAssignments()
+        public async Task SolveAsync_GivenBinaryCspWithEmptyDomain_ReturnsResultWithZeroAssignments()
         {
             // Arrange
             TestConstraintGraph binaryCsp = TestConstraintGraph.ModellingProblem(new TestProblem
@@ -19,6 +21,8 @@ public static class VerboseBinaryCspSolverTests
                 ['A'] = [0, 1, 2], ['B'] = [], ['C'] = [0, 1, 2]
             });
 
+            ISolvingProgress<char, int> dummyProgress = Substitute.For<ISolvingProgress<char, int>>();
+
             VerboseBinaryCspSolver<char, int> sut = VerboseBinaryCspSolver<char, int>.Create()
                 .WithCapacity(3)
                 .AndCheckingStrategy(CheckingStrategy.NaiveBacktracking)
@@ -26,33 +30,32 @@ public static class VerboseBinaryCspSolverTests
                 .AndStepDelay(TimeSpan.Zero)
                 .Build();
 
-            TestSolvingProgressReporter<char, int> progressReporter = new();
-
             // Act
-            SolvingResult<char, int> result = await sut.SolveAsync(binaryCsp, progressReporter);
+            SolvingResult<char, int> result = await sut.SolveAsync(binaryCsp, dummyProgress, CancellationToken.None);
 
             // Assert
-            SearchAlgorithm expectedAlgorithm = new(CheckingStrategy.NaiveBacktracking, OrderingStrategy.NaturalOrdering);
-
             using (new AssertionScope())
             {
                 result.Assignments.Should().BeEmpty();
-                result.SearchAlgorithm.Should().Be(expectedAlgorithm);
+
+                result.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy.NaiveBacktracking)
+                    .And.HaveOrderingStrategy(OrderingStrategy.NaturalOrdering);
                 result.SimplifyingSteps.Should().Be(1);
                 result.AssigningSteps.Should().Be(0);
                 result.BacktrackingSteps.Should().Be(0);
-                progressReporter.VerifyEndStateMatchesResult(result);
             }
         }
 
         [Fact]
-        public async Task SolveAsync_GivenBinaryCspWithNoSolution_NotifiesReporterAndReturnsResultWithZeroAssignments()
+        public async Task SolveAsync_GivenBinaryCspWithEmptyDomain_SendsCorrectNotificationsToProgress()
         {
             // Arrange
             TestConstraintGraph binaryCsp = TestConstraintGraph.ModellingProblem(new TestProblem
             {
-                ['A'] = [0, 1], ['B'] = [0, 1], ['C'] = [0, 1]
+                ['A'] = [0, 1, 2], ['B'] = [], ['C'] = [0, 1, 2]
             });
+
+            ISolvingProgress<char, int> spyProgress = Substitute.For<ISolvingProgress<char, int>>();
 
             VerboseBinaryCspSolver<char, int> sut = VerboseBinaryCspSolver<char, int>.Create()
                 .WithCapacity(3)
@@ -61,33 +64,70 @@ public static class VerboseBinaryCspSolverTests
                 .AndStepDelay(TimeSpan.Zero)
                 .Build();
 
-            TestSolvingProgressReporter<char, int> progressReporter = new();
-
             // Act
-            SolvingResult<char, int> result = await sut.SolveAsync(binaryCsp, progressReporter);
+            SolvingResult<char, int> _ = await sut.SolveAsync(binaryCsp, spyProgress, CancellationToken.None);
 
             // Assert
-            SearchAlgorithm expectedAlgorithm = new(CheckingStrategy.NaiveBacktracking, OrderingStrategy.NaturalOrdering);
+            using (new AssertionScope())
+            {
+                spyProgress.Received(1).Reset(Arg.Any<int>());
+                spyProgress.Received(1).Report(Arg.Any<SolvingStepDatum<char, int>>());
 
+                Received.InOrder(() =>
+                {
+                    spyProgress.Reset(3);
+
+                    spyProgress.Report(new SolvingStepDatum<char, int>(SolvingStepType.Simplifying,
+                        -1,
+                        SolvingState.Finished));
+                });
+            }
+        }
+
+        [Fact]
+        public async Task SolveAsync_GivenBinaryCspWithNoSolution_ReturnsResultWithZeroAssignments()
+        {
+            // Arrange
+            TestConstraintGraph binaryCsp = TestConstraintGraph.ModellingProblem(new TestProblem
+            {
+                ['A'] = [0, 1], ['B'] = [1], ['C'] = [0]
+            });
+
+            ISolvingProgress<char, int> dummyProgress = Substitute.For<ISolvingProgress<char, int>>();
+
+            VerboseBinaryCspSolver<char, int> sut = VerboseBinaryCspSolver<char, int>.Create()
+                .WithCapacity(3)
+                .AndCheckingStrategy(CheckingStrategy.NaiveBacktracking)
+                .AndOrderingStrategy(OrderingStrategy.NaturalOrdering)
+                .AndStepDelay(TimeSpan.Zero)
+                .Build();
+
+            // Act
+            SolvingResult<char, int> result = await sut.SolveAsync(binaryCsp, dummyProgress, CancellationToken.None);
+
+            // Assert
             using (new AssertionScope())
             {
                 result.Assignments.Should().BeEmpty();
-                result.SearchAlgorithm.Should().Be(expectedAlgorithm);
+
+                result.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy.NaiveBacktracking)
+                    .And.HaveOrderingStrategy(OrderingStrategy.NaturalOrdering);
                 result.SimplifyingSteps.Should().Be(1);
-                result.AssigningSteps.Should().BePositive();
-                result.BacktrackingSteps.Should().BePositive();
-                progressReporter.VerifyEndStateMatchesResult(result);
+                result.AssigningSteps.Should().Be(5);
+                result.BacktrackingSteps.Should().Be(4);
             }
         }
 
         [Fact]
-        public async Task SolveAsync_GivenBinaryCspWithSolution_NotifiesReporterAndReturnsResultWithCorrectAssignments()
+        public async Task SolveAsync_GivenBinaryCspWithNoSolution_SendsCorrectNotificationsToProgress()
         {
             // Arrange
             TestConstraintGraph binaryCsp = TestConstraintGraph.ModellingProblem(new TestProblem
             {
-                ['A'] = [0, 1, 2], ['B'] = [0, 1], ['C'] = [0]
+                ['A'] = [0, 1], ['B'] = [1], ['C'] = [0]
             });
+
+            ISolvingProgress<char, int> spyProgress = Substitute.For<ISolvingProgress<char, int>>();
 
             VerboseBinaryCspSolver<char, int> sut = VerboseBinaryCspSolver<char, int>.Create()
                 .WithCapacity(3)
@@ -96,26 +136,163 @@ public static class VerboseBinaryCspSolverTests
                 .AndStepDelay(TimeSpan.Zero)
                 .Build();
 
-            TestSolvingProgressReporter<char, int> progressReporter = new();
-
             // Act
-            SolvingResult<char, int> result = await sut.SolveAsync(binaryCsp, progressReporter);
+            SolvingResult<char, int> result = await sut.SolveAsync(binaryCsp, spyProgress, CancellationToken.None);
 
             // Assert
-            SearchAlgorithm expectedAlgorithm = new(CheckingStrategy.NaiveBacktracking, OrderingStrategy.NaturalOrdering);
-
             using (new AssertionScope())
             {
-                result.Assignments.Should().BeEquivalentTo([
-                    new Assignment<char, int>('A', 2),
-                    new Assignment<char, int>('B', 1),
-                    new Assignment<char, int>('C', 0)
-                ]);
-                result.SearchAlgorithm.Should().Be(expectedAlgorithm);
+                spyProgress.Received(1).Reset(Arg.Any<int>());
+                spyProgress.Received(10).Report(Arg.Any<SolvingStepDatum<char, int>>());
+                Received.InOrder(() =>
+                {
+                    spyProgress.Reset(3);
+
+                    spyProgress.Report(new SolvingStepDatum<char, int>(SolvingStepType.Simplifying,
+                        0,
+                        SolvingState.Assigning));
+
+                    spyProgress.Report(new SolvingStepDatum<char, int>(SolvingStepType.Assigning,
+                        1,
+                        SolvingState.Assigning,
+                        new Assignment<char, int>('A', 0)));
+
+                    spyProgress.Report(new SolvingStepDatum<char, int>(SolvingStepType.Assigning,
+                        2,
+                        SolvingState.Assigning,
+                        new Assignment<char, int>('B', 1)));
+
+                    spyProgress.Report(new SolvingStepDatum<char, int>(SolvingStepType.Assigning,
+                        2,
+                        SolvingState.Backtracking));
+
+                    spyProgress.Report(new SolvingStepDatum<char, int>(SolvingStepType.Backtracking,
+                        1,
+                        SolvingState.Backtracking));
+
+                    spyProgress.Report(new SolvingStepDatum<char, int>(SolvingStepType.Backtracking,
+                        0,
+                        SolvingState.Assigning));
+
+                    spyProgress.Report(new SolvingStepDatum<char, int>(SolvingStepType.Assigning,
+                        1,
+                        SolvingState.Assigning,
+                        new Assignment<char, int>('A', 1)));
+
+                    spyProgress.Report(new SolvingStepDatum<char, int>(SolvingStepType.Assigning,
+                        1,
+                        SolvingState.Backtracking));
+
+                    spyProgress.Report(new SolvingStepDatum<char, int>(SolvingStepType.Backtracking,
+                        0,
+                        SolvingState.Backtracking));
+
+                    spyProgress.Report(new SolvingStepDatum<char, int>(SolvingStepType.Backtracking,
+                        -1,
+                        SolvingState.Finished));
+                });
+            }
+        }
+
+        [Fact]
+        public async Task SolveAsync_GivenBinaryCspWithSolution_ReturnsResultWithExpectedAssignments()
+        {
+            // Arrange
+            TestConstraintGraph binaryCsp = TestConstraintGraph.ModellingProblem(new TestProblem
+            {
+                ['A'] = [0, 1], ['B'] = [0], ['C'] = [2]
+            });
+
+            ISolvingProgress<char, int> dummyProgress = Substitute.For<ISolvingProgress<char, int>>();
+
+            VerboseBinaryCspSolver<char, int> sut = VerboseBinaryCspSolver<char, int>.Create()
+                .WithCapacity(3)
+                .AndCheckingStrategy(CheckingStrategy.NaiveBacktracking)
+                .AndOrderingStrategy(OrderingStrategy.NaturalOrdering)
+                .AndStepDelay(TimeSpan.Zero)
+                .Build();
+
+            // Act
+            SolvingResult<char, int> result = await sut.SolveAsync(binaryCsp, dummyProgress, CancellationToken.None);
+
+            // Assert
+            using (new AssertionScope())
+            {
+                result.Assignments.Should().Equal(new Assignment<char, int>('A', 1),
+                    new Assignment<char, int>('B', 0),
+                    new Assignment<char, int>('C', 2));
+
+                result.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy.NaiveBacktracking)
+                    .And.HaveOrderingStrategy(OrderingStrategy.NaturalOrdering);
                 result.SimplifyingSteps.Should().Be(1);
-                result.AssigningSteps.Should().BePositive();
-                result.BacktrackingSteps.Should().BePositive();
-                progressReporter.VerifyEndStateMatchesResult(result);
+                result.AssigningSteps.Should().Be(5);
+                result.BacktrackingSteps.Should().Be(1);
+            }
+        }
+
+        [Fact]
+        public async Task SolveAsync_GivenBinaryCspWithSolution_SendsCorrectNotificationsToProgress()
+        {
+            // Arrange
+            TestConstraintGraph binaryCsp = TestConstraintGraph.ModellingProblem(new TestProblem
+            {
+                ['A'] = [0, 1], ['B'] = [0], ['C'] = [2]
+            });
+
+            ISolvingProgress<char, int> spyProgress = Substitute.For<ISolvingProgress<char, int>>();
+
+            VerboseBinaryCspSolver<char, int> sut = VerboseBinaryCspSolver<char, int>.Create()
+                .WithCapacity(3)
+                .AndCheckingStrategy(CheckingStrategy.NaiveBacktracking)
+                .AndOrderingStrategy(OrderingStrategy.NaturalOrdering)
+                .AndStepDelay(TimeSpan.Zero)
+                .Build();
+
+            // Act
+            SolvingResult<char, int> result = await sut.SolveAsync(binaryCsp, spyProgress, CancellationToken.None);
+
+            // Assert
+            using (new AssertionScope())
+            {
+                spyProgress.Received(1).Reset(Arg.Any<int>());
+                spyProgress.Received(7).Report(Arg.Any<SolvingStepDatum<char, int>>());
+
+                Received.InOrder(() =>
+                {
+                    spyProgress.Reset(3);
+
+                    spyProgress.Report(new SolvingStepDatum<char, int>(SolvingStepType.Simplifying,
+                        0,
+                        SolvingState.Assigning));
+
+                    spyProgress.Report(new SolvingStepDatum<char, int>(SolvingStepType.Assigning,
+                        1,
+                        SolvingState.Assigning,
+                        new Assignment<char, int>('A', 0)));
+
+                    spyProgress.Report(new SolvingStepDatum<char, int>(SolvingStepType.Assigning,
+                        1,
+                        SolvingState.Backtracking));
+
+                    spyProgress.Report(new SolvingStepDatum<char, int>(SolvingStepType.Backtracking,
+                        0,
+                        SolvingState.Assigning));
+
+                    spyProgress.Report(new SolvingStepDatum<char, int>(SolvingStepType.Assigning,
+                        1,
+                        SolvingState.Assigning,
+                        new Assignment<char, int>('A', 1)));
+
+                    spyProgress.Report(new SolvingStepDatum<char, int>(SolvingStepType.Assigning,
+                        2,
+                        SolvingState.Assigning,
+                        new Assignment<char, int>('B', 0)));
+
+                    spyProgress.Report(new SolvingStepDatum<char, int>(SolvingStepType.Assigning,
+                        3,
+                        SolvingState.Finished,
+                        new Assignment<char, int>('C', 2)));
+                });
             }
         }
 
@@ -141,7 +318,7 @@ public static class VerboseBinaryCspSolverTests
         }
 
         [Fact]
-        public async Task SolveAsync_ProgressReporterArgIsNull_Throws()
+        public async Task SolveAsync_ProgressArgIsNull_Throws()
         {
             // Arrange
             TestConstraintGraph binaryCsp = TestConstraintGraph.ModellingProblem(new TestProblem { ['A'] = [0] });
@@ -158,7 +335,7 @@ public static class VerboseBinaryCspSolverTests
 
             // Assert
             await act.Should().ThrowAsync<ArgumentNullException>()
-                .WithMessage("Value cannot be null. (Parameter 'progressReporter')");
+                .WithMessage("Value cannot be null. (Parameter 'progress')");
         }
 
         [Fact]
