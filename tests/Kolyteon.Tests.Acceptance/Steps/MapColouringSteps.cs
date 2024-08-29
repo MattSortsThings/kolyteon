@@ -113,10 +113,9 @@ internal sealed class MapColouringSteps
     [When(@"I solve the Map Colouring binary CSP using the '(.*)'\+'(.*)' search algorithm")]
     public void WhenISolveTheMapColouringBinaryCspUsingTheSearchAlgorithm(CheckingStrategy checking, OrderingStrategy ordering)
     {
-        _solver.CheckingStrategy = checking;
-        _solver.OrderingStrategy = ordering;
+        SearchAlgorithm searchAlgorithm = new(checking, ordering);
 
-        SolvingResult<Block, Colour> result = _solver.Solve(_binaryCsp);
+        SolvingResult<Block, Colour> result = _solver.Solve(_binaryCsp, searchAlgorithm, CancellationToken.None);
 
         Dictionary<Block, Colour> proposedSolution = result.Assignments.ToMapColouringSolution();
 

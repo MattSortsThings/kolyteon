@@ -118,10 +118,9 @@ internal sealed class GraphColouringSteps
     [When(@"I solve the Graph Colouring binary CSP using the '(.*)'\+'(.*)' search algorithm")]
     public void WhenISolveTheGraphColouringBinaryCspUsingTheSearchAlgorithm(CheckingStrategy checking, OrderingStrategy ordering)
     {
-        _solver.CheckingStrategy = checking;
-        _solver.OrderingStrategy = ordering;
+        SearchAlgorithm searchAlgorithm = new(checking, ordering);
 
-        SolvingResult<Node, Colour> result = _solver.Solve(_binaryCsp);
+        SolvingResult<Node, Colour> result = _solver.Solve(_binaryCsp, searchAlgorithm, CancellationToken.None);
 
         Dictionary<Node, Colour> proposedSolution = result.Assignments.ToGraphColouringSolution();
 

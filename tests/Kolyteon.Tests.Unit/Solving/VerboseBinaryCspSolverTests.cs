@@ -31,7 +31,8 @@ public static class VerboseBinaryCspSolverTests
                 .Build();
 
             // Act
-            SolvingResult<char, int> result = await sut.SolveAsync(binaryCsp, dummyProgress, CancellationToken.None);
+            SolvingResult<char, int> result =
+                await sut.SolveAsync(binaryCsp, dummyProgress, cancellationToken: CancellationToken.None);
 
             // Assert
             using (new AssertionScope())
@@ -65,7 +66,7 @@ public static class VerboseBinaryCspSolverTests
                 .Build();
 
             // Act
-            SolvingResult<char, int> _ = await sut.SolveAsync(binaryCsp, spyProgress, CancellationToken.None);
+            SolvingResult<char, int> _ = await sut.SolveAsync(binaryCsp, spyProgress, cancellationToken: CancellationToken.None);
 
             // Assert
             using (new AssertionScope())
@@ -103,7 +104,8 @@ public static class VerboseBinaryCspSolverTests
                 .Build();
 
             // Act
-            SolvingResult<char, int> result = await sut.SolveAsync(binaryCsp, dummyProgress, CancellationToken.None);
+            SolvingResult<char, int> result =
+                await sut.SolveAsync(binaryCsp, dummyProgress, cancellationToken: CancellationToken.None);
 
             // Assert
             using (new AssertionScope())
@@ -137,7 +139,7 @@ public static class VerboseBinaryCspSolverTests
                 .Build();
 
             // Act
-            SolvingResult<char, int> result = await sut.SolveAsync(binaryCsp, spyProgress, CancellationToken.None);
+            SolvingResult<char, int> _ = await sut.SolveAsync(binaryCsp, spyProgress, cancellationToken: CancellationToken.None);
 
             // Assert
             using (new AssertionScope())
@@ -213,7 +215,8 @@ public static class VerboseBinaryCspSolverTests
                 .Build();
 
             // Act
-            SolvingResult<char, int> result = await sut.SolveAsync(binaryCsp, dummyProgress, CancellationToken.None);
+            SolvingResult<char, int> result =
+                await sut.SolveAsync(binaryCsp, dummyProgress, cancellationToken: CancellationToken.None);
 
             // Assert
             using (new AssertionScope())
@@ -249,7 +252,7 @@ public static class VerboseBinaryCspSolverTests
                 .Build();
 
             // Act
-            SolvingResult<char, int> result = await sut.SolveAsync(binaryCsp, spyProgress, CancellationToken.None);
+            SolvingResult<char, int> _ = await sut.SolveAsync(binaryCsp, spyProgress, cancellationToken: CancellationToken.None);
 
             // Assert
             using (new AssertionScope())
@@ -383,7 +386,7 @@ public static class VerboseBinaryCspSolverTests
             Func<Task> act = async () =>
             {
                 using CancellationTokenSource cts = new(TimeSpan.Zero);
-                _ = await sut.SolveAsync(binaryCsp, progressReporter, cts.Token);
+                _ = await sut.SolveAsync(binaryCsp, progressReporter, cancellationToken: cts.Token);
             };
 
             // Assert
@@ -416,8 +419,8 @@ public static class VerboseBinaryCspSolverTests
             // Assert
             using (new AssertionScope())
             {
-                result.CheckingStrategy.Should().Be(checkingStrategy);
-                result.OrderingStrategy.Should().Be(orderingStrategy);
+                result.SearchAlgorithm.Should().HaveCheckingStrategy(checkingStrategy)
+                    .And.HaveOrderingStrategy(orderingStrategy);
                 result.Capacity.Should().Be(capacity);
                 result.StepDelay.Should().Be(stepDelay);
             }

@@ -27,6 +27,7 @@ public abstract class BinaryCspSolver<TVariable, TDomainValue>
         _orderingStrategyFactory = orderingStrategyFactory ?? throw new ArgumentNullException(nameof(orderingStrategyFactory));
         _checkingStrategy = checkingStrategy ?? throw new ArgumentNullException(nameof(checkingStrategy));
         _orderingStrategy = orderingStrategy ?? throw new ArgumentNullException(nameof(orderingStrategy));
+        SearchAlgorithm = new SearchAlgorithm(checkingStrategy.Identifier, orderingStrategy.Identifier);
     }
 
     /// <summary>
@@ -43,29 +44,7 @@ public abstract class BinaryCspSolver<TVariable, TDomainValue>
         set => _checkingStrategy.Capacity = value;
     }
 
-    public CheckingStrategy CheckingStrategy
-    {
-        get => _checkingStrategy.Identifier;
-        set
-        {
-            if (value != _checkingStrategy.Identifier)
-            {
-                _checkingStrategy = _checkingStrategyFactory.Create(value, _checkingStrategy.Capacity);
-            }
-        }
-    }
-
-    public OrderingStrategy OrderingStrategy
-    {
-        get => _orderingStrategy.Identifier;
-        set
-        {
-            if (value != _orderingStrategy.Identifier)
-            {
-                _orderingStrategy = _orderingStrategyFactory.Create(value);
-            }
-        }
-    }
+    public SearchAlgorithm SearchAlgorithm { get; private set; }
 
     internal SolvingState SolvingState { get; private set; }
 
@@ -80,6 +59,23 @@ public abstract class BinaryCspSolver<TVariable, TDomainValue>
     internal int LeafLevel => _checkingStrategy.LeafLevel;
 
     internal int SearchLevel => _checkingStrategy.SearchLevel;
+
+    private protected void Reconfigure(SearchAlgorithm searchAlgorithm)
+    {
+        (CheckingStrategy checkingStrategy, OrderingStrategy orderingStrategy) = searchAlgorithm;
+
+        if (_checkingStrategy.Identifier != checkingStrategy)
+        {
+            _checkingStrategy = _checkingStrategyFactory.Create(checkingStrategy, _checkingStrategy.Capacity);
+        }
+
+        if (_orderingStrategy.Identifier != orderingStrategy)
+        {
+            _orderingStrategy = _orderingStrategyFactory.Create(orderingStrategy);
+        }
+
+        SearchAlgorithm = searchAlgorithm;
+    }
 
     private protected void Setup(IReadOnlyBinaryCsp<TVariable, TDomainValue> binaryCsp)
     {
@@ -151,7 +147,7 @@ public abstract class BinaryCspSolver<TVariable, TDomainValue>
     private protected SolvingResult<TVariable, TDomainValue> CreateSolvingResult() => new()
     {
         Assignments = _checkingStrategy.GetAllAssignments(),
-        SearchAlgorithm = new SearchAlgorithm(CheckingStrategy, OrderingStrategy),
+        SearchAlgorithm = SearchAlgorithm,
         SimplifyingSteps = SimplifyingSteps,
         AssigningSteps = AssigningSteps,
         BacktrackingSteps = BacktrackingSteps

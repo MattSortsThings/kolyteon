@@ -29,11 +29,31 @@ public sealed class SilentBinaryCspSolver<TVariable, TDomainValue> :
 
     /// <inheritdoc />
     public SolvingResult<TVariable, TDomainValue> Solve(IReadOnlyBinaryCsp<TVariable, TDomainValue> binaryCsp,
+        SearchAlgorithm? searchAlgorithm = default,
         CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(binaryCsp);
         ThrowIfNotModellingAProblem(binaryCsp);
 
+        if (searchAlgorithm is not null)
+        {
+            Reconfigure(searchAlgorithm);
+        }
+
+        return BacktrackingSearch(binaryCsp, cancellationToken);
+    }
+
+    /// <summary>
+    ///     Starts the process of building a new <see cref="SilentBinaryCspSolver{TVariable,TDomainValue}" /> using the fluent
+    ///     builder API.
+    /// </summary>
+    /// <returns>A new fluent builder instance, to which method invocations can be chained.</returns>
+    public static ISilentBinaryCspSolverBuilder<TVariable, TDomainValue> Create() =>
+        new SilentBinaryCspSolverBuilder<TVariable, TDomainValue>();
+
+    private SolvingResult<TVariable, TDomainValue> BacktrackingSearch(IReadOnlyBinaryCsp<TVariable, TDomainValue> binaryCsp,
+        CancellationToken cancellationToken)
+    {
         SolvingResult<TVariable, TDomainValue> result;
 
         Setup(binaryCsp);
@@ -52,14 +72,6 @@ public sealed class SilentBinaryCspSolver<TVariable, TDomainValue> :
 
         return result;
     }
-
-    /// <summary>
-    ///     Starts the process of building a new <see cref="SilentBinaryCspSolver{TVariable,TDomainValue}" /> using the fluent
-    ///     builder API.
-    /// </summary>
-    /// <returns>A new fluent builder instance, to which method invocations can be chained.</returns>
-    public static ISilentBinaryCspSolverBuilder<TVariable, TDomainValue> Create() =>
-        new SilentBinaryCspSolverBuilder<TVariable, TDomainValue>();
 
     private SolvingResult<TVariable, TDomainValue> Search(CancellationToken cancellationToken)
     {

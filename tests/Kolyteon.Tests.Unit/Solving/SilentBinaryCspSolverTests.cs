@@ -26,7 +26,7 @@ public static class SilentBinaryCspSolverTests
                 .Build();
 
             // Act
-            SolvingResult<char, int> result = sut.Solve(binaryCsp, CancellationToken.None);
+            SolvingResult<char, int> result = sut.Solve(binaryCsp, cancellationToken: CancellationToken.None);
 
             // Assert
             using (new AssertionScope())
@@ -57,7 +57,7 @@ public static class SilentBinaryCspSolverTests
                 .Build();
 
             // Act
-            SolvingResult<char, int> result = sut.Solve(binaryCsp, CancellationToken.None);
+            SolvingResult<char, int> result = sut.Solve(binaryCsp, cancellationToken: CancellationToken.None);
 
             // Assert
             using (new AssertionScope())
@@ -88,7 +88,7 @@ public static class SilentBinaryCspSolverTests
                 .Build();
 
             // Act
-            SolvingResult<char, int> result = sut.Solve(binaryCsp, CancellationToken.None);
+            SolvingResult<char, int> result = sut.Solve(binaryCsp, cancellationToken: CancellationToken.None);
 
             // Assert
 
@@ -163,7 +163,7 @@ public static class SilentBinaryCspSolverTests
             Action act = () =>
             {
                 using CancellationTokenSource cts = new(TimeSpan.Zero);
-                _ = sut.Solve(binaryCsp, cts.Token);
+                _ = sut.Solve(binaryCsp, cancellationToken: cts.Token);
             };
 
             // Assert
@@ -193,8 +193,8 @@ public static class SilentBinaryCspSolverTests
             // Assert
             using (new AssertionScope())
             {
-                result.CheckingStrategy.Should().Be(checkingStrategy);
-                result.OrderingStrategy.Should().Be(orderingStrategy);
+                result.SearchAlgorithm.Should().HaveCheckingStrategy(checkingStrategy)
+                    .And.HaveOrderingStrategy(orderingStrategy);
                 result.Capacity.Should().Be(capacity);
             }
         }

@@ -12,36 +12,34 @@ public interface ISilentBinaryCspSolver<TVariable, TDomainValue>
     where TDomainValue : struct, IComparable<TDomainValue>, IEquatable<TDomainValue>
 {
     /// <summary>
-    ///     Gets or sets the checking strategy component of the backtracking search algorithm used by this instance.
+    ///     Gets the backtracking search algorithm being used by this instance.
     /// </summary>
-    /// <exception cref="InvalidOperationException">
-    ///     The value of <see cref="CheckingStrategy" /> is set while a solving operation is in progress.
-    /// </exception>
-    public CheckingStrategy CheckingStrategy { get; set; }
+    public SearchAlgorithm SearchAlgorithm { get; }
 
     /// <summary>
-    ///     Gets or sets the ordering strategy component of the backtracking search algorithm used by this instance.
+    ///     Reconfigures this instance to use the specified backtracking search algorithm if supplied, then applies the
+    ///     configured backtracking search algorithm to the specified binary CSP and returns the result.
     /// </summary>
-    /// <exception cref="InvalidOperationException">
-    ///     The value of <see cref="OrderingStrategy" /> is set while a solving operation is in progress.
-    /// </exception>
-    public OrderingStrategy OrderingStrategy { get; set; }
-
-    /// <summary>
-    ///     Applies the configured backtracking search algorithm to the specified binary CSP and returns the solution that was
-    ///     reached (if a solution exists) with additional execution metrics.
-    /// </summary>
+    /// <remarks>
+    ///     If the optional <paramref name="searchAlgorithm" /> parameter is specified, this instance reconfigures itself
+    ///     to use the specified search algorithm for the present and future solving operations. The value of the
+    ///     <see cref="ISilentBinaryCspSolver{TVariable,TDomainValue}.SearchAlgorithm" /> property is updated.
+    /// </remarks>
     /// <param name="binaryCsp">The binary CSP modelling a problem, to be solved.</param>
+    /// <param name="searchAlgorithm">Optionally specifies the backtracking search algorithm to be used.</param>
     /// <param name="cancellationToken">Cancels the solving operation.</param>
     /// <returns>
     ///     A new <see cref="SolvingResult{TVariable,TDomainValue}" /> instance containing the solution that was reached
     ///     (if a solution exists) and backtracking search algorithm execution metrics.
     /// </returns>
-    /// <exception cref="ArgumentNullException"><paramref name="binaryCsp" /> is <see langword="null" />.</exception>
+    /// <exception cref="ArgumentNullException">
+    ///     <paramref name="binaryCsp" /> is <see langword="null" />.
+    /// </exception>
     /// <exception cref="ArgumentException"><paramref name="binaryCsp" /> is not modelling a problem.</exception>
     /// <exception cref="OperationCanceledException">
     ///     The solving operation is cancelled using the <paramref name="cancellationToken" /> parameter.
     /// </exception>
     public SolvingResult<TVariable, TDomainValue> Solve(IReadOnlyBinaryCsp<TVariable, TDomainValue> binaryCsp,
+        SearchAlgorithm? searchAlgorithm = default,
         CancellationToken cancellationToken = default);
 }

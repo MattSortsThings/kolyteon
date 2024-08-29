@@ -331,7 +331,7 @@ public abstract partial class VerboseProblemSolvingTests
         NQueensProblem solvableProblem2 = NQueensProblem.FromN(5);
         NQueensProblem unsolvableProblem = NQueensProblem.FromN(3);
 
-        IBinaryCsp<int, Square, NQueensProblem> binaryCsp = NQueensConstraintGraph.ModellingProblem(solvableProblem1);
+        NQueensConstraintGraph binaryCsp = NQueensConstraintGraph.ModellingProblem(solvableProblem1);
 
         VerboseBinaryCspSolver<int, Square> solver = ConfigureSolver(binaryCsp);
 

@@ -96,10 +96,10 @@ internal sealed class NQueensSteps
     [When(@"I solve the N-Queens binary CSP using the '(.*)'\+'(.*)' search algorithm")]
     public void WhenISolveTheNQueensBinaryCspUsingTheSearchAlgorithm(CheckingStrategy checking, OrderingStrategy ordering)
     {
-        _solver.CheckingStrategy = checking;
-        _solver.OrderingStrategy = ordering;
+        SearchAlgorithm searchAlgorithm = new(checking, ordering);
 
-        SolvingResult<int, Square> result = _solver.Solve(_binaryCsp);
+        SolvingResult<int, Square> result =
+            _solver.Solve(_binaryCsp, searchAlgorithm, CancellationToken.None);
 
         Square[] proposedSolution = result.Assignments.ToNQueensSolution();
 
@@ -110,10 +110,9 @@ internal sealed class NQueensSteps
     public async Task WhenISolveTheNQueensBinaryCspUsingTheVerboseSolverConfiguredWithTheSearchAlgorithm(
         CheckingStrategy checking, OrderingStrategy ordering)
     {
-        _verboseSolver.CheckingStrategy = checking;
-        _verboseSolver.OrderingStrategy = ordering;
+        SearchAlgorithm searchAlgorithm = new(checking, ordering);
 
-        SolvingResult<int, Square> result = await _verboseSolver.SolveAsync(_binaryCsp, _progressReporter);
+        SolvingResult<int, Square> result = await _verboseSolver.SolveAsync(_binaryCsp, _progressReporter, searchAlgorithm);
 
         Square[] proposedSolution = result.Assignments.ToNQueensSolution();
 

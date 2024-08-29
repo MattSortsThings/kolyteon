@@ -100,10 +100,9 @@ internal sealed class ShikakuSteps
     [When(@"I solve the Shikaku binary CSP using the '(.*)'\+'(.*)' search algorithm")]
     public void WhenISolveTheShikakuBinaryCspUsingTheSearchAlgorithm(CheckingStrategy checking, OrderingStrategy ordering)
     {
-        _solver.CheckingStrategy = checking;
-        _solver.OrderingStrategy = ordering;
+        SearchAlgorithm searchAlgorithm = new(checking, ordering);
 
-        SolvingResult<NumberedSquare, Block> result = _solver.Solve(_binaryCsp);
+        SolvingResult<NumberedSquare, Block> result = _solver.Solve(_binaryCsp, searchAlgorithm, CancellationToken.None);
 
         Block[] proposedSolution = result.Assignments.ToShikakuSolution();
 

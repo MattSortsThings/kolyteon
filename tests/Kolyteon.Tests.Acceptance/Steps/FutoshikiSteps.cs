@@ -104,10 +104,9 @@ internal sealed class FutoshikiSteps
     [When(@"I solve the Futoshiki binary CSP using the '(.*)'\+'(.*)' search algorithm")]
     public void WhenISolveTheFutoshikiBinaryCspUsingTheSearchAlgorithm(CheckingStrategy checking, OrderingStrategy ordering)
     {
-        _solver.CheckingStrategy = checking;
-        _solver.OrderingStrategy = ordering;
+        SearchAlgorithm searchAlgorithm = new(checking, ordering);
 
-        SolvingResult<Square, int> result = _solver.Solve(_binaryCsp);
+        SolvingResult<Square, int> result = _solver.Solve(_binaryCsp, searchAlgorithm, CancellationToken.None);
 
         NumberedSquare[] proposedSolution = result.Assignments.ToFutoshikiSolution();
 

@@ -6,6 +6,11 @@ using Kolyteon.Solving.Internals.Strategies.Ordering;
 
 namespace Kolyteon.Solving;
 
+/// <summary>
+///     A verbose, asynchronous, configurable generic binary CSP solver.
+/// </summary>
+/// <typeparam name="TVariable">The binary CSP variable type.</typeparam>
+/// <typeparam name="TDomainValue">The binary CSP domain value type.</typeparam>
 public sealed class VerboseBinaryCspSolver<TVariable, TDomainValue> : BinaryCspSolver<TVariable, TDomainValue>,
     IVerboseBinaryCspSolver<TVariable, TDomainValue>
     where TVariable : struct, IComparable<TVariable>, IEquatable<TVariable>
@@ -20,16 +25,42 @@ public sealed class VerboseBinaryCspSolver<TVariable, TDomainValue> : BinaryCspS
         StepDelay = stepDelay;
     }
 
+    /// <summary>
+    ///     Gets or sets the delay between each step of the backtracking search algorithm.
+    /// </summary>
     public TimeSpan StepDelay { get; set; }
 
+    /// <inheritdoc />
     public async Task<SolvingResult<TVariable, TDomainValue>> SolveAsync(IReadOnlyBinaryCsp<TVariable, TDomainValue> binaryCsp,
         ISolvingProgress<TVariable, TDomainValue> progress,
+        SearchAlgorithm? searchAlgorithm = default,
         CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(binaryCsp);
         ArgumentNullException.ThrowIfNull(progress);
         ThrowIfNotModellingAProblem(binaryCsp);
 
+        if (searchAlgorithm is not null)
+        {
+            Reconfigure(searchAlgorithm);
+        }
+
+        return await VerboseBacktrackingSearch(binaryCsp, progress, cancellationToken);
+    }
+
+    /// <summary>
+    ///     Starts the process of building a new <see cref="VerboseBinaryCspSolver{TVariable,TDomainValue}" /> using the fluent
+    ///     builder API.
+    /// </summary>
+    /// <returns>A new fluent builder instance, to which method invocations can be chained.</returns>
+    public static IVerboseBinaryCspSolverBuilder<TVariable, TDomainValue> Create() =>
+        new VerboseBinaryCspSolverBuilder<TVariable, TDomainValue>();
+
+    private async Task<SolvingResult<TVariable, TDomainValue>> VerboseBacktrackingSearch(
+        IReadOnlyBinaryCsp<TVariable, TDomainValue> binaryCsp,
+        ISolvingProgress<TVariable, TDomainValue> progress,
+        CancellationToken cancellationToken)
+    {
         SolvingResult<TVariable, TDomainValue> result;
 
         await SetupAsync(binaryCsp, progress);
@@ -93,9 +124,6 @@ public sealed class VerboseBinaryCspSolver<TVariable, TDomainValue> : BinaryCspS
             await Task.Delay(StepDelay, cancellationToken);
         }
     }
-
-    public static IVerboseBinaryCspSolverBuilder<TVariable, TDomainValue> Create() =>
-        new VerboseBinaryCspSolverBuilder<TVariable, TDomainValue>();
 
     private void NotifyOfAssigningStep(ISolvingProgress<TVariable, TDomainValue> progress) =>
         progress.Report(new SolvingStepDatum<TVariable, TDomainValue>(SolvingStepType.Assigning,
