@@ -1,9 +1,21 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <PackageId>Kolyteon</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Matt Tantony</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Product>Kolyteon</Product>
+    <Copyright>Copyright (c) Matt Tantony 2024.</Copyright>
+    <Description>Generate a logic problem. Model it as a binary constraint satisfaction problem (CSP). Choose a backtracking search algorithm. Watch the CSP get solved. Included problem types: Futoshiki, Graph Colouring, Map Colouring, N-Queens, Shikaku and Sudoku.</Description>
+    <PackageIcon>kolyteon_icon.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/MattSortsThings/kolyteon</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>colouring,constraint,csp,futoshiki,logic,n-queens,shikaku,solving,sudoku</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,6 +25,11 @@
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
       <_Parameter1>$(MSBuildProjectName).Tests.Unit</_Parameter1>
     </AssemblyAttribute>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="assets/kolyteon_icon.png" Pack="true" PackagePath="\"/>
+    <None Include="assets/README.md" Pack="true" PackagePath="\"/>
   </ItemGroup>
 
 </Project>
