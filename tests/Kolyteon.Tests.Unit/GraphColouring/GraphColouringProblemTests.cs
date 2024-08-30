@@ -248,7 +248,7 @@ public static class GraphColouringProblemTests
             IReadOnlyDictionary<Node, Colour> solution)
         {
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeSuccessful().And.HaveNullFirstError();
@@ -266,7 +266,7 @@ public static class GraphColouringProblemTests
             Dictionary<Node, Colour> solution = [];
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeUnsuccessful()
@@ -291,7 +291,7 @@ public static class GraphColouringProblemTests
             Dictionary<Node, Colour> solution = new() { [N0] = Colour.Red };
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeUnsuccessful()
@@ -314,7 +314,7 @@ public static class GraphColouringProblemTests
             };
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeUnsuccessful()
@@ -334,7 +334,7 @@ public static class GraphColouringProblemTests
             Dictionary<Node, Colour> solution = new() { [N0] = Colour.Red, [N3] = Colour.Blue };
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeUnsuccessful()
@@ -354,7 +354,7 @@ public static class GraphColouringProblemTests
             Dictionary<Node, Colour> solution = new() { [N0] = Colour.Fuchsia, [N1] = Colour.Red };
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeUnsuccessful()
@@ -383,7 +383,7 @@ public static class GraphColouringProblemTests
             };
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeUnsuccessful()

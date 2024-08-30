@@ -89,7 +89,7 @@ internal sealed class MapColouringSteps
         IReadOnlyDictionary<Block, Colour> proposedSolution =
             _scenarioContext.Get<IReadOnlyDictionary<Block, Colour>>(Constants.Keys.ProposedSolution);
 
-        CheckingResult verificationResult = problem.VerifyCorrect(proposedSolution);
+        Result verificationResult = problem.VerifyCorrect(proposedSolution);
 
         _scenarioContext.Add(Constants.Keys.VerificationResult, verificationResult);
     }

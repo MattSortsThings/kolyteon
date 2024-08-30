@@ -71,7 +71,7 @@ public sealed record NQueensProblem : ISolutionVerifier<IReadOnlyList<Square>>
     ///         </list>
     ///     </para>
     /// </remarks>
-    public CheckingResult VerifyCorrect(IReadOnlyList<Square> solution)
+    public Result VerifyCorrect(IReadOnlyList<Square> solution)
     {
         ArgumentNullException.ThrowIfNull(solution);
 

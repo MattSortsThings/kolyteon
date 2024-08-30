@@ -76,7 +76,7 @@ internal sealed class ShikakuSteps
         ShikakuProblem problem = _scenarioContext.Get<ShikakuProblem>(Constants.Keys.Problem);
         IReadOnlyList<Block> proposedSolution = _scenarioContext.Get<IReadOnlyList<Block>>(Constants.Keys.ProposedSolution);
 
-        CheckingResult verificationResult = problem.VerifyCorrect(proposedSolution);
+        Result verificationResult = problem.VerifyCorrect(proposedSolution);
 
         _scenarioContext.Add(Constants.Keys.VerificationResult, verificationResult);
     }

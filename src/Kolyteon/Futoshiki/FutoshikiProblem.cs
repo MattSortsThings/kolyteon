@@ -123,7 +123,7 @@ public sealed record FutoshikiProblem : ISolutionVerifier<IReadOnlyList<Numbered
     ///         </list>
     ///     </para>
     /// </remarks>
-    public CheckingResult VerifyCorrect(IReadOnlyList<NumberedSquare> solution)
+    public Result VerifyCorrect(IReadOnlyList<NumberedSquare> solution)
     {
         ArgumentNullException.ThrowIfNull(solution);
 

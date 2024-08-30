@@ -80,7 +80,7 @@ internal sealed class NQueensSteps
         NQueensProblem problem = _scenarioContext.Get<NQueensProblem>(Constants.Keys.Problem);
         IReadOnlyList<Square> proposedSolution = _scenarioContext.Get<IReadOnlyList<Square>>(Constants.Keys.ProposedSolution);
 
-        CheckingResult result = problem.VerifyCorrect(proposedSolution);
+        Result result = problem.VerifyCorrect(proposedSolution);
 
         _scenarioContext.Add(Constants.Keys.VerificationResult, result);
     }

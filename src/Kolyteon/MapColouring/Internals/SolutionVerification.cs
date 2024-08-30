@@ -18,47 +18,47 @@ internal static class SolutionVerification
 
     private sealed class OneEntryPerBlockVerifier : MapColouringSolutionVerifier
     {
-        internal override CheckingResult VerifyCorrect(IReadOnlyDictionary<Block, Colour> solution, MapColouringProblem problem)
+        internal override Result VerifyCorrect(IReadOnlyDictionary<Block, Colour> solution, MapColouringProblem problem)
         {
             int entries = solution.Count;
             int blocks = problem.BlockData.Count;
 
             return entries == blocks
-                ? CheckingResult.Success()
-                : CheckingResult.Failure($"Solution has {(entries == 1 ? "1 entry" : entries + " entries")}, " +
-                                         $"but problem has {(blocks == 1 ? "1 block" : blocks + " blocks")}.");
+                ? Result.Success()
+                : Result.Failure($"Solution has {(entries == 1 ? "1 entry" : entries + " entries")}, " +
+                                 $"but problem has {(blocks == 1 ? "1 block" : blocks + " blocks")}.");
         }
     }
 
     private sealed class EveryBlockIsSolutionKeyVerifier : MapColouringSolutionVerifier
     {
-        internal override CheckingResult VerifyCorrect(IReadOnlyDictionary<Block, Colour> solution,
+        internal override Result VerifyCorrect(IReadOnlyDictionary<Block, Colour> solution,
             MapColouringProblem problem) => problem
             .BlockData.Select(datum => datum.Block)
             .Where(block => !solution.ContainsKey(block))
-            .Select(block => CheckingResult.Failure($"Block {block} is not a key in the solution."))
-            .FirstOrDefault(CheckingResult.Success());
+            .Select(block => Result.Failure($"Block {block} is not a key in the solution."))
+            .FirstOrDefault(Result.Success());
     }
 
     private sealed class EveryBlockHasPermittedColourVerifier : MapColouringSolutionVerifier
     {
-        internal override CheckingResult VerifyCorrect(IReadOnlyDictionary<Block, Colour> solution,
+        internal override Result VerifyCorrect(IReadOnlyDictionary<Block, Colour> solution,
             MapColouringProblem problem) => problem
             .BlockData.Join(solution,
                 datum => datum.Block,
                 entry => entry.Key,
                 (datum, entry) => new CheckingItem(datum.Block, entry.Value, datum.PermittedColours.Contains(entry.Value))
             ).Where(item => item.IsPermitted == false)
-            .Select(item => CheckingResult.Failure($"Block {item.Block} is assigned the colour '{item.AssignedColour}', " +
-                                                   $"which is not a member of its permitted colours set."))
-            .FirstOrDefault(CheckingResult.Success());
+            .Select(item => Result.Failure($"Block {item.Block} is assigned the colour '{item.AssignedColour}', " +
+                                           $"which is not a member of its permitted colours set."))
+            .FirstOrDefault(Result.Success());
 
         private readonly record struct CheckingItem(Block Block, Colour AssignedColour, bool IsPermitted);
     }
 
     private sealed class NoAdjacentBlocksSameColourVerifier : MapColouringSolutionVerifier
     {
-        internal override CheckingResult VerifyCorrect(IReadOnlyDictionary<Block, Colour> solution,
+        internal override Result VerifyCorrect(IReadOnlyDictionary<Block, Colour> solution,
             MapColouringProblem problem) =>
             problem.BlockData.Select(datum => datum.Block).SelectMany((blockAtI, i) =>
                 problem.BlockData.Take(i).Select(pastDatum => pastDatum.Block)
@@ -72,9 +72,9 @@ internal static class SolutionVerification
                         }
                     )
                     .Where(item => item.FirstColour == item.SecondColour)
-                    .Select(item => CheckingResult.Failure($"Adjacent blocks {item.FirstBlock} and {item.SecondBlock} " +
-                                                           $"are both assigned the colour '{item.FirstColour}'."))
-            ).FirstOrDefault(CheckingResult.Success());
+                    .Select(item => Result.Failure($"Adjacent blocks {item.FirstBlock} and {item.SecondBlock} " +
+                                                   $"are both assigned the colour '{item.FirstColour}'."))
+            ).FirstOrDefault(Result.Success());
 
         private readonly record struct CheckingItem(
             Block FirstBlock,

@@ -17,48 +17,48 @@ internal static class SolutionVerification
 
     private sealed class OneSquarePerQueenVerifier : NQueensSolutionVerifier
     {
-        internal override CheckingResult VerifyCorrect(IReadOnlyList<Square> solution, NQueensProblem problem)
+        internal override Result VerifyCorrect(IReadOnlyList<Square> solution, NQueensProblem problem)
         {
             int squares = solution.Count;
             int queens = problem.Queens;
 
             return squares == queens
-                ? CheckingResult.Success()
-                : CheckingResult.Failure($"Solution has {(squares == 1 ? "1 square" : squares + " squares")}, " +
-                                         $"but problem has {(queens == 1 ? "1 queen" : queens + " queens")}.");
+                ? Result.Success()
+                : Result.Failure($"Solution has {(squares == 1 ? "1 square" : squares + " squares")}, " +
+                                 $"but problem has {(queens == 1 ? "1 queen" : queens + " queens")}.");
         }
     }
 
     private sealed class AllSquaresInChessBoardVerifier : NQueensSolutionVerifier
     {
-        internal override CheckingResult VerifyCorrect(IReadOnlyList<Square> solution, NQueensProblem problem)
+        internal override Result VerifyCorrect(IReadOnlyList<Square> solution, NQueensProblem problem)
         {
             Block chessBoard = problem.ChessBoard;
 
             return solution.Where(square =>
                     !chessBoard.Contains(square))
                 .Select(square =>
-                    CheckingResult.Failure($"Square {square} is not inside chess board {chessBoard}."))
-                .FirstOrDefault(CheckingResult.Success());
+                    Result.Failure($"Square {square} is not inside chess board {chessBoard}."))
+                .FirstOrDefault(Result.Success());
         }
     }
 
     private sealed class AllSquaresUniqueVerifier : NQueensSolutionVerifier
     {
-        internal override CheckingResult VerifyCorrect(IReadOnlyList<Square> solution, NQueensProblem problem) =>
+        internal override Result VerifyCorrect(IReadOnlyList<Square> solution, NQueensProblem problem) =>
             solution.SelectMany((squareAtI, i) =>
                     solution.Take(i)
                         .Where(pastSquare => pastSquare.Equals(squareAtI))
                         .Select(_ => squareAtI)
                 )
                 .Select(duplicateSquare =>
-                    CheckingResult.Failure($"Square {duplicateSquare} occurs more than once."))
-                .FirstOrDefault(CheckingResult.Success());
+                    Result.Failure($"Square {duplicateSquare} occurs more than once."))
+                .FirstOrDefault(Result.Success());
     }
 
     private sealed class NoCapturingSquaresVerifier : NQueensSolutionVerifier
     {
-        internal override CheckingResult VerifyCorrect(IReadOnlyList<Square> solution, NQueensProblem problem) =>
+        internal override Result VerifyCorrect(IReadOnlyList<Square> solution, NQueensProblem problem) =>
             solution.SelectMany(
                     (squareAtI, i) =>
                         solution.Take(i)
@@ -66,7 +66,7 @@ internal static class SolutionVerification
                             .Select(pastSquare => new { pastSquare, squareAtI })
                 )
                 .Select(squares =>
-                    CheckingResult.Failure($"Squares {squares.pastSquare} and {squares.squareAtI} capture each other."))
-                .FirstOrDefault(CheckingResult.Success());
+                    Result.Failure($"Squares {squares.pastSquare} and {squares.squareAtI} capture each other."))
+                .FirstOrDefault(Result.Success());
     }
 }

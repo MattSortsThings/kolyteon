@@ -11,7 +11,7 @@ internal sealed class CommonSteps(ScenarioContext scenarioContext)
     [Then("the verification result should be successful")]
     public void ThenTheVerificationResultShouldBeSuccessful()
     {
-        CheckingResult verificationResult = scenarioContext.Get<CheckingResult>(Constants.Keys.VerificationResult);
+        Result verificationResult = scenarioContext.Get<Result>(Constants.Keys.VerificationResult);
 
         verificationResult.Should().BeSuccessful().And.HaveNullFirstError();
     }

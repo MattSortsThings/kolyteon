@@ -74,7 +74,7 @@ public sealed record MapColouringProblem : ISolutionVerifier<IReadOnlyDictionary
     ///         </list>
     ///     </para>
     /// </remarks>
-    public CheckingResult VerifyCorrect(IReadOnlyDictionary<Block, Colour> solution)
+    public Result VerifyCorrect(IReadOnlyDictionary<Block, Colour> solution)
     {
         ArgumentNullException.ThrowIfNull(solution);
 

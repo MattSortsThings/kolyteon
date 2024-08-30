@@ -183,7 +183,7 @@ public static class NQueensProblemTests
             IReadOnlyList<Square> solution)
         {
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeSuccessful().And.HaveNullFirstError();
@@ -198,7 +198,7 @@ public static class NQueensProblemTests
             IReadOnlyList<Square> solution = Array.Empty<Square>();
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeUnsuccessful()
@@ -214,7 +214,7 @@ public static class NQueensProblemTests
             IReadOnlyList<Square> solution = [Square.FromColumnAndRow(0, 0)];
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeUnsuccessful()
@@ -235,7 +235,7 @@ public static class NQueensProblemTests
             ];
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeUnsuccessful()
@@ -255,7 +255,7 @@ public static class NQueensProblemTests
             ];
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeUnsuccessful()
@@ -276,7 +276,7 @@ public static class NQueensProblemTests
             ];
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeUnsuccessful()
@@ -298,7 +298,7 @@ public static class NQueensProblemTests
             ];
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeUnsuccessful()

@@ -296,7 +296,7 @@ public static class FutoshikiProblemTests
             IReadOnlyList<NumberedSquare> solution)
         {
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeSuccessful().And.HaveNullFirstError();
@@ -318,7 +318,7 @@ public static class FutoshikiProblemTests
             IReadOnlyList<NumberedSquare> solution = Array.Empty<NumberedSquare>();
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeUnsuccessful()
@@ -344,7 +344,7 @@ public static class FutoshikiProblemTests
             ];
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeUnsuccessful()
@@ -372,7 +372,7 @@ public static class FutoshikiProblemTests
             ];
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeUnsuccessful()
@@ -399,7 +399,7 @@ public static class FutoshikiProblemTests
             ];
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeUnsuccessful()
@@ -426,7 +426,7 @@ public static class FutoshikiProblemTests
             ];
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeUnsuccessful()
@@ -453,7 +453,7 @@ public static class FutoshikiProblemTests
             ];
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeUnsuccessful()
@@ -480,7 +480,7 @@ public static class FutoshikiProblemTests
             ];
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeUnsuccessful()
@@ -507,7 +507,7 @@ public static class FutoshikiProblemTests
             ];
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeUnsuccessful()
@@ -536,7 +536,7 @@ public static class FutoshikiProblemTests
             ];
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeUnsuccessful()
@@ -565,7 +565,7 @@ public static class FutoshikiProblemTests
             ];
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeUnsuccessful()
@@ -594,7 +594,7 @@ public static class FutoshikiProblemTests
             ];
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeUnsuccessful()

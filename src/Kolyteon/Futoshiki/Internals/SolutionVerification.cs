@@ -23,27 +23,27 @@ internal static class SolutionVerification
 
     private sealed class OneFilledSquarePerEmptySquareVerifier : FutoshikiSolutionVerifier
     {
-        internal override CheckingResult VerifyCorrect(IReadOnlyList<NumberedSquare> solution, FutoshikiProblem problem)
+        internal override Result VerifyCorrect(IReadOnlyList<NumberedSquare> solution, FutoshikiProblem problem)
         {
             int expected = problem.Grid.AreaInSquares - problem.FilledSquares.Count;
             int actual = solution.Count;
 
             return actual == expected
-                ? CheckingResult.Success()
-                : CheckingResult.Failure($"Solution has {(actual == 1 ? "1 filled square" : actual + " filled squares")}, " +
-                                         $"but problem has {(expected == 1 ? "1 empty square" : expected + " empty squares")}.");
+                ? Result.Success()
+                : Result.Failure($"Solution has {(actual == 1 ? "1 filled square" : actual + " filled squares")}, " +
+                                 $"but problem has {(expected == 1 ? "1 empty square" : expected + " empty squares")}.");
         }
     }
 
     private sealed class AllFilledSquaresInGridVerifier : FutoshikiSolutionVerifier
     {
-        internal override CheckingResult VerifyCorrect(IReadOnlyList<NumberedSquare> solution, FutoshikiProblem problem)
+        internal override Result VerifyCorrect(IReadOnlyList<NumberedSquare> solution, FutoshikiProblem problem)
         {
             Block grid = problem.Grid;
 
             return solution.Where(NotInsideGrid)
-                .Select(filledSquare => CheckingResult.Failure($"Filled square {filledSquare} is not inside grid {grid}."))
-                .FirstOrDefault(CheckingResult.Success());
+                .Select(filledSquare => Result.Failure($"Filled square {filledSquare} is not inside grid {grid}."))
+                .FirstOrDefault(Result.Success());
 
             bool NotInsideGrid(NumberedSquare filledSquare) => !grid.Contains(filledSquare.Square);
         }
@@ -51,15 +51,15 @@ internal static class SolutionVerification
 
     private sealed class AllFilledSquareNumbersInRangeVerifier : FutoshikiSolutionVerifier
     {
-        internal override CheckingResult VerifyCorrect(IReadOnlyList<NumberedSquare> solution, FutoshikiProblem problem)
+        internal override Result VerifyCorrect(IReadOnlyList<NumberedSquare> solution, FutoshikiProblem problem)
         {
             const int minNumber = FutoshikiProblem.MinNumber;
             int maxNumber = problem.MaxNumber;
 
-            CheckingResult result = solution.Where(square => square.Number < minNumber || square.Number > maxNumber)
-                .Select(filledSquare => CheckingResult.Failure($"Filled square {filledSquare} " +
-                                                               $"has number outside permitted range [{minNumber},{maxNumber}]."))
-                .FirstOrDefault(CheckingResult.Success());
+            Result result = solution.Where(square => square.Number < minNumber || square.Number > maxNumber)
+                .Select(filledSquare => Result.Failure($"Filled square {filledSquare} " +
+                                                       $"has number outside permitted range [{minNumber},{maxNumber}]."))
+                .FirstOrDefault(Result.Success());
 
             return result;
         }
@@ -67,57 +67,57 @@ internal static class SolutionVerification
 
     private sealed class NoSquareFilledMoreThanOnceVerifier : FutoshikiSolutionVerifier
     {
-        internal override CheckingResult VerifyCorrect(IReadOnlyList<NumberedSquare> solution, FutoshikiProblem problem) =>
+        internal override Result VerifyCorrect(IReadOnlyList<NumberedSquare> solution, FutoshikiProblem problem) =>
             solution.Concat(problem.FilledSquares)
                 .GroupBy(filledSquare => filledSquare.Square, _ => 1)
                 .Where(grouping => grouping.Count() > 1)
-                .Select(grouping => CheckingResult.Failure($"Square {grouping.Key} is filled more than once."))
-                .FirstOrDefault(CheckingResult.Success());
+                .Select(grouping => Result.Failure($"Square {grouping.Key} is filled more than once."))
+                .FirstOrDefault(Result.Success());
     }
 
     private sealed class NoDuplicateNumbersInSameColumnVerifier : FutoshikiSolutionVerifier
     {
-        internal override CheckingResult VerifyCorrect(IReadOnlyList<NumberedSquare> solution, FutoshikiProblem problem) =>
+        internal override Result VerifyCorrect(IReadOnlyList<NumberedSquare> solution, FutoshikiProblem problem) =>
             solution.Concat(problem.FilledSquares)
                 .GroupBy(filledSquare => new CheckingItem(filledSquare.Square.Column, filledSquare.Number), _ => 1)
                 .Where(grouping => grouping.Count() > 1)
                 .Select(grouping =>
-                    CheckingResult.Failure(
+                    Result.Failure(
                         $"Number {grouping.Key.Number} occurs more than once in column {grouping.Key.Column}."))
-                .FirstOrDefault(CheckingResult.Success());
+                .FirstOrDefault(Result.Success());
 
         private readonly record struct CheckingItem(int Column, int Number);
     }
 
     private sealed class NoDuplicateNumbersInSameRowVerifier : FutoshikiSolutionVerifier
     {
-        internal override CheckingResult VerifyCorrect(IReadOnlyList<NumberedSquare> solution, FutoshikiProblem problem) =>
+        internal override Result VerifyCorrect(IReadOnlyList<NumberedSquare> solution, FutoshikiProblem problem) =>
             solution.Concat(problem.FilledSquares)
                 .GroupBy(filledSquare => new CheckingItem(filledSquare.Square.Row, filledSquare.Number), _ => 1)
                 .Where(grouping => grouping.Count() > 1)
                 .Select(grouping =>
-                    CheckingResult.Failure($"Number {grouping.Key.Number} occurs more than once in row {grouping.Key.Row}."))
-                .FirstOrDefault(CheckingResult.Success());
+                    Result.Failure($"Number {grouping.Key.Number} occurs more than once in row {grouping.Key.Row}."))
+                .FirstOrDefault(Result.Success());
 
         private readonly record struct CheckingItem(int Row, int Number);
     }
 
     private sealed class AllSignsSatisfiedVerifier : FutoshikiSolutionVerifier
     {
-        internal override CheckingResult VerifyCorrect(IReadOnlyList<NumberedSquare> solution, FutoshikiProblem problem)
+        internal override Result VerifyCorrect(IReadOnlyList<NumberedSquare> solution, FutoshikiProblem problem)
         {
             Dictionary<Square, int> combined = solution.Concat(problem.FilledSquares)
                 .ToDictionary(filledSquare => filledSquare.Square, filledSquare => filledSquare.Number);
 
-            IEnumerable<CheckingResult> greaterThanSignQuery = problem.GreaterThanSigns
+            IEnumerable<Result> greaterThanSignQuery = problem.GreaterThanSigns
                 .Where(sign => combined[sign.FirstSquare] <= combined[sign.SecondSquare])
-                .Select(sign => CheckingResult.Failure($"Sign {sign} is not satisfied."));
+                .Select(sign => Result.Failure($"Sign {sign} is not satisfied."));
 
-            IEnumerable<CheckingResult> lessThanSignQuery = problem.LessThanSigns
+            IEnumerable<Result> lessThanSignQuery = problem.LessThanSigns
                 .Where(sign => combined[sign.FirstSquare] >= combined[sign.SecondSquare])
-                .Select(sign => CheckingResult.Failure($"Sign {sign} is not satisfied."));
+                .Select(sign => Result.Failure($"Sign {sign} is not satisfied."));
 
-            return greaterThanSignQuery.Concat(lessThanSignQuery).FirstOrDefault(CheckingResult.Success());
+            return greaterThanSignQuery.Concat(lessThanSignQuery).FirstOrDefault(Result.Success());
         }
     }
 }

@@ -236,7 +236,7 @@ public static class SudokuProblemTests
             SudokuProblem sut = SudokuProblem.FromGrid(grid);
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeSuccessful().And.HaveNullFirstError();
@@ -262,7 +262,7 @@ public static class SudokuProblemTests
             IReadOnlyList<NumberedSquare> solution = Array.Empty<NumberedSquare>();
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeUnsuccessful()
@@ -292,7 +292,7 @@ public static class SudokuProblemTests
             ];
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeUnsuccessful()
@@ -324,7 +324,7 @@ public static class SudokuProblemTests
             ];
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeUnsuccessful()
@@ -355,7 +355,7 @@ public static class SudokuProblemTests
             ];
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeUnsuccessful()
@@ -386,7 +386,7 @@ public static class SudokuProblemTests
             ];
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeUnsuccessful()
@@ -417,7 +417,7 @@ public static class SudokuProblemTests
             ];
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeUnsuccessful()
@@ -448,7 +448,7 @@ public static class SudokuProblemTests
             ];
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeUnsuccessful()
@@ -479,7 +479,7 @@ public static class SudokuProblemTests
             ];
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeUnsuccessful()
@@ -510,7 +510,7 @@ public static class SudokuProblemTests
             ];
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeUnsuccessful()

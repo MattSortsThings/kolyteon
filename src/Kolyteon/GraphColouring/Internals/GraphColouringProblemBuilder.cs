@@ -84,7 +84,7 @@ internal sealed class GraphColouringProblemBuilder : IGraphColouringProblemBuild
 
     private static void ThrowIfInvalidProblem(GraphColouringProblem problem)
     {
-        CheckingResult validationResult = ProblemValidation.AtLeastOneNode
+        Result validationResult = ProblemValidation.AtLeastOneNode
             .Then(ProblemValidation.AllNodesUnique)
             .Then(ProblemValidation.EveryEdgeHasFirstNodeInGraph)
             .Then(ProblemValidation.EveryEdgeHasSecondNodeInGraph)

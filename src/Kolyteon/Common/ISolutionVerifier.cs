@@ -12,10 +12,10 @@ public interface ISolutionVerifier<in TSolution>
     /// </summary>
     /// <param name="solution">The proposed solution to the problem represented by this instance.</param>
     /// <returns>
-    ///     A successful <see cref="CheckingResult" /> instance if the <paramref name="solution" /> parameter is a correct
-    ///     solution to the problem represented by this instance; otherwise, an unsuccessful <see cref="CheckingResult" />
+    ///     A successful <see cref="Result" /> instance if the <paramref name="solution" /> parameter is a correct
+    ///     solution to the problem represented by this instance; otherwise, an unsuccessful <see cref="Result" />
     ///     instance.
     /// </returns>
     /// <exception cref="ArgumentNullException"><paramref name="solution" /> is <see langword="null" />.</exception>
-    public CheckingResult VerifyCorrect(TSolution solution);
+    public Result VerifyCorrect(TSolution solution);
 }

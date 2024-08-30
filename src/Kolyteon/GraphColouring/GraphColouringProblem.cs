@@ -75,7 +75,7 @@ public sealed record GraphColouringProblem : ISolutionVerifier<IReadOnlyDictiona
     ///         </list>
     ///     </para>
     /// </remarks>
-    public CheckingResult VerifyCorrect(IReadOnlyDictionary<Node, Colour> solution)
+    public Result VerifyCorrect(IReadOnlyDictionary<Node, Colour> solution)
     {
         ArgumentNullException.ThrowIfNull(solution);
 

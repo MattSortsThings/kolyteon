@@ -94,7 +94,7 @@ public sealed record SudokuProblem : ISolutionVerifier<IReadOnlyList<NumberedSqu
     ///         </list>
     ///     </para>
     /// </remarks>
-    public CheckingResult VerifyCorrect(IReadOnlyList<NumberedSquare> solution)
+    public Result VerifyCorrect(IReadOnlyList<NumberedSquare> solution)
     {
         ArgumentNullException.ThrowIfNull(solution);
 
@@ -181,7 +181,7 @@ public sealed record SudokuProblem : ISolutionVerifier<IReadOnlyList<NumberedSqu
 
     private static void ThrowIfInvalidProblem(SudokuProblem problem)
     {
-        CheckingResult validationResult = ProblemValidation.AtLeastOneEmptySquare
+        Result validationResult = ProblemValidation.AtLeastOneEmptySquare
             .Then(ProblemValidation.AllFilledSquareNumbersInRange)
             .Then(ProblemValidation.NoDuplicateNumbersInSameColumn)
             .Then(ProblemValidation.NoDuplicateNumbersInSameRow)

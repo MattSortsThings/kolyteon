@@ -3,7 +3,7 @@ namespace Kolyteon.Common.Internals;
 internal abstract class SolutionVerifier<TSolution, TProblem>
     where TProblem : ISolutionVerifier<TSolution>
 {
-    internal abstract CheckingResult VerifyCorrect(TSolution solution, TProblem problem);
+    internal abstract Result VerifyCorrect(TSolution solution, TProblem problem);
 
     internal SolutionVerifier<TSolution, TProblem> Then(SolutionVerifier<TSolution, TProblem> next) =>
         new ChainNode(this, next);
@@ -20,7 +20,7 @@ internal abstract class SolutionVerifier<TSolution, TProblem>
 
         private SolutionVerifier<TSolution, TProblem> Next { get; }
 
-        internal override CheckingResult VerifyCorrect(TSolution solution, TProblem problem) =>
+        internal override Result VerifyCorrect(TSolution solution, TProblem problem) =>
             First.VerifyCorrect(solution, problem) is { IsSuccessful: false } firstResult
                 ? firstResult
                 : Next.VerifyCorrect(solution, problem);

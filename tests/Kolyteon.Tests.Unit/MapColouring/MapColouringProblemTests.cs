@@ -264,7 +264,7 @@ public static class MapColouringProblemTests
             IReadOnlyDictionary<Block, Colour> solution)
         {
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeSuccessful().And.HaveNullFirstError();
@@ -281,7 +281,7 @@ public static class MapColouringProblemTests
             Dictionary<Block, Colour> solution = [];
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeUnsuccessful()
@@ -302,7 +302,7 @@ public static class MapColouringProblemTests
             Dictionary<Block, Colour> solution = new() { [TopLeftBlock] = Colour.Red };
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeUnsuccessful()
@@ -327,7 +327,7 @@ public static class MapColouringProblemTests
             };
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeUnsuccessful()
@@ -346,7 +346,7 @@ public static class MapColouringProblemTests
             Dictionary<Block, Colour> solution = new() { [TopLeftBlock] = Colour.Red, [BottomRightBlock] = Colour.Red };
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeUnsuccessful()
@@ -365,7 +365,7 @@ public static class MapColouringProblemTests
             Dictionary<Block, Colour> solution = new() { [TopLeftBlock] = Colour.Olive, [TopRightBlock] = Colour.Red };
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeUnsuccessful()
@@ -393,7 +393,7 @@ public static class MapColouringProblemTests
             };
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeUnsuccessful()

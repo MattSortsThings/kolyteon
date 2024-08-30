@@ -224,7 +224,7 @@ public static class ShikakuProblemTests
         public void VerifyCorrect_GivenCorrectSolution_ReturnsSuccessfulResult(ShikakuProblem sut, IReadOnlyList<Block> solution)
         {
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeSuccessful().And.HaveNullFirstError();
@@ -246,7 +246,7 @@ public static class ShikakuProblemTests
             IReadOnlyList<Block> solution = Array.Empty<Block>();
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeUnsuccessful()
@@ -273,7 +273,7 @@ public static class ShikakuProblemTests
             ];
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeUnsuccessful()
@@ -300,7 +300,7 @@ public static class ShikakuProblemTests
             ];
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeUnsuccessful()
@@ -328,7 +328,7 @@ public static class ShikakuProblemTests
             ];
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeUnsuccessful()
@@ -356,7 +356,7 @@ public static class ShikakuProblemTests
             ];
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeUnsuccessful()
@@ -384,7 +384,7 @@ public static class ShikakuProblemTests
             ];
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeUnsuccessful()
@@ -412,7 +412,7 @@ public static class ShikakuProblemTests
             ];
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeUnsuccessful()
@@ -440,7 +440,7 @@ public static class ShikakuProblemTests
             ];
 
             // Act
-            CheckingResult result = sut.VerifyCorrect(solution);
+            Result result = sut.VerifyCorrect(solution);
 
             // Assert
             result.Should().BeUnsuccessful()

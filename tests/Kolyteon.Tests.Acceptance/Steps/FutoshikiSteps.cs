@@ -80,7 +80,7 @@ internal sealed class FutoshikiSteps
         IReadOnlyList<NumberedSquare> proposedSolution =
             _scenarioContext.Get<IReadOnlyList<NumberedSquare>>(Constants.Keys.ProposedSolution);
 
-        CheckingResult verificationResult = problem.VerifyCorrect(proposedSolution);
+        Result verificationResult = problem.VerifyCorrect(proposedSolution);
 
         _scenarioContext.Add(Constants.Keys.VerificationResult, verificationResult);
     }

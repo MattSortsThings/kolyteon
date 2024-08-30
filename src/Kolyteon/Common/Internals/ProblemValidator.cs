@@ -2,7 +2,7 @@ namespace Kolyteon.Common.Internals;
 
 internal abstract class ProblemValidator<TProblem>
 {
-    internal abstract CheckingResult Validate(TProblem problem);
+    internal abstract Result Validate(TProblem problem);
 
     internal ProblemValidator<TProblem> Then(ProblemValidator<TProblem> next) => new ChainNode(this, next);
 
@@ -18,7 +18,7 @@ internal abstract class ProblemValidator<TProblem>
 
         private ProblemValidator<TProblem> Next { get; }
 
-        internal override CheckingResult Validate(TProblem problem) =>
+        internal override Result Validate(TProblem problem) =>
             First.Validate(problem) is { IsSuccessful: false } firstResult
                 ? firstResult
                 : Next.Validate(problem);

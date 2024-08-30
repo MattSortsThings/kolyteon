@@ -80,7 +80,7 @@ internal sealed class FutoshikiProblemBuilder : IFutoshikiProblemBuilder, IFutos
 
     private static void ThrowIfInvalidProblem(FutoshikiProblem problem)
     {
-        CheckingResult validationResult = ProblemValidation.AtLeastOneEmptySquare
+        Result validationResult = ProblemValidation.AtLeastOneEmptySquare
             .Then(ProblemValidation.AllFilledSquareNumbersInRange)
             .Then(ProblemValidation.NoDuplicateNumbersInSameColumn)
             .Then(ProblemValidation.NoDuplicateNumbersInSameRow)

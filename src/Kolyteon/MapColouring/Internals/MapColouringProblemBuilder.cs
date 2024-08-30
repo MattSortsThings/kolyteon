@@ -71,7 +71,7 @@ internal sealed class MapColouringProblemBuilder : IMapColouringProblemBuilder,
 
     private static void ThrowIfInvalidProblem(MapColouringProblem problem)
     {
-        CheckingResult validationResult = ProblemValidation.AtLeastOneBlock
+        Result validationResult = ProblemValidation.AtLeastOneBlock
             .Then(ProblemValidation.AllBlocksInCanvas)
             .Then(ProblemValidation.NoOverlappingBlocks).Validate(problem);
 

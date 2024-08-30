@@ -94,7 +94,7 @@ internal sealed class GraphColouringSteps
         IReadOnlyDictionary<Node, Colour> proposedSolution =
             _scenarioContext.Get<IReadOnlyDictionary<Node, Colour>>(Constants.Keys.ProposedSolution);
 
-        CheckingResult verificationResult = problem.VerifyCorrect(proposedSolution);
+        Result verificationResult = problem.VerifyCorrect(proposedSolution);
 
         _scenarioContext.Add(Constants.Keys.VerificationResult, verificationResult);
     }

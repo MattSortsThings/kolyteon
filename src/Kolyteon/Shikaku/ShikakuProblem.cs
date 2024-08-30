@@ -79,7 +79,7 @@ public sealed record ShikakuProblem : ISolutionVerifier<IReadOnlyList<Block>>
     ///         </list>
     ///     </para>
     /// </remarks>
-    public CheckingResult VerifyCorrect(IReadOnlyList<Block> solution)
+    public Result VerifyCorrect(IReadOnlyList<Block> solution)
     {
         ArgumentNullException.ThrowIfNull(solution, nameof(solution));
 
@@ -164,7 +164,7 @@ public sealed record ShikakuProblem : ISolutionVerifier<IReadOnlyList<Block>>
 
     private static void ThrowIfInvalidProblem(ShikakuProblem problem)
     {
-        CheckingResult validationResult = ProblemValidation.ValidGridDimensions
+        Result validationResult = ProblemValidation.ValidGridDimensions
             .Then(ProblemValidation.AtLeastOneHint)
             .Then(ProblemValidation.NoHintNumberLessThanTwo)
             .Then(ProblemValidation.HintNumbersSumToGridArea)
