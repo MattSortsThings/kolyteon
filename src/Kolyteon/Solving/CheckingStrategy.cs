@@ -61,7 +61,7 @@ public sealed record CheckingStrategy : IComparable<CheckingStrategy>
         new(0,
             "BT",
             "Naive Backtracking",
-            CheckingStrategyType.Retrospective);
+            CheckingStrategyType.LookBack);
 
     /// <summary>
     ///     Gets the BJ (Backjumping, Retrospective) checking strategy.
@@ -69,25 +69,25 @@ public sealed record CheckingStrategy : IComparable<CheckingStrategy>
     public static CheckingStrategy Backjumping { get; } =
         new(1,
             "BJ",
-            "Backjumping", CheckingStrategyType.Retrospective);
+            "Backjumping", CheckingStrategyType.LookBack);
 
     /// <summary>
     ///     Gets the GBJ (Graph-Based Backjumping, Retrospective) checking strategy.
     /// </summary>
-    public static CheckingStrategy GraphBasedBackjumping { get; } =
+    public static CheckingStrategy GraphBackjumping { get; } =
         new(2,
             "GBJ",
             "Graph-Based Backjumping",
-            CheckingStrategyType.Retrospective);
+            CheckingStrategyType.LookBack);
 
     /// <summary>
     ///     Gets the CBJ (Conflict-Directed Backjumping, Retrospective) checking strategy.
     /// </summary>
-    public static CheckingStrategy ConflictDirectedBackjumping { get; } =
+    public static CheckingStrategy ConflictBackjumping { get; } =
         new(3,
             "CBJ",
             "Conflict-Directed Backjumping",
-            CheckingStrategyType.Retrospective);
+            CheckingStrategyType.LookBack);
 
     /// <summary>
     ///     Gets the FC (Forward Checking, Prospective) checking strategy.
@@ -96,7 +96,7 @@ public sealed record CheckingStrategy : IComparable<CheckingStrategy>
         new(4,
             "FC",
             "Forward Checking",
-            CheckingStrategyType.Prospective);
+            CheckingStrategyType.LookAhead);
 
     /// <summary>
     ///     Gets the PLA (Partial Looking Ahead, Prospective) checking strategy.
@@ -105,7 +105,7 @@ public sealed record CheckingStrategy : IComparable<CheckingStrategy>
         new(5,
             "PLA",
             "Partial Looking Ahead",
-            CheckingStrategyType.Prospective);
+            CheckingStrategyType.LookAhead);
 
     /// <summary>
     ///     Gets the FLA (Full Looking Ahead, Prospective) checking strategy.
@@ -114,7 +114,7 @@ public sealed record CheckingStrategy : IComparable<CheckingStrategy>
         new(6,
             "FLA",
             "Full Looking Ahead",
-            CheckingStrategyType.Prospective);
+            CheckingStrategyType.LookAhead);
 
     /// <summary>
     ///     Gets the MAC (Maintaining Arc Consistency, Prospective) checking strategy.
@@ -123,7 +123,7 @@ public sealed record CheckingStrategy : IComparable<CheckingStrategy>
         new(7,
             "MAC",
             "Maintaining Arc Consistency",
-            CheckingStrategyType.Prospective);
+            CheckingStrategyType.LookAhead);
 
     /// <summary>
     ///     Compares this <see cref="CheckingStrategy" /> instance with another instance of the same type and returns an
@@ -205,8 +205,8 @@ public sealed record CheckingStrategy : IComparable<CheckingStrategy>
     /// <summary>
     ///     Creates and returns a descriptive string representation of this <see cref="CheckingStrategy" /> instance.
     /// </summary>
-    /// <returns>A string representing this instance, in the format <c>"{Code} ({Name}, {Type})"</c>.</returns>
-    public string ToLongString() => $"{Code} ({Name}, {Type})";
+    /// <returns>A string representing this instance, in the format <c>"{Code} ({Name})"</c>.</returns>
+    public string ToLongString() => $"{Code} ({Name})";
 
     /// <summary>
     ///     Returns an ordered list of all the possible <see cref="CheckingStrategy" /> values.

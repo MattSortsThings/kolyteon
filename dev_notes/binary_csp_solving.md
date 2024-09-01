@@ -205,16 +205,20 @@ Eight checking strategies will be implemented.
 
 | Code |           Full Name           | Checking Strategy Type |
 |:----:|:-----------------------------:|:----------------------:|
-|  BT  |      Naive Backtracking       |     Retrospective      |
-|  BJ  |          Backjumping          |     Retrospective      |
-| GBJ  |    Graph-Based Backjumping    |     Retrospective      |
-| CBJ  | Conflict-Directed Backjumping |     Retrospective      |
-|  FC  |       Forward Checking        |      Prospective       |
-| PLA  |     Partial Looking Ahead     |      Prospective       |
-| FLA  |      Full Looking Ahead       |      Prospective       |
-| MAC  |  Maintaining Arc Consistency  |      Prospective       |
+|  BT  |      Naive Backtracking       |       look-back        |
+|  BJ  |          Backjumping          |       look-back        |
+| GBJ  |    Graph-Based Backjumping    |       look-back        |
+| CBJ  | Conflict-Directed Backjumping |       look-back        |
+|  FC  |       Forward Checking        |       look-ahead       |
+| PLA  |     Partial Looking Ahead     |       look-ahead       |
+| FLA  |      Full Looking Ahead       |       look-ahead       |
+| MAC  |  Maintaining Arc Consistency  |       look-ahead       |
 
-Retrospective checking strategies work by checking the consistency of the present variable's assignment against the past assignments. Prospective checking strategies work by propagating the consequences of the present assignment through the domains of the future variables to see if the present assignment makes an assignment impossible for a future variable. Prospective strategies are generally superior to look-back strategies.
+A look-back checking strategy checks the consistency of the partial solution by comparing the present assignment against the past assignments to see if any of the binary CSP constraints are not satisfied.
+
+A look-ahead checking strategy checks the consistency of the partial solution by propagating the effects of the present assignment through the domains of the future variables to see if a complete solution has become unreachable.
+
+Look-ahead checking strategies do more work per assigning step compared with look-back strategies but are generally much more efficient.
 
 #### Ordering Strategy
 

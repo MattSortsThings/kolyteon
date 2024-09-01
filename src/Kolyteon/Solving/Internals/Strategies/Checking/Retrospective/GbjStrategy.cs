@@ -14,7 +14,7 @@ internal sealed class GbjStrategy<TVariable, TDomainValue> :
         SearchTree = new GbjTree(capacity);
     }
 
-    public override CheckingStrategy Identifier => CheckingStrategy.GraphBasedBackjumping;
+    public override CheckingStrategy Identifier => CheckingStrategy.GraphBackjumping;
 
     private protected override SearchTree<GbjNode<TVariable, TDomainValue>, TVariable, TDomainValue> SearchTree { get; }
 

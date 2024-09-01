@@ -14,7 +14,7 @@ internal sealed class CbjStrategy<TVariable, TDomainValue> :
         SearchTree = new CbjTree(capacity);
     }
 
-    public override CheckingStrategy Identifier => CheckingStrategy.ConflictDirectedBackjumping;
+    public override CheckingStrategy Identifier => CheckingStrategy.ConflictBackjumping;
 
     private protected override SearchTree<CbjNode<TVariable, TDomainValue>, TVariable, TDomainValue> SearchTree { get; }
 

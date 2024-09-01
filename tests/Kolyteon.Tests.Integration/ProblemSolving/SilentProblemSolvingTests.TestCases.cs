@@ -66,56 +66,56 @@ public abstract partial class SilentProblemSolvingTests
 
         public sealed class GbjPlusBz : SilentProblemSolvingTests
         {
-            private protected override CheckingStrategy CheckingStrategy => CheckingStrategy.GraphBasedBackjumping;
+            private protected override CheckingStrategy CheckingStrategy => CheckingStrategy.GraphBackjumping;
 
             private protected override OrderingStrategy OrderingStrategy => OrderingStrategy.BrelazHeuristic;
         }
 
         public sealed class GbjPlusMc : SilentProblemSolvingTests
         {
-            private protected override CheckingStrategy CheckingStrategy => CheckingStrategy.GraphBasedBackjumping;
+            private protected override CheckingStrategy CheckingStrategy => CheckingStrategy.GraphBackjumping;
 
             private protected override OrderingStrategy OrderingStrategy => OrderingStrategy.MaxCardinality;
         }
 
         public sealed class GbjPlusMt : SilentProblemSolvingTests
         {
-            private protected override CheckingStrategy CheckingStrategy => CheckingStrategy.GraphBasedBackjumping;
+            private protected override CheckingStrategy CheckingStrategy => CheckingStrategy.GraphBackjumping;
 
             private protected override OrderingStrategy OrderingStrategy => OrderingStrategy.MaxTightness;
         }
 
         public sealed class GbjPlusNo : SilentProblemSolvingTests
         {
-            private protected override CheckingStrategy CheckingStrategy => CheckingStrategy.GraphBasedBackjumping;
+            private protected override CheckingStrategy CheckingStrategy => CheckingStrategy.GraphBackjumping;
 
             private protected override OrderingStrategy OrderingStrategy => OrderingStrategy.NaturalOrdering;
         }
 
         public sealed class CbjPlusBz : SilentProblemSolvingTests
         {
-            private protected override CheckingStrategy CheckingStrategy => CheckingStrategy.ConflictDirectedBackjumping;
+            private protected override CheckingStrategy CheckingStrategy => CheckingStrategy.ConflictBackjumping;
 
             private protected override OrderingStrategy OrderingStrategy => OrderingStrategy.BrelazHeuristic;
         }
 
         public sealed class CbjPlusMc : SilentProblemSolvingTests
         {
-            private protected override CheckingStrategy CheckingStrategy => CheckingStrategy.ConflictDirectedBackjumping;
+            private protected override CheckingStrategy CheckingStrategy => CheckingStrategy.ConflictBackjumping;
 
             private protected override OrderingStrategy OrderingStrategy => OrderingStrategy.MaxCardinality;
         }
 
         public sealed class CbjPlusMt : SilentProblemSolvingTests
         {
-            private protected override CheckingStrategy CheckingStrategy => CheckingStrategy.ConflictDirectedBackjumping;
+            private protected override CheckingStrategy CheckingStrategy => CheckingStrategy.ConflictBackjumping;
 
             private protected override OrderingStrategy OrderingStrategy => OrderingStrategy.MaxTightness;
         }
 
         public sealed class CbjPlusNo : SilentProblemSolvingTests
         {
-            private protected override CheckingStrategy CheckingStrategy => CheckingStrategy.ConflictDirectedBackjumping;
+            private protected override CheckingStrategy CheckingStrategy => CheckingStrategy.ConflictBackjumping;
 
             private protected override OrderingStrategy OrderingStrategy => OrderingStrategy.NaturalOrdering;
         }

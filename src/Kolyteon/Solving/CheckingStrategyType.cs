@@ -6,14 +6,15 @@ namespace Kolyteon.Solving;
 public enum CheckingStrategyType
 {
     /// <summary>
-    ///     The checking strategy is retrospective: it checks the consistency of the partial solution by comparing the present
-    ///     assignment against all past assignments.
+    ///     Specifies a look-back checking strategy, which checks the consistency of the partial solution by comparing the
+    ///     present assignment against the past assignments to see if any of the binary CSP constraints are not satisfied.
     /// </summary>
-    Retrospective,
+    LookBack,
 
     /// <summary>
-    ///     The checking strategy is prospective: it checks the consistency of the partial solution by propagating the effects
-    ///     of the present assignment through the domains of the future variables.
+    ///     Specifies a look-ahead checking strategy, which checks the consistency of the partial solution by propagating the
+    ///     effects of the present assignment through the domains of the future variables to see if a complete solution has
+    ///     become unreachable.
     /// </summary>
-    Prospective
+    LookAhead
 }

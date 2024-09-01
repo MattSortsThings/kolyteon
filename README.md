@@ -34,7 +34,7 @@
 ### Choose your own algorithm
 
 - The silent and verbose solvers are configurable at instantiation and at runtime with any backtracking search algorithm composed of a checking strategy and an ordering strategy.
-- Eight checking strategies and four ordering strategies are included, for a total of 36 possible search algorithms.
+- Eight checking strategies and four ordering strategies are included, for a total of 32 possible search algorithms.
 
 ### Six different problem types
 

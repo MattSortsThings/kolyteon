@@ -29,12 +29,12 @@ internal sealed class CheckingStrategyFactory<TVariable, TDomainValue> : IChecki
             return new FcStrategy<TVariable, TDomainValue>(capacity);
         }
 
-        if (strategy == CheckingStrategy.ConflictDirectedBackjumping)
+        if (strategy == CheckingStrategy.ConflictBackjumping)
         {
             return new CbjStrategy<TVariable, TDomainValue>(capacity);
         }
 
-        if (strategy == CheckingStrategy.GraphBasedBackjumping)
+        if (strategy == CheckingStrategy.GraphBackjumping)
         {
             return new GbjStrategy<TVariable, TDomainValue>(capacity);
         }

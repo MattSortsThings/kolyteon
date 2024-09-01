@@ -20,7 +20,7 @@ public static class CheckingStrategyTests
                 result.Number.Should().Be(0);
                 result.Code.Should().Be("BT");
                 result.Name.Should().Be("Naive Backtracking");
-                result.Type.Should().Be(CheckingStrategyType.Retrospective);
+                result.Type.Should().Be(CheckingStrategyType.LookBack);
             }
         }
 
@@ -36,15 +36,15 @@ public static class CheckingStrategyTests
                 result.Number.Should().Be(1);
                 result.Code.Should().Be("BJ");
                 result.Name.Should().Be("Backjumping");
-                result.Type.Should().Be(CheckingStrategyType.Retrospective);
+                result.Type.Should().Be(CheckingStrategyType.LookBack);
             }
         }
 
         [Fact]
-        public void GraphBasedBackjumping_ReturnsGraphBasedBackjumpingInstance()
+        public void GraphBackjumping_ReturnsGraphBackjumpingInstance()
         {
             // Act
-            CheckingStrategy result = CheckingStrategy.GraphBasedBackjumping;
+            CheckingStrategy result = CheckingStrategy.GraphBackjumping;
 
             // Assert
             using (new AssertionScope())
@@ -52,15 +52,15 @@ public static class CheckingStrategyTests
                 result.Number.Should().Be(2);
                 result.Code.Should().Be("GBJ");
                 result.Name.Should().Be("Graph-Based Backjumping");
-                result.Type.Should().Be(CheckingStrategyType.Retrospective);
+                result.Type.Should().Be(CheckingStrategyType.LookBack);
             }
         }
 
         [Fact]
-        public void ConflictDirectedBackjumping_ReturnsConflictDirectedBackjumpingInstance()
+        public void ConflictBackjumping_ReturnsConflictBackjumpingInstance()
         {
             // Act
-            CheckingStrategy result = CheckingStrategy.ConflictDirectedBackjumping;
+            CheckingStrategy result = CheckingStrategy.ConflictBackjumping;
 
             // Assert
             using (new AssertionScope())
@@ -68,7 +68,7 @@ public static class CheckingStrategyTests
                 result.Number.Should().Be(3);
                 result.Code.Should().Be("CBJ");
                 result.Name.Should().Be("Conflict-Directed Backjumping");
-                result.Type.Should().Be(CheckingStrategyType.Retrospective);
+                result.Type.Should().Be(CheckingStrategyType.LookBack);
             }
         }
 
@@ -84,7 +84,7 @@ public static class CheckingStrategyTests
                 result.Number.Should().Be(4);
                 result.Code.Should().Be("FC");
                 result.Name.Should().Be("Forward Checking");
-                result.Type.Should().Be(CheckingStrategyType.Prospective);
+                result.Type.Should().Be(CheckingStrategyType.LookAhead);
             }
         }
 
@@ -100,7 +100,7 @@ public static class CheckingStrategyTests
                 result.Number.Should().Be(5);
                 result.Code.Should().Be("PLA");
                 result.Name.Should().Be("Partial Looking Ahead");
-                result.Type.Should().Be(CheckingStrategyType.Prospective);
+                result.Type.Should().Be(CheckingStrategyType.LookAhead);
             }
         }
 
@@ -116,7 +116,7 @@ public static class CheckingStrategyTests
                 result.Number.Should().Be(6);
                 result.Code.Should().Be("FLA");
                 result.Name.Should().Be("Full Looking Ahead");
-                result.Type.Should().Be(CheckingStrategyType.Prospective);
+                result.Type.Should().Be(CheckingStrategyType.LookAhead);
             }
         }
 
@@ -132,7 +132,7 @@ public static class CheckingStrategyTests
                 result.Number.Should().Be(7);
                 result.Code.Should().Be("MAC");
                 result.Name.Should().Be("Maintaining Arc Consistency");
-                result.Type.Should().Be(CheckingStrategyType.Prospective);
+                result.Type.Should().Be(CheckingStrategyType.LookAhead);
             }
         }
     }
@@ -278,8 +278,8 @@ public static class CheckingStrategyTests
         {
             { CheckingStrategy.NaiveBacktracking, "BT" },
             { CheckingStrategy.Backjumping, "BJ" },
-            { CheckingStrategy.GraphBasedBackjumping, "GBJ" },
-            { CheckingStrategy.ConflictDirectedBackjumping, "CBJ" },
+            { CheckingStrategy.GraphBackjumping, "GBJ" },
+            { CheckingStrategy.ConflictBackjumping, "CBJ" },
             { CheckingStrategy.ForwardChecking, "FC" },
             { CheckingStrategy.PartialLookingAhead, "PLA" },
             { CheckingStrategy.FullLookingAhead, "FLA" },
@@ -303,14 +303,14 @@ public static class CheckingStrategyTests
     {
         public static TheoryData<CheckingStrategy, string> TestCases => new()
         {
-            { CheckingStrategy.NaiveBacktracking, "BT (Naive Backtracking, Retrospective)" },
-            { CheckingStrategy.Backjumping, "BJ (Backjumping, Retrospective)" },
-            { CheckingStrategy.GraphBasedBackjumping, "GBJ (Graph-Based Backjumping, Retrospective)" },
-            { CheckingStrategy.ConflictDirectedBackjumping, "CBJ (Conflict-Directed Backjumping, Retrospective)" },
-            { CheckingStrategy.ForwardChecking, "FC (Forward Checking, Prospective)" },
-            { CheckingStrategy.PartialLookingAhead, "PLA (Partial Looking Ahead, Prospective)" },
-            { CheckingStrategy.FullLookingAhead, "FLA (Full Looking Ahead, Prospective)" },
-            { CheckingStrategy.MaintainingArcConsistency, "MAC (Maintaining Arc Consistency, Prospective)" }
+            { CheckingStrategy.NaiveBacktracking, "BT (Naive Backtracking)" },
+            { CheckingStrategy.Backjumping, "BJ (Backjumping)" },
+            { CheckingStrategy.GraphBackjumping, "GBJ (Graph-Based Backjumping)" },
+            { CheckingStrategy.ConflictBackjumping, "CBJ (Conflict-Directed Backjumping)" },
+            { CheckingStrategy.ForwardChecking, "FC (Forward Checking)" },
+            { CheckingStrategy.PartialLookingAhead, "PLA (Partial Looking Ahead)" },
+            { CheckingStrategy.FullLookingAhead, "FLA (Full Looking Ahead)" },
+            { CheckingStrategy.MaintainingArcConsistency, "MAC (Maintaining Arc Consistency)" }
         };
 
         [Theory]
@@ -405,8 +405,8 @@ public static class CheckingStrategyTests
             // Assert
             result.Should().Equal(CheckingStrategy.NaiveBacktracking,
                 CheckingStrategy.Backjumping,
-                CheckingStrategy.GraphBasedBackjumping,
-                CheckingStrategy.ConflictDirectedBackjumping,
+                CheckingStrategy.GraphBackjumping,
+                CheckingStrategy.ConflictBackjumping,
                 CheckingStrategy.ForwardChecking,
                 CheckingStrategy.PartialLookingAhead,
                 CheckingStrategy.FullLookingAhead,
