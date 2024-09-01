@@ -15,11 +15,11 @@ public abstract partial class ConstraintGraph<TVariable, TDomainValue, TProblem>
     where TDomainValue : struct, IComparable<TDomainValue>, IEquatable<TDomainValue>
     where TProblem : class
 {
-    private readonly List<List<IConsistencyChecker>> _adjacencyMatrix;
+    private readonly List<List<IAdjacency>> _adjacencyMatrix;
     private readonly List<Edge> _edges;
     private readonly List<Node> _nodes;
-    private readonly IConsistencyChecker _nonAdjacentNodesFallback;
-    private readonly IConsistencyChecker _sameNodeFallback;
+    private readonly IAdjacency _nonAdjacentNodesFallback;
+    private readonly IAdjacency _sameNodeFallback;
 
     /// <summary>
     ///     Initializes a new constraint graph instance that is not modelling a problem and has a default initial
@@ -32,7 +32,7 @@ public abstract partial class ConstraintGraph<TVariable, TDomainValue, TProblem>
     /// </remarks>
     protected ConstraintGraph()
     {
-        _adjacencyMatrix = new List<List<IConsistencyChecker>>(0);
+        _adjacencyMatrix = new List<List<IAdjacency>>(0);
         _edges = new List<Edge>(0);
         _nodes = new List<Node>(0);
         _nonAdjacentNodesFallback = new NonAdjacentNodesFallback(this);
@@ -54,7 +54,7 @@ public abstract partial class ConstraintGraph<TVariable, TDomainValue, TProblem>
     {
         ArgumentOutOfRangeException.ThrowIfNegative(capacity);
 
-        _adjacencyMatrix = new List<List<IConsistencyChecker>>(capacity);
+        _adjacencyMatrix = new List<List<IAdjacency>>(capacity);
         _edges = new List<Edge>(capacity);
         _nodes = new List<Node>(capacity);
         _sameNodeFallback = new SameNodeFallback(this);
@@ -255,18 +255,26 @@ public abstract partial class ConstraintGraph<TVariable, TDomainValue, TProblem>
     protected internal IEnumerable<ConstraintGraphEdge<TVariable, TDomainValue>> GetConstraintGraphEdges() =>
         _edges.Select(edge => edge.ToConstraintGraphEdge());
 
+    private protected abstract void PopulateProblemData(TProblem problem);
+
+    private protected abstract IEnumerable<TVariable> GetVariables();
+
+    private protected abstract IEnumerable<TDomainValue> GetDomainValues(TVariable presentVariable);
+
+    private protected abstract bool TryGetBinaryPredicate(TVariable firstVariable,
+        TVariable secondVariable,
+        [NotNullWhen(true)] out Func<TDomainValue, TDomainValue, bool>? binaryPredicate);
+
+    private protected abstract void ClearProblemData();
+
     private int TryGetDegreeAt(int index) => _nodes[index].Degree;
 
     private double TryGetSumTightnessAt(int index) => _nodes[index].SumTightness;
 
     private bool TryCheckAdjacent(int indexA, int indexB) => _adjacencyMatrix[indexA][indexB].Adjacent;
 
-    private bool TryCheckConsistent(IAssignment assignmentA, IAssignment assignmentB)
-    {
-        IConsistencyChecker consistencyChecker = _adjacencyMatrix[assignmentA.VariableIndex][assignmentB.VariableIndex];
-
-        return consistencyChecker.Consistent(assignmentA, assignmentB);
-    }
+    private bool TryCheckConsistent(IAssignment assignmentA, IAssignment assignmentB) =>
+        _adjacencyMatrix[assignmentA.VariableIndex][assignmentB.VariableIndex].Consistent(assignmentA, assignmentB);
 
     private bool TryEdge(int firstIndex, int secondIndex, [NotNullWhen(true)] out Edge? edge)
     {
@@ -315,23 +323,11 @@ public abstract partial class ConstraintGraph<TVariable, TDomainValue, TProblem>
     {
         for (int i = 0; i < _nodes.Count; i++)
         {
-            List<IConsistencyChecker> row = Enumerable.Repeat(_nonAdjacentNodesFallback, _nodes.Count).ToList();
+            List<IAdjacency> row = Enumerable.Repeat(_nonAdjacentNodesFallback, _nodes.Count).ToList();
             row[i] = _sameNodeFallback;
             _adjacencyMatrix.Add(row);
         }
     }
-
-    private protected abstract void PopulateProblemData(TProblem problem);
-
-    private protected abstract IEnumerable<TVariable> GetVariables();
-
-    private protected abstract IEnumerable<TDomainValue> GetDomainValues(TVariable presentVariable);
-
-    private protected abstract bool TryGetBinaryPredicate(TVariable firstVariable,
-        TVariable secondVariable,
-        [NotNullWhen(true)] out Func<TDomainValue, TDomainValue, bool>? binaryPredicate);
-
-    private protected abstract void ClearProblemData();
 
     private TVariable TryGetVariableAt(int index) => _nodes[index].Variable;
 

@@ -128,20 +128,4 @@ public abstract partial class ConstraintGraph<TVariable, TDomainValue, TProblem>
             return edge;
         }
     }
-
-    private sealed record ForwardEdge(Edge Edge) : IConsistencyChecker
-    {
-        public bool Adjacent => true;
-
-        public bool Consistent(IAssignment assignmentA, IAssignment assignmentB) =>
-            Edge.Consistent(assignmentA.DomainValueIndex, assignmentB.DomainValueIndex);
-    }
-
-    private sealed record ReversedEdge(Edge Edge) : IConsistencyChecker
-    {
-        public bool Adjacent => true;
-
-        public bool Consistent(IAssignment assignmentA, IAssignment assignmentB) =>
-            Edge.Consistent(assignmentB.DomainValueIndex, assignmentA.DomainValueIndex);
-    }
 }
