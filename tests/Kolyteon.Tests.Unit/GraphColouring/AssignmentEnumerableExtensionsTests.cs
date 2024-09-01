@@ -15,9 +15,9 @@ public static class AssignmentEnumerableExtensionsTests
             // Arrange
             Assignment<Node, Colour>[] sut =
             [
-                new Assignment<Node, Colour>(Node.FromName("Lundy"), Colour.Black),
-                new Assignment<Node, Colour>(Node.FromName("Fastnet"), Colour.Red),
-                new Assignment<Node, Colour>(Node.FromName("Irish Sea"), Colour.White)
+                new(Node.FromName("Lundy"), Colour.Black),
+                new(Node.FromName("Fastnet"), Colour.Red),
+                new(Node.FromName("Irish Sea"), Colour.White)
             ];
 
             // Act

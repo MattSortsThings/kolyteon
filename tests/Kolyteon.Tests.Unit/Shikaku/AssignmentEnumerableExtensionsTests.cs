@@ -15,9 +15,9 @@ public static class AssignmentEnumerableExtensionsTests
             // Arrange
             Assignment<NumberedSquare, Block>[] sut =
             [
-                new Assignment<NumberedSquare, Block>(NumberedSquare.Parse("(0,0) [5]"), Block.Parse("(0,0) [5x1]")),
-                new Assignment<NumberedSquare, Block>(NumberedSquare.Parse("(0,1) [5]"), Block.Parse("(0,1) [5x1]")),
-                new Assignment<NumberedSquare, Block>(NumberedSquare.Parse("(0,2) [15]"), Block.Parse("(0,2) [5x3]"))
+                new(NumberedSquare.Parse("(0,0) [5]"), Block.Parse("(0,0) [5x1]")),
+                new(NumberedSquare.Parse("(0,1) [5]"), Block.Parse("(0,1) [5x1]")),
+                new(NumberedSquare.Parse("(0,2) [15]"), Block.Parse("(0,2) [5x3]"))
             ];
 
             // Act

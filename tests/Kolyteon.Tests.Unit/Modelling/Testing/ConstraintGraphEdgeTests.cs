@@ -37,10 +37,10 @@ public static class ConstraintGraphEdgeTests
             const char sharedFirstVariable = 'A';
             const char sharedSecondVariable = 'B';
             const double sharedTightness = 0.5;
-            AssignmentPair<int>[] sharedAssignmentPairs =
+            AssignmentPair<int>[] assignmentPairs =
             [
-                new AssignmentPair<int>(0, 0, false),
-                new AssignmentPair<int>(0, 1, true)
+                new(0, 0, false),
+                new(0, 1, true)
             ];
 
             ConstraintGraphEdge<char, int> sut = new()
@@ -48,7 +48,7 @@ public static class ConstraintGraphEdgeTests
                 FirstVariable = sharedFirstVariable,
                 SecondVariable = sharedSecondVariable,
                 Tightness = sharedTightness,
-                AssignmentPairs = sharedAssignmentPairs
+                AssignmentPairs = assignmentPairs
             };
 
             ConstraintGraphEdge<char, int> other = new()
@@ -56,7 +56,7 @@ public static class ConstraintGraphEdgeTests
                 FirstVariable = sharedFirstVariable,
                 SecondVariable = sharedSecondVariable,
                 Tightness = sharedTightness,
-                AssignmentPairs = sharedAssignmentPairs
+                AssignmentPairs = assignmentPairs
             };
 
             // Act
@@ -72,10 +72,10 @@ public static class ConstraintGraphEdgeTests
             // Arrange
             const char sharedSecondVariable = 'B';
             const double sharedTightness = 0.5;
-            AssignmentPair<int>[] sharedAssignmentPairs =
+            AssignmentPair<int>[] assignmentPairs =
             [
-                new AssignmentPair<int>(0, 0, false),
-                new AssignmentPair<int>(0, 1, true)
+                new(0, 0, false),
+                new(0, 1, true)
             ];
 
             ConstraintGraphEdge<char, int> sut = new()
@@ -83,7 +83,7 @@ public static class ConstraintGraphEdgeTests
                 FirstVariable = 'A',
                 SecondVariable = sharedSecondVariable,
                 Tightness = sharedTightness,
-                AssignmentPairs = sharedAssignmentPairs
+                AssignmentPairs = assignmentPairs
             };
 
             ConstraintGraphEdge<char, int> other = sut with { FirstVariable = 'Z' };
@@ -101,10 +101,10 @@ public static class ConstraintGraphEdgeTests
             // Arrange
             const char sharedFirstVariable = 'A';
             const double sharedTightness = 0.5;
-            AssignmentPair<int>[] sharedAssignmentPairs =
+            AssignmentPair<int>[] assignmentPairs =
             [
-                new AssignmentPair<int>(0, 0, false),
-                new AssignmentPair<int>(0, 1, true)
+                new(0, 0, false),
+                new(0, 1, true)
             ];
 
             ConstraintGraphEdge<char, int> sut = new()
@@ -112,7 +112,7 @@ public static class ConstraintGraphEdgeTests
                 FirstVariable = sharedFirstVariable,
                 SecondVariable = 'B',
                 Tightness = sharedTightness,
-                AssignmentPairs = sharedAssignmentPairs
+                AssignmentPairs = assignmentPairs
             };
 
             ConstraintGraphEdge<char, int> other = sut with { SecondVariable = 'Z' };
@@ -130,10 +130,10 @@ public static class ConstraintGraphEdgeTests
             // Arrange
             const char sharedFirstVariable = 'A';
             const char sharedSecondVariable = 'B';
-            AssignmentPair<int>[] sharedAssignmentPairs =
+            AssignmentPair<int>[] assignmentPairs =
             [
-                new AssignmentPair<int>(0, 0, false),
-                new AssignmentPair<int>(0, 1, true)
+                new(0, 0, false),
+                new(0, 1, true)
             ];
 
             ConstraintGraphEdge<char, int> sut = new()
@@ -141,7 +141,7 @@ public static class ConstraintGraphEdgeTests
                 FirstVariable = sharedFirstVariable,
                 SecondVariable = sharedSecondVariable,
                 Tightness = 0.5,
-                AssignmentPairs = sharedAssignmentPairs
+                AssignmentPairs = assignmentPairs
             };
 
             ConstraintGraphEdge<char, int> other = sut with { Tightness = 0.499999 };
@@ -259,10 +259,10 @@ public static class ConstraintGraphEdgeTests
             const char sharedSecondVariable = 'B';
             const double sharedTightness = 0.5;
 
-            AssignmentPair<int>[] sharedAssignmentPairs =
+            AssignmentPair<int>[] assignmentPairs =
             [
-                new AssignmentPair<int>(0, 0, false),
-                new AssignmentPair<int>(0, 1, true)
+                new(0, 0, false),
+                new(0, 1, true)
             ];
 
             ConstraintGraphEdge<char, int> sut = new()
@@ -270,7 +270,7 @@ public static class ConstraintGraphEdgeTests
                 FirstVariable = sharedFirstVariable,
                 SecondVariable = sharedSecondVariable,
                 Tightness = sharedTightness,
-                AssignmentPairs = sharedAssignmentPairs
+                AssignmentPairs = assignmentPairs
             };
 
             ConstraintGraphEdge<char, int> other = new()
@@ -278,7 +278,7 @@ public static class ConstraintGraphEdgeTests
                 FirstVariable = sharedFirstVariable,
                 SecondVariable = sharedSecondVariable,
                 Tightness = sharedTightness,
-                AssignmentPairs = sharedAssignmentPairs
+                AssignmentPairs = assignmentPairs
             };
 
             // Act
@@ -295,10 +295,10 @@ public static class ConstraintGraphEdgeTests
             const char sharedSecondVariable = 'B';
             const double sharedTightness = 0.5;
 
-            AssignmentPair<int>[] sharedAssignmentPairs =
+            AssignmentPair<int>[] assignmentPairs =
             [
-                new AssignmentPair<int>(0, 0, false),
-                new AssignmentPair<int>(0, 1, true)
+                new(0, 0, false),
+                new(0, 1, true)
             ];
 
             ConstraintGraphEdge<char, int> sut = new()
@@ -306,7 +306,7 @@ public static class ConstraintGraphEdgeTests
                 FirstVariable = 'A',
                 SecondVariable = sharedSecondVariable,
                 Tightness = sharedTightness,
-                AssignmentPairs = sharedAssignmentPairs
+                AssignmentPairs = assignmentPairs
             };
 
             ConstraintGraphEdge<char, int> other = sut with { FirstVariable = 'Z' };
@@ -325,10 +325,10 @@ public static class ConstraintGraphEdgeTests
             const char sharedFirstVariable = 'A';
             const double sharedTightness = 0.5;
 
-            AssignmentPair<int>[] sharedAssignmentPairs =
+            AssignmentPair<int>[] assignmentPairs =
             [
-                new AssignmentPair<int>(0, 0, false),
-                new AssignmentPair<int>(0, 1, true)
+                new(0, 0, false),
+                new(0, 1, true)
             ];
 
             ConstraintGraphEdge<char, int> sut = new()
@@ -336,7 +336,7 @@ public static class ConstraintGraphEdgeTests
                 FirstVariable = sharedFirstVariable,
                 SecondVariable = 'B',
                 Tightness = sharedTightness,
-                AssignmentPairs = sharedAssignmentPairs
+                AssignmentPairs = assignmentPairs
             };
 
             ConstraintGraphEdge<char, int> other = sut with { SecondVariable = 'Z' };
@@ -355,10 +355,10 @@ public static class ConstraintGraphEdgeTests
             const char sharedFirstVariable = 'A';
             const char sharedSecondVariable = 'B';
 
-            AssignmentPair<int>[] sharedAssignmentPairs =
+            AssignmentPair<int>[] assignmentPairs =
             [
-                new AssignmentPair<int>(0, 0, false),
-                new AssignmentPair<int>(0, 1, true)
+                new(0, 0, false),
+                new(0, 1, true)
             ];
 
             ConstraintGraphEdge<char, int> sut = new()
@@ -366,7 +366,7 @@ public static class ConstraintGraphEdgeTests
                 FirstVariable = sharedFirstVariable,
                 SecondVariable = sharedSecondVariable,
                 Tightness = 0.5,
-                AssignmentPairs = sharedAssignmentPairs
+                AssignmentPairs = assignmentPairs
             };
 
             ConstraintGraphEdge<char, int> other = sut with { Tightness = 0.499999 };
@@ -461,10 +461,10 @@ public static class ConstraintGraphEdgeTests
             const char sharedSecondVariable = 'B';
             const double sharedTightness = 0.5;
 
-            AssignmentPair<int>[] sharedAssignmentPairs =
+            AssignmentPair<int>[] assignmentPairs =
             [
-                new AssignmentPair<int>(0, 0, false),
-                new AssignmentPair<int>(0, 1, true)
+                new(0, 0, false),
+                new(0, 1, true)
             ];
 
             ConstraintGraphEdge<char, int> sut = new()
@@ -472,7 +472,7 @@ public static class ConstraintGraphEdgeTests
                 FirstVariable = sharedFirstVariable,
                 SecondVariable = sharedSecondVariable,
                 Tightness = sharedTightness,
-                AssignmentPairs = sharedAssignmentPairs
+                AssignmentPairs = assignmentPairs
             };
 
             ConstraintGraphEdge<char, int> other = new()
@@ -480,7 +480,7 @@ public static class ConstraintGraphEdgeTests
                 FirstVariable = sharedFirstVariable,
                 SecondVariable = sharedSecondVariable,
                 Tightness = sharedTightness,
-                AssignmentPairs = sharedAssignmentPairs
+                AssignmentPairs = assignmentPairs
             };
 
             // Act
@@ -497,10 +497,10 @@ public static class ConstraintGraphEdgeTests
             const char sharedSecondVariable = 'B';
             const double sharedTightness = 0.5;
 
-            AssignmentPair<int>[] sharedAssignmentPairs =
+            AssignmentPair<int>[] assignmentPairs =
             [
-                new AssignmentPair<int>(0, 0, false),
-                new AssignmentPair<int>(0, 1, true)
+                new(0, 0, false),
+                new(0, 1, true)
             ];
 
             ConstraintGraphEdge<char, int> sut = new()
@@ -508,7 +508,7 @@ public static class ConstraintGraphEdgeTests
                 FirstVariable = 'A',
                 SecondVariable = sharedSecondVariable,
                 Tightness = sharedTightness,
-                AssignmentPairs = sharedAssignmentPairs
+                AssignmentPairs = assignmentPairs
             };
 
             ConstraintGraphEdge<char, int> other = sut with { FirstVariable = 'Z' };
@@ -527,10 +527,10 @@ public static class ConstraintGraphEdgeTests
             const char sharedFirstVariable = 'A';
             const double sharedTightness = 0.5;
 
-            AssignmentPair<int>[] sharedAssignmentPairs =
+            AssignmentPair<int>[] assignmentPairs =
             [
-                new AssignmentPair<int>(0, 0, false),
-                new AssignmentPair<int>(0, 1, true)
+                new(0, 0, false),
+                new(0, 1, true)
             ];
 
             ConstraintGraphEdge<char, int> sut = new()
@@ -538,7 +538,7 @@ public static class ConstraintGraphEdgeTests
                 FirstVariable = sharedFirstVariable,
                 SecondVariable = 'B',
                 Tightness = sharedTightness,
-                AssignmentPairs = sharedAssignmentPairs
+                AssignmentPairs = assignmentPairs
             };
 
             ConstraintGraphEdge<char, int> other = sut with { SecondVariable = 'Z' };
@@ -557,10 +557,10 @@ public static class ConstraintGraphEdgeTests
             const char sharedFirstVariable = 'A';
             const char sharedSecondVariable = 'B';
 
-            AssignmentPair<int>[] sharedAssignmentPairs =
+            AssignmentPair<int>[] assignmentPairs =
             [
-                new AssignmentPair<int>(0, 0, false),
-                new AssignmentPair<int>(0, 1, true)
+                new(0, 0, false),
+                new(0, 1, true)
             ];
 
             ConstraintGraphEdge<char, int> sut = new()
@@ -568,7 +568,7 @@ public static class ConstraintGraphEdgeTests
                 FirstVariable = sharedFirstVariable,
                 SecondVariable = sharedSecondVariable,
                 Tightness = 0.5,
-                AssignmentPairs = sharedAssignmentPairs
+                AssignmentPairs = assignmentPairs
             };
 
             ConstraintGraphEdge<char, int> other = sut with { Tightness = 0.499999 };

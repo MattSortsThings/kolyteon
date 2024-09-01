@@ -14,10 +14,10 @@ public static class SolvingResultTests
         private const int FixedBacktrackingSteps = 1;
         private static readonly Assignment<char, int>[] FixedAssignments =
         [
-            new Assignment<char, int>('A', 0),
-            new Assignment<char, int>('C', 2),
-            new Assignment<char, int>('B', 1),
-            new Assignment<char, int>('D', 3)
+            new('A', 0),
+            new('C', 2),
+            new('B', 1),
+            new('D', 3)
         ];
 
         private static readonly SearchAlgorithm FixedSearchAlgorithm =
@@ -221,10 +221,10 @@ public static class SolvingResultTests
         private const int FixedBacktrackingSteps = 1;
         private static readonly Assignment<char, int>[] FixedAssignments =
         [
-            new Assignment<char, int>('A', 0),
-            new Assignment<char, int>('C', 2),
-            new Assignment<char, int>('B', 1),
-            new Assignment<char, int>('D', 3)
+            new('A', 0),
+            new('C', 2),
+            new('B', 1),
+            new('D', 3)
         ];
 
         private static readonly SearchAlgorithm FixedSearchAlgorithm =
@@ -388,10 +388,10 @@ public static class SolvingResultTests
         private const int FixedBacktrackingSteps = 1;
         private static readonly Assignment<char, int>[] FixedAssignments =
         [
-            new Assignment<char, int>('A', 0),
-            new Assignment<char, int>('C', 2),
-            new Assignment<char, int>('B', 1),
-            new Assignment<char, int>('D', 3)
+            new('A', 0),
+            new('C', 2),
+            new('B', 1),
+            new('D', 3)
         ];
 
         private static readonly SearchAlgorithm FixedSearchAlgorithm =

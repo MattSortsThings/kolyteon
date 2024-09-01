@@ -15,10 +15,10 @@ public static class AssignmentEnumerableExtensionsTests
             // Arrange
             Assignment<int, Square>[] sut =
             [
-                new Assignment<int, Square>(0, Square.Parse("(0,1)")),
-                new Assignment<int, Square>(1, Square.Parse("(1,3)")),
-                new Assignment<int, Square>(3, Square.Parse("(3,2)")),
-                new Assignment<int, Square>(2, Square.Parse("(2,0)"))
+                new(0, Square.Parse("(0,1)")),
+                new(1, Square.Parse("(1,3)")),
+                new(3, Square.Parse("(3,2)")),
+                new(2, Square.Parse("(2,0)"))
             ];
 
             // Act

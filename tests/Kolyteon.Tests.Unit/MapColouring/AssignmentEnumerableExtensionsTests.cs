@@ -15,9 +15,9 @@ public static class AssignmentEnumerableExtensionsTests
             // Arrange
             Assignment<Block, Colour>[] sut =
             [
-                new Assignment<Block, Colour>(Block.Parse("(0,0) [5x1]"), Colour.Black),
-                new Assignment<Block, Colour>(Block.Parse("(0,1) [5x1]"), Colour.Red),
-                new Assignment<Block, Colour>(Block.Parse("(0,2) [5x3]"), Colour.White)
+                new(Block.Parse("(0,0) [5x1]"), Colour.Black),
+                new(Block.Parse("(0,1) [5x1]"), Colour.Red),
+                new(Block.Parse("(0,2) [5x3]"), Colour.White)
             ];
 
             // Act
