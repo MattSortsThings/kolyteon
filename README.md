@@ -1,16 +1,13 @@
 # Kolyteon
 
-<div id="logoContainer">
-<img src="assets/kolyteon_logo_250x250.png" alt="kolyteon_logo"/>
-</div>
+![Kolyteon icon](https://raw.githubusercontent.com/MattSortsThings/kolyteon/main/assets/kolyteon_icon_250x250.png)
 
 1. Generate a logic problem.
 2. Model it as a binary constraint satisfaction problem (CSP).
 3. Choose a backtracking search algorithm.
 4. Watch the CSP get solved.
 
-
-## Kolyteon is...
+## Kolyteon is
 
 - a .NET class library for modelling and solving problems as binary constraint satisfaction problems (binary CSPs).
 - a tool for observing and measuring the performance of established backtracking search algorithms.
@@ -19,23 +16,28 @@
 ## Key features
 
 ### Binary CSP modelling
+
 - `IReadOnlyBinaryCsp<TVariable, TDomainValue>` interface represents a generic binary CSP with the given variable and domain value types.
 - `IBinaryCsp<TVariable, TDomainValue, TProblem>` interface extends the above to model any instance of the given problem type.
 - `ConstraintGraph<TVariable, TDomainValue, TProblem>` abstract base class implements the above, with template methods for implementing a problem-specific concrete derivative.
 
 ### Silent binary CSP solving
+
 - `ISilentBinaryCspSolver<TVariable, TDomainValue>` interface silently and synchronously solves an `IReadOnlyBinaryCsp<TVariable, TDomainValue, TProblem>` with optional cancellation, using its configured search algorithm.
 - `SilentBinaryCspSolver<TVariable, TDomainValue>` class implements the above.
 
 ### Verbose binary CSP solving
+
 - `IVerboseBinaryCspSolver<TVariable, TDomainValue>` interface asynchronously solves an `IReadOnlyBinaryCsp<TVariable, TDomainValue, TProblem>` with optional cancellation, using its configured search algorithm and sending a progress notification to the client after every step.
 - `VerboseBinaryCspSolver<TVariable, TDomainValue>` class implements the above.
 
 ### Choose your own algorithm
+
 - The silent and verbose solvers are configurable at instantiation and at runtime with any backtracking search algorithm composed of a checking strategy and an ordering strategy.
 - Eight checking strategies and four ordering strategies are included, for a total of 36 possible search algorithms.
 
 ### Six different problem types
+
 - A complete set of immutable, serializable types for representing the following problems in code:
   - Futoshiki
   - Graph Colouring

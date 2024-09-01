@@ -11,11 +11,12 @@
     <Product>Kolyteon</Product>
     <Copyright>Copyright (c) Matt Tantony 2024.</Copyright>
     <Description>Generate a logic problem. Model it as a binary constraint satisfaction problem (CSP). Choose a backtracking search algorithm. Watch the CSP get solved. Included problem types: Futoshiki, Graph Colouring, Map Colouring, N-Queens, Shikaku and Sudoku.</Description>
-    <PackageIcon>kolyteon_icon.png</PackageIcon>
+    <PackageIcon>kolyteon_icon_128x128.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageProjectUrl>https://github.com/MattSortsThings/kolyteon</PackageProjectUrl>
     <RepositoryUrl>https://github.com/MattSortsThings/kolyteon</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageTags>colouring,constraint,csp,futoshiki,logic,n-queens,shikaku,solving,sudoku</PackageTags>
+    <PackageTags>backtracking;constraint;csp;futoshiki;graph-colouring;logic;map-colouring;n-queens;shikaku;solving;sudoku</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,9 +28,9 @@
     </AssemblyAttribute>
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="assets/kolyteon_icon.png" Pack="true" PackagePath="\"/>
-    <None Include="assets/README.md" Pack="true" PackagePath="\"/>
+   <ItemGroup>
+    <None Include="../../assets/kolyteon_icon_120x120.png" Pack="true" Visible="false" PackagePath="/"/>
+    <None Include="../../README.md" Pack="true" Visible="false" PackagePath="/"/>
   </ItemGroup>
 
 </Project>
