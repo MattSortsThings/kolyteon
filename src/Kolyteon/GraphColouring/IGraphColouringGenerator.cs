@@ -19,7 +19,7 @@ public interface IGraphColouringGenerator
     /// <exception cref="ArgumentOutOfRangeException">
     ///     <paramref name="nodes" /> is less than or equal to zero, or <paramref name="nodes" /> is greater than 50.
     /// </exception>
-    public GraphColouringProblem Generate(int nodes, HashSet<Colour> permittedColours);
+    public GraphColouringProblem Generate(int nodes, IReadOnlySet<Colour> permittedColours);
 
     /// <summary>
     ///     Sets the seed value for the random number sequence used by this instance to generate the problem.

@@ -40,7 +40,7 @@ public sealed class GraphColouringGenerator : IGraphColouringGenerator
     }
 
     /// <inheritdoc />
-    public GraphColouringProblem Generate(int nodes, HashSet<Colour> permittedColours)
+    public GraphColouringProblem Generate(int nodes, IReadOnlySet<Colour> permittedColours)
     {
         ThrowIfInvalidNodes(nodes, nameof(nodes));
         ArgumentNullException.ThrowIfNull(permittedColours);
@@ -121,7 +121,7 @@ public sealed class GraphColouringGenerator : IGraphColouringGenerator
         }
     }
 
-    private static void ThrowIfInsufficientColours(ICollection<Colour> colours, string paramName)
+    private static void ThrowIfInsufficientColours(IReadOnlyCollection<Colour> colours, string paramName)
     {
         if (colours.Count < MinPermittedColours)
         {
