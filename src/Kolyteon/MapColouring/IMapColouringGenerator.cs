@@ -20,7 +20,7 @@ public interface IMapColouringGenerator
     ///     <paramref name="blocks" /> is less than or equal to zero, or
     ///     <paramref name="blocks" /> is greater than 50.
     /// </exception>
-    public MapColouringProblem Generate(int blocks, HashSet<Colour> permittedColours);
+    public MapColouringProblem Generate(int blocks, IReadOnlySet<Colour> permittedColours);
 
     /// <summary>
     ///     Sets the seed value for the random number sequence used by this instance to generate the problem.

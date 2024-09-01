@@ -40,7 +40,7 @@ public sealed class MapColouringGenerator : IMapColouringGenerator
 
     /// <inheritdoc />
     /// <remarks>The generated problem has a 10x10 canvas, covered by a tessellation of blocks with no gaps.</remarks>
-    public MapColouringProblem Generate(int blocks, HashSet<Colour> permittedColours)
+    public MapColouringProblem Generate(int blocks, IReadOnlySet<Colour> permittedColours)
     {
         ThrowIfInvalidBlocks(blocks, nameof(blocks));
         ArgumentNullException.ThrowIfNull(permittedColours);
@@ -112,11 +112,6 @@ public sealed class MapColouringGenerator : IMapColouringGenerator
             : block.DivideOnColumn(_random.Next(1, width));
     }
 
-    private static IMapColouringProblemBuilder.IBlockAdder InitializeBuilder(HashSet<Colour> permittedColours,
-        Dimensions canvasDimensions) => MapColouringProblem.Create()
-        .WithCanvasSize(canvasDimensions)
-        .UseGlobalColours(permittedColours.ToArray());
-
     private static void ThrowIfInvalidBlocks(int blocks, string paramName)
     {
         if (blocks is < MinBlocks or > MaxBlocks)
@@ -126,7 +121,7 @@ public sealed class MapColouringGenerator : IMapColouringGenerator
         }
     }
 
-    private static void ThrowIfInsufficientColours(ICollection<Colour> colours, string paramName)
+    private static void ThrowIfInsufficientColours(IReadOnlyCollection<Colour> colours, string paramName)
     {
         if (colours.Count < MinPermittedColours)
         {
