@@ -34,7 +34,7 @@ internal sealed class TestConstraintGraph : ConstraintGraph<char, int, TestProbl
         return constraintGraph;
     }
 
-    private protected override void PopulateProblemData(TestProblem problem)
+    protected override void PopulateProblemData(TestProblem problem)
     {
         foreach ((char variable, int[] domain) in problem)
         {
@@ -42,11 +42,11 @@ internal sealed class TestConstraintGraph : ConstraintGraph<char, int, TestProbl
         }
     }
 
-    private protected override IEnumerable<char> GetVariables() => _variablesAndDomains.Keys;
+    protected override IEnumerable<char> GetVariables() => _variablesAndDomains.Keys;
 
-    private protected override IEnumerable<int> GetDomainValues(char presentVariable) => _variablesAndDomains[presentVariable];
+    protected override IEnumerable<int> GetDomainValues(char presentVariable) => _variablesAndDomains[presentVariable];
 
-    private protected override bool TryGetBinaryPredicate(char firstVariable,
+    protected override bool TryGetBinaryPredicate(char firstVariable,
         char secondVariable,
         [NotNullWhen(true)] out Func<int, int, bool>? binaryPredicate)
     {
@@ -55,7 +55,7 @@ internal sealed class TestConstraintGraph : ConstraintGraph<char, int, TestProbl
         return true;
     }
 
-    private protected override void ClearProblemData() => _variablesAndDomains.Clear();
+    protected override void ClearProblemData() => _variablesAndDomains.Clear();
 
     private static bool DifferentValues(int x, int y) => x != y;
 }

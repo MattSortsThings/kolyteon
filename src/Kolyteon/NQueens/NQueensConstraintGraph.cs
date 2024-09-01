@@ -45,12 +45,12 @@ public sealed class NQueensConstraintGraph : ConstraintGraph<int, Square, NQueen
         return constraintGraph;
     }
 
-    private protected override void PopulateProblemData(NQueensProblem problem) =>
+    protected override void PopulateProblemData(NQueensProblem problem) =>
         ((_, (_, _chessBoardHeightInSquares)), _queens) = problem;
 
-    private protected override IEnumerable<int> GetVariables() => Enumerable.Range(0, _queens);
+    protected override IEnumerable<int> GetVariables() => Enumerable.Range(0, _queens);
 
-    private protected override IEnumerable<Square> GetDomainValues(int presentVariable)
+    protected override IEnumerable<Square> GetDomainValues(int presentVariable)
     {
         for (int row = 0; row < _chessBoardHeightInSquares; row++)
         {
@@ -58,7 +58,7 @@ public sealed class NQueensConstraintGraph : ConstraintGraph<int, Square, NQueen
         }
     }
 
-    private protected override bool TryGetBinaryPredicate(int firstVariable,
+    protected override bool TryGetBinaryPredicate(int firstVariable,
         int secondVariable,
         [NotNullWhen(true)] out Func<Square, Square, bool>? binaryPredicate)
     {
@@ -67,7 +67,7 @@ public sealed class NQueensConstraintGraph : ConstraintGraph<int, Square, NQueen
         return true;
     }
 
-    private protected override void ClearProblemData()
+    protected override void ClearProblemData()
     {
         _chessBoardHeightInSquares = default;
         _queens = default;

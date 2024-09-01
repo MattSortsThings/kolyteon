@@ -17,7 +17,7 @@ public sealed class MapColouringConstraintGraph : ConstraintGraph<Block, Colour,
     /// </summary>
     public MapColouringConstraintGraph()
     {
-        _blocksAndPermittedColours = new Dictionary<Block, IReadOnlyCollection<Colour>>(0);
+        _blocksAndPermittedColours = [];
     }
 
     /// <summary>
@@ -68,7 +68,7 @@ public sealed class MapColouringConstraintGraph : ConstraintGraph<Block, Colour,
         return constraintGraph;
     }
 
-    private protected override void PopulateProblemData(MapColouringProblem problem)
+    protected override void PopulateProblemData(MapColouringProblem problem)
     {
         _blocksAndPermittedColours.EnsureCapacity(problem.BlockData.Count);
 
@@ -78,12 +78,12 @@ public sealed class MapColouringConstraintGraph : ConstraintGraph<Block, Colour,
         }
     }
 
-    private protected override IEnumerable<Block> GetVariables() => _blocksAndPermittedColours.Keys;
+    protected override IEnumerable<Block> GetVariables() => _blocksAndPermittedColours.Keys;
 
-    private protected override IEnumerable<Colour> GetDomainValues(Block presentVariable) =>
+    protected override IEnumerable<Colour> GetDomainValues(Block presentVariable) =>
         _blocksAndPermittedColours[presentVariable];
 
-    private protected override bool TryGetBinaryPredicate(Block firstVariable,
+    protected override bool TryGetBinaryPredicate(Block firstVariable,
         Block secondVariable,
         [NotNullWhen(true)] out Func<Colour, Colour, bool>? binaryPredicate)
     {
@@ -92,7 +92,7 @@ public sealed class MapColouringConstraintGraph : ConstraintGraph<Block, Colour,
         return binaryPredicate is not null;
     }
 
-    private protected override void ClearProblemData() => _blocksAndPermittedColours.Clear();
+    protected override void ClearProblemData() => _blocksAndPermittedColours.Clear();
 
     private static bool DifferentColours(Colour firstColour, Colour secondColour) => firstColour != secondColour;
 }

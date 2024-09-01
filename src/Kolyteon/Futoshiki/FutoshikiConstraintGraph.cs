@@ -46,7 +46,7 @@ public sealed class FutoshikiConstraintGraph : ConstraintGraph<Square, int, Futo
         return constraintGraph;
     }
 
-    private protected override void PopulateProblemData(FutoshikiProblem problem)
+    protected override void PopulateProblemData(FutoshikiProblem problem)
     {
         ((_, (int problemSize, _)),
             IReadOnlyList<NumberedSquare> filledSquares,
@@ -57,6 +57,62 @@ public sealed class FutoshikiConstraintGraph : ConstraintGraph<Square, int, Futo
         PopulateFilledSquares(filledSquares);
         PopulateGreaterThanSigns(greaterThanSigns);
         PopulateLessThanSigns(lessThanSigns);
+    }
+
+    protected override IEnumerable<Square> GetVariables()
+    {
+        for (int row = 0; row < _problemSize; row++)
+        {
+            for (int column = 0; column < _problemSize; column++)
+            {
+                if (!_problemGrid[row, column].FixedNumber.HasValue)
+                {
+                    yield return Square.FromColumnAndRow(column, row);
+                }
+            }
+        }
+    }
+
+    protected override IEnumerable<int> GetDomainValues(Square presentVariable) =>
+        _problemGrid[presentVariable.Row, presentVariable.Column].GetPossibleNumbers(_problemSize);
+
+    protected override bool TryGetBinaryPredicate(Square firstVariable,
+        Square secondVariable,
+        [NotNullWhen(true)] out Func<int, int, bool>? binaryPredicate)
+    {
+        (int firstColumn, int firstRow) = firstVariable;
+        (int secondColumn, int secondRow) = secondVariable;
+
+        binaryPredicate = null;
+
+        if (firstColumn == secondColumn)
+        {
+            binaryPredicate = firstRow + 1 == secondRow
+                ? _problemGrid[firstRow, firstColumn].BottomPredicate
+                : UnequalNumbers;
+        }
+
+        if (firstRow == secondRow)
+        {
+            binaryPredicate = firstColumn + 1 == secondColumn
+                ? _problemGrid[firstRow, firstColumn].RightPredicate
+                : UnequalNumbers;
+        }
+
+        return binaryPredicate is not null;
+    }
+
+    protected override void ClearProblemData()
+    {
+        for (int row = 0; row < _problemSize; row++)
+        {
+            for (int column = 0; column < _problemSize; column++)
+            {
+                _problemGrid[row, column].Reset();
+            }
+        }
+
+        _problemSize = FutoshikiProblem.MinGridSideLength;
     }
 
     private void PopulateFilledSquares(IReadOnlyList<NumberedSquare> filledSquares)
@@ -129,62 +185,6 @@ public sealed class FutoshikiConstraintGraph : ConstraintGraph<Square, int, Futo
         }
     }
 
-    private protected override IEnumerable<Square> GetVariables()
-    {
-        for (int row = 0; row < _problemSize; row++)
-        {
-            for (int column = 0; column < _problemSize; column++)
-            {
-                if (!_problemGrid[row, column].FixedNumber.HasValue)
-                {
-                    yield return Square.FromColumnAndRow(column, row);
-                }
-            }
-        }
-    }
-
-    private protected override IEnumerable<int> GetDomainValues(Square presentVariable) =>
-        _problemGrid[presentVariable.Row, presentVariable.Column].GetPossibleNumbers(_problemSize);
-
-    private protected override bool TryGetBinaryPredicate(Square firstVariable,
-        Square secondVariable,
-        [NotNullWhen(true)] out Func<int, int, bool>? binaryPredicate)
-    {
-        (int firstColumn, int firstRow) = firstVariable;
-        (int secondColumn, int secondRow) = secondVariable;
-
-        binaryPredicate = null;
-
-        if (firstColumn == secondColumn)
-        {
-            binaryPredicate = firstRow + 1 == secondRow
-                ? _problemGrid[firstRow, firstColumn].BottomPredicate
-                : UnequalNumbers;
-        }
-
-        if (firstRow == secondRow)
-        {
-            binaryPredicate = firstColumn + 1 == secondColumn
-                ? _problemGrid[firstRow, firstColumn].RightPredicate
-                : UnequalNumbers;
-        }
-
-        return binaryPredicate is not null;
-    }
-
-    private protected override void ClearProblemData()
-    {
-        for (int row = 0; row < _problemSize; row++)
-        {
-            for (int column = 0; column < _problemSize; column++)
-            {
-                _problemGrid[row, column].Reset();
-            }
-        }
-
-        _problemSize = FutoshikiProblem.MinGridSideLength;
-    }
-
     private static ProblemSquare[,] InitializeProblemGrid()
     {
         ProblemSquare[,] grid = new ProblemSquare[FutoshikiProblem.MaxGridSideLength, FutoshikiProblem.MaxGridSideLength];
@@ -199,7 +199,6 @@ public sealed class FutoshikiConstraintGraph : ConstraintGraph<Square, int, Futo
 
         return grid;
     }
-
 
     private static bool UnequalNumbers(int firstNumber, int secondNumber) => firstNumber != secondNumber;
 

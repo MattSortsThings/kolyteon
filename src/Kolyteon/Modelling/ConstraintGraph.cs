@@ -32,9 +32,9 @@ public abstract partial class ConstraintGraph<TVariable, TDomainValue, TProblem>
     /// </remarks>
     protected ConstraintGraph()
     {
-        _adjacencyMatrix = new List<List<IAdjacency>>(0);
-        _edges = new List<Edge>(0);
-        _nodes = new List<Node>(0);
+        _adjacencyMatrix = [];
+        _edges = [];
+        _nodes = [];
         _nonAdjacentNodesFallback = new NonAdjacentNodesFallback(this);
         _sameNodeFallback = new SameNodeFallback(this);
     }
@@ -255,17 +255,17 @@ public abstract partial class ConstraintGraph<TVariable, TDomainValue, TProblem>
     protected internal IEnumerable<ConstraintGraphEdge<TVariable, TDomainValue>> GetConstraintGraphEdges() =>
         _edges.Select(edge => edge.ToConstraintGraphEdge());
 
-    private protected abstract void PopulateProblemData(TProblem problem);
+    protected abstract void PopulateProblemData(TProblem problem);
 
-    private protected abstract IEnumerable<TVariable> GetVariables();
+    protected abstract IEnumerable<TVariable> GetVariables();
 
-    private protected abstract IEnumerable<TDomainValue> GetDomainValues(TVariable presentVariable);
+    protected abstract IEnumerable<TDomainValue> GetDomainValues(TVariable presentVariable);
 
-    private protected abstract bool TryGetBinaryPredicate(TVariable firstVariable,
+    protected abstract bool TryGetBinaryPredicate(TVariable firstVariable,
         TVariable secondVariable,
         [NotNullWhen(true)] out Func<TDomainValue, TDomainValue, bool>? binaryPredicate);
 
-    private protected abstract void ClearProblemData();
+    protected abstract void ClearProblemData();
 
     private int TryGetDegreeAt(int index) => _nodes[index].Degree;
 

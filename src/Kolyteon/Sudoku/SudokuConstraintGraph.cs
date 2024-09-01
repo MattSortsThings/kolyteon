@@ -50,7 +50,7 @@ public sealed class SudokuConstraintGraph : ConstraintGraph<Square, int, SudokuP
         return constraintGraph;
     }
 
-    private protected override void PopulateProblemData(SudokuProblem problem)
+    protected override void PopulateProblemData(SudokuProblem problem)
     {
         foreach ((Square square, int number) in problem.FilledSquares)
         {
@@ -62,7 +62,7 @@ public sealed class SudokuConstraintGraph : ConstraintGraph<Square, int, SudokuP
         }
     }
 
-    private protected override IEnumerable<Square> GetVariables()
+    protected override IEnumerable<Square> GetVariables()
     {
         (int column, int row, int upperBound) = (0, 0, _emptySquares.Length);
 
@@ -78,7 +78,7 @@ public sealed class SudokuConstraintGraph : ConstraintGraph<Square, int, SudokuP
         }
     }
 
-    private protected override IEnumerable<int> GetDomainValues(Square presentVariable)
+    protected override IEnumerable<int> GetDomainValues(Square presentVariable)
     {
         (int column, int row, int sector) = (presentVariable.Column, presentVariable.Row, presentVariable.GetSector());
 
@@ -98,7 +98,7 @@ public sealed class SudokuConstraintGraph : ConstraintGraph<Square, int, SudokuP
         _presentVariablePossibleNumbers.SetAll(true);
     }
 
-    private protected override bool TryGetBinaryPredicate(Square firstVariable,
+    protected override bool TryGetBinaryPredicate(Square firstVariable,
         Square secondVariable,
         [NotNullWhen(true)] out Func<int, int, bool>? binaryPredicate)
     {
@@ -109,12 +109,7 @@ public sealed class SudokuConstraintGraph : ConstraintGraph<Square, int, SudokuP
         return binaryPredicate is not null;
     }
 
-    private static bool SameColumnOrRowOrSector(in Square squareA, in Square squareB) =>
-        squareA.Column == squareB.Column
-        || squareA.Row == squareB.Row
-        || squareA.GetSector() == squareB.GetSector();
-
-    private protected override void ClearProblemData()
+    protected override void ClearProblemData()
     {
         foreach (BitArray array in _columnPossibleNumbers)
         {
@@ -133,6 +128,11 @@ public sealed class SudokuConstraintGraph : ConstraintGraph<Square, int, SudokuP
 
         _emptySquares.SetAll(true);
     }
+
+    private static bool SameColumnOrRowOrSector(in Square squareA, in Square squareB) =>
+        squareA.Column == squareB.Column
+        || squareA.Row == squareB.Row
+        || squareA.GetSector() == squareB.GetSector();
 
     private static BitArray[] InitializePossibleNumbersIndexedLookup() =>
         Enumerable.Range(0, GridSideLength)

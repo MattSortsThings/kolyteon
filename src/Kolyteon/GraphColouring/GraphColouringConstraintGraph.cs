@@ -18,8 +18,8 @@ public sealed class GraphColouringConstraintGraph : ConstraintGraph<Node, Colour
     /// </summary>
     public GraphColouringConstraintGraph()
     {
-        _nodesAndPermittedColours = new Dictionary<Node, IReadOnlyCollection<Colour>>(0);
-        _edges = new HashSet<Edge>(0);
+        _nodesAndPermittedColours = [];
+        _edges = [];
     }
 
     /// <summary>
@@ -73,7 +73,7 @@ public sealed class GraphColouringConstraintGraph : ConstraintGraph<Node, Colour
         return constraintGraph;
     }
 
-    private protected override void PopulateProblemData(GraphColouringProblem problem)
+    protected override void PopulateProblemData(GraphColouringProblem problem)
     {
         (IReadOnlyList<NodeDatum> nodesAndPermittedColours, IReadOnlyList<Edge> edges) = problem;
 
@@ -81,12 +81,12 @@ public sealed class GraphColouringConstraintGraph : ConstraintGraph<Node, Colour
         PopulateEdges(edges);
     }
 
-    private protected override IEnumerable<Node> GetVariables() => _nodesAndPermittedColours.Keys;
+    protected override IEnumerable<Node> GetVariables() => _nodesAndPermittedColours.Keys;
 
-    private protected override IEnumerable<Colour> GetDomainValues(Node presentVariable) =>
+    protected override IEnumerable<Colour> GetDomainValues(Node presentVariable) =>
         _nodesAndPermittedColours[presentVariable];
 
-    private protected override bool TryGetBinaryPredicate(Node firstVariable,
+    protected override bool TryGetBinaryPredicate(Node firstVariable,
         Node secondVariable,
         [NotNullWhen(true)] out Func<Colour, Colour, bool>? binaryPredicate)
     {
@@ -97,7 +97,7 @@ public sealed class GraphColouringConstraintGraph : ConstraintGraph<Node, Colour
         return binaryPredicate is not null;
     }
 
-    private protected override void ClearProblemData()
+    protected override void ClearProblemData()
     {
         _nodesAndPermittedColours.Clear();
         _edges.Clear();

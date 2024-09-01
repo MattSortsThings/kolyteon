@@ -19,7 +19,7 @@ public sealed class ShikakuConstraintGraph : ConstraintGraph<NumberedSquare, Blo
     /// </summary>
     public ShikakuConstraintGraph()
     {
-        _orderedHints = new Queue<NumberedSquare>(0);
+        _orderedHints = [];
     }
 
     /// <summary>
@@ -71,7 +71,7 @@ public sealed class ShikakuConstraintGraph : ConstraintGraph<NumberedSquare, Blo
         return constraintGraph;
     }
 
-    private protected override void PopulateProblemData(ShikakuProblem problem)
+    protected override void PopulateProblemData(ShikakuProblem problem)
     {
         ((_, (int gridSideLength, _)), IReadOnlyList<NumberedSquare> hints) = problem;
 
@@ -80,9 +80,9 @@ public sealed class ShikakuConstraintGraph : ConstraintGraph<NumberedSquare, Blo
         PopulateOrderedHints(hints);
     }
 
-    private protected override IEnumerable<NumberedSquare> GetVariables() => _orderedHints;
+    protected override IEnumerable<NumberedSquare> GetVariables() => _orderedHints;
 
-    private protected override IEnumerable<Block> GetDomainValues(NumberedSquare presentVariable)
+    protected override IEnumerable<Block> GetDomainValues(NumberedSquare presentVariable)
     {
         _orderedHints.Remove(in presentVariable);
 
@@ -98,6 +98,21 @@ public sealed class ShikakuConstraintGraph : ConstraintGraph<NumberedSquare, Blo
         }
 
         _orderedHints.Enqueue(presentVariable);
+    }
+
+    protected override bool TryGetBinaryPredicate(NumberedSquare firstVariable,
+        NumberedSquare secondVariable,
+        [NotNullWhen(true)] out Func<Block, Block, bool>? binaryPredicate)
+    {
+        binaryPredicate = BlocksDoNotOverlap;
+
+        return true;
+    }
+
+    protected override void ClearProblemData()
+    {
+        _gridSideLength = default;
+        _orderedHints.Clear();
     }
 
     private IEnumerable<Dimensions> GetAllDimensionsWithArea(int area)
@@ -138,21 +153,6 @@ public sealed class ShikakuConstraintGraph : ConstraintGraph<NumberedSquare, Blo
         Math.Max(0, hintRow + 1 - blockHeight), Math.Min(_gridSideLength - blockHeight, hintRow));
 
     private bool ContainsNoOtherHint(Block block) => !_orderedHints.Any(hint => block.Contains(hint));
-
-    private protected override bool TryGetBinaryPredicate(NumberedSquare firstVariable,
-        NumberedSquare secondVariable,
-        [NotNullWhen(true)] out Func<Block, Block, bool>? binaryPredicate)
-    {
-        binaryPredicate = BlocksDoNotOverlap;
-
-        return true;
-    }
-
-    private protected override void ClearProblemData()
-    {
-        _gridSideLength = default;
-        _orderedHints.Clear();
-    }
 
     private void PopulateOrderedHints(IReadOnlyList<NumberedSquare> hints)
     {
