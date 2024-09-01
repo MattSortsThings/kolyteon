@@ -28,8 +28,8 @@
     </AssemblyAttribute>
   </ItemGroup>
 
-   <ItemGroup>
-    <None Include="../../assets/kolyteon_icon_120x120.png" Pack="true" Visible="false" PackagePath="/"/>
+  <ItemGroup>
+    <None Include="../../assets/kolyteon_icon_128x128.png" Pack="true" Visible="false" PackagePath="/"/>
     <None Include="../../README.md" Pack="true" Visible="false" PackagePath="/"/>
   </ItemGroup>
 
