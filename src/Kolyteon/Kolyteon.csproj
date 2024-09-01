@@ -5,11 +5,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PackageId>Kolyteon</PackageId>
-    <Version>1.0.0</Version>
+    <Version>0.1.0</Version>
     <Authors>Matt Tantony</Authors>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Product>Kolyteon</Product>
-    <Copyright>Copyright (c) Matt Tantony 2024.</Copyright>
+    <Copyright>Matt Tantony 2024.</Copyright>
     <Description>Generate a logic problem. Model it as a binary constraint satisfaction problem (CSP). Choose a backtracking search algorithm. Watch the CSP get solved. Included problem types: Futoshiki, Graph Colouring, Map Colouring, N-Queens, Shikaku and Sudoku.</Description>
     <PackageIcon>kolyteon_icon_128x128.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
