@@ -50,7 +50,7 @@ public sealed class MapColouringGenerator : IMapColouringGenerator
 
         return MapColouringProblem.Create()
             .WithCanvasSize(tenByTenCanvas)
-            .UseGlobalColours(permittedColours.ToArray())
+            .UseGlobalColours([..permittedColours])
             .AddBlocks(GenerateBlocks(tenByTenCanvas, blocks))
             .Build();
     }

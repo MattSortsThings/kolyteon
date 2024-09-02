@@ -14,7 +14,7 @@ internal sealed class MapColouringProblemBuilder : IMapColouringProblemBuilder,
     /// <inheritdoc />
     public MapColouringProblem Build()
     {
-        MapColouringProblem problem = new(_canvas, _blockData.OrderBy(datum => datum).ToArray());
+        MapColouringProblem problem = new(_canvas, [.. _blockData.OrderBy(datum => datum)]);
 
         ThrowIfInvalidProblem(problem);
 
@@ -45,7 +45,7 @@ internal sealed class MapColouringProblemBuilder : IMapColouringProblemBuilder,
     /// <inheritdoc />
     public IMapColouringProblemBuilder.IBlockAndColoursAdder AddBlockAndColours(Block block, params Colour[] colours)
     {
-        _blockData.Add(new BlockDatum(block, colours.ToHashSet()));
+        _blockData.Add(new BlockDatum(block, [.. colours.Distinct()]));
 
         return this;
     }
@@ -53,7 +53,7 @@ internal sealed class MapColouringProblemBuilder : IMapColouringProblemBuilder,
     /// <inheritdoc />
     public IMapColouringProblemBuilder.IBlockAdder UseGlobalColours(params Colour[] colours)
     {
-        _globalColours = colours.ToHashSet();
+        _globalColours = [.. colours.Distinct()];
 
         return this;
     }
