@@ -22,7 +22,7 @@ public static partial class SudokuConstraintGraphTests
         }),
         ExpectedNodes =
         [
-            new ConstraintGraphNode<Square, int>
+            new ConstraintGraphNodeDatum<Square, int>
             {
                 Variable = Square.Parse("(0,0)"), Degree = 0, SumTightness = 0.0, Domain = [1]
             }
@@ -46,11 +46,11 @@ public static partial class SudokuConstraintGraphTests
         }),
         ExpectedNodes =
         [
-            new ConstraintGraphNode<Square, int>
+            new ConstraintGraphNodeDatum<Square, int>
             {
                 Variable = Square.Parse("(0,0)"), Degree = 0, SumTightness = 0.0, Domain = [1]
             },
-            new ConstraintGraphNode<Square, int>
+            new ConstraintGraphNodeDatum<Square, int>
             {
                 Variable = Square.Parse("(8,8)"), Degree = 0, SumTightness = 0.0, Domain = [8]
             }
@@ -74,15 +74,15 @@ public static partial class SudokuConstraintGraphTests
         }),
         ExpectedNodes =
         [
-            new ConstraintGraphNode<Square, int>
+            new ConstraintGraphNodeDatum<Square, int>
             {
                 Variable = Square.Parse("(0,0)"), Degree = 0, SumTightness = 0.0, Domain = [1]
             },
-            new ConstraintGraphNode<Square, int>
+            new ConstraintGraphNodeDatum<Square, int>
             {
                 Variable = Square.Parse("(1,0)"), Degree = 0, SumTightness = 0.0, Domain = [2]
             },
-            new ConstraintGraphNode<Square, int>
+            new ConstraintGraphNodeDatum<Square, int>
             {
                 Variable = Square.Parse("(8,8)"), Degree = 0, SumTightness = 0.0, Domain = [8]
             }
@@ -106,42 +106,42 @@ public static partial class SudokuConstraintGraphTests
         }),
         ExpectedNodes =
         [
-            new ConstraintGraphNode<Square, int>
+            new ConstraintGraphNodeDatum<Square, int>
             {
                 Variable = Square.Parse("(0,0)"), Degree = 0, SumTightness = 0.0, Domain = [1]
             },
-            new ConstraintGraphNode<Square, int>
+            new ConstraintGraphNodeDatum<Square, int>
             {
                 Variable = Square.Parse("(0,5)"), Degree = 2, SumTightness = 1.0, Domain = [5, 6]
             },
-            new ConstraintGraphNode<Square, int>
+            new ConstraintGraphNodeDatum<Square, int>
             {
                 Variable = Square.Parse("(0,6)"), Degree = 1, SumTightness = 0.5, Domain = [6]
             },
-            new ConstraintGraphNode<Square, int>
+            new ConstraintGraphNodeDatum<Square, int>
             {
                 Variable = Square.Parse("(1,1)"), Degree = 2, SumTightness = 1.0, Domain = [5, 6]
             },
-            new ConstraintGraphNode<Square, int>
+            new ConstraintGraphNodeDatum<Square, int>
             {
                 Variable = Square.Parse("(1,5)"), Degree = 2, SumTightness = 1.0, Domain = [5, 6]
             },
-            new ConstraintGraphNode<Square, int>
+            new ConstraintGraphNodeDatum<Square, int>
             {
                 Variable = Square.Parse("(2,1)"), Degree = 1, SumTightness = 0.5, Domain = [6]
             },
-            new ConstraintGraphNode<Square, int>
+            new ConstraintGraphNodeDatum<Square, int>
             {
                 Variable = Square.Parse("(7,6)"), Degree = 0, SumTightness = 0.0, Domain = [4]
             },
-            new ConstraintGraphNode<Square, int>
+            new ConstraintGraphNodeDatum<Square, int>
             {
                 Variable = Square.Parse("(8,8)"), Degree = 0, SumTightness = 0.0, Domain = [2]
             }
         ],
         ExpectedEdges =
         [
-            new ConstraintGraphEdge<Square, int>
+            new ConstraintGraphEdgeDatum<Square, int>
             {
                 FirstVariable = Square.Parse("(0,5)"),
                 SecondVariable = Square.Parse("(0,6)"),
@@ -152,7 +152,7 @@ public static partial class SudokuConstraintGraphTests
                     new AssignmentPair<int>(6, 6, false)
                 ]
             },
-            new ConstraintGraphEdge<Square, int>
+            new ConstraintGraphEdgeDatum<Square, int>
             {
                 FirstVariable = Square.Parse("(0,5)"),
                 SecondVariable = Square.Parse("(1,5)"),
@@ -165,7 +165,7 @@ public static partial class SudokuConstraintGraphTests
                     new AssignmentPair<int>(6, 6, false)
                 ]
             },
-            new ConstraintGraphEdge<Square, int>
+            new ConstraintGraphEdgeDatum<Square, int>
             {
                 FirstVariable = Square.Parse("(1,1)"),
                 SecondVariable = Square.Parse("(1,5)"),
@@ -178,7 +178,7 @@ public static partial class SudokuConstraintGraphTests
                     new AssignmentPair<int>(6, 6, false)
                 ]
             },
-            new ConstraintGraphEdge<Square, int>
+            new ConstraintGraphEdgeDatum<Square, int>
             {
                 FirstVariable = Square.Parse("(1,1)"),
                 SecondVariable = Square.Parse("(2,1)"),
@@ -197,13 +197,13 @@ public static partial class SudokuConstraintGraphTests
     {
         public required SudokuProblem Problem { get; init; }
 
-        public required IList<ConstraintGraphNode<Square, int>> ExpectedNodes { get; init; }
+        public required IList<ConstraintGraphNodeDatum<Square, int>> ExpectedNodes { get; init; }
 
-        public required IList<ConstraintGraphEdge<Square, int>> ExpectedEdges { get; init; }
+        public required IList<ConstraintGraphEdgeDatum<Square, int>> ExpectedEdges { get; init; }
 
         public void Deconstruct(out SudokuProblem problem,
-            out IList<ConstraintGraphNode<Square, int>> expectedNodes,
-            out IList<ConstraintGraphEdge<Square, int>> expectedEdges)
+            out IList<ConstraintGraphNodeDatum<Square, int>> expectedNodes,
+            out IList<ConstraintGraphEdgeDatum<Square, int>> expectedEdges)
         {
             problem = Problem;
             expectedNodes = ExpectedNodes;

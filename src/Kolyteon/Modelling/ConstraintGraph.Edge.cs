@@ -29,7 +29,7 @@ public abstract partial class ConstraintGraph<TVariable, TDomainValue, TProblem>
         public (ForwardEdge forwardEdge, ReversedEdge reversedEdge) ToDirectedEdgePair() =>
             (new ForwardEdge(this), new ReversedEdge(this));
 
-        public ConstraintGraphEdge<TVariable, TDomainValue> ToConstraintGraphEdge() => new()
+        public ConstraintGraphEdgeDatum<TVariable, TDomainValue> ToConstraintGraphEdgeDatum() => new()
         {
             FirstVariable = FirstNode.Variable,
             SecondVariable = SecondNode.Variable,

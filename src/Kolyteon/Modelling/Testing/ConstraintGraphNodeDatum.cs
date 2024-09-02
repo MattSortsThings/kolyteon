@@ -5,7 +5,7 @@ namespace Kolyteon.Modelling.Testing;
 /// </summary>
 /// <typeparam name="TVariable">The binary CSP variable type.</typeparam>
 /// <typeparam name="TDomainValue">The binary CSP domain value type.</typeparam>
-public sealed record ConstraintGraphNode<TVariable, TDomainValue>
+public sealed record ConstraintGraphNodeDatum<TVariable, TDomainValue>
     where TVariable : struct, IComparable<TVariable>, IEquatable<TVariable>
     where TDomainValue : struct, IComparable<TDomainValue>, IEquatable<TDomainValue>
 {
@@ -32,17 +32,17 @@ public sealed record ConstraintGraphNode<TVariable, TDomainValue>
     public required double SumTightness { get; init; }
 
     /// <summary>
-    ///     Indicates whether this <see cref="ConstraintGraphNode{TVariable,TDomainValue}" /> instance has equal value to
+    ///     Indicates whether this <see cref="ConstraintGraphNodeDatum{TVariable,TDomainValue}" /> instance has equal value to
     ///     another instance of the same type.
     /// </summary>
     /// <remarks>
-    ///     Two <see cref="ConstraintGraphNode{TVariable,TDomainValue}" /> instances have equal value if their
+    ///     Two <see cref="ConstraintGraphNodeDatum{TVariable,TDomainValue}" /> instances have equal value if their
     ///     <see cref="Variable" /> values are equal, their <see cref="Degree" /> values are equal, their
     ///     <see cref="SumTightness" /> values are equal (to 9 decimal places), and their <see cref="Domain" /> lists contain
     ///     the same values in the same order.
     /// </remarks>
     /// <param name="other">
-    ///     The <see cref="ConstraintGraphNode{TVariable,TDomainValue}" /> instance against which this instance
+    ///     The <see cref="ConstraintGraphNodeDatum{TVariable,TDomainValue}" /> instance against which this instance
     ///     is to be compared.
     /// </param>
     /// <returns>
@@ -50,7 +50,7 @@ public sealed record ConstraintGraphNode<TVariable, TDomainValue>
     ///     otherwise, <see langword="false" />. If the <paramref name="other" /> parameter is <see langword="null" />, the
     ///     method returns <see langword="false" />.
     /// </returns>
-    public bool Equals(ConstraintGraphNode<TVariable, TDomainValue>? other)
+    public bool Equals(ConstraintGraphNodeDatum<TVariable, TDomainValue>? other)
     {
         if (other is null)
         {
@@ -70,7 +70,7 @@ public sealed record ConstraintGraphNode<TVariable, TDomainValue>
     }
 
     /// <summary>
-    ///     Returns the hash code for this <see cref="ConstraintGraphNode{TVariable,TDomainValue}" /> instance.
+    ///     Returns the hash code for this <see cref="ConstraintGraphNodeDatum{TVariable,TDomainValue}" /> instance.
     /// </summary>
     /// <returns>A 32-bit signed integer hash code.</returns>
     public override int GetHashCode() => HashCode.Combine(Variable, Degree, SumTightness, Domain);

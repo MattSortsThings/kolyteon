@@ -238,9 +238,9 @@ public abstract partial class ConstraintGraph<TVariable, TDomainValue, TProblem>
     ///     <see cref="ConstraintGraph{TVariable,TDomainValue,TProblem}" /> class, to verify that the <see cref="Model" />
     ///     method populates the constraint graph with the correct nodes for a given problem.
     /// </remarks>
-    /// <returns>A sequence of <see cref="ConstraintGraphNode{TVariable,TDomainValue}" /> objects.</returns>
-    protected internal IEnumerable<ConstraintGraphNode<TVariable, TDomainValue>> GetConstraintGraphNodes() =>
-        _nodes.Select(node => node.ToConstraintGraphNode());
+    /// <returns>A sequence of <see cref="ConstraintGraphNodeDatum{TVariable,TDomainValue}" /> objects.</returns>
+    protected internal IEnumerable<ConstraintGraphNodeDatum<TVariable, TDomainValue>> GetNodeData() =>
+        _nodes.Select(node => node.ToConstraintGraphNodeDatum());
 
     /// <summary>
     ///     Generates a sequence of data structures describing each undirected edge in the constraint graph, in variable index
@@ -251,9 +251,9 @@ public abstract partial class ConstraintGraph<TVariable, TDomainValue, TProblem>
     ///     <see cref="ConstraintGraph{TVariable,TDomainValue,TProblem}" /> class, to verify that the <see cref="Model" />
     ///     method populates the constraint graph with the correct edges for a given problem.
     /// </remarks>
-    /// <returns>A sequence of <see cref="ConstraintGraphEdge{TVariable,TDomainValue}" /> objects.</returns>
-    protected internal IEnumerable<ConstraintGraphEdge<TVariable, TDomainValue>> GetConstraintGraphEdges() =>
-        _edges.Select(edge => edge.ToConstraintGraphEdge());
+    /// <returns>A sequence of <see cref="ConstraintGraphEdgeDatum{TVariable,TDomainValue}" /> objects.</returns>
+    protected internal IEnumerable<ConstraintGraphEdgeDatum<TVariable, TDomainValue>> GetEdgeData() =>
+        _edges.Select(edge => edge.ToConstraintGraphEdgeDatum());
 
     protected abstract void PopulateProblemData(TProblem problem);
 

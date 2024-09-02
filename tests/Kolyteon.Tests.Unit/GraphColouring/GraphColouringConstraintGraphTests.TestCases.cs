@@ -14,7 +14,7 @@ public static partial class GraphColouringConstraintGraphTests
             .Build(),
         ExpectedNodes =
         [
-            new ConstraintGraphNode<Node, Colour>
+            new ConstraintGraphNodeDatum<Node, Colour>
             {
                 Variable = Node.FromName("N0"),
                 Degree = 0,
@@ -33,11 +33,11 @@ public static partial class GraphColouringConstraintGraphTests
             .AddNode(Node.FromName("N0")).Build(),
         ExpectedNodes =
         [
-            new ConstraintGraphNode<Node, Colour>
+            new ConstraintGraphNodeDatum<Node, Colour>
             {
                 Variable = Node.FromName("N0"), Degree = 0, SumTightness = 0.0, Domain = [Colour.Black, Colour.White]
             },
-            new ConstraintGraphNode<Node, Colour>
+            new ConstraintGraphNodeDatum<Node, Colour>
             {
                 Variable = Node.FromName("N1"), Degree = 0, SumTightness = 0.0, Domain = [Colour.Black, Colour.White]
             }
@@ -55,18 +55,18 @@ public static partial class GraphColouringConstraintGraphTests
             .Build(),
         ExpectedNodes =
         [
-            new ConstraintGraphNode<Node, Colour>
+            new ConstraintGraphNodeDatum<Node, Colour>
             {
                 Variable = Node.FromName("N0"), Degree = 1, SumTightness = 0.5, Domain = [Colour.Black, Colour.White]
             },
-            new ConstraintGraphNode<Node, Colour>
+            new ConstraintGraphNodeDatum<Node, Colour>
             {
                 Variable = Node.FromName("N1"), Degree = 1, SumTightness = 0.5, Domain = [Colour.Black, Colour.White]
             }
         ],
         ExpectedEdges =
         [
-            new ConstraintGraphEdge<Node, Colour>
+            new ConstraintGraphEdgeDatum<Node, Colour>
             {
                 FirstVariable = Node.FromName("N0"),
                 SecondVariable = Node.FromName("N1"),
@@ -92,11 +92,11 @@ public static partial class GraphColouringConstraintGraphTests
             .Build(),
         ExpectedNodes =
         [
-            new ConstraintGraphNode<Node, Colour>
+            new ConstraintGraphNodeDatum<Node, Colour>
             {
                 Variable = Node.FromName("N0"), Degree = 0, SumTightness = 0.0, Domain = [Colour.Black, Colour.White]
             },
-            new ConstraintGraphNode<Node, Colour>
+            new ConstraintGraphNodeDatum<Node, Colour>
             {
                 Variable = Node.FromName("N1"), Degree = 0, SumTightness = 0.0, Domain = [Colour.Green, Colour.Red]
             }
@@ -117,15 +117,15 @@ public static partial class GraphColouringConstraintGraphTests
             .Build(),
         ExpectedNodes =
         [
-            new ConstraintGraphNode<Node, Colour>
+            new ConstraintGraphNodeDatum<Node, Colour>
             {
                 Variable = Node.FromName("N0"), Degree = 1, SumTightness = 0.25, Domain = [Colour.Black, Colour.White]
             },
-            new ConstraintGraphNode<Node, Colour>
+            new ConstraintGraphNodeDatum<Node, Colour>
             {
                 Variable = Node.FromName("N1"), Degree = 1, SumTightness = 0.25, Domain = [Colour.Green, Colour.Red]
             },
-            new ConstraintGraphNode<Node, Colour>
+            new ConstraintGraphNodeDatum<Node, Colour>
             {
                 Variable = Node.FromName("N2"),
                 Degree = 2,
@@ -135,7 +135,7 @@ public static partial class GraphColouringConstraintGraphTests
         ],
         ExpectedEdges =
         [
-            new ConstraintGraphEdge<Node, Colour>
+            new ConstraintGraphEdgeDatum<Node, Colour>
             {
                 FirstVariable = Node.FromName("N0"),
                 SecondVariable = Node.FromName("N2"),
@@ -152,7 +152,7 @@ public static partial class GraphColouringConstraintGraphTests
                     new AssignmentPair<Colour>(Colour.White, Colour.White, false)
                 ]
             },
-            new ConstraintGraphEdge<Node, Colour>
+            new ConstraintGraphEdgeDatum<Node, Colour>
             {
                 FirstVariable = Node.FromName("N1"),
                 SecondVariable = Node.FromName("N2"),
@@ -177,13 +177,13 @@ public static partial class GraphColouringConstraintGraphTests
     {
         public required GraphColouringProblem Problem { get; init; }
 
-        public required IList<ConstraintGraphNode<Node, Colour>> ExpectedNodes { get; init; }
+        public required IList<ConstraintGraphNodeDatum<Node, Colour>> ExpectedNodes { get; init; }
 
-        public required IList<ConstraintGraphEdge<Node, Colour>> ExpectedEdges { get; init; }
+        public required IList<ConstraintGraphEdgeDatum<Node, Colour>> ExpectedEdges { get; init; }
 
         public void Deconstruct(out GraphColouringProblem problem,
-            out IList<ConstraintGraphNode<Node, Colour>> expectedNodes,
-            out IList<ConstraintGraphEdge<Node, Colour>> expectedEdges)
+            out IList<ConstraintGraphNodeDatum<Node, Colour>> expectedNodes,
+            out IList<ConstraintGraphEdgeDatum<Node, Colour>> expectedEdges)
         {
             problem = Problem;
             expectedNodes = ExpectedNodes;

@@ -129,7 +129,7 @@ public static partial class MapColouringConstraintGraphTests
     [UnitTest]
     public sealed class ModelMethod
     {
-        public static TheoryData<MapColouringProblem, IList<ConstraintGraphNode<Block, Colour>>> NodeTestCases => new()
+        public static TheoryData<MapColouringProblem, IList<ConstraintGraphNodeDatum<Block, Colour>>> NodeTestCases => new()
         {
             { TestCaseOne.Problem, TestCaseOne.ExpectedNodes },
             { TestCaseTwo.Problem, TestCaseTwo.ExpectedNodes },
@@ -138,7 +138,7 @@ public static partial class MapColouringConstraintGraphTests
             { TestCaseFive.Problem, TestCaseFive.ExpectedNodes }
         };
 
-        public static TheoryData<MapColouringProblem, IList<ConstraintGraphEdge<Block, Colour>>> EdgeTestCases => new()
+        public static TheoryData<MapColouringProblem, IList<ConstraintGraphEdgeDatum<Block, Colour>>> EdgeTestCases => new()
         {
             { TestCaseOne.Problem, TestCaseOne.ExpectedEdges },
             { TestCaseTwo.Problem, TestCaseTwo.ExpectedEdges },
@@ -150,7 +150,7 @@ public static partial class MapColouringConstraintGraphTests
         [Theory]
         [MemberData(nameof(NodeTestCases), MemberType = typeof(ModelMethod))]
         public void Model_GivenProblem_PopulatesNodes(MapColouringProblem problem,
-            IList<ConstraintGraphNode<Block, Colour>> expectedNodes)
+            IList<ConstraintGraphNodeDatum<Block, Colour>> expectedNodes)
         {
             // Arrange
             MapColouringConstraintGraph sut = new(4);
@@ -159,13 +159,13 @@ public static partial class MapColouringConstraintGraphTests
             sut.Model(problem);
 
             // Assert
-            sut.GetConstraintGraphNodes().Should().Equal(expectedNodes);
+            sut.GetNodeData().Should().Equal(expectedNodes);
         }
 
         [Theory]
         [MemberData(nameof(EdgeTestCases), MemberType = typeof(ModelMethod))]
         public void Model_GivenProblem_PopulatesEdges(MapColouringProblem problem,
-            IList<ConstraintGraphEdge<Block, Colour>> expectedEdges)
+            IList<ConstraintGraphEdgeDatum<Block, Colour>> expectedEdges)
         {
             // Arrange
             MapColouringConstraintGraph sut = new(4);
@@ -174,7 +174,7 @@ public static partial class MapColouringConstraintGraphTests
             sut.Model(problem);
 
             // Assert
-            sut.GetConstraintGraphEdges().Should().Equal(expectedEdges);
+            sut.GetEdgeData().Should().Equal(expectedEdges);
         }
 
         [Fact]
@@ -182,20 +182,20 @@ public static partial class MapColouringConstraintGraphTests
         {
             // Arrange
             (MapColouringProblem initialProblem,
-                IList<ConstraintGraphNode<Block, Colour>> expectedInitialNodes,
-                IList<ConstraintGraphEdge<Block, Colour>> expectedInitialEdges) = TestCaseOne;
+                IList<ConstraintGraphNodeDatum<Block, Colour>> expectedInitialNodes,
+                IList<ConstraintGraphEdgeDatum<Block, Colour>> expectedInitialEdges) = TestCaseOne;
 
             (MapColouringProblem finalProblem,
-                IList<ConstraintGraphNode<Block, Colour>> expectedFinalNodes,
-                IList<ConstraintGraphEdge<Block, Colour>> expectedFinalEdges) = TestCaseFive;
+                IList<ConstraintGraphNodeDatum<Block, Colour>> expectedFinalNodes,
+                IList<ConstraintGraphEdgeDatum<Block, Colour>> expectedFinalEdges) = TestCaseFive;
 
             MapColouringConstraintGraph sut = MapColouringConstraintGraph.ModellingProblem(initialProblem);
 
             // Assert
             using (new AssertionScope())
             {
-                sut.GetConstraintGraphNodes().Should().Equal(expectedInitialNodes);
-                sut.GetConstraintGraphEdges().Should().Equal(expectedInitialEdges);
+                sut.GetNodeData().Should().Equal(expectedInitialNodes);
+                sut.GetEdgeData().Should().Equal(expectedInitialEdges);
             }
 
             // Act
@@ -205,8 +205,8 @@ public static partial class MapColouringConstraintGraphTests
             // Assert
             using (new AssertionScope())
             {
-                sut.GetConstraintGraphNodes().Should().Equal(expectedFinalNodes);
-                sut.GetConstraintGraphEdges().Should().Equal(expectedFinalEdges);
+                sut.GetNodeData().Should().Equal(expectedFinalNodes);
+                sut.GetEdgeData().Should().Equal(expectedFinalEdges);
             }
         }
     }
@@ -219,8 +219,8 @@ public static partial class MapColouringConstraintGraphTests
         {
             // Arrange
             (MapColouringProblem problem,
-                IList<ConstraintGraphNode<Block, Colour>> expectedNodes,
-                IList<ConstraintGraphEdge<Block, Colour>> expectedEdges) = TestCaseFive;
+                IList<ConstraintGraphNodeDatum<Block, Colour>> expectedNodes,
+                IList<ConstraintGraphEdgeDatum<Block, Colour>> expectedEdges) = TestCaseFive;
 
             // Act
             MapColouringConstraintGraph result = MapColouringConstraintGraph.ModellingProblem(problem);
@@ -228,8 +228,8 @@ public static partial class MapColouringConstraintGraphTests
             // Assert
             using (new AssertionScope())
             {
-                result.GetConstraintGraphNodes().Should().Equal(expectedNodes);
-                result.GetConstraintGraphEdges().Should().Equal(expectedEdges);
+                result.GetNodeData().Should().Equal(expectedNodes);
+                result.GetEdgeData().Should().Equal(expectedEdges);
             }
         }
 

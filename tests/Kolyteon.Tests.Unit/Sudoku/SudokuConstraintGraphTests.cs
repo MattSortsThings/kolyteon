@@ -129,7 +129,7 @@ public static partial class SudokuConstraintGraphTests
     [UnitTest]
     public sealed class ModelMethod
     {
-        public static TheoryData<SudokuProblem, IList<ConstraintGraphNode<Square, int>>> NodeTestCases => new()
+        public static TheoryData<SudokuProblem, IList<ConstraintGraphNodeDatum<Square, int>>> NodeTestCases => new()
         {
             { TestCaseOne.Problem, TestCaseOne.ExpectedNodes },
             { TestCaseTwo.Problem, TestCaseTwo.ExpectedNodes },
@@ -137,7 +137,7 @@ public static partial class SudokuConstraintGraphTests
             { TestCaseFour.Problem, TestCaseFour.ExpectedNodes }
         };
 
-        public static TheoryData<SudokuProblem, IList<ConstraintGraphEdge<Square, int>>> EdgeTestCases => new()
+        public static TheoryData<SudokuProblem, IList<ConstraintGraphEdgeDatum<Square, int>>> EdgeTestCases => new()
         {
             { TestCaseOne.Problem, TestCaseOne.ExpectedEdges },
             { TestCaseTwo.Problem, TestCaseTwo.ExpectedEdges },
@@ -148,7 +148,7 @@ public static partial class SudokuConstraintGraphTests
         [Theory]
         [MemberData(nameof(NodeTestCases), MemberType = typeof(ModelMethod))]
         public void Model_GivenProblem_PopulatesNodes(SudokuProblem problem,
-            IList<ConstraintGraphNode<Square, int>> expectedNodes)
+            IList<ConstraintGraphNodeDatum<Square, int>> expectedNodes)
         {
             // Arrange
             SudokuConstraintGraph sut = new(4);
@@ -157,13 +157,13 @@ public static partial class SudokuConstraintGraphTests
             sut.Model(problem);
 
             // Assert
-            sut.GetConstraintGraphNodes().Should().Equal(expectedNodes);
+            sut.GetNodeData().Should().Equal(expectedNodes);
         }
 
         [Theory]
         [MemberData(nameof(EdgeTestCases), MemberType = typeof(ModelMethod))]
         public void Model_GivenProblem_PopulatesEdges(SudokuProblem problem,
-            IList<ConstraintGraphEdge<Square, int>> expectedEdges)
+            IList<ConstraintGraphEdgeDatum<Square, int>> expectedEdges)
         {
             // Arrange
             SudokuConstraintGraph sut = new(4);
@@ -172,7 +172,7 @@ public static partial class SudokuConstraintGraphTests
             sut.Model(problem);
 
             // Assert
-            sut.GetConstraintGraphEdges().Should().Equal(expectedEdges);
+            sut.GetEdgeData().Should().Equal(expectedEdges);
         }
 
         [Fact]
@@ -180,20 +180,20 @@ public static partial class SudokuConstraintGraphTests
         {
             // Arrange
             (SudokuProblem initialProblem,
-                IList<ConstraintGraphNode<Square, int>> expectedInitialNodes,
-                IList<ConstraintGraphEdge<Square, int>> expectedInitialEdges) = TestCaseFour;
+                IList<ConstraintGraphNodeDatum<Square, int>> expectedInitialNodes,
+                IList<ConstraintGraphEdgeDatum<Square, int>> expectedInitialEdges) = TestCaseFour;
 
             (SudokuProblem finalProblem,
-                IList<ConstraintGraphNode<Square, int>> expectedFinalNodes,
-                IList<ConstraintGraphEdge<Square, int>> expectedFinalEdges) = TestCaseTwo;
+                IList<ConstraintGraphNodeDatum<Square, int>> expectedFinalNodes,
+                IList<ConstraintGraphEdgeDatum<Square, int>> expectedFinalEdges) = TestCaseTwo;
 
             SudokuConstraintGraph sut = SudokuConstraintGraph.ModellingProblem(initialProblem);
 
             // Assert
             using (new AssertionScope())
             {
-                sut.GetConstraintGraphNodes().Should().Equal(expectedInitialNodes);
-                sut.GetConstraintGraphEdges().Should().Equal(expectedInitialEdges);
+                sut.GetNodeData().Should().Equal(expectedInitialNodes);
+                sut.GetEdgeData().Should().Equal(expectedInitialEdges);
             }
 
             // Act
@@ -203,8 +203,8 @@ public static partial class SudokuConstraintGraphTests
             // Assert
             using (new AssertionScope())
             {
-                sut.GetConstraintGraphNodes().Should().Equal(expectedFinalNodes);
-                sut.GetConstraintGraphEdges().Should().Equal(expectedFinalEdges);
+                sut.GetNodeData().Should().Equal(expectedFinalNodes);
+                sut.GetEdgeData().Should().Equal(expectedFinalEdges);
             }
         }
     }
@@ -217,8 +217,8 @@ public static partial class SudokuConstraintGraphTests
         {
             // Arrange
             (SudokuProblem problem,
-                IList<ConstraintGraphNode<Square, int>> expectedNodes,
-                IList<ConstraintGraphEdge<Square, int>> expectedEdges) = TestCaseFour;
+                IList<ConstraintGraphNodeDatum<Square, int>> expectedNodes,
+                IList<ConstraintGraphEdgeDatum<Square, int>> expectedEdges) = TestCaseFour;
 
             // Act
             SudokuConstraintGraph result = SudokuConstraintGraph.ModellingProblem(problem);
@@ -226,8 +226,8 @@ public static partial class SudokuConstraintGraphTests
             // Assert
             using (new AssertionScope())
             {
-                result.GetConstraintGraphNodes().Should().Equal(expectedNodes);
-                result.GetConstraintGraphEdges().Should().Equal(expectedEdges);
+                result.GetNodeData().Should().Equal(expectedNodes);
+                result.GetEdgeData().Should().Equal(expectedEdges);
             }
         }
 

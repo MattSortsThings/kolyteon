@@ -11,7 +11,10 @@ public static class ConstraintGraphNodeTests
         public void Equals_InstanceGivenItselfAsOther_ReturnsTrue()
         {
             // Arrange
-            ConstraintGraphNode<char, int> sut = new() { Variable = 'A', Domain = [0, 1, 2], Degree = 2, SumTightness = 0.5 };
+            ConstraintGraphNodeDatum<char, int> sut = new()
+            {
+                Variable = 'A', Domain = [0, 1, 2], Degree = 2, SumTightness = 0.5
+            };
 
             // Act
             bool result = sut.Equals(sut);
@@ -29,12 +32,12 @@ public static class ConstraintGraphNodeTests
             const int sharedDegree = 2;
             const double sharedSumTightness = 0.5;
 
-            ConstraintGraphNode<char, int> sut = new()
+            ConstraintGraphNodeDatum<char, int> sut = new()
             {
                 Variable = sharedVariable, Domain = sharedDomain, Degree = sharedDegree, SumTightness = sharedSumTightness
             };
 
-            ConstraintGraphNode<char, int> other = new()
+            ConstraintGraphNodeDatum<char, int> other = new()
             {
                 Variable = sharedVariable, Domain = sharedDomain, Degree = sharedDegree, SumTightness = sharedSumTightness
             };
@@ -54,12 +57,12 @@ public static class ConstraintGraphNodeTests
             const int sharedDegree = 2;
             const double sharedSumTightness = 0.5;
 
-            ConstraintGraphNode<char, int> sut = new()
+            ConstraintGraphNodeDatum<char, int> sut = new()
             {
                 Variable = 'A', Domain = sharedDomain, Degree = sharedDegree, SumTightness = sharedSumTightness
             };
 
-            ConstraintGraphNode<char, int> other = sut with { Variable = 'Z' };
+            ConstraintGraphNodeDatum<char, int> other = sut with { Variable = 'Z' };
 
             // Act
             bool result = sut.Equals(other);
@@ -76,12 +79,12 @@ public static class ConstraintGraphNodeTests
             int[] sharedDomain = [0, 1, 2];
             const double sharedSumTightness = 0.5;
 
-            ConstraintGraphNode<char, int> sut = new()
+            ConstraintGraphNodeDatum<char, int> sut = new()
             {
                 Variable = sharedVariable, Domain = sharedDomain, Degree = 1, SumTightness = sharedSumTightness
             };
 
-            ConstraintGraphNode<char, int> other = sut with { Degree = 2 };
+            ConstraintGraphNodeDatum<char, int> other = sut with { Degree = 2 };
 
             // Act
             bool result = sut.Equals(other);
@@ -98,12 +101,12 @@ public static class ConstraintGraphNodeTests
             int[] sharedDomain = [0, 1, 2];
             const int sharedDegree = 2;
 
-            ConstraintGraphNode<char, int> sut = new()
+            ConstraintGraphNodeDatum<char, int> sut = new()
             {
                 Variable = sharedVariable, Domain = sharedDomain, Degree = sharedDegree, SumTightness = 0.5
             };
 
-            ConstraintGraphNode<char, int> other = sut with { SumTightness = 0.499999 };
+            ConstraintGraphNodeDatum<char, int> other = sut with { SumTightness = 0.499999 };
 
             // Act
             bool result = sut.Equals(other);
@@ -120,12 +123,12 @@ public static class ConstraintGraphNodeTests
             const int sharedDegree = 2;
             const double sharedSumTightness = 0.5;
 
-            ConstraintGraphNode<char, int> sut = new()
+            ConstraintGraphNodeDatum<char, int> sut = new()
             {
                 Variable = sharedVariable, Domain = [0, 1, 2], Degree = sharedDegree, SumTightness = sharedSumTightness
             };
 
-            ConstraintGraphNode<char, int> other = sut with { Domain = [0] };
+            ConstraintGraphNodeDatum<char, int> other = sut with { Domain = [0] };
 
             // Act
             bool result = sut.Equals(other);
@@ -142,12 +145,12 @@ public static class ConstraintGraphNodeTests
             const int sharedDegree = 2;
             const double sharedSumTightness = 0.5;
 
-            ConstraintGraphNode<char, int> sut = new()
+            ConstraintGraphNodeDatum<char, int> sut = new()
             {
                 Variable = sharedVariable, Domain = [0, 1, 2], Degree = sharedDegree, SumTightness = sharedSumTightness
             };
 
-            ConstraintGraphNode<char, int> other = sut with { Domain = [2, 1, 0] };
+            ConstraintGraphNodeDatum<char, int> other = sut with { Domain = [2, 1, 0] };
 
             // Act
             bool result = sut.Equals(other);
@@ -160,7 +163,10 @@ public static class ConstraintGraphNodeTests
         public void Equals_OtherArgIsNull_ReturnsFalse()
         {
             // Arrange
-            ConstraintGraphNode<char, int> sut = new() { Variable = 'A', Domain = [0, 1, 2], Degree = 2, SumTightness = 0.5 };
+            ConstraintGraphNodeDatum<char, int> sut = new()
+            {
+                Variable = 'A', Domain = [0, 1, 2], Degree = 2, SumTightness = 0.5
+            };
 
             // Act
             bool result = sut.Equals(null);
@@ -182,12 +188,12 @@ public static class ConstraintGraphNodeTests
             const int sharedDegree = 2;
             const double sharedSumTightness = 0.5;
 
-            ConstraintGraphNode<char, int> sut = new()
+            ConstraintGraphNodeDatum<char, int> sut = new()
             {
                 Variable = sharedVariable, Domain = sharedDomain, Degree = sharedDegree, SumTightness = sharedSumTightness
             };
 
-            ConstraintGraphNode<char, int> other = new()
+            ConstraintGraphNodeDatum<char, int> other = new()
             {
                 Variable = sharedVariable, Domain = sharedDomain, Degree = sharedDegree, SumTightness = sharedSumTightness
             };
@@ -207,12 +213,12 @@ public static class ConstraintGraphNodeTests
             const int sharedDegree = 2;
             const double sharedSumTightness = 0.5;
 
-            ConstraintGraphNode<char, int> sut = new()
+            ConstraintGraphNodeDatum<char, int> sut = new()
             {
                 Variable = 'A', Domain = sharedDomain, Degree = sharedDegree, SumTightness = sharedSumTightness
             };
 
-            ConstraintGraphNode<char, int> other = sut with { Variable = 'Z' };
+            ConstraintGraphNodeDatum<char, int> other = sut with { Variable = 'Z' };
 
             // Act
             bool result = sut == other;
@@ -229,12 +235,12 @@ public static class ConstraintGraphNodeTests
             int[] sharedDomain = [0, 1, 2];
             const double sharedSumTightness = 0.5;
 
-            ConstraintGraphNode<char, int> sut = new()
+            ConstraintGraphNodeDatum<char, int> sut = new()
             {
                 Variable = sharedVariable, Domain = sharedDomain, Degree = 1, SumTightness = sharedSumTightness
             };
 
-            ConstraintGraphNode<char, int> other = sut with { Degree = 2 };
+            ConstraintGraphNodeDatum<char, int> other = sut with { Degree = 2 };
 
             // Act
             bool result = sut == other;
@@ -251,12 +257,12 @@ public static class ConstraintGraphNodeTests
             int[] sharedDomain = [0, 1, 2];
             const int sharedDegree = 2;
 
-            ConstraintGraphNode<char, int> sut = new()
+            ConstraintGraphNodeDatum<char, int> sut = new()
             {
                 Variable = sharedVariable, Domain = sharedDomain, Degree = sharedDegree, SumTightness = 0.5
             };
 
-            ConstraintGraphNode<char, int> other = sut with { SumTightness = 0.499999 };
+            ConstraintGraphNodeDatum<char, int> other = sut with { SumTightness = 0.499999 };
 
             // Act
             bool result = sut == other;
@@ -273,12 +279,12 @@ public static class ConstraintGraphNodeTests
             const int sharedDegree = 2;
             const double sharedSumTightness = 0.5;
 
-            ConstraintGraphNode<char, int> sut = new()
+            ConstraintGraphNodeDatum<char, int> sut = new()
             {
                 Variable = sharedVariable, Domain = [0, 1, 2], Degree = sharedDegree, SumTightness = sharedSumTightness
             };
 
-            ConstraintGraphNode<char, int> other = sut with { Domain = [0] };
+            ConstraintGraphNodeDatum<char, int> other = sut with { Domain = [0] };
 
             // Act
             bool result = sut == other;
@@ -295,12 +301,12 @@ public static class ConstraintGraphNodeTests
             const int sharedDegree = 2;
             const double sharedSumTightness = 0.5;
 
-            ConstraintGraphNode<char, int> sut = new()
+            ConstraintGraphNodeDatum<char, int> sut = new()
             {
                 Variable = sharedVariable, Domain = [0, 1, 2], Degree = sharedDegree, SumTightness = sharedSumTightness
             };
 
-            ConstraintGraphNode<char, int> other = sut with { Domain = [2, 1, 0] };
+            ConstraintGraphNodeDatum<char, int> other = sut with { Domain = [2, 1, 0] };
 
             // Act
             bool result = sut == other;
@@ -322,12 +328,12 @@ public static class ConstraintGraphNodeTests
             const int sharedDegree = 2;
             const double sharedSumTightness = 0.5;
 
-            ConstraintGraphNode<char, int> sut = new()
+            ConstraintGraphNodeDatum<char, int> sut = new()
             {
                 Variable = sharedVariable, Domain = sharedDomain, Degree = sharedDegree, SumTightness = sharedSumTightness
             };
 
-            ConstraintGraphNode<char, int> other = new()
+            ConstraintGraphNodeDatum<char, int> other = new()
             {
                 Variable = sharedVariable, Domain = sharedDomain, Degree = sharedDegree, SumTightness = sharedSumTightness
             };
@@ -347,12 +353,12 @@ public static class ConstraintGraphNodeTests
             const int sharedDegree = 2;
             const double sharedSumTightness = 0.5;
 
-            ConstraintGraphNode<char, int> sut = new()
+            ConstraintGraphNodeDatum<char, int> sut = new()
             {
                 Variable = 'A', Domain = sharedDomain, Degree = sharedDegree, SumTightness = sharedSumTightness
             };
 
-            ConstraintGraphNode<char, int> other = sut with { Variable = 'Z' };
+            ConstraintGraphNodeDatum<char, int> other = sut with { Variable = 'Z' };
 
             // Act
             bool result = sut != other;
@@ -369,12 +375,12 @@ public static class ConstraintGraphNodeTests
             int[] sharedDomain = [0, 1, 2];
             const double sharedSumTightness = 0.5;
 
-            ConstraintGraphNode<char, int> sut = new()
+            ConstraintGraphNodeDatum<char, int> sut = new()
             {
                 Variable = sharedVariable, Domain = sharedDomain, Degree = 1, SumTightness = sharedSumTightness
             };
 
-            ConstraintGraphNode<char, int> other = sut with { Degree = 2 };
+            ConstraintGraphNodeDatum<char, int> other = sut with { Degree = 2 };
 
             // Act
             bool result = sut != other;
@@ -391,12 +397,12 @@ public static class ConstraintGraphNodeTests
             int[] sharedDomain = [0, 1, 2];
             const int sharedDegree = 2;
 
-            ConstraintGraphNode<char, int> sut = new()
+            ConstraintGraphNodeDatum<char, int> sut = new()
             {
                 Variable = sharedVariable, Domain = sharedDomain, Degree = sharedDegree, SumTightness = 0.5
             };
 
-            ConstraintGraphNode<char, int> other = sut with { SumTightness = 0.499999 };
+            ConstraintGraphNodeDatum<char, int> other = sut with { SumTightness = 0.499999 };
 
             // Act
             bool result = sut != other;
@@ -413,12 +419,12 @@ public static class ConstraintGraphNodeTests
             const int sharedDegree = 2;
             const double sharedSumTightness = 0.5;
 
-            ConstraintGraphNode<char, int> sut = new()
+            ConstraintGraphNodeDatum<char, int> sut = new()
             {
                 Variable = sharedVariable, Domain = [0, 1, 2], Degree = sharedDegree, SumTightness = sharedSumTightness
             };
 
-            ConstraintGraphNode<char, int> other = sut with { Domain = [0] };
+            ConstraintGraphNodeDatum<char, int> other = sut with { Domain = [0] };
 
             // Act
             bool result = sut != other;
@@ -435,12 +441,12 @@ public static class ConstraintGraphNodeTests
             const int sharedDegree = 2;
             const double sharedSumTightness = 0.5;
 
-            ConstraintGraphNode<char, int> sut = new()
+            ConstraintGraphNodeDatum<char, int> sut = new()
             {
                 Variable = sharedVariable, Domain = [0, 1, 2], Degree = sharedDegree, SumTightness = sharedSumTightness
             };
 
-            ConstraintGraphNode<char, int> other = sut with { Domain = [2, 1, 0] };
+            ConstraintGraphNodeDatum<char, int> other = sut with { Domain = [2, 1, 0] };
 
             // Act
             bool result = sut != other;

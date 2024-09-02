@@ -129,7 +129,7 @@ public static partial class GraphColouringConstraintGraphTests
     [UnitTest]
     public sealed class ModelMethod
     {
-        public static TheoryData<GraphColouringProblem, IList<ConstraintGraphNode<Node, Colour>>> NodeTestCases => new()
+        public static TheoryData<GraphColouringProblem, IList<ConstraintGraphNodeDatum<Node, Colour>>> NodeTestCases => new()
         {
             { TestCaseOne.Problem, TestCaseOne.ExpectedNodes },
             { TestCaseTwo.Problem, TestCaseTwo.ExpectedNodes },
@@ -138,7 +138,7 @@ public static partial class GraphColouringConstraintGraphTests
             { TestCaseFive.Problem, TestCaseFive.ExpectedNodes }
         };
 
-        public static TheoryData<GraphColouringProblem, IList<ConstraintGraphEdge<Node, Colour>>> EdgeTestCases => new()
+        public static TheoryData<GraphColouringProblem, IList<ConstraintGraphEdgeDatum<Node, Colour>>> EdgeTestCases => new()
         {
             { TestCaseOne.Problem, TestCaseOne.ExpectedEdges },
             { TestCaseTwo.Problem, TestCaseTwo.ExpectedEdges },
@@ -150,7 +150,7 @@ public static partial class GraphColouringConstraintGraphTests
         [Theory]
         [MemberData(nameof(NodeTestCases), MemberType = typeof(ModelMethod))]
         public void Model_GivenProblem_PopulatesNodes(GraphColouringProblem problem,
-            IList<ConstraintGraphNode<Node, Colour>> expectedNodes)
+            IList<ConstraintGraphNodeDatum<Node, Colour>> expectedNodes)
         {
             // Arrange
             GraphColouringConstraintGraph sut = new(4);
@@ -159,13 +159,13 @@ public static partial class GraphColouringConstraintGraphTests
             sut.Model(problem);
 
             // Assert
-            sut.GetConstraintGraphNodes().Should().Equal(expectedNodes);
+            sut.GetNodeData().Should().Equal(expectedNodes);
         }
 
         [Theory]
         [MemberData(nameof(EdgeTestCases), MemberType = typeof(ModelMethod))]
         public void Model_GivenProblem_PopulatesEdges(GraphColouringProblem problem,
-            IList<ConstraintGraphEdge<Node, Colour>> expectedEdges)
+            IList<ConstraintGraphEdgeDatum<Node, Colour>> expectedEdges)
         {
             // Arrange
             GraphColouringConstraintGraph sut = new(4);
@@ -174,7 +174,7 @@ public static partial class GraphColouringConstraintGraphTests
             sut.Model(problem);
 
             // Assert
-            sut.GetConstraintGraphEdges().Should().Equal(expectedEdges);
+            sut.GetEdgeData().Should().Equal(expectedEdges);
         }
 
         [Fact]
@@ -182,20 +182,20 @@ public static partial class GraphColouringConstraintGraphTests
         {
             // Arrange
             (GraphColouringProblem initialProblem,
-                IList<ConstraintGraphNode<Node, Colour>> expectedInitialNodes,
-                IList<ConstraintGraphEdge<Node, Colour>> expectedInitialEdges) = TestCaseOne;
+                IList<ConstraintGraphNodeDatum<Node, Colour>> expectedInitialNodes,
+                IList<ConstraintGraphEdgeDatum<Node, Colour>> expectedInitialEdges) = TestCaseOne;
 
             (GraphColouringProblem finalProblem,
-                IList<ConstraintGraphNode<Node, Colour>> expectedFinalNodes,
-                IList<ConstraintGraphEdge<Node, Colour>> expectedFinalEdges) = TestCaseFive;
+                IList<ConstraintGraphNodeDatum<Node, Colour>> expectedFinalNodes,
+                IList<ConstraintGraphEdgeDatum<Node, Colour>> expectedFinalEdges) = TestCaseFive;
 
             GraphColouringConstraintGraph sut = GraphColouringConstraintGraph.ModellingProblem(initialProblem);
 
             // Assert
             using (new AssertionScope())
             {
-                sut.GetConstraintGraphNodes().Should().Equal(expectedInitialNodes);
-                sut.GetConstraintGraphEdges().Should().Equal(expectedInitialEdges);
+                sut.GetNodeData().Should().Equal(expectedInitialNodes);
+                sut.GetEdgeData().Should().Equal(expectedInitialEdges);
             }
 
             // Act
@@ -205,8 +205,8 @@ public static partial class GraphColouringConstraintGraphTests
             // Assert
             using (new AssertionScope())
             {
-                sut.GetConstraintGraphNodes().Should().Equal(expectedFinalNodes);
-                sut.GetConstraintGraphEdges().Should().Equal(expectedFinalEdges);
+                sut.GetNodeData().Should().Equal(expectedFinalNodes);
+                sut.GetEdgeData().Should().Equal(expectedFinalEdges);
             }
         }
     }
@@ -219,8 +219,8 @@ public static partial class GraphColouringConstraintGraphTests
         {
             // Arrange
             (GraphColouringProblem problem,
-                IList<ConstraintGraphNode<Node, Colour>> expectedNodes,
-                IList<ConstraintGraphEdge<Node, Colour>> expectedEdges) = TestCaseFive;
+                IList<ConstraintGraphNodeDatum<Node, Colour>> expectedNodes,
+                IList<ConstraintGraphEdgeDatum<Node, Colour>> expectedEdges) = TestCaseFive;
 
             // Act
             GraphColouringConstraintGraph result = GraphColouringConstraintGraph.ModellingProblem(problem);
@@ -228,8 +228,8 @@ public static partial class GraphColouringConstraintGraphTests
             // Assert
             using (new AssertionScope())
             {
-                result.GetConstraintGraphNodes().Should().Equal(expectedNodes);
-                result.GetConstraintGraphEdges().Should().Equal(expectedEdges);
+                result.GetNodeData().Should().Equal(expectedNodes);
+                result.GetEdgeData().Should().Equal(expectedEdges);
             }
         }
 

@@ -14,7 +14,7 @@ public static partial class MapColouringConstraintGraphTests
             .AddBlock(Block.Parse("(0,0) [3x3]")).Build(),
         ExpectedNodes =
         [
-            new ConstraintGraphNode<Block, Colour>
+            new ConstraintGraphNodeDatum<Block, Colour>
             {
                 Variable = Block.Parse("(0,0) [3x3]"),
                 Degree = 0,
@@ -34,18 +34,18 @@ public static partial class MapColouringConstraintGraphTests
             .AddBlock(Block.Parse("(0,0) [3x3]")).Build(),
         ExpectedNodes =
         [
-            new ConstraintGraphNode<Block, Colour>
+            new ConstraintGraphNodeDatum<Block, Colour>
             {
                 Variable = Block.Parse("(0,0) [3x3]"), Degree = 1, SumTightness = 0.5, Domain = [Colour.Black, Colour.White]
             },
-            new ConstraintGraphNode<Block, Colour>
+            new ConstraintGraphNodeDatum<Block, Colour>
             {
                 Variable = Block.Parse("(3,0) [3x3]"), Degree = 1, SumTightness = 0.5, Domain = [Colour.Black, Colour.White]
             }
         ],
         ExpectedEdges =
         [
-            new ConstraintGraphEdge<Block, Colour>
+            new ConstraintGraphEdgeDatum<Block, Colour>
             {
                 FirstVariable = Block.Parse("(0,0) [3x3]"),
                 SecondVariable = Block.Parse("(3,0) [3x3]"),
@@ -70,11 +70,11 @@ public static partial class MapColouringConstraintGraphTests
             .AddBlockAndColours(Block.Parse("(3,0) [3x3]"), Colour.Black).Build(),
         ExpectedNodes =
         [
-            new ConstraintGraphNode<Block, Colour>
+            new ConstraintGraphNodeDatum<Block, Colour>
             {
                 Variable = Block.Parse("(0,0) [3x3]"), Degree = 0, SumTightness = 0.0, Domain = []
             },
-            new ConstraintGraphNode<Block, Colour>
+            new ConstraintGraphNodeDatum<Block, Colour>
             {
                 Variable = Block.Parse("(3,0) [3x3]"), Degree = 0, SumTightness = 0.0, Domain = [Colour.Black]
             }
@@ -93,22 +93,22 @@ public static partial class MapColouringConstraintGraphTests
             .AddBlock(Block.Parse("(3,3) [3x3]")).Build(),
         ExpectedNodes =
         [
-            new ConstraintGraphNode<Block, Colour>
+            new ConstraintGraphNodeDatum<Block, Colour>
             {
                 Variable = Block.Parse("(0,0) [3x3]"), Degree = 1, SumTightness = 0.5, Domain = [Colour.Black, Colour.White]
             },
-            new ConstraintGraphNode<Block, Colour>
+            new ConstraintGraphNodeDatum<Block, Colour>
             {
                 Variable = Block.Parse("(3,0) [3x3]"), Degree = 2, SumTightness = 1.0, Domain = [Colour.Black, Colour.White]
             },
-            new ConstraintGraphNode<Block, Colour>
+            new ConstraintGraphNodeDatum<Block, Colour>
             {
                 Variable = Block.Parse("(3,3) [3x3]"), Degree = 1, SumTightness = 0.5, Domain = [Colour.Black, Colour.White]
             }
         ],
         ExpectedEdges =
         [
-            new ConstraintGraphEdge<Block, Colour>
+            new ConstraintGraphEdgeDatum<Block, Colour>
             {
                 FirstVariable = Block.Parse("(0,0) [3x3]"),
                 SecondVariable = Block.Parse("(3,0) [3x3]"),
@@ -121,7 +121,7 @@ public static partial class MapColouringConstraintGraphTests
                     new AssignmentPair<Colour>(Colour.White, Colour.White, false)
                 ]
             },
-            new ConstraintGraphEdge<Block, Colour>
+            new ConstraintGraphEdgeDatum<Block, Colour>
             {
                 FirstVariable = Block.Parse("(3,0) [3x3]"),
                 SecondVariable = Block.Parse("(3,3) [3x3]"),
@@ -150,29 +150,29 @@ public static partial class MapColouringConstraintGraphTests
             .AddBlockAndColours(Block.Parse("(5,3) [2x2]"), Colour.Yellow, Colour.Blue).Build(),
         ExpectedNodes =
         [
-            new ConstraintGraphNode<Block, Colour>
+            new ConstraintGraphNodeDatum<Block, Colour>
             {
                 Variable = Block.Parse("(0,6) [3x1]"), Degree = 0, SumTightness = 0.0, Domain = [Colour.Red, Colour.Blue]
             },
-            new ConstraintGraphNode<Block, Colour>
+            new ConstraintGraphNodeDatum<Block, Colour>
             {
                 Variable = Block.Parse("(1,1) [2x3]"),
                 Degree = 2,
                 SumTightness = 0.833333333,
                 Domain = [Colour.Red, Colour.Blue]
             },
-            new ConstraintGraphNode<Block, Colour>
+            new ConstraintGraphNodeDatum<Block, Colour>
             {
                 Variable = Block.Parse("(3,1) [4x2]"),
                 Degree = 3,
                 SumTightness = 0.833333333,
                 Domain = [Colour.Green, Colour.Red, Colour.Blue]
             },
-            new ConstraintGraphNode<Block, Colour>
+            new ConstraintGraphNodeDatum<Block, Colour>
             {
                 Variable = Block.Parse("(3,3) [2x3]"), Degree = 2, SumTightness = 0.833333333, Domain = [Colour.Red]
             },
-            new ConstraintGraphNode<Block, Colour>
+            new ConstraintGraphNodeDatum<Block, Colour>
             {
                 Variable = Block.Parse("(5,3) [2x2]"),
                 Degree = 1,
@@ -182,7 +182,7 @@ public static partial class MapColouringConstraintGraphTests
         ],
         ExpectedEdges =
         [
-            new ConstraintGraphEdge<Block, Colour>
+            new ConstraintGraphEdgeDatum<Block, Colour>
             {
                 FirstVariable = Block.Parse("(1,1) [2x3]"),
                 SecondVariable = Block.Parse("(3,1) [4x2]"),
@@ -197,7 +197,7 @@ public static partial class MapColouringConstraintGraphTests
                     new AssignmentPair<Colour>(Colour.Blue, Colour.Blue, false)
                 ]
             },
-            new ConstraintGraphEdge<Block, Colour>
+            new ConstraintGraphEdgeDatum<Block, Colour>
             {
                 FirstVariable = Block.Parse("(1,1) [2x3]"),
                 SecondVariable = Block.Parse("(3,3) [2x3]"),
@@ -208,7 +208,7 @@ public static partial class MapColouringConstraintGraphTests
                     new AssignmentPair<Colour>(Colour.Blue, Colour.Red, true)
                 ]
             },
-            new ConstraintGraphEdge<Block, Colour>
+            new ConstraintGraphEdgeDatum<Block, Colour>
             {
                 FirstVariable = Block.Parse("(3,1) [4x2]"),
                 SecondVariable = Block.Parse("(3,3) [2x3]"),
@@ -220,7 +220,7 @@ public static partial class MapColouringConstraintGraphTests
                     new AssignmentPair<Colour>(Colour.Blue, Colour.Red, true)
                 ]
             },
-            new ConstraintGraphEdge<Block, Colour>
+            new ConstraintGraphEdgeDatum<Block, Colour>
             {
                 FirstVariable = Block.Parse("(3,1) [4x2]"),
                 SecondVariable = Block.Parse("(5,3) [2x2]"),
@@ -242,13 +242,13 @@ public static partial class MapColouringConstraintGraphTests
     {
         public required MapColouringProblem Problem { get; init; }
 
-        public required IList<ConstraintGraphNode<Block, Colour>> ExpectedNodes { get; init; }
+        public required IList<ConstraintGraphNodeDatum<Block, Colour>> ExpectedNodes { get; init; }
 
-        public required IList<ConstraintGraphEdge<Block, Colour>> ExpectedEdges { get; init; }
+        public required IList<ConstraintGraphEdgeDatum<Block, Colour>> ExpectedEdges { get; init; }
 
         public void Deconstruct(out MapColouringProblem problem,
-            out IList<ConstraintGraphNode<Block, Colour>> expectedNodes,
-            out IList<ConstraintGraphEdge<Block, Colour>> expectedEdges)
+            out IList<ConstraintGraphNodeDatum<Block, Colour>> expectedNodes,
+            out IList<ConstraintGraphEdgeDatum<Block, Colour>> expectedEdges)
         {
             problem = Problem;
             expectedNodes = ExpectedNodes;

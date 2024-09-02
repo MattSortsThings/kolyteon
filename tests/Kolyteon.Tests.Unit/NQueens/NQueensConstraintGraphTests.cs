@@ -129,7 +129,7 @@ public static partial class NQueensConstraintGraphTests
     [UnitTest]
     public sealed class ModelMethod
     {
-        public static TheoryData<NQueensProblem, IList<ConstraintGraphNode<int, Square>>> NodeTestCases => new()
+        public static TheoryData<NQueensProblem, IList<ConstraintGraphNodeDatum<int, Square>>> NodeTestCases => new()
         {
             { TestCaseOne.Problem, TestCaseOne.ExpectedNodes },
             { TestCaseTwo.Problem, TestCaseTwo.ExpectedNodes },
@@ -137,7 +137,7 @@ public static partial class NQueensConstraintGraphTests
             { TestCaseFour.Problem, TestCaseFour.ExpectedNodes }
         };
 
-        public static TheoryData<NQueensProblem, IList<ConstraintGraphEdge<int, Square>>> EdgeTestCases => new()
+        public static TheoryData<NQueensProblem, IList<ConstraintGraphEdgeDatum<int, Square>>> EdgeTestCases => new()
         {
             { TestCaseOne.Problem, TestCaseOne.ExpectedEdges },
             { TestCaseTwo.Problem, TestCaseTwo.ExpectedEdges },
@@ -148,7 +148,7 @@ public static partial class NQueensConstraintGraphTests
         [Theory]
         [MemberData(nameof(NodeTestCases), MemberType = typeof(ModelMethod))]
         public void Model_GivenProblem_PopulatesNodes(NQueensProblem problem,
-            IList<ConstraintGraphNode<int, Square>> expectedNodes)
+            IList<ConstraintGraphNodeDatum<int, Square>> expectedNodes)
         {
             // Arrange
             NQueensConstraintGraph sut = new(4);
@@ -157,13 +157,13 @@ public static partial class NQueensConstraintGraphTests
             sut.Model(problem);
 
             // Assert
-            sut.GetConstraintGraphNodes().Should().Equal(expectedNodes);
+            sut.GetNodeData().Should().Equal(expectedNodes);
         }
 
         [Theory]
         [MemberData(nameof(EdgeTestCases), MemberType = typeof(ModelMethod))]
         public void Model_GivenProblem_PopulatesEdges(NQueensProblem problem,
-            IList<ConstraintGraphEdge<int, Square>> expectedEdges)
+            IList<ConstraintGraphEdgeDatum<int, Square>> expectedEdges)
         {
             // Arrange
             NQueensConstraintGraph sut = new(4);
@@ -172,7 +172,7 @@ public static partial class NQueensConstraintGraphTests
             sut.Model(problem);
 
             // Assert
-            sut.GetConstraintGraphEdges().Should().Equal(expectedEdges);
+            sut.GetEdgeData().Should().Equal(expectedEdges);
         }
 
         [Fact]
@@ -180,20 +180,20 @@ public static partial class NQueensConstraintGraphTests
         {
             // Arrange
             (NQueensProblem initialProblem,
-                IList<ConstraintGraphNode<int, Square>> expectedInitialNodes,
-                IList<ConstraintGraphEdge<int, Square>> expectedInitialEdges) = TestCaseThree;
+                IList<ConstraintGraphNodeDatum<int, Square>> expectedInitialNodes,
+                IList<ConstraintGraphEdgeDatum<int, Square>> expectedInitialEdges) = TestCaseThree;
 
             (NQueensProblem finalProblem,
-                IList<ConstraintGraphNode<int, Square>> expectedFinalNodes,
-                IList<ConstraintGraphEdge<int, Square>> expectedFinalEdges) = TestCaseFour;
+                IList<ConstraintGraphNodeDatum<int, Square>> expectedFinalNodes,
+                IList<ConstraintGraphEdgeDatum<int, Square>> expectedFinalEdges) = TestCaseFour;
 
             NQueensConstraintGraph sut = NQueensConstraintGraph.ModellingProblem(initialProblem);
 
             // Assert
             using (new AssertionScope())
             {
-                sut.GetConstraintGraphNodes().Should().Equal(expectedInitialNodes);
-                sut.GetConstraintGraphEdges().Should().Equal(expectedInitialEdges);
+                sut.GetNodeData().Should().Equal(expectedInitialNodes);
+                sut.GetEdgeData().Should().Equal(expectedInitialEdges);
             }
 
             // Act
@@ -203,8 +203,8 @@ public static partial class NQueensConstraintGraphTests
             // Assert
             using (new AssertionScope())
             {
-                sut.GetConstraintGraphNodes().Should().Equal(expectedFinalNodes);
-                sut.GetConstraintGraphEdges().Should().Equal(expectedFinalEdges);
+                sut.GetNodeData().Should().Equal(expectedFinalNodes);
+                sut.GetEdgeData().Should().Equal(expectedFinalEdges);
             }
         }
     }
@@ -217,8 +217,8 @@ public static partial class NQueensConstraintGraphTests
         {
             // Arrange
             (NQueensProblem problem,
-                IList<ConstraintGraphNode<int, Square>> expectedNodes,
-                IList<ConstraintGraphEdge<int, Square>> expectedEdges) = TestCaseFour;
+                IList<ConstraintGraphNodeDatum<int, Square>> expectedNodes,
+                IList<ConstraintGraphEdgeDatum<int, Square>> expectedEdges) = TestCaseFour;
 
             // Act
             NQueensConstraintGraph result = NQueensConstraintGraph.ModellingProblem(problem);
@@ -226,8 +226,8 @@ public static partial class NQueensConstraintGraphTests
             // Assert
             using (new AssertionScope())
             {
-                result.GetConstraintGraphNodes().Should().Equal(expectedNodes);
-                result.GetConstraintGraphEdges().Should().Equal(expectedEdges);
+                result.GetNodeData().Should().Equal(expectedNodes);
+                result.GetEdgeData().Should().Equal(expectedEdges);
             }
         }
 

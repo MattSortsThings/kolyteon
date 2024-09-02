@@ -20,7 +20,7 @@ public static partial class ConstraintGraphTests
             sut.Model(problem);
 
             // Assert
-            sut.GetConstraintGraphNodes().Should()
+            sut.GetNodeData().Should()
                 .SatisfyRespectively(node => node.Variable.Should().Be(A),
                     node => node.Variable.Should().Be(B),
                     node => node.Variable.Should().Be(C));
@@ -38,7 +38,7 @@ public static partial class ConstraintGraphTests
             sut.Model(problem);
 
             // Assert
-            sut.GetConstraintGraphNodes().Should()
+            sut.GetNodeData().Should()
                 .SatisfyRespectively(node => node.Domain.Should().Equal(1, 9),
                     node => node.Domain.Should().BeEmpty(),
                     node => node.Domain.Should().Equal(1, 2, 3));
@@ -56,7 +56,7 @@ public static partial class ConstraintGraphTests
             sut.Model(problem);
 
             // Assert
-            sut.GetConstraintGraphEdges().Should().SatisfyRespectively(
+            sut.GetEdgeData().Should().SatisfyRespectively(
                 edge =>
                 {
                     edge.FirstVariable.Should().Be(A);
@@ -85,12 +85,18 @@ public static partial class ConstraintGraphTests
             sut.Model(problem);
 
             // Assert
-            sut.GetConstraintGraphNodes().Should().Equal(
-                new ConstraintGraphNode<char, int> { Variable = A, Degree = 1, SumTightness = 0.333333333, Domain = [1, 2] },
-                new ConstraintGraphNode<char, int> { Variable = B, Degree = 2, SumTightness = 0.666666667, Domain = [3, 4] },
-                new ConstraintGraphNode<char, int> { Variable = C, Degree = 2, SumTightness = 0.5, Domain = [1, 2, 3] },
-                new ConstraintGraphNode<char, int> { Variable = D, Degree = 1, SumTightness = 0.5, Domain = [4] },
-                new ConstraintGraphNode<char, int> { Variable = E, Degree = 0, SumTightness = 0.0, Domain = [9] }
+            sut.GetNodeData().Should().Equal(
+                new ConstraintGraphNodeDatum<char, int>
+                {
+                    Variable = A, Degree = 1, SumTightness = 0.333333333, Domain = [1, 2]
+                },
+                new ConstraintGraphNodeDatum<char, int>
+                {
+                    Variable = B, Degree = 2, SumTightness = 0.666666667, Domain = [3, 4]
+                },
+                new ConstraintGraphNodeDatum<char, int> { Variable = C, Degree = 2, SumTightness = 0.5, Domain = [1, 2, 3] },
+                new ConstraintGraphNodeDatum<char, int> { Variable = D, Degree = 1, SumTightness = 0.5, Domain = [4] },
+                new ConstraintGraphNodeDatum<char, int> { Variable = E, Degree = 0, SumTightness = 0.0, Domain = [9] }
             );
         }
 
@@ -106,8 +112,8 @@ public static partial class ConstraintGraphTests
             sut.Model(problem);
 
             // Assert
-            sut.GetConstraintGraphEdges().Should().Equal(
-                new ConstraintGraphEdge<char, int>
+            sut.GetEdgeData().Should().Equal(
+                new ConstraintGraphEdgeDatum<char, int>
                 {
                     FirstVariable = A,
                     SecondVariable = C,
@@ -121,7 +127,7 @@ public static partial class ConstraintGraphTests
                         new AssignmentPair<int>(2, 2, false),
                         new AssignmentPair<int>(2, 3, true)
                     ]
-                }, new ConstraintGraphEdge<char, int>
+                }, new ConstraintGraphEdgeDatum<char, int>
                 {
                     FirstVariable = B,
                     SecondVariable = C,
@@ -136,7 +142,7 @@ public static partial class ConstraintGraphTests
                         new AssignmentPair<int>(4, 3, true)
                     ]
                 },
-                new ConstraintGraphEdge<char, int>
+                new ConstraintGraphEdgeDatum<char, int>
                 {
                     FirstVariable = B,
                     SecondVariable = D,

@@ -20,7 +20,7 @@ public static partial class ShikakuConstraintGraphTests
         }),
         ExpectedNodes =
         [
-            new ConstraintGraphNode<NumberedSquare, Block>
+            new ConstraintGraphNodeDatum<NumberedSquare, Block>
             {
                 Variable = NumberedSquare.Parse("(3,3) [49]"),
                 Degree = 0,
@@ -46,7 +46,7 @@ public static partial class ShikakuConstraintGraphTests
         }),
         ExpectedNodes =
         [
-            new ConstraintGraphNode<NumberedSquare, Block>
+            new ConstraintGraphNodeDatum<NumberedSquare, Block>
             {
                 Variable = NumberedSquare.Parse("(0,0) [5]"),
                 Degree = 1,
@@ -57,7 +57,7 @@ public static partial class ShikakuConstraintGraphTests
                     Block.Parse("(0,0) [5x1]")
                 ]
             },
-            new ConstraintGraphNode<NumberedSquare, Block>
+            new ConstraintGraphNodeDatum<NumberedSquare, Block>
             {
                 Variable = NumberedSquare.Parse("(4,4) [20]"),
                 Degree = 1,
@@ -71,7 +71,7 @@ public static partial class ShikakuConstraintGraphTests
         ],
         ExpectedEdges =
         [
-            new ConstraintGraphEdge<NumberedSquare, Block>
+            new ConstraintGraphEdgeDatum<NumberedSquare, Block>
             {
                 FirstVariable = NumberedSquare.Parse("(0,0) [5]"),
                 SecondVariable = NumberedSquare.Parse("(4,4) [20]"),
@@ -99,7 +99,7 @@ public static partial class ShikakuConstraintGraphTests
         }),
         ExpectedNodes =
         [
-            new ConstraintGraphNode<NumberedSquare, Block>
+            new ConstraintGraphNodeDatum<NumberedSquare, Block>
             {
                 Variable = NumberedSquare.Parse("(0,0) [4]"),
                 Degree = 0,
@@ -111,7 +111,7 @@ public static partial class ShikakuConstraintGraphTests
                     Block.Parse("(0,0) [4x1]")
                 ]
             },
-            new ConstraintGraphNode<NumberedSquare, Block>
+            new ConstraintGraphNodeDatum<NumberedSquare, Block>
             {
                 Variable = NumberedSquare.Parse("(4,4) [21]"),
                 Degree = 0,
@@ -136,7 +136,7 @@ public static partial class ShikakuConstraintGraphTests
         }),
         ExpectedNodes =
         [
-            new ConstraintGraphNode<NumberedSquare, Block>
+            new ConstraintGraphNodeDatum<NumberedSquare, Block>
             {
                 Variable = NumberedSquare.Parse("(0,0) [5]"),
                 Degree = 0,
@@ -146,7 +146,7 @@ public static partial class ShikakuConstraintGraphTests
                     Block.Parse("(0,0) [5x1]")
                 ]
             },
-            new ConstraintGraphNode<NumberedSquare, Block>
+            new ConstraintGraphNodeDatum<NumberedSquare, Block>
             {
                 Variable = NumberedSquare.Parse("(0,2) [20]"),
                 Degree = 0,
@@ -172,7 +172,7 @@ public static partial class ShikakuConstraintGraphTests
         }),
         ExpectedNodes =
         [
-            new ConstraintGraphNode<NumberedSquare, Block>
+            new ConstraintGraphNodeDatum<NumberedSquare, Block>
             {
                 Variable = NumberedSquare.Parse("(1,1) [10]"),
                 Degree = 2,
@@ -183,7 +183,7 @@ public static partial class ShikakuConstraintGraphTests
                     Block.Parse("(0,1) [5x2]")
                 ]
             },
-            new ConstraintGraphNode<NumberedSquare, Block>
+            new ConstraintGraphNodeDatum<NumberedSquare, Block>
             {
                 Variable = NumberedSquare.Parse("(2,0) [3]"),
                 Degree = 2,
@@ -196,7 +196,7 @@ public static partial class ShikakuConstraintGraphTests
                     Block.Parse("(2,0) [3x1]")
                 ]
             },
-            new ConstraintGraphNode<NumberedSquare, Block>
+            new ConstraintGraphNodeDatum<NumberedSquare, Block>
             {
                 Variable = NumberedSquare.Parse("(4,3) [12]"),
                 Degree = 2,
@@ -210,7 +210,7 @@ public static partial class ShikakuConstraintGraphTests
         ],
         ExpectedEdges =
         [
-            new ConstraintGraphEdge<NumberedSquare, Block>
+            new ConstraintGraphEdgeDatum<NumberedSquare, Block>
             {
                 FirstVariable = NumberedSquare.Parse("(1,1) [10]"),
                 SecondVariable = NumberedSquare.Parse("(2,0) [3]"),
@@ -227,7 +227,7 @@ public static partial class ShikakuConstraintGraphTests
                     new AssignmentPair<Block>(Block.Parse("(0,1) [5x2]"), Block.Parse("(2,0) [3x1]"), true)
                 ]
             },
-            new ConstraintGraphEdge<NumberedSquare, Block>
+            new ConstraintGraphEdgeDatum<NumberedSquare, Block>
             {
                 FirstVariable = NumberedSquare.Parse("(1,1) [10]"),
                 SecondVariable = NumberedSquare.Parse("(4,3) [12]"),
@@ -240,7 +240,7 @@ public static partial class ShikakuConstraintGraphTests
                     new AssignmentPair<Block>(Block.Parse("(0,1) [5x2]"), Block.Parse("(2,1) [3x4]"), false)
                 ]
             },
-            new ConstraintGraphEdge<NumberedSquare, Block>
+            new ConstraintGraphEdgeDatum<NumberedSquare, Block>
             {
                 FirstVariable = NumberedSquare.Parse("(2,0) [3]"),
                 SecondVariable = NumberedSquare.Parse("(4,3) [12]"),
@@ -272,7 +272,7 @@ public static partial class ShikakuConstraintGraphTests
         }),
         ExpectedNodes =
         [
-            new ConstraintGraphNode<NumberedSquare, Block>
+            new ConstraintGraphNodeDatum<NumberedSquare, Block>
             {
                 Variable = NumberedSquare.Parse("(1,3) [4]"),
                 Degree = 2,
@@ -285,7 +285,7 @@ public static partial class ShikakuConstraintGraphTests
                     Block.Parse("(1,1) [1x4]")
                 ]
             },
-            new ConstraintGraphNode<NumberedSquare, Block>
+            new ConstraintGraphNodeDatum<NumberedSquare, Block>
             {
                 Variable = NumberedSquare.Parse("(2,0) [9]"),
                 Degree = 3,
@@ -296,7 +296,7 @@ public static partial class ShikakuConstraintGraphTests
                     Block.Parse("(1,0) [3x3]")
                 ]
             },
-            new ConstraintGraphNode<NumberedSquare, Block>
+            new ConstraintGraphNodeDatum<NumberedSquare, Block>
             {
                 Variable = NumberedSquare.Parse("(2,3) [2]"),
                 Degree = 2,
@@ -308,7 +308,7 @@ public static partial class ShikakuConstraintGraphTests
                     Block.Parse("(2,3) [2x1]")
                 ]
             },
-            new ConstraintGraphNode<NumberedSquare, Block>
+            new ConstraintGraphNodeDatum<NumberedSquare, Block>
             {
                 Variable = NumberedSquare.Parse("(4,1) [10]"),
                 Degree = 3,
@@ -322,7 +322,7 @@ public static partial class ShikakuConstraintGraphTests
         ],
         ExpectedEdges =
         [
-            new ConstraintGraphEdge<NumberedSquare, Block>
+            new ConstraintGraphEdgeDatum<NumberedSquare, Block>
             {
                 FirstVariable = NumberedSquare.Parse("(1,3) [4]"),
                 SecondVariable = NumberedSquare.Parse("(2,0) [9]"),
@@ -339,7 +339,7 @@ public static partial class ShikakuConstraintGraphTests
                     new AssignmentPair<Block>(Block.Parse("(1,1) [1x4]"), Block.Parse("(1,0) [3x3]"), false)
                 ]
             },
-            new ConstraintGraphEdge<NumberedSquare, Block>
+            new ConstraintGraphEdgeDatum<NumberedSquare, Block>
             {
                 FirstVariable = NumberedSquare.Parse("(1,3) [4]"),
                 SecondVariable = NumberedSquare.Parse("(4,1) [10]"),
@@ -356,7 +356,7 @@ public static partial class ShikakuConstraintGraphTests
                     new AssignmentPair<Block>(Block.Parse("(1,1) [1x4]"), Block.Parse("(3,0) [2x5]"), true)
                 ]
             },
-            new ConstraintGraphEdge<NumberedSquare, Block>
+            new ConstraintGraphEdgeDatum<NumberedSquare, Block>
             {
                 FirstVariable = NumberedSquare.Parse("(2,0) [9]"),
                 SecondVariable = NumberedSquare.Parse("(2,3) [2]"),
@@ -371,7 +371,7 @@ public static partial class ShikakuConstraintGraphTests
                     new AssignmentPair<Block>(Block.Parse("(1,0) [3x3]"), Block.Parse("(2,3) [2x1]"), true)
                 ]
             },
-            new ConstraintGraphEdge<NumberedSquare, Block>
+            new ConstraintGraphEdgeDatum<NumberedSquare, Block>
             {
                 FirstVariable = NumberedSquare.Parse("(2,0) [9]"),
                 SecondVariable = NumberedSquare.Parse("(4,1) [10]"),
@@ -384,7 +384,7 @@ public static partial class ShikakuConstraintGraphTests
                     new AssignmentPair<Block>(Block.Parse("(1,0) [3x3]"), Block.Parse("(3,0) [2x5]"), false)
                 ]
             },
-            new ConstraintGraphEdge<NumberedSquare, Block>
+            new ConstraintGraphEdgeDatum<NumberedSquare, Block>
             {
                 FirstVariable = NumberedSquare.Parse("(2,3) [2]"),
                 SecondVariable = NumberedSquare.Parse("(4,1) [10]"),
@@ -406,13 +406,13 @@ public static partial class ShikakuConstraintGraphTests
     {
         public required ShikakuProblem Problem { get; init; }
 
-        public required IList<ConstraintGraphNode<NumberedSquare, Block>> ExpectedNodes { get; init; }
+        public required IList<ConstraintGraphNodeDatum<NumberedSquare, Block>> ExpectedNodes { get; init; }
 
-        public required IList<ConstraintGraphEdge<NumberedSquare, Block>> ExpectedEdges { get; init; }
+        public required IList<ConstraintGraphEdgeDatum<NumberedSquare, Block>> ExpectedEdges { get; init; }
 
         public void Deconstruct(out ShikakuProblem problem,
-            out IList<ConstraintGraphNode<NumberedSquare, Block>> expectedNodes,
-            out IList<ConstraintGraphEdge<NumberedSquare, Block>> expectedEdges)
+            out IList<ConstraintGraphNodeDatum<NumberedSquare, Block>> expectedNodes,
+            out IList<ConstraintGraphEdgeDatum<NumberedSquare, Block>> expectedEdges)
         {
             problem = Problem;
             expectedNodes = ExpectedNodes;

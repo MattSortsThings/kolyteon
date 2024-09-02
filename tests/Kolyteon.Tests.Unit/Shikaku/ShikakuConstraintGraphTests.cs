@@ -129,7 +129,7 @@ public static partial class ShikakuConstraintGraphTests
     [UnitTest]
     public sealed class ModelMethod
     {
-        public static TheoryData<ShikakuProblem, IList<ConstraintGraphNode<NumberedSquare, Block>>> NodeTestCases => new()
+        public static TheoryData<ShikakuProblem, IList<ConstraintGraphNodeDatum<NumberedSquare, Block>>> NodeTestCases => new()
         {
             { TestCaseOne.Problem, TestCaseOne.ExpectedNodes },
             { TestCaseTwo.Problem, TestCaseTwo.ExpectedNodes },
@@ -139,7 +139,7 @@ public static partial class ShikakuConstraintGraphTests
             { TestCaseSix.Problem, TestCaseSix.ExpectedNodes }
         };
 
-        public static TheoryData<ShikakuProblem, IList<ConstraintGraphEdge<NumberedSquare, Block>>> EdgeTestCases => new()
+        public static TheoryData<ShikakuProblem, IList<ConstraintGraphEdgeDatum<NumberedSquare, Block>>> EdgeTestCases => new()
         {
             { TestCaseOne.Problem, TestCaseOne.ExpectedEdges },
             { TestCaseTwo.Problem, TestCaseTwo.ExpectedEdges },
@@ -152,7 +152,7 @@ public static partial class ShikakuConstraintGraphTests
         [Theory]
         [MemberData(nameof(NodeTestCases), MemberType = typeof(ModelMethod))]
         public void Model_GivenProblem_PopulatesNodes(ShikakuProblem problem,
-            IList<ConstraintGraphNode<NumberedSquare, Block>> expectedNodes)
+            IList<ConstraintGraphNodeDatum<NumberedSquare, Block>> expectedNodes)
         {
             // Arrange
             ShikakuConstraintGraph sut = new(4);
@@ -161,13 +161,13 @@ public static partial class ShikakuConstraintGraphTests
             sut.Model(problem);
 
             // Assert
-            sut.GetConstraintGraphNodes().Should().Equal(expectedNodes);
+            sut.GetNodeData().Should().Equal(expectedNodes);
         }
 
         [Theory]
         [MemberData(nameof(EdgeTestCases), MemberType = typeof(ModelMethod))]
         public void Model_GivenProblem_PopulatesEdges(ShikakuProblem problem,
-            IList<ConstraintGraphEdge<NumberedSquare, Block>> expectedEdges)
+            IList<ConstraintGraphEdgeDatum<NumberedSquare, Block>> expectedEdges)
         {
             // Arrange
             ShikakuConstraintGraph sut = new(4);
@@ -176,7 +176,7 @@ public static partial class ShikakuConstraintGraphTests
             sut.Model(problem);
 
             // Assert
-            sut.GetConstraintGraphEdges().Should().Equal(expectedEdges);
+            sut.GetEdgeData().Should().Equal(expectedEdges);
         }
 
         [Fact]
@@ -184,20 +184,20 @@ public static partial class ShikakuConstraintGraphTests
         {
             // Arrange
             (ShikakuProblem initialProblem,
-                IList<ConstraintGraphNode<NumberedSquare, Block>> expectedInitialNodes,
-                IList<ConstraintGraphEdge<NumberedSquare, Block>> expectedInitialEdges) = TestCaseFive;
+                IList<ConstraintGraphNodeDatum<NumberedSquare, Block>> expectedInitialNodes,
+                IList<ConstraintGraphEdgeDatum<NumberedSquare, Block>> expectedInitialEdges) = TestCaseFive;
 
             (ShikakuProblem finalProblem,
-                IList<ConstraintGraphNode<NumberedSquare, Block>> expectedFinalNodes,
-                IList<ConstraintGraphEdge<NumberedSquare, Block>> expectedFinalEdges) = TestCaseTwo;
+                IList<ConstraintGraphNodeDatum<NumberedSquare, Block>> expectedFinalNodes,
+                IList<ConstraintGraphEdgeDatum<NumberedSquare, Block>> expectedFinalEdges) = TestCaseTwo;
 
             ShikakuConstraintGraph sut = ShikakuConstraintGraph.ModellingProblem(initialProblem);
 
             // Assert
             using (new AssertionScope())
             {
-                sut.GetConstraintGraphNodes().Should().Equal(expectedInitialNodes);
-                sut.GetConstraintGraphEdges().Should().Equal(expectedInitialEdges);
+                sut.GetNodeData().Should().Equal(expectedInitialNodes);
+                sut.GetEdgeData().Should().Equal(expectedInitialEdges);
             }
 
             // Act
@@ -207,8 +207,8 @@ public static partial class ShikakuConstraintGraphTests
             // Assert
             using (new AssertionScope())
             {
-                sut.GetConstraintGraphNodes().Should().Equal(expectedFinalNodes);
-                sut.GetConstraintGraphEdges().Should().Equal(expectedFinalEdges);
+                sut.GetNodeData().Should().Equal(expectedFinalNodes);
+                sut.GetEdgeData().Should().Equal(expectedFinalEdges);
             }
         }
     }
@@ -221,8 +221,8 @@ public static partial class ShikakuConstraintGraphTests
         {
             // Arrange
             (ShikakuProblem problem,
-                IList<ConstraintGraphNode<NumberedSquare, Block>> expectedNodes,
-                IList<ConstraintGraphEdge<NumberedSquare, Block>> expectedEdges) = TestCaseFive;
+                IList<ConstraintGraphNodeDatum<NumberedSquare, Block>> expectedNodes,
+                IList<ConstraintGraphEdgeDatum<NumberedSquare, Block>> expectedEdges) = TestCaseFive;
 
             // Act
             ShikakuConstraintGraph result = ShikakuConstraintGraph.ModellingProblem(problem);
@@ -230,8 +230,8 @@ public static partial class ShikakuConstraintGraphTests
             // Assert
             using (new AssertionScope())
             {
-                result.GetConstraintGraphNodes().Should().Equal(expectedNodes);
-                result.GetConstraintGraphEdges().Should().Equal(expectedEdges);
+                result.GetNodeData().Should().Equal(expectedNodes);
+                result.GetEdgeData().Should().Equal(expectedEdges);
             }
         }
 

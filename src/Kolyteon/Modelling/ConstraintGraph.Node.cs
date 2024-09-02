@@ -31,7 +31,7 @@ public abstract partial class ConstraintGraph<TVariable, TDomainValue, TProblem>
             }
         }
 
-        public ConstraintGraphNode<TVariable, TDomainValue> ToConstraintGraphNode() => new()
+        public ConstraintGraphNodeDatum<TVariable, TDomainValue> ToConstraintGraphNodeDatum() => new()
         {
             Variable = Variable, Domain = Domain, Degree = Degree, SumTightness = SumTightness
         };
