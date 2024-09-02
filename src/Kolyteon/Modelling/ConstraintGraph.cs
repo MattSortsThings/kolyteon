@@ -255,16 +255,71 @@ public abstract partial class ConstraintGraph<TVariable, TDomainValue, TProblem>
     protected internal IEnumerable<ConstraintGraphEdgeDatum<TVariable, TDomainValue>> GetEdgeData() =>
         _edges.Select(edge => edge.ToConstraintGraphEdgeDatum());
 
+    /// <summary>
+    ///     Populates this instance's internal data structures with all necessary data from the specified problem to model it
+    ///     as a binary CSP.
+    /// </summary>
+    /// <remarks>
+    ///     This method must be overridden in any problem-specific derivative of the
+    ///     <see cref="ConstraintGraph{TVariable, TDomainValue, TProblem}" /> abstract base class.
+    /// </remarks>
+    /// <param name="problem">The problem to be modelled.</param>
     protected abstract void PopulateProblemData(TProblem problem);
 
+    /// <summary>
+    ///     Enumerates the binary CSP variables for the problem being modelled.
+    /// </summary>
+    /// <remarks>
+    ///     This method must be overridden in any problem-specific derivative of the
+    ///     <see cref="ConstraintGraph{TVariable, TDomainValue, TProblem}" /> abstract base class. The variables can be
+    ///     returned in any order.
+    /// </remarks>
+    /// <returns>A finite sequence of unique values of the <typeparamref name="TVariable" /> type.</returns>
     protected abstract IEnumerable<TVariable> GetVariables();
 
+    /// <summary>
+    ///     Enumerates the domain values for the present binary CSP variable.
+    /// </summary>
+    /// <remarks>
+    ///     This method must be overridden in any problem-specific derivative of the
+    ///     <see cref="ConstraintGraph{TVariable, TDomainValue, TProblem}" /> abstract base class. The domain values can be
+    ///     returned in any order.
+    /// </remarks>
+    /// <param name="presentVariable">The present binary CSP variable in the problem being modelled.</param>
+    /// <returns>A finite sequence of unique values of the <typeparamref name="TDomainValue" /> type.</returns>
     protected abstract IEnumerable<TDomainValue> GetDomainValues(TVariable presentVariable);
 
+    /// <summary>
+    ///     Gets the binary constraint predicate for the two ordered binary CSP variables, if they are theoretically adjacent.
+    /// </summary>
+    /// <remarks>
+    ///     This method must be overridden in any problem-specific derivative of the
+    ///     <see cref="ConstraintGraph{TVariable, TDomainValue, TProblem}" /> abstract base class.
+    /// </remarks>
+    /// <param name="firstVariable">The first binary CSP variable in the problem being modelled.</param>
+    /// <param name="secondVariable">The second binary CSP variable in the problem being modelled.</param>
+    /// <param name="binaryPredicate">
+    ///     When this method returns, contains the binary constraint predicate for the theoretical
+    ///     binary constraint in which the two variables participate; or <see langword="null" /> if they are not theoretically
+    ///     adjacent. This parameter is passed uninitialized.
+    /// </param>
+    /// <returns>
+    ///     <see langword="true" /> if the <paramref name="firstVariable" /> and <paramref name="secondVariable" />
+    ///     parameters are theoretically adjacent given the rules of the modelled problem type; otherwise,
+    ///     <see langword="false" />.
+    /// </returns>
     protected abstract bool TryGetBinaryPredicate(TVariable firstVariable,
         TVariable secondVariable,
         [NotNullWhen(true)] out Func<TDomainValue, TDomainValue, bool>? binaryPredicate);
 
+    /// <summary>
+    ///     Clears this instance's internal data structures of all data that was added during the
+    ///     <see cref="PopulateProblemData(TProblem)" /> method, so that this instance is ready to model another problem.
+    /// </summary>
+    /// <remarks>
+    ///     This method must be overridden in any problem-specific derivative of the
+    ///     <see cref="ConstraintGraph{TVariable, TDomainValue, TProblem}" /> abstract base class.
+    /// </remarks>
     protected abstract void ClearProblemData();
 
     private int TryGetDegreeAt(int index) => _nodes[index].Degree;
