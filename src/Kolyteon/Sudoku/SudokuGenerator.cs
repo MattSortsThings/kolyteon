@@ -3,17 +3,30 @@ using Kolyteon.Common.Internals;
 
 namespace Kolyteon.Sudoku;
 
+/// <summary>
+///     Can generate a random, solvable Sudoku problem from parameters specified by the client.
+/// </summary>
 public sealed class SudokuGenerator : ISudokuGenerator
 {
     private const int MinEmptySquares = 1;
     private const int MaxEmptySquares = 80;
     private readonly IRandom _random;
 
+    /// <summary>
+    ///     Initializes a new <see cref="SudokuGenerator" /> instance using a default seed value.
+    /// </summary>
     public SudokuGenerator()
     {
         _random = new SystemRandom();
     }
 
+    /// <summary>
+    ///     Initializes a new <see cref="SudokuGenerator" /> instance using the specified seed value.
+    /// </summary>
+    /// <param name="seed">
+    ///     A number used to calculate a starting value for the pseudo-random number sequence used by the
+    ///     generator algorithm. If a negative number is specified, the absolute value of the number is used.
+    /// </param>
     public SudokuGenerator(int seed)
     {
         _random = new SystemRandom(seed);
@@ -24,6 +37,7 @@ public sealed class SudokuGenerator : ISudokuGenerator
         _random = random ?? throw new ArgumentNullException(nameof(random));
     }
 
+    /// <inheritdoc />
     public SudokuProblem Generate(int emptySquares)
     {
         ThrowIfInvalidEmptySquares(emptySquares, nameof(emptySquares));
@@ -35,6 +49,7 @@ public sealed class SudokuGenerator : ISudokuGenerator
         return SudokuProblem.FromGrid(grid);
     }
 
+    /// <inheritdoc />
     public void UseSeed(int seed) => _random.UseSeed(seed);
 
     private void Shuffle(int?[,] grid)

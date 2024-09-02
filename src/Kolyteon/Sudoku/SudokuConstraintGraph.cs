@@ -50,6 +50,7 @@ public sealed class SudokuConstraintGraph : ConstraintGraph<Square, int, SudokuP
         return constraintGraph;
     }
 
+    /// <inheritdoc />
     protected override void PopulateProblemData(SudokuProblem problem)
     {
         foreach ((Square square, int number) in problem.FilledSquares)
@@ -62,6 +63,7 @@ public sealed class SudokuConstraintGraph : ConstraintGraph<Square, int, SudokuP
         }
     }
 
+    /// <inheritdoc />
     protected override IEnumerable<Square> GetVariables()
     {
         (int column, int row, int upperBound) = (0, 0, _emptySquares.Length);
@@ -78,6 +80,7 @@ public sealed class SudokuConstraintGraph : ConstraintGraph<Square, int, SudokuP
         }
     }
 
+    /// <inheritdoc />
     protected override IEnumerable<int> GetDomainValues(Square presentVariable)
     {
         (int column, int row, int sector) = (presentVariable.Column, presentVariable.Row, presentVariable.GetSector());
@@ -98,6 +101,7 @@ public sealed class SudokuConstraintGraph : ConstraintGraph<Square, int, SudokuP
         _presentVariablePossibleNumbers.SetAll(true);
     }
 
+    /// <inheritdoc />
     protected override bool TryGetBinaryPredicate(Square firstVariable,
         Square secondVariable,
         [NotNullWhen(true)] out Func<int, int, bool>? binaryPredicate)
@@ -109,6 +113,7 @@ public sealed class SudokuConstraintGraph : ConstraintGraph<Square, int, SudokuP
         return binaryPredicate is not null;
     }
 
+    /// <inheritdoc />
     protected override void ClearProblemData()
     {
         foreach (BitArray array in _columnPossibleNumbers)

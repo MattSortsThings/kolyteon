@@ -27,15 +27,14 @@ internal static class ProblemValidation
 
     private sealed class AllFilledSquareNumbersInRangeValidator : SudokuProblemValidator
     {
-        internal override Result Validate(SudokuProblem problem)
-        {
-            return problem.FilledSquares.Where(NumberNotInRange)
+        private static bool NumberNotInRange(NumberedSquare n) =>
+            n.Number is < SudokuProblem.MinNumber or > SudokuProblem.MaxNumber;
+
+        internal override Result Validate(SudokuProblem problem) =>
+            problem.FilledSquares.Where(NumberNotInRange)
                 .Select(filledSquare => Result.Failure($"Invalid filled square {filledSquare}. " +
                                                        $"Number must be in the range [1,9]."))
                 .FirstOrDefault(Result.Success());
-
-            bool NumberNotInRange(NumberedSquare n) => n.Number is < SudokuProblem.MinNumber or > SudokuProblem.MaxNumber;
-        }
     }
 
     private sealed class NoDuplicateNumbersInSameColumnValidator : SudokuProblemValidator

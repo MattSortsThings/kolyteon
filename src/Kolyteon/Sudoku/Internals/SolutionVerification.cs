@@ -51,15 +51,14 @@ internal sealed class SolutionVerification
 
     private sealed class AllFilledSquareNumbersInRangeVerifier : SudokuSolutionVerifier
     {
-        internal override Result VerifyCorrect(IReadOnlyList<NumberedSquare> solution, SudokuProblem problem)
-        {
-            return solution.Where(NumberNotInRange)
+        private static bool NumberNotInRange(NumberedSquare n) =>
+            n.Number is < SudokuProblem.MinNumber or > SudokuProblem.MaxNumber;
+
+        internal override Result VerifyCorrect(IReadOnlyList<NumberedSquare> solution, SudokuProblem problem) =>
+            solution.Where(NumberNotInRange)
                 .Select(filledSquare => Result.Failure($"Filled square {filledSquare} " +
                                                        $"has number outside permitted range [1,9]."))
                 .FirstOrDefault(Result.Success());
-
-            bool NumberNotInRange(NumberedSquare n) => n.Number is < SudokuProblem.MinNumber or > SudokuProblem.MaxNumber;
-        }
     }
 
     private sealed class NoSquareFilledMoreThanOnceVerifier : SudokuSolutionVerifier

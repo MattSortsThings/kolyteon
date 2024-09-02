@@ -1,5 +1,8 @@
 namespace Kolyteon.Sudoku;
 
+/// <summary>
+///     Can generate a random, solvable Sudoku problem from parameters specified by the client.
+/// </summary>
 public interface ISudokuGenerator
 {
     /// <summary>
@@ -16,5 +19,12 @@ public interface ISudokuGenerator
     /// </exception>
     public SudokuProblem Generate(int emptySquares);
 
+    /// <summary>
+    ///     Sets the seed value for the random number sequence used by this instance to generate the problem.
+    /// </summary>
+    /// <param name="seed">
+    ///     A number used to calculate a starting value for the pseudo-random number sequence used by the generator algorithm.
+    ///     If a negative number is specified, the absolute value of the number is used.
+    /// </param>
     public void UseSeed(int seed);
 }
