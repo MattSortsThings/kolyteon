@@ -46,6 +46,7 @@ public sealed class FutoshikiConstraintGraph : ConstraintGraph<Square, int, Futo
         return constraintGraph;
     }
 
+    /// <inheritdoc />
     protected override void PopulateProblemData(FutoshikiProblem problem)
     {
         ((_, (int problemSize, _)),
@@ -59,6 +60,7 @@ public sealed class FutoshikiConstraintGraph : ConstraintGraph<Square, int, Futo
         PopulateLessThanSigns(lessThanSigns);
     }
 
+    /// <inheritdoc />
     protected override IEnumerable<Square> GetVariables()
     {
         for (int row = 0; row < _problemSize; row++)
@@ -73,9 +75,11 @@ public sealed class FutoshikiConstraintGraph : ConstraintGraph<Square, int, Futo
         }
     }
 
+    /// <inheritdoc />
     protected override IEnumerable<int> GetDomainValues(Square presentVariable) =>
         _problemGrid[presentVariable.Row, presentVariable.Column].GetPossibleNumbers(_problemSize);
 
+    /// <inheritdoc />
     protected override bool TryGetBinaryPredicate(Square firstVariable,
         Square secondVariable,
         [NotNullWhen(true)] out Func<int, int, bool>? binaryPredicate)
@@ -102,6 +106,7 @@ public sealed class FutoshikiConstraintGraph : ConstraintGraph<Square, int, Futo
         return binaryPredicate is not null;
     }
 
+    /// <inheritdoc />
     protected override void ClearProblemData()
     {
         for (int row = 0; row < _problemSize; row++)

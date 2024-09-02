@@ -66,12 +66,12 @@ public sealed partial record GreaterThanSign : IComparable<GreaterThanSign>
     {
         if (other is null)
         {
-            return 0;
+            return 1;
         }
 
-        if (ReferenceEquals(null, other))
+        if (ReferenceEquals(this, other))
         {
-            return 1;
+            return 0;
         }
 
         int firstSquareComparison = FirstSquare.CompareTo(other.FirstSquare);
@@ -161,7 +161,7 @@ public sealed partial record GreaterThanSign : IComparable<GreaterThanSign>
     /// <returns>A new <see cref="GreaterThanSign" /> instance.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="value" /> is <see langword="null" />.</exception>
     /// <exception cref="FormatException">
-    ///     A valid <see cref="GreaterThanSign" /> instance could not be parsed from the <see cref="value" /> parameter.
+    ///     A valid <see cref="GreaterThanSign" /> instance could not be parsed from the <paramref name="value" /> parameter.
     /// </exception>
     public static GreaterThanSign Parse(string value)
     {

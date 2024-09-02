@@ -26,8 +26,8 @@ internal sealed class FutoshikiProblemBuilder : IFutoshikiProblemBuilder, IFutos
     {
         FutoshikiProblem problem = new(_problemGrid,
             _filledSquares!,
-            _greaterThanSigns.OrderBy(sign => sign).ToArray(),
-            _lessThanSigns.OrderBy(sign => sign).ToArray());
+            [.. _greaterThanSigns.OrderBy(sign => sign)],
+            [.. _lessThanSigns.OrderBy(sign => sign)]);
 
         ThrowIfInvalidProblem(problem);
 

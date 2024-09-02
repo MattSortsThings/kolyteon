@@ -66,12 +66,12 @@ public sealed partial record LessThanSign : IComparable<LessThanSign>
     {
         if (other is null)
         {
-            return 0;
+            return 1;
         }
 
-        if (ReferenceEquals(null, other))
+        if (ReferenceEquals(this, other))
         {
-            return 1;
+            return 0;
         }
 
         int firstSquareComparison = FirstSquare.CompareTo(other.FirstSquare);
@@ -160,7 +160,7 @@ public sealed partial record LessThanSign : IComparable<LessThanSign>
     /// <returns>A new <see cref="LessThanSign" /> instance.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="value" /> is <see langword="null" />.</exception>
     /// <exception cref="FormatException">
-    ///     A valid <see cref="LessThanSign" /> instance could not be parsed from the <see cref="value" /> parameter.
+    ///     A valid <see cref="LessThanSign" /> instance could not be parsed from the <paramref name="value" /> parameter.
     /// </exception>
     public static LessThanSign Parse(string value)
     {
