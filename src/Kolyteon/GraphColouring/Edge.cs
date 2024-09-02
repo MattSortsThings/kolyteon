@@ -162,7 +162,7 @@ public sealed partial record Edge : IComparable<Edge>
     /// <returns>A new <see cref="Edge" /> instance.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="value" /> is <see langword="null" />.</exception>
     /// <exception cref="FormatException">
-    ///     A valid <see cref="Edge" /> instance could not be parsed from the <see cref="value" /> parameter.
+    ///     A valid <see cref="Edge" /> instance could not be parsed from the <paramref name="value" /> parameter.
     /// </exception>
     public static Edge Parse(string value)
     {

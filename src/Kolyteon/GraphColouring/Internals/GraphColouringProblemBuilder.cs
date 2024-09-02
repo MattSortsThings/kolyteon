@@ -13,7 +13,7 @@ internal sealed class GraphColouringProblemBuilder : IGraphColouringProblemBuild
     /// <inheritdoc />
     public IGraphColouringProblemBuilder.INodeAdder UseGlobalColours(params Colour[] colours)
     {
-        _globalColours = colours.ToHashSet();
+        _globalColours = [.. colours];
 
         return this;
     }
@@ -24,8 +24,8 @@ internal sealed class GraphColouringProblemBuilder : IGraphColouringProblemBuild
     /// <inheritdoc />
     public GraphColouringProblem Build()
     {
-        GraphColouringProblem problem = new(_nodeData.OrderBy(datum => datum).ToArray(),
-            _edges.OrderBy(edge => edge).ToArray());
+        GraphColouringProblem problem = new([.. _nodeData.OrderBy(datum => datum)],
+            [.. _edges.OrderBy(edge => edge)]);
 
         ThrowIfInvalidProblem(problem);
 
@@ -77,7 +77,7 @@ internal sealed class GraphColouringProblemBuilder : IGraphColouringProblemBuild
     /// <inheritdoc />
     public IGraphColouringProblemBuilder.INodeAndColoursAdder AddNodeAndColours(Node node, params Colour[] colours)
     {
-        _nodeData.Add(new NodeDatum(node, colours.ToHashSet()));
+        _nodeData.Add(new NodeDatum(node, [..colours.Distinct()]));
 
         return this;
     }

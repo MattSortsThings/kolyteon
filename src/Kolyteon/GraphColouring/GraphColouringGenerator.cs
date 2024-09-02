@@ -49,7 +49,7 @@ public sealed class GraphColouringGenerator : IGraphColouringGenerator
         Block[] blocks = GenerateBlocks(nodes);
 
         return GraphColouringProblem.Create()
-            .UseGlobalColours(permittedColours.ToArray())
+            .UseGlobalColours([.. permittedColours])
             .AddNodes(blocks.ToNodes())
             .AddEdges(blocks.ToEdges())
             .Build();

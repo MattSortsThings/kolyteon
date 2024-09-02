@@ -9,8 +9,8 @@ namespace Kolyteon.GraphColouring;
 /// </summary>
 public sealed class GraphColouringConstraintGraph : ConstraintGraph<Node, Colour, GraphColouringProblem>
 {
-    private readonly HashSet<Edge> _edges;
-    private readonly Dictionary<Node, IReadOnlyCollection<Colour>> _nodesAndPermittedColours;
+    private readonly HashSet<Edge> _problemEdges;
+    private readonly Dictionary<Node, IReadOnlyCollection<Colour>> _problemNodesAndPermittedColours;
 
     /// <summary>
     ///     Initializes a new <see cref="GraphColouringConstraintGraph" /> instance with a default initial
@@ -18,8 +18,8 @@ public sealed class GraphColouringConstraintGraph : ConstraintGraph<Node, Colour
     /// </summary>
     public GraphColouringConstraintGraph()
     {
-        _nodesAndPermittedColours = [];
-        _edges = [];
+        _problemNodesAndPermittedColours = [];
+        _problemEdges = [];
     }
 
     /// <summary>
@@ -32,8 +32,8 @@ public sealed class GraphColouringConstraintGraph : ConstraintGraph<Node, Colour
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="capacity" /> is negative.</exception>
     public GraphColouringConstraintGraph(int capacity) : base(capacity)
     {
-        _nodesAndPermittedColours = new Dictionary<Node, IReadOnlyCollection<Colour>>(capacity);
-        _edges = new HashSet<Edge>(capacity);
+        _problemNodesAndPermittedColours = new Dictionary<Node, IReadOnlyCollection<Colour>>(capacity);
+        _problemEdges = new HashSet<Edge>(capacity);
     }
 
     /// <summary>
@@ -50,9 +50,9 @@ public sealed class GraphColouringConstraintGraph : ConstraintGraph<Node, Colour
         set
         {
             base.Capacity = value;
-            _nodesAndPermittedColours.TrimExcess(value);
-            _edges.TrimExcess();
-            _edges.EnsureCapacity(value);
+            _problemNodesAndPermittedColours.TrimExcess(value);
+            _problemEdges.TrimExcess();
+            _problemEdges.EnsureCapacity(value);
         }
     }
 
@@ -73,51 +73,57 @@ public sealed class GraphColouringConstraintGraph : ConstraintGraph<Node, Colour
         return constraintGraph;
     }
 
+    /// <inheritdoc />
     protected override void PopulateProblemData(GraphColouringProblem problem)
     {
         (IReadOnlyList<NodeDatum> nodesAndPermittedColours, IReadOnlyList<Edge> edges) = problem;
 
-        PopulateNodes(nodesAndPermittedColours);
-        PopulateEdges(edges);
+        PopulateProblemNodesAndPermittedColours(nodesAndPermittedColours);
+        PopulateProblemEdges(edges);
     }
 
-    protected override IEnumerable<Node> GetVariables() => _nodesAndPermittedColours.Keys;
+    /// <inheritdoc />
+    protected override IEnumerable<Node> GetVariables() => _problemNodesAndPermittedColours.Keys;
 
+    /// <inheritdoc />
     protected override IEnumerable<Colour> GetDomainValues(Node presentVariable) =>
-        _nodesAndPermittedColours[presentVariable];
+        _problemNodesAndPermittedColours[presentVariable];
 
+    /// <inheritdoc />
     protected override bool TryGetBinaryPredicate(Node firstVariable,
         Node secondVariable,
         [NotNullWhen(true)] out Func<Colour, Colour, bool>? binaryPredicate)
     {
-        binaryPredicate = _edges.Contains(Edge.Between(firstVariable, secondVariable))
+        binaryPredicate = _problemEdges.Contains(Edge.Between(firstVariable, secondVariable))
             ? DifferentColours
             : null;
 
         return binaryPredicate is not null;
     }
 
+    /// <inheritdoc />
     protected override void ClearProblemData()
     {
-        _nodesAndPermittedColours.Clear();
-        _edges.Clear();
+        _problemNodesAndPermittedColours.Clear();
+        _problemEdges.Clear();
     }
 
-    private void PopulateNodes(IReadOnlyList<NodeDatum> nodesAndPermittedColours)
+
+    private void PopulateProblemNodesAndPermittedColours(IReadOnlyList<NodeDatum> nodedata)
     {
-        _nodesAndPermittedColours.EnsureCapacity(nodesAndPermittedColours.Count);
-        foreach ((Node node, IReadOnlyCollection<Colour> permittedColours) in nodesAndPermittedColours)
+        _problemNodesAndPermittedColours.EnsureCapacity(nodedata.Count);
+        foreach ((Node node, IReadOnlyCollection<Colour> permittedColours) in nodedata)
         {
-            _nodesAndPermittedColours.Add(node, permittedColours);
+            _problemNodesAndPermittedColours.Add(node, permittedColours);
         }
     }
 
-    private void PopulateEdges(IReadOnlyList<Edge> edges)
+    private void PopulateProblemEdges(IReadOnlyList<Edge> edges)
     {
-        _edges.EnsureCapacity(edges.Count);
+        _problemEdges.EnsureCapacity(edges.Count);
         foreach (Edge edge in edges)
         {
-            _edges.Add(edge);
+            _problemEdges.Add(edge);
         }
     }
 
