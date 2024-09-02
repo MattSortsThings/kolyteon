@@ -177,7 +177,7 @@ public readonly partial record struct Square : IComparable<Square>
     /// <returns>A new <see cref="Square" /> instance.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="value" /> is <see langword="null" />.</exception>
     /// <exception cref="FormatException">
-    ///     A valid <see cref="Square" /> instance could not be parsed from the <see cref="value" /> parameter.
+    ///     A valid <see cref="Square" /> instance could not be parsed from the <paramref name="value" /> parameter.
     /// </exception>
     public static Square Parse(string value)
     {

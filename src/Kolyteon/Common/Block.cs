@@ -110,7 +110,7 @@ public readonly partial record struct Block : IComparable<Block>
     /// </summary>
     /// <param name="square">The <see cref="Square" /> instance against which this instance is to be compared.</param>
     /// <returns>
-    ///     <see langword="true" /> if this instance contains the <see cref="square" /> parameter; otherwise,
+    ///     <see langword="true" /> if this instance contains the <paramref name="square" /> parameter; otherwise,
     ///     <see langword="false" />.
     /// </returns>
     public bool Contains(in Square square)
@@ -129,7 +129,7 @@ public readonly partial record struct Block : IComparable<Block>
     /// </summary>
     /// <param name="numberedSquare">The <see cref="NumberedSquare" /> instance against which this instance is to be compared.</param>
     /// <returns>
-    ///     <see langword="true" /> if this instance contains the <see cref="numberedSquare" /> parameter; otherwise,
+    ///     <see langword="true" /> if this instance contains the <paramref name="numberedSquare" /> parameter; otherwise,
     ///     <see langword="false" />.
     /// </returns>
     public bool Contains(in NumberedSquare numberedSquare) => Contains(numberedSquare.Square);
@@ -144,7 +144,7 @@ public readonly partial record struct Block : IComparable<Block>
     /// </remarks>
     /// <param name="block">The <see cref="Block" /> instance against which this instance is to be compared.</param>
     /// <returns>
-    ///     <see langword="true" /> if this instance contains the <see cref="block" /> parameter; otherwise,
+    ///     <see langword="true" /> if this instance contains the <paramref name="block" /> parameter; otherwise,
     ///     <see langword="false" />.
     /// </returns>
     public bool Contains(in Block block) => Contains(block.OriginSquare) && Contains(block.TerminusSquare);
@@ -155,7 +155,8 @@ public readonly partial record struct Block : IComparable<Block>
     /// </summary>
     /// <param name="other">The <see cref="Block" /> instance against which this instance is to be compared.</param>
     /// <returns>
-    ///     <see langword="true" /> if this instance and the <see cref="other" /> parameter overlap at any point; otherwise,
+    ///     <see langword="true" /> if this instance and the <paramref name="other" /> parameter overlap at any point;
+    ///     otherwise,
     ///     <see langword="false" />.
     /// </returns>
     public bool Overlaps(in Block other)
@@ -204,7 +205,7 @@ public readonly partial record struct Block : IComparable<Block>
     /// <returns>A new <see cref="Block" /> instance.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="value" /> is <see langword="null" />.</exception>
     /// <exception cref="FormatException">
-    ///     A valid <see cref="Block" /> instance could not be parsed from the <see cref="value" /> parameter.
+    ///     A valid <see cref="Block" /> instance could not be parsed from the <paramref name="value" /> parameter.
     /// </exception>
     public static Block Parse(string value)
     {

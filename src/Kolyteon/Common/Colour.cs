@@ -229,8 +229,10 @@ public readonly record struct Colour : IComparable<Colour>
         ? colour
         : throw new ArgumentException($"No Colour exists with Number value '{number}'.");
 
-    private static Colour[] GetAllValues() => typeof(Colour).GetProperties(BindingFlags.Public | BindingFlags.Static)
-        .Select(property => (Colour)property.GetValue(null)!)
-        .OrderBy(colour => colour)
-        .ToArray();
+    private static Colour[] GetAllValues() =>
+    [
+        .. typeof(Colour).GetProperties(BindingFlags.Public | BindingFlags.Static)
+            .Select(property => (Colour)property.GetValue(null)!)
+            .OrderBy(colour => colour)
+    ];
 }

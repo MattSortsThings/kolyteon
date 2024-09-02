@@ -144,7 +144,7 @@ public readonly partial record struct Dimensions : IComparable<Dimensions>
     /// <returns>A new <see cref="Dimensions" /> instance.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="value" /> is <see langword="null" />.</exception>
     /// <exception cref="FormatException">
-    ///     A valid <see cref="Dimensions" /> instance could not be parsed from the <see cref="value" /> parameter.
+    ///     A valid <see cref="Dimensions" /> instance could not be parsed from the <paramref name="value" /> parameter.
     /// </exception>
     public static Dimensions Parse(string value)
     {
