@@ -315,7 +315,7 @@ public static class FutoshikiProblemTests
                     { 0004, 0001, 0002, 0003 }
                 }).Build();
 
-            IReadOnlyList<NumberedSquare> solution = Array.Empty<NumberedSquare>();
+            IReadOnlyList<NumberedSquare> solution = [];
 
             // Act
             Result result = sut.VerifyCorrect(solution);

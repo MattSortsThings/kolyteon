@@ -1,4 +1,4 @@
-using System.Diagnostics.CodeAnalysis;
+using System.Collections;
 using System.Text.Json;
 using Kolyteon.Common;
 using Kolyteon.Sudoku;
@@ -259,7 +259,7 @@ public static class SudokuProblemTests
                 { 0009, 0001, 0002, 0003, 0004, 0005, 0006, 0007, 0008 }
             });
 
-            IReadOnlyList<NumberedSquare> solution = Array.Empty<NumberedSquare>();
+            IReadOnlyList<NumberedSquare> solution = [];
 
             // Act
             Result result = sut.VerifyCorrect(solution);
@@ -1087,61 +1087,8 @@ public static class SudokuProblemTests
     [UnitTest]
     public sealed class Serialization
     {
-        [SuppressMessage("ReSharper", "UseCollectionExpression")]
-        public static TheoryData<int?[,]> TestCases => new()
-        {
-            new int?[,]
-            {
-                { null, null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null, null }
-            },
-            new int?[,]
-            {
-                { 0001, null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null, null }
-            },
-            new int?[,]
-            {
-                { 0001, null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null, 0002 }
-            },
-            new int?[,]
-            {
-                { null, null, null, null, null, null, null, null, null },
-                { null, null, null, 0008, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null, 0002 },
-                { null, null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null, null },
-                { 0001, null, null, null, null, null, null, null, null },
-                { null, null, null, null, null, null, null, null, null }
-            }
-        };
-
         [Theory]
-        [MemberData(nameof(TestCases), MemberType = typeof(Serialization))]
+        [ClassData(typeof(TestCases))]
         public void CanSerializeToJson_ThenDeserializeToInstanceWithEqualValue(int?[,] grid)
         {
             // Arrange
@@ -1154,6 +1101,110 @@ public static class SudokuProblemTests
 
             // Assert
             deserializedProblem.Should().NotBeNull().And.Be(originalProblem);
+        }
+
+        private sealed class TestCases : IEnumerable<object[]>
+        {
+            public IEnumerator<object[]> GetEnumerator()
+            {
+                yield return
+                [
+                    new int?[,]
+                    {
+                        { null, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null }
+                    }
+                ];
+
+                yield return
+                [
+                    new int?[,]
+                    {
+                        { 0001, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null }
+                    }
+                ];
+
+                yield return
+                [
+                    new int?[,]
+                    {
+                        { 0001, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null }
+                    }
+                ];
+
+                yield return
+                [
+                    new int?[,]
+                    {
+                        { 0001, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null }
+                    }
+                ];
+
+                yield return
+                [
+                    new int?[,]
+                    {
+                        { 0001, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, 0002 }
+                    }
+                ];
+
+                yield return
+                [
+                    new int?[,]
+                    {
+                        { null, null, null, null, null, null, null, null, null },
+                        { null, null, null, 0008, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, 0002 },
+                        { null, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null },
+                        { 0001, null, null, null, null, null, null, null, null },
+                        { null, null, null, null, null, null, null, null, null }
+                    }
+                ];
+            }
+
+            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         }
     }
 }

@@ -1,4 +1,4 @@
-using System.Diagnostics.CodeAnalysis;
+using System.Collections;
 using System.Text.Json;
 using Kolyteon.Common;
 using Kolyteon.Shikaku;
@@ -243,7 +243,7 @@ public static class ShikakuProblemTests
                 { null, null, null, null, null }
             });
 
-            IReadOnlyList<Block> solution = Array.Empty<Block>();
+            IReadOnlyList<Block> solution = [];
 
             // Act
             Result result = sut.VerifyCorrect(solution);
@@ -797,41 +797,10 @@ public static class ShikakuProblemTests
     }
 
     [UnitTest]
-    [SuppressMessage("ReSharper", "UseCollectionExpression")]
     public sealed class Serialization
     {
-        public static TheoryData<int?[,]> TestCases() => new()
-        {
-            new int?[,]
-            {
-                { 0005, null, null, null, null },
-                { null, 0005, null, null, null },
-                { null, null, 0005, null, null },
-                { null, null, null, 0005, null },
-                { null, null, null, null, 0005 }
-            },
-            new int?[,]
-            {
-                { 0020, null, null, null, null },
-                { null, null, null, null, null },
-                { null, null, null, null, null },
-                { null, null, null, null, null },
-                { null, null, 0003, null, 0002 }
-            },
-            new int?[,]
-            {
-                { 0007, null, null, null, null, null, null },
-                { null, 0007, null, null, null, null, null },
-                { null, null, 0007, null, null, null, null },
-                { null, null, null, 0007, null, null, null },
-                { null, null, null, null, 0007, null, null },
-                { null, null, null, null, null, 0007, null },
-                { 0002, null, null, null, null, null, 0005 }
-            }
-        };
-
         [Theory]
-        [MemberData(nameof(TestCases), MemberType = typeof(Serialization))]
+        [ClassData(typeof(TestCases))]
         public void CanSerializeToJson_ThenDeserializeToInstanceWithEqualValue(int?[,] grid)
         {
             // Arrange
@@ -845,6 +814,52 @@ public static class ShikakuProblemTests
 
             // Assert
             deserializedProblem.Should().NotBeNull().And.Be(originalProblem);
+        }
+
+        public sealed class TestCases : IEnumerable<object[]>
+        {
+            public IEnumerator<object[]> GetEnumerator()
+            {
+                yield return
+                [
+                    new int?[,]
+                    {
+                        { 0005, null, null, null, null },
+                        { null, 0005, null, null, null },
+                        { null, null, 0005, null, null },
+                        { null, null, null, 0005, null },
+                        { null, null, null, null, 0005 }
+                    }
+                ];
+
+                yield return
+                [
+                    new int?[,]
+                    {
+                        { 0020, null, null, null, null },
+                        { null, null, null, null, null },
+                        { null, null, null, null, null },
+                        { null, null, null, null, null },
+                        { null, null, 0003, null, 0002 }
+                    }
+                ];
+
+                yield return
+                [
+                    new int?[,]
+                    {
+                        { 0007, null, null, null, null, null, null },
+                        { null, 0007, null, null, null, null, null },
+                        { null, null, 0007, null, null, null, null },
+                        { null, null, null, 0007, null, null, null },
+                        { null, null, null, null, 0007, null, null },
+                        { null, null, null, null, null, 0007, null },
+                        { 0002, null, null, null, null, null, 0005 }
+                    }
+                ];
+            }
+
+            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         }
     }
 }

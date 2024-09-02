@@ -10,13 +10,13 @@ internal static class TestHooks
     [BeforeTestRun]
     internal static void RegisterValueRetrievers()
     {
-        Service.Instance.ValueRetrievers.Register<BlockValueRetriever>();
-        Service.Instance.ValueRetrievers.Register<ColourArrayValueRetriever>();
-        Service.Instance.ValueRetrievers.Register<ColourValueRetriever>();
-        Service.Instance.ValueRetrievers.Register<NodeArrayValueRetriever>();
-        Service.Instance.ValueRetrievers.Register<NodeValueRetriever>();
-        Service.Instance.ValueRetrievers.Register<NumberedSquareValueRetriever>();
-        Service.Instance.ValueRetrievers.Register<SquareArrayValueRetriever>();
-        Service.Instance.ValueRetrievers.Register<SquareValueRetriever>();
+        Service.Instance.ValueRetrievers.Register<ValueRetrievers.Block>();
+        Service.Instance.ValueRetrievers.Register<ValueRetrievers.Colour>();
+        Service.Instance.ValueRetrievers.Register<ValueRetrievers.ColourArray>();
+        Service.Instance.ValueRetrievers.Register<ValueRetrievers.Node>();
+        Service.Instance.ValueRetrievers.Register<ValueRetrievers.NodeArray>();
+        Service.Instance.ValueRetrievers.Register<ValueRetrievers.NumberedSquare>();
+        Service.Instance.ValueRetrievers.Register<ValueRetrievers.Square>();
+        Service.Instance.ValueRetrievers.Register<ValueRetrievers.SquareArray>();
     }
 }

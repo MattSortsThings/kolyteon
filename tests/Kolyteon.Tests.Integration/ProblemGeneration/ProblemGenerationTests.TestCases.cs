@@ -1,10 +1,7 @@
-using System.Diagnostics.CodeAnalysis;
-
 namespace Kolyteon.Tests.Integration.ProblemGeneration;
 
 public abstract partial class ProblemGenerationTests
 {
-    [SuppressMessage("ReSharper", "UnusedType.Global")]
     public static class TestCases
     {
         public sealed class SeedValueZero : ProblemGenerationTests

@@ -2,7 +2,7 @@ using Kolyteon.Modelling.Testing;
 
 namespace Kolyteon.Tests.Unit.Modelling.Testing;
 
-public static class ConstraintGraphEdgeTests
+public static class ConstraintGraphEdgeDatumTests
 {
     [UnitTest]
     public sealed class EqualsMethod

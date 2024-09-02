@@ -194,7 +194,7 @@ public static partial class ConstraintGraphTests
         }
 
         [Fact]
-        public void Consistent_AssignmentAArgIsnull_Throws()
+        public void Consistent_AssignmentAArgIsNull_Throws()
         {
             // Arrange
             TestConstraintGraph sut = TestConstraintGraph.ModellingProblem(new TestProblem { [A] = [1] });
@@ -210,7 +210,7 @@ public static partial class ConstraintGraphTests
         }
 
         [Fact]
-        public void Consistent_AssignmentBArgIsnull_Throws()
+        public void Consistent_AssignmentBArgIsNull_Throws()
         {
             // Arrange
             TestConstraintGraph sut = TestConstraintGraph.ModellingProblem(new TestProblem { [A] = [1] });

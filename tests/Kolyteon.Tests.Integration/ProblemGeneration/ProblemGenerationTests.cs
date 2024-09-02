@@ -13,6 +13,9 @@ public abstract partial class ProblemGenerationTests
 {
     private protected abstract int Seed { get; }
 
+    private static Expression<Func<FutoshikiProblem, bool>> ProblemHasAtLeastOneSign() =>
+        problem => problem.LessThanSigns.Count > 0 || problem.GreaterThanSigns.Count > 0;
+
     [Theory]
     [InlineData(4, 1, 15)]
     [InlineData(4, 2, 14)]
@@ -52,11 +55,6 @@ public abstract partial class ProblemGenerationTests
 
             result.Should().Match(ProblemHasAtLeastOneSign());
         }
-
-        return;
-
-        Expression<Func<FutoshikiProblem, bool>> ProblemHasAtLeastOneSign() =>
-            problem => problem.LessThanSigns.Count > 0 || problem.GreaterThanSigns.Count > 0;
     }
 
     [Theory]

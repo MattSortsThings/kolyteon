@@ -1,11 +1,9 @@
-using System.Diagnostics.CodeAnalysis;
 using Kolyteon.Solving;
 
 namespace Kolyteon.Tests.Integration.ProblemSolving;
 
 public abstract partial class SilentProblemSolvingTests
 {
-    [SuppressMessage("ReSharper", "UnusedType.Global")]
     public static class TestCases
     {
         public sealed class BtPlusBz : SilentProblemSolvingTests

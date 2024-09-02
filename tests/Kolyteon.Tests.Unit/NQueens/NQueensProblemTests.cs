@@ -195,7 +195,7 @@ public static class NQueensProblemTests
             // Arrange
             NQueensProblem sut = NQueensProblem.FromN(1);
 
-            IReadOnlyList<Square> solution = Array.Empty<Square>();
+            IReadOnlyList<Square> solution = [];
 
             // Act
             Result result = sut.VerifyCorrect(solution);
@@ -400,7 +400,8 @@ public static class NQueensProblemTests
 
         [Theory]
         [MemberData(nameof(TestCases), MemberType = typeof(FromNStaticFactoryMethod))]
-        public void FromN_GivenN_ReturnsInstanceWithNByNChessBoardAndNQueens(int n, Block expectedChessBoard, int expectedQueens)
+        public void FromNMethod_GivenNValue_ReturnsInstanceWithSquareChessBoardAndNQueens(int n, Block expectedChessBoard,
+            int expectedQueens)
         {
             // Act
             NQueensProblem result = NQueensProblem.FromN(n);
