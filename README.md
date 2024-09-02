@@ -14,7 +14,7 @@ Included problem types: Futoshiki, Graph Colouring, Map Colouring, N-Queens, Shi
   - Modelling logic problems as binary [constraint satisfaction problems](https://en.wikipedia.org/wiki/Constraint_satisfaction_problem) (binary CSPs), and
   - Solving binary CSPs using a range of well-established backtracking search algorithms, and
   - Measuring and observing a search algorithm's behaviour as it attempts to find a solution to a binary CSP.
-- **Kolyteon** is a solo development project by Matt Tantony.
+- **Kolyteon** is a solo development project by [Matt Tantony](https://gravatar.com/observant47fd9c748b).
 - **Kolyteon** is expansion of my Computer Science Postgraduate Diploma project work undertaken at Birkbeck, University of London.
 
 ## Key Features
