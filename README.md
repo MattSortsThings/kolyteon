@@ -19,29 +19,35 @@ Included problem types: Futoshiki, Graph Colouring, Map Colouring, N-Queens, Shi
 
 ## Key Features
 
-- **Binary CSP modelling:**
-  - A family of generic interfaces representing a binary CSP with a specific variable type and domain value type that models a specific problem type.
-  - An abstract base class that implements the above using a constraint graph structure.
+### Binary CSP modelling
 
+- A family of generic interfaces representing a binary CSP with a specific variable type and domain value type that models a specific problem type.
+- An abstract base class that implements the above using a constraint graph structure.
 
-- **Binary CSP solving:**
-  - A silent generic binary CSP solver that synchronously solves a binary CSP with optional cancellation.
-  - A verbose generic binary CSP solver that asynchronously solves a binary CSP with optional cancellation, issuing a progress notification after every step of the algorithm.
+### Binary CSP solving
 
+- A silent generic binary CSP solver that synchronously solves a binary CSP with optional cancellation.
+  - Use the silent solver when you just want to find a solution to the problem (if one exists).
+  - The silent solver returns a data structure containing the solution and metrics on the search algorithm that was used and how many assigning/backtracking steps it needed.
+- A verbose generic binary CSP solver that asynchronously solves a binary CSP with optional cancellation, issuing a progress notification after every step of the algorithm.
+  - The verbose solver returns the same result as the silent solver, but it also sends notifications to the caller while it's running.
+  - The verbose solver can operate in a 'slow-motion' setting by configuring a time delay between each step of the search algorithm.
+  - Use the verbose solver when you want to do something with the solving step progress notifications, like rendering the solution as it's built in real time.
 
-- **Choose your own algorithm:**
-  - Both solvers are configurable at startup and runtime with the user's choice of backtracking search algorithm.
-  - A backtracking search algorithm is composed of:
-    - A checking strategy, which determines how it checks the safety of the solution at each step, and
-    - An ordering strategy, which determines the order in which it approaches the variables of the binary CSP.
-  - Every backtracking search algorithm is guaranteed to find a solution to a binary CSP if it exists, but the number of assigning/backtracking steps required will vary considerably between algorithms.
-  - The library currently includes 8 checking strategies and 4 ordering strategies, making a total of 32 possible search algorithms.
+### Choose your own algorithm
 
+- Both solvers are configurable at startup and runtime with the user's choice of backtracking search algorithm.
+- A backtracking search algorithm is composed of:
+  - A checking strategy, which determines how it checks the safety of the solution at each step, and
+  - An ordering strategy, which determines the order in which it approaches the variables of the binary CSP.
+- Every backtracking search algorithm is guaranteed to find a solution to a binary CSP if it exists, but the number of assigning/backtracking steps required will vary considerably between algorithms.
+- The library currently includes 8 checking strategies and 4 ordering strategies, making a total of 32 possible search algorithms.
 
-- **Example problem types:**
-  - Immutable, serializable types for representing in code any valid instance of the following problem types: Futoshiki, Graph Colouring, Map Colouring, *N*-Queens, Shikaku and Sudoku.
-  - Services for generating random, solvable instances of all the problem types except *N*-Queens.
-  - Problem-specific constraint graph derivative classes, each of which models any instance of its problem type as a generic binary CSP.
+### Example problem types
+
+- Immutable, serializable types for representing in code any valid instance of the following problem types: Futoshiki, Graph Colouring, Map Colouring, *N*-Queens, Shikaku and Sudoku.
+- Problem-specific constraint graph derivative classes, each of which models any instance of its problem type as a generic binary CSP.
+- Services for generating random, solvable instances of all the problem types except *N*-Queens.
 
 ## Current Version: 0.1.0
 
