@@ -192,9 +192,11 @@ public sealed record OrderingStrategy : IComparable<OrderingStrategy>
             ? orderingStrategy
             : throw new ArgumentException($"No Ordering Strategy exists with Number value '{number}'.");
 
-    private static OrderingStrategy[] GetAllValues() => typeof(OrderingStrategy)
-        .GetProperties(BindingFlags.Public | BindingFlags.Static)
-        .Select(property => (OrderingStrategy)property.GetValue(null)!)
-        .OrderBy(orderingStrategy => orderingStrategy)
-        .ToArray();
+    private static OrderingStrategy[] GetAllValues() =>
+    [
+        .. typeof(OrderingStrategy)
+            .GetProperties(BindingFlags.Public | BindingFlags.Static)
+            .Select(property => (OrderingStrategy)property.GetValue(null)!)
+            .OrderBy(orderingStrategy => orderingStrategy)
+    ];
 }

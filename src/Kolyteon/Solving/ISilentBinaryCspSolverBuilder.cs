@@ -10,7 +10,7 @@ public interface ISilentBinaryCspSolverBuilder<TVariable, TDomainValue>
     where TDomainValue : struct, IComparable<TDomainValue>, IEquatable<TDomainValue>
 {
     /// <summary>
-    ///     Sets the initial <see cref="SilentBinaryCspSolver{TVariable,TDomainValue}.Capacity" /> of the new
+    ///     Sets the initial <see cref="BinaryCspSolver{TVariable,TDomainValue}.Capacity" /> of the new
     ///     <see cref="SilentBinaryCspSolver{TVariable,TDomainValue}" /> instance.
     /// </summary>
     /// <param name="capacity">
@@ -27,7 +27,8 @@ public interface ISilentBinaryCspSolverBuilder<TVariable, TDomainValue>
     public interface ICheckingStrategySetter
     {
         /// <summary>
-        ///     Sets the initial <see cref="SilentBinaryCspSolver{TVariable,TDomainValue}.CheckingStrategy" /> of the new
+        ///     Sets the <see cref="CheckingStrategy" /> of the initial
+        ///     <see cref="BinaryCspSolver{TVariable, TDomainValue}.SearchAlgorithm" /> used by the
         ///     <see cref="SilentBinaryCspSolver{TVariable,TDomainValue}" /> instance.
         /// </summary>
         /// <param name="checkingStrategy">
@@ -45,7 +46,8 @@ public interface ISilentBinaryCspSolverBuilder<TVariable, TDomainValue>
     public interface IOrderingStrategySetter
     {
         /// <summary>
-        ///     Sets the initial <see cref="SilentBinaryCspSolver{TVariable,TDomainValue}.OrderingStrategy" /> of the new
+        ///     Sets the <see cref="OrderingStrategy" /> of the initial
+        ///     <see cref="BinaryCspSolver{TVariable, TDomainValue}.SearchAlgorithm" /> used by the
         ///     <see cref="SilentBinaryCspSolver{TVariable,TDomainValue}" /> instance.
         /// </summary>
         /// <param name="orderingStrategy">

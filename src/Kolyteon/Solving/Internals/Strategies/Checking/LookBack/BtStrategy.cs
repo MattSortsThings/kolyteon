@@ -1,9 +1,8 @@
-using System.Diagnostics.CodeAnalysis;
 using Kolyteon.Modelling;
 using Kolyteon.Solving.Internals.SearchTrees;
 using Kolyteon.Solving.Internals.Strategies.Checking.Common;
 
-namespace Kolyteon.Solving.Internals.Strategies.Checking.Retrospective;
+namespace Kolyteon.Solving.Internals.Strategies.Checking.LookBack;
 
 internal sealed class BtStrategy<TVariable, TDomainValue> :
     CheckingStrategy<BtNode<TVariable, TDomainValue>, TVariable, TDomainValue>
@@ -34,7 +33,6 @@ internal sealed class BtStrategy<TVariable, TDomainValue> :
         }
     }
 
-    [SuppressMessage("ReSharper", "ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator")]
     private protected override void AddSafetyCheck()
     {
         bool consistent = true;

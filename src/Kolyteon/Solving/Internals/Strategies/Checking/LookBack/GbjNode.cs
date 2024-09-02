@@ -1,8 +1,7 @@
-using System.Diagnostics.CodeAnalysis;
 using Kolyteon.Modelling;
 using Kolyteon.Solving.Internals.SearchTrees;
 
-namespace Kolyteon.Solving.Internals.Strategies.Checking.Retrospective;
+namespace Kolyteon.Solving.Internals.Strategies.Checking.LookBack;
 
 internal sealed class GbjNode<TVariable, TDomainValue> : RetrospectiveNode<TVariable, TDomainValue>
     where TVariable : struct, IComparable<TVariable>, IEquatable<TVariable>
@@ -15,7 +14,6 @@ internal sealed class GbjNode<TVariable, TDomainValue> : RetrospectiveNode<TVari
 
     private HashSet<int> InducedAncestorLevels { get; }
 
-    [SuppressMessage("ReSharper", "ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator")]
     public override int BacktrackLevel
     {
         get
@@ -33,7 +31,6 @@ internal sealed class GbjNode<TVariable, TDomainValue> : RetrospectiveNode<TVari
         }
     }
 
-    [SuppressMessage("ReSharper", "ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator")]
     public void UnionMergeBacktrackDataFrom(GbjNode<TVariable, TDomainValue> futureNode)
     {
         foreach (int level in futureNode.InducedAncestorLevels)

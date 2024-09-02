@@ -249,9 +249,11 @@ public sealed record CheckingStrategy : IComparable<CheckingStrategy>
             ? checkingStrategy
             : throw new ArgumentException($"No Checking Strategy exists with Number value '{number}'.");
 
-    private static CheckingStrategy[] GetAllValues() => typeof(CheckingStrategy)
-        .GetProperties(BindingFlags.Public | BindingFlags.Static)
-        .Select(property => (CheckingStrategy)property.GetValue(null)!)
-        .OrderBy(checkingStrategy => checkingStrategy)
-        .ToArray();
+    private static CheckingStrategy[] GetAllValues() =>
+    [
+        .. typeof(CheckingStrategy)
+            .GetProperties(BindingFlags.Public | BindingFlags.Static)
+            .Select(property => (CheckingStrategy)property.GetValue(null)!)
+            .OrderBy(checkingStrategy => checkingStrategy)
+    ];
 }

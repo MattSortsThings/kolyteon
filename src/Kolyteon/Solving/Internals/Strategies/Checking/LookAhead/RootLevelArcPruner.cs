@@ -1,6 +1,6 @@
 using Kolyteon.Solving.Internals.SearchTrees;
 
-namespace Kolyteon.Solving.Internals.Strategies.Checking.Prospective;
+namespace Kolyteon.Solving.Internals.Strategies.Checking.LookAhead;
 
 internal sealed class RootLevelArcPruner<TVariable, TDomainValue> : IArcPruner<TVariable, TDomainValue>
     where TVariable : struct, IComparable<TVariable>, IEquatable<TVariable>

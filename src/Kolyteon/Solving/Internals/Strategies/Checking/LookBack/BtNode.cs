@@ -1,6 +1,6 @@
 using Kolyteon.Modelling;
 
-namespace Kolyteon.Solving.Internals.Strategies.Checking.Retrospective;
+namespace Kolyteon.Solving.Internals.Strategies.Checking.LookBack;
 
 internal sealed class BtNode<TVariable, TDomainValue> : RetrospectiveNode<TVariable, TDomainValue>
     where TVariable : struct, IComparable<TVariable>, IEquatable<TVariable>

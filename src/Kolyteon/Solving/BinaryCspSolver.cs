@@ -44,6 +44,9 @@ public abstract class BinaryCspSolver<TVariable, TDomainValue>
         set => _checkingStrategy.Capacity = value;
     }
 
+    /// <summary>
+    ///     Gets the backtracking search algorithm being used by this instance.
+    /// </summary>
     public SearchAlgorithm SearchAlgorithm { get; private set; }
 
     internal SolvingState SolvingState { get; private set; }

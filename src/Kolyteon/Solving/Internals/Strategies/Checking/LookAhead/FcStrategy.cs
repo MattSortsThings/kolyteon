@@ -2,7 +2,7 @@ using Kolyteon.Modelling;
 using Kolyteon.Solving.Internals.SearchTrees;
 using Kolyteon.Solving.Internals.Strategies.Checking.Common;
 
-namespace Kolyteon.Solving.Internals.Strategies.Checking.Prospective;
+namespace Kolyteon.Solving.Internals.Strategies.Checking.LookAhead;
 
 internal sealed class FcStrategy<TVariable, TDomainValue> :
     CheckingStrategy<FcNode<TVariable, TDomainValue>, TVariable, TDomainValue>

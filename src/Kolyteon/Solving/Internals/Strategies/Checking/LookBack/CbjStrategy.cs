@@ -2,34 +2,39 @@ using Kolyteon.Modelling;
 using Kolyteon.Solving.Internals.SearchTrees;
 using Kolyteon.Solving.Internals.Strategies.Checking.Common;
 
-namespace Kolyteon.Solving.Internals.Strategies.Checking.Retrospective;
+namespace Kolyteon.Solving.Internals.Strategies.Checking.LookBack;
 
-internal sealed class BjStrategy<TVariable, TDomainValue> :
-    CheckingStrategy<BjNode<TVariable, TDomainValue>, TVariable, TDomainValue>
+internal sealed class CbjStrategy<TVariable, TDomainValue> :
+    CheckingStrategy<CbjNode<TVariable, TDomainValue>, TVariable, TDomainValue>
     where TVariable : struct, IComparable<TVariable>, IEquatable<TVariable>
     where TDomainValue : struct, IComparable<TDomainValue>, IEquatable<TDomainValue>
 {
-    public BjStrategy(int capacity)
+    public CbjStrategy(int capacity)
     {
-        SearchTree = new BjTree(capacity);
+        SearchTree = new CbjTree(capacity);
     }
 
-    public override CheckingStrategy Identifier => CheckingStrategy.Backjumping;
+    public override CheckingStrategy Identifier => CheckingStrategy.ConflictBackjumping;
 
-    private protected override SearchTree<BjNode<TVariable, TDomainValue>, TVariable, TDomainValue> SearchTree { get; }
+    private protected override SearchTree<CbjNode<TVariable, TDomainValue>, TVariable, TDomainValue> SearchTree { get; }
 
     private protected override void ReduceSearchTree()
     {
-        // Not implemented in Backjumping.
+        // Not implemented in Conflict-Directed Backjumping.
     }
 
     private protected override void SetupForAssigning() => SearchTree.GetPresentNode().PopulateAncestors(SearchTree);
 
     private protected override void SetupForBacktracking(int backtrackLevel)
     {
-        for (int level = SearchLevel; level > backtrackLevel; level--)
+        if (backtrackLevel > SearchTree.RootLevel)
         {
-            BjNode<TVariable, TDomainValue> node = SearchTree[level];
+            SearchTree[backtrackLevel].UnionMergeBacktrackDataFrom(SearchTree.GetPresentNode());
+        }
+
+        for (int level = SearchTree.SearchLevel; level > backtrackLevel; level--)
+        {
+            CbjNode<TVariable, TDomainValue> node = SearchTree[level];
             node.ClearAncestors();
             node.ResetBacktrackLevel();
         }
@@ -38,7 +43,7 @@ internal sealed class BjStrategy<TVariable, TDomainValue> :
     private protected override void AddSafetyCheck()
     {
         bool consistent = true;
-        BjNode<TVariable, TDomainValue> presentNode = SearchTree.GetPresentNode();
+        CbjNode<TVariable, TDomainValue> presentNode = SearchTree.GetPresentNode();
 
         for (int i = 0; consistent && i < presentNode.Ancestors.Count; i++)
         {
@@ -50,26 +55,21 @@ internal sealed class BjStrategy<TVariable, TDomainValue> :
             }
         }
 
-        if (consistent)
-        {
-            presentNode.SetBacktrackLevelToMax();
-        }
-
         Safe = consistent;
     }
 
     private protected override void UndoLastSafetyCheck()
     {
-        // Not implemented in Backjumping.
+        // Not implemented in Conflict-Directed Backjumping.
     }
 
-    private sealed class BjTree : SearchTree<BjNode<TVariable, TDomainValue>, TVariable, TDomainValue>
+    private sealed class CbjTree : SearchTree<CbjNode<TVariable, TDomainValue>, TVariable, TDomainValue>
     {
-        public BjTree(int capacity) : base(capacity)
+        public CbjTree(int capacity) : base(capacity)
         {
         }
 
-        private protected override BjNode<TVariable, TDomainValue> GetNode(int variableIndex,
+        private protected override CbjNode<TVariable, TDomainValue> GetNode(int variableIndex,
             IReadOnlyBinaryCsp<TVariable, TDomainValue> binaryCsp) => new(binaryCsp, variableIndex);
     }
 }

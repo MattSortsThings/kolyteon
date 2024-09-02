@@ -53,6 +53,26 @@ public sealed record SolvingResult<TVariable, TDomainValue>
     [JsonIgnore]
     public int TotalSteps => SimplifyingSteps + AssigningSteps + BacktrackingSteps;
 
+    /// <summary>
+    ///     Indicates whether this <see cref="SolvingResult{TVariable, TDomainValue}" /> instance has equal value to another
+    ///     instance of the same type.
+    /// </summary>
+    /// <remarks>
+    ///     Two <see cref="SolvingResult{TVariable, TDomainValue}" /> instances have equal value if:
+    ///     <list type="bullet">
+    ///         <item>their <see cref="SolvingResult{TVariable, TDomainValue}.SearchAlgorithm" /> values are equal, and</item>
+    ///         <item>their <see cref="SimplifyingSteps" /> values are equal, and</item>
+    ///         <item>their <see cref="AssigningSteps" /> values are equal, and</item>
+    ///         <item>their <see cref="BacktrackingSteps" /> values are equal, and</item>
+    ///         <item>their <see cref="Assignments" /> collections contain the same values, irrespective of order.</item>
+    ///     </list>
+    /// </remarks>
+    /// <param name="other">The <see cref="SearchAlgorithm" /> instance against which this instance is to be compared.</param>
+    /// <returns>
+    ///     <see langword="true" /> if this instance and the <paramref name="other" /> parameter have equal value;
+    ///     otherwise, <see langword="false" />. If the <paramref name="other" /> parameter is <see langword="null" />, the
+    ///     method returns <see langword="false" />.
+    /// </returns>
     public bool Equals(SolvingResult<TVariable, TDomainValue>? other)
     {
         if (other is null)
@@ -74,6 +94,10 @@ public sealed record SolvingResult<TVariable, TDomainValue>
                    .SequenceEqual(other.Assignments.OrderBy(assignment => assignment));
     }
 
+    /// <summary>
+    ///     Returns the hash code for this <see cref="SolvingResult{TVariable, TDomainValue}" /> instance.
+    /// </summary>
+    /// <returns>A 32-bit signed integer hash code.</returns>
     public override int GetHashCode() =>
         HashCode.Combine(Assignments, SearchAlgorithm, SimplifyingSteps, AssigningSteps, BacktrackingSteps);
 }

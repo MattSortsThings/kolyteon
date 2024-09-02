@@ -1,4 +1,4 @@
-namespace Kolyteon.Solving.Internals.Strategies.Checking.Prospective;
+namespace Kolyteon.Solving.Internals.Strategies.Checking.LookAhead;
 
 internal interface IArcPruner<TVariable, TDomainValue>
     where TVariable : struct, IComparable<TVariable>, IEquatable<TVariable>

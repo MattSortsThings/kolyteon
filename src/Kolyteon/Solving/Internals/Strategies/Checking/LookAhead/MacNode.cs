@@ -1,6 +1,6 @@
 using Kolyteon.Modelling;
 
-namespace Kolyteon.Solving.Internals.Strategies.Checking.Prospective;
+namespace Kolyteon.Solving.Internals.Strategies.Checking.LookAhead;
 
 internal sealed class MacNode<TVariable, TDomainValue> : ArcConsistencyNode<TVariable, TDomainValue>
     where TVariable : struct, IComparable<TVariable>, IEquatable<TVariable>

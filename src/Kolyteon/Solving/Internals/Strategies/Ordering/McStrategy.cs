@@ -16,7 +16,7 @@ internal sealed class McStrategy : IOrderingStrategy
         return GetLevelOfNodeWithMaxCardinality(nodes, searchLevel);
     }
 
-    private int GetLevelOfNodeWithMaxCardinality(IReadOnlyList<IVisitableNode> nodes, int searchLevel)
+    private static int GetLevelOfNodeWithMaxCardinality(IReadOnlyList<IVisitableNode> nodes, int searchLevel)
     {
         IVisitableNode optimalNode = nodes[^1];
         int maxCardinality = CalculateCardinality(optimalNode, nodes, searchLevel);

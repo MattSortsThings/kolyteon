@@ -2,26 +2,26 @@ using Kolyteon.Modelling;
 using Kolyteon.Solving.Internals.SearchTrees;
 using Kolyteon.Solving.Internals.Strategies.Checking.Common;
 
-namespace Kolyteon.Solving.Internals.Strategies.Checking.Prospective;
+namespace Kolyteon.Solving.Internals.Strategies.Checking.LookAhead;
 
-internal sealed class PlaStrategy<TVariable, TDomainValue> :
-    CheckingStrategy<PlaNode<TVariable, TDomainValue>, TVariable, TDomainValue>
+internal sealed class FlaStrategy<TVariable, TDomainValue> :
+    CheckingStrategy<FlaNode<TVariable, TDomainValue>, TVariable, TDomainValue>
     where TVariable : struct, IComparable<TVariable>, IEquatable<TVariable>
     where TDomainValue : struct, IComparable<TDomainValue>, IEquatable<TDomainValue>
 {
-    private readonly PlaArcTasksQueue _arcTasks;
+    private readonly FlaArcTasksQueue _arcTasks;
     private readonly RootLevelArcPruner<TVariable, TDomainValue> _rootLevelArcPruner;
 
-    public PlaStrategy(int capacity)
+    public FlaStrategy(int capacity)
     {
-        SearchTree = new PlaTree(capacity);
-        _arcTasks = new PlaArcTasksQueue(capacity);
+        SearchTree = new FlaTree(capacity);
+        _arcTasks = new FlaArcTasksQueue(capacity);
         _rootLevelArcPruner = new RootLevelArcPruner<TVariable, TDomainValue>();
     }
 
-    public override CheckingStrategy Identifier => CheckingStrategy.PartialLookingAhead;
+    public override CheckingStrategy Identifier => CheckingStrategy.FullLookingAhead;
 
-    private protected override SearchTree<PlaNode<TVariable, TDomainValue>, TVariable, TDomainValue> SearchTree { get; }
+    private protected override SearchTree<FlaNode<TVariable, TDomainValue>, TVariable, TDomainValue> SearchTree { get; }
 
     private protected override void ReduceSearchTree() => EnforceArcConsistency();
 
@@ -49,7 +49,7 @@ internal sealed class PlaStrategy<TVariable, TDomainValue> :
     private void PruneFutureNodesBasedOnPresentAssignment()
     {
         bool noNodeExhausted = true;
-        PlaNode<TVariable, TDomainValue> presentNode = SearchTree.GetPresentNode();
+        FlaNode<TVariable, TDomainValue> presentNode = SearchTree.GetPresentNode();
 
         for (int i = 0; noNodeExhausted && i < presentNode.Successors.Count; i++)
         {
@@ -68,11 +68,11 @@ internal sealed class PlaStrategy<TVariable, TDomainValue> :
 
         IArcPruner<TVariable, TDomainValue> arcPruner = GetArcPrunerForThisSearchLevel();
 
-        while (noNodeExhausted && _arcTasks.TryDequeue(out PlaNode<TVariable, TDomainValue>? operandNode,
-                   out PlaNode<TVariable, TDomainValue>? contextNode))
+        while (noNodeExhausted && _arcTasks.TryDequeue(out FlaNode<TVariable, TDomainValue>? operandNode,
+                   out FlaNode<TVariable, TDomainValue>? contextNode))
         {
             arcPruner.ArcPrune(operandNode, contextNode);
-            noNodeExhausted = !operandNode.Exhausted;
+            noNodeExhausted = operandNode.RemainingCandidates > 0;
         }
 
         _arcTasks.Clear();
@@ -85,35 +85,41 @@ internal sealed class PlaStrategy<TVariable, TDomainValue> :
             ? SearchTree.GetPresentNode()
             : _rootLevelArcPruner;
 
-    private sealed class PlaTree : SearchTree<PlaNode<TVariable, TDomainValue>, TVariable, TDomainValue>
+    private sealed class FlaTree : SearchTree<FlaNode<TVariable, TDomainValue>, TVariable, TDomainValue>
     {
-        public PlaTree(int capacity) : base(capacity)
+        public FlaTree(int capacity) : base(capacity)
         {
         }
 
-        private protected override PlaNode<TVariable, TDomainValue> GetNode(int variableIndex,
+        private protected override FlaNode<TVariable, TDomainValue> GetNode(int variableIndex,
             IReadOnlyBinaryCsp<TVariable, TDomainValue> binaryCsp) =>
             new(binaryCsp, variableIndex);
     }
 
-    private sealed class PlaArcTasksQueue : ArcTaskQueue<PlaNode<TVariable, TDomainValue>, TVariable, TDomainValue>
+    private sealed class FlaArcTasksQueue : ArcTaskQueue<FlaNode<TVariable, TDomainValue>, TVariable, TDomainValue>
     {
-        public PlaArcTasksQueue(int capacity) : base(capacity)
+        public FlaArcTasksQueue(int capacity) : base(capacity)
         {
         }
 
-        public override void Populate(SearchTree<PlaNode<TVariable, TDomainValue>, TVariable, TDomainValue> searchTree)
+        public override void Populate(SearchTree<FlaNode<TVariable, TDomainValue>, TVariable, TDomainValue> searchTree)
         {
+            int startLevel = searchTree.SearchLevel + 1;
             int leafLevel = searchTree.LeafLevel;
 
-            for (int operandLevel = searchTree.SearchLevel + 1; operandLevel < leafLevel; operandLevel++)
+            for (int operandLevel = startLevel; operandLevel < leafLevel; operandLevel++)
             {
-                PlaNode<TVariable, TDomainValue> operandNode = searchTree[operandLevel];
+                FlaNode<TVariable, TDomainValue> operandNode = searchTree[operandLevel];
                 int remaining = operandNode.Degree;
 
-                for (int contextLevel = operandLevel + 1; remaining > 0 && contextLevel < leafLevel; contextLevel++)
+                for (int contextLevel = startLevel; remaining > 0 && contextLevel < leafLevel; contextLevel++)
                 {
-                    PlaNode<TVariable, TDomainValue> contextNode = searchTree[contextLevel];
+                    if (operandLevel == contextLevel)
+                    {
+                        continue;
+                    }
+
+                    FlaNode<TVariable, TDomainValue> contextNode = searchTree[contextLevel];
 
                     if (!operandNode.AdjacentTo(contextNode))
                     {

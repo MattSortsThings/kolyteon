@@ -1,4 +1,4 @@
-namespace Kolyteon.Solving.Internals.Strategies.Checking.Prospective;
+namespace Kolyteon.Solving.Internals.Strategies.Checking.LookAhead;
 
 internal readonly record struct PruningMemo<TVariable, TDomainValue>(
     ProspectiveNode<TVariable, TDomainValue> PrunedNode,

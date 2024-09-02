@@ -1,7 +1,7 @@
 using Kolyteon.Modelling;
 using Kolyteon.Solving.Internals.SearchTrees;
 
-namespace Kolyteon.Solving.Internals.Strategies.Checking.Retrospective;
+namespace Kolyteon.Solving.Internals.Strategies.Checking.LookBack;
 
 internal abstract class RetrospectiveNode<TVariable, TDomainValue> : SearchTreeNode<TVariable, TDomainValue>
     where TVariable : struct, IComparable<TVariable>, IEquatable<TVariable>

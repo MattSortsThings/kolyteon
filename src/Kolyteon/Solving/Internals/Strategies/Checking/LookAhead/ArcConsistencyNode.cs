@@ -1,6 +1,6 @@
 using Kolyteon.Modelling;
 
-namespace Kolyteon.Solving.Internals.Strategies.Checking.Prospective;
+namespace Kolyteon.Solving.Internals.Strategies.Checking.LookAhead;
 
 internal abstract class ArcConsistencyNode<TVariable, TDomainValue> : ProspectiveNode<TVariable, TDomainValue>,
     IArcPruner<TVariable, TDomainValue>

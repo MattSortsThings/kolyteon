@@ -1,7 +1,7 @@
 using Kolyteon.Modelling;
 using Kolyteon.Solving.Internals.SearchTrees;
 
-namespace Kolyteon.Solving.Internals.Strategies.Checking.Prospective;
+namespace Kolyteon.Solving.Internals.Strategies.Checking.LookAhead;
 
 internal abstract class ProspectiveNode<TVariable, TDomainValue> : SearchTreeNode<TVariable, TDomainValue>
     where TVariable : struct, IComparable<TVariable>, IEquatable<TVariable>

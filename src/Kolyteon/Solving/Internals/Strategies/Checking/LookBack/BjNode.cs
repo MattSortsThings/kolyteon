@@ -1,8 +1,7 @@
-using System.Diagnostics.CodeAnalysis;
 using Kolyteon.Modelling;
 using Kolyteon.Solving.Internals.SearchTrees;
 
-namespace Kolyteon.Solving.Internals.Strategies.Checking.Retrospective;
+namespace Kolyteon.Solving.Internals.Strategies.Checking.LookBack;
 
 internal sealed class BjNode<TVariable, TDomainValue> : RetrospectiveNode<TVariable, TDomainValue>
     where TVariable : struct, IComparable<TVariable>, IEquatable<TVariable>
@@ -15,7 +14,6 @@ internal sealed class BjNode<TVariable, TDomainValue> : RetrospectiveNode<TVaria
         _backtrackLevel = Constants.Levels.Root;
     }
 
-    [SuppressMessage("ReSharper", "ConvertToAutoPropertyWithPrivateSetter")]
     public override int BacktrackLevel => _backtrackLevel;
 
     public void UpdateBacktrackLevel(IVisitableNode ancestorNode) =>

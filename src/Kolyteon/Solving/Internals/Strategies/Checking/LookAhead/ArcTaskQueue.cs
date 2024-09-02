@@ -1,7 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using Kolyteon.Solving.Internals.SearchTrees;
 
-namespace Kolyteon.Solving.Internals.Strategies.Checking.Prospective;
+namespace Kolyteon.Solving.Internals.Strategies.Checking.LookAhead;
 
 internal abstract class ArcTaskQueue<TNode, TVariable, TDomainValue>
     where TNode : ProspectiveNode<TVariable, TDomainValue>

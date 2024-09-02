@@ -1,5 +1,5 @@
-using Kolyteon.Solving.Internals.Strategies.Checking.Prospective;
-using Kolyteon.Solving.Internals.Strategies.Checking.Retrospective;
+using Kolyteon.Solving.Internals.Strategies.Checking.LookAhead;
+using Kolyteon.Solving.Internals.Strategies.Checking.LookBack;
 
 namespace Kolyteon.Solving.Internals.Strategies.Checking.Common;
 
