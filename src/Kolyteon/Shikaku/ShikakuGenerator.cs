@@ -4,7 +4,7 @@ using Kolyteon.Common.Internals;
 namespace Kolyteon.Shikaku;
 
 /// <summary>
-///     Can generate a random, solvableShikaku problem from parameters specified by the client.
+///     Can generate a random, solvable Shikaku problem from parameters specified by the client.
 /// </summary>
 public sealed class ShikakuGenerator : IShikakuGenerator
 {

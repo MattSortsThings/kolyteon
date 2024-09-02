@@ -71,6 +71,7 @@ public sealed class ShikakuConstraintGraph : ConstraintGraph<NumberedSquare, Blo
         return constraintGraph;
     }
 
+    /// <inheritdoc />
     protected override void PopulateProblemData(ShikakuProblem problem)
     {
         ((_, (int gridSideLength, _)), IReadOnlyList<NumberedSquare> hints) = problem;
@@ -80,8 +81,10 @@ public sealed class ShikakuConstraintGraph : ConstraintGraph<NumberedSquare, Blo
         PopulateOrderedHints(hints);
     }
 
+    /// <inheritdoc />
     protected override IEnumerable<NumberedSquare> GetVariables() => _orderedHints;
 
+    /// <inheritdoc />
     protected override IEnumerable<Block> GetDomainValues(NumberedSquare presentVariable)
     {
         _orderedHints.Remove(in presentVariable);
@@ -100,6 +103,7 @@ public sealed class ShikakuConstraintGraph : ConstraintGraph<NumberedSquare, Blo
         _orderedHints.Enqueue(presentVariable);
     }
 
+    /// <inheritdoc />
     protected override bool TryGetBinaryPredicate(NumberedSquare firstVariable,
         NumberedSquare secondVariable,
         [NotNullWhen(true)] out Func<Block, Block, bool>? binaryPredicate)
@@ -109,6 +113,7 @@ public sealed class ShikakuConstraintGraph : ConstraintGraph<NumberedSquare, Blo
         return true;
     }
 
+    /// <inheritdoc />
     protected override void ClearProblemData()
     {
         _gridSideLength = default;
