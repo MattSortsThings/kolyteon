@@ -147,14 +147,13 @@ public abstract class BinaryCspSolver<TVariable, TDomainValue>
     private protected Assignment<TVariable, TDomainValue> GetMostRecentAssignment() =>
         _checkingStrategy.GetMostRecentAssignment();
 
-    private protected SolvingResult<TVariable, TDomainValue> CreateSolvingResult() => new()
+    private protected SolvingResult<TVariable, TDomainValue> CreateSolvingResult()
     {
-        Assignments = _checkingStrategy.GetAllAssignments(),
-        SearchAlgorithm = SearchAlgorithm,
-        SimplifyingSteps = SimplifyingSteps,
-        AssigningSteps = AssigningSteps,
-        BacktrackingSteps = BacktrackingSteps
-    };
+        Assignment<TVariable, TDomainValue>[] solution = _checkingStrategy.GetAllAssignments();
+        SearchMetrics metrics = SearchMetrics.Create(SearchAlgorithm, SimplifyingSteps, AssigningSteps, BacktrackingSteps);
+
+        return new SolvingResult<TVariable, TDomainValue>(solution, metrics);
+    }
 
     private protected void Teardown()
     {

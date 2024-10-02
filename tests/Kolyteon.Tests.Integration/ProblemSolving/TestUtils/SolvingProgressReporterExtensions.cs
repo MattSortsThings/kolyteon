@@ -1,3 +1,4 @@
+using Kolyteon.Modelling;
 using Kolyteon.Solving;
 
 namespace Kolyteon.Tests.Integration.ProblemSolving.TestUtils;
@@ -9,13 +10,15 @@ public static class SolvingProgressReporterExtensions
         where TVariable : struct, IComparable<TVariable>, IEquatable<TVariable>
         where TDomainValue : struct, IComparable<TDomainValue>, IEquatable<TDomainValue>
     {
+        (IReadOnlyList<Assignment<TVariable, TDomainValue>> solution, SearchMetrics metrics) = result;
+
         reporter.SolvingState.Should().Be(SolvingState.Finished);
 
-        reporter.TotalSteps.Should().Be(result.TotalSteps);
-        reporter.SimplifyingSteps.Should().Be(result.SimplifyingSteps);
-        reporter.AssigningSteps.Should().Be(result.AssigningSteps);
-        reporter.BacktrackingSteps.Should().Be(result.BacktrackingSteps);
+        reporter.TotalSteps.Should().Be(metrics.TotalSteps);
+        reporter.SimplifyingSteps.Should().Be(metrics.SimplifyingSteps);
+        reporter.AssigningSteps.Should().Be(metrics.AssigningSteps);
+        reporter.BacktrackingSteps.Should().Be(metrics.BacktrackingSteps);
 
-        reporter.Assignments.Should().BeEquivalentTo(result.Assignments, options => options.WithoutStrictOrdering());
+        reporter.Assignments.Should().BeEquivalentTo(solution, options => options.WithoutStrictOrdering());
     }
 }

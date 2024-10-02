@@ -31,19 +31,22 @@ public static class VerboseBinaryCspSolverTests
                 .Build();
 
             // Act
-            SolvingResult<char, int> result =
+            (IReadOnlyList<Assignment<char, int>> solution, SearchMetrics metrics) =
                 await sut.SolveAsync(binaryCsp, dummyProgress, cancellationToken: CancellationToken.None);
 
             // Assert
             using (new AssertionScope())
             {
-                result.Assignments.Should().BeEmpty();
+                solution.Should().BeEmpty();
 
-                result.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy.NaiveBacktracking)
+
+                metrics.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy.NaiveBacktracking)
                     .And.HaveOrderingStrategy(OrderingStrategy.NaturalOrdering);
-                result.SimplifyingSteps.Should().Be(1);
-                result.AssigningSteps.Should().Be(0);
-                result.BacktrackingSteps.Should().Be(0);
+                metrics.SimplifyingSteps.Should().Be(1);
+                metrics.AssigningSteps.Should().Be(0);
+                metrics.BacktrackingSteps.Should().Be(0);
+                metrics.TotalSteps.Should().Be(1);
+                metrics.Efficiency.Should().BeApproximately(1.0, 0.000001);
             }
         }
 
@@ -104,19 +107,22 @@ public static class VerboseBinaryCspSolverTests
                 .Build();
 
             // Act
-            SolvingResult<char, int> result =
+            (IReadOnlyList<Assignment<char, int>> solution, SearchMetrics metrics) =
                 await sut.SolveAsync(binaryCsp, dummyProgress, cancellationToken: CancellationToken.None);
 
             // Assert
             using (new AssertionScope())
             {
-                result.Assignments.Should().BeEmpty();
+                solution.Should().BeEmpty();
 
-                result.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy.NaiveBacktracking)
+
+                metrics.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy.NaiveBacktracking)
                     .And.HaveOrderingStrategy(OrderingStrategy.NaturalOrdering);
-                result.SimplifyingSteps.Should().Be(1);
-                result.AssigningSteps.Should().Be(5);
-                result.BacktrackingSteps.Should().Be(4);
+                metrics.SimplifyingSteps.Should().Be(1);
+                metrics.AssigningSteps.Should().Be(5);
+                metrics.BacktrackingSteps.Should().Be(4);
+                metrics.TotalSteps.Should().Be(10);
+                metrics.Efficiency.Should().BeApproximately(0.6, 0.000001);
             }
         }
 
@@ -215,21 +221,24 @@ public static class VerboseBinaryCspSolverTests
                 .Build();
 
             // Act
-            SolvingResult<char, int> result =
+            (IReadOnlyList<Assignment<char, int>> solution, SearchMetrics metrics) =
                 await sut.SolveAsync(binaryCsp, dummyProgress, cancellationToken: CancellationToken.None);
 
             // Assert
             using (new AssertionScope())
             {
-                result.Assignments.Should().Equal(new Assignment<char, int>('A', 1),
+                solution.Should().Equal(new Assignment<char, int>('A', 1),
                     new Assignment<char, int>('B', 0),
                     new Assignment<char, int>('C', 2));
 
-                result.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy.NaiveBacktracking)
+
+                metrics.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy.NaiveBacktracking)
                     .And.HaveOrderingStrategy(OrderingStrategy.NaturalOrdering);
-                result.SimplifyingSteps.Should().Be(1);
-                result.AssigningSteps.Should().Be(5);
-                result.BacktrackingSteps.Should().Be(1);
+                metrics.SimplifyingSteps.Should().Be(1);
+                metrics.AssigningSteps.Should().Be(5);
+                metrics.BacktrackingSteps.Should().Be(1);
+                metrics.TotalSteps.Should().Be(7);
+                metrics.Efficiency.Should().BeApproximately(0.857143, 0.000001);
             }
         }
 

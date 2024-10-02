@@ -46,8 +46,9 @@ public abstract partial class SilentProblemSolvingTests
         using (new AssertionScope())
         {
             result.VerifyCorrectSolution(problem);
-            result.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And.HaveOrderingStrategy(OrderingStrategy);
-            result.TotalSteps.Should().BeGreaterThan(binaryCsp.Variables);
+            result.SearchMetrics.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And
+                .HaveOrderingStrategy(OrderingStrategy);
+            result.SearchMetrics.TotalSteps.Should().BeGreaterThan(binaryCsp.Variables);
         }
     }
 
@@ -66,9 +67,10 @@ public abstract partial class SilentProblemSolvingTests
         // Assert
         using (new AssertionScope())
         {
-            result.Assignments.Should().BeEmpty();
-            result.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And.HaveOrderingStrategy(OrderingStrategy);
-            result.TotalSteps.Should().BePositive();
+            result.Solution.Should().BeEmpty();
+            result.SearchMetrics.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And
+                .HaveOrderingStrategy(OrderingStrategy);
+            result.SearchMetrics.TotalSteps.Should().BePositive();
         }
     }
 
@@ -88,8 +90,9 @@ public abstract partial class SilentProblemSolvingTests
         using (new AssertionScope())
         {
             result.VerifyCorrectSolution(problem);
-            result.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And.HaveOrderingStrategy(OrderingStrategy);
-            result.TotalSteps.Should().BeGreaterThan(binaryCsp.Variables);
+            result.SearchMetrics.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And
+                .HaveOrderingStrategy(OrderingStrategy);
+            result.SearchMetrics.TotalSteps.Should().BeGreaterThan(binaryCsp.Variables);
         }
     }
 
@@ -108,9 +111,10 @@ public abstract partial class SilentProblemSolvingTests
         // Assert
         using (new AssertionScope())
         {
-            result.Assignments.Should().BeEmpty();
-            result.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And.HaveOrderingStrategy(OrderingStrategy);
-            result.TotalSteps.Should().BePositive();
+            result.Solution.Should().BeEmpty();
+            result.SearchMetrics.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And
+                .HaveOrderingStrategy(OrderingStrategy);
+            result.SearchMetrics.TotalSteps.Should().BePositive();
         }
     }
 
@@ -130,8 +134,9 @@ public abstract partial class SilentProblemSolvingTests
         using (new AssertionScope())
         {
             result.VerifyCorrectSolution(problem);
-            result.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And.HaveOrderingStrategy(OrderingStrategy);
-            result.TotalSteps.Should().BeGreaterThan(binaryCsp.Variables);
+            result.SearchMetrics.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And
+                .HaveOrderingStrategy(OrderingStrategy);
+            result.SearchMetrics.TotalSteps.Should().BeGreaterThan(binaryCsp.Variables);
         }
     }
 
@@ -150,9 +155,10 @@ public abstract partial class SilentProblemSolvingTests
         // Assert
         using (new AssertionScope())
         {
-            result.Assignments.Should().BeEmpty();
-            result.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And.HaveOrderingStrategy(OrderingStrategy);
-            result.TotalSteps.Should().BePositive();
+            result.Solution.Should().BeEmpty();
+            result.SearchMetrics.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And
+                .HaveOrderingStrategy(OrderingStrategy);
+            result.SearchMetrics.TotalSteps.Should().BePositive();
         }
     }
 
@@ -172,8 +178,9 @@ public abstract partial class SilentProblemSolvingTests
         using (new AssertionScope())
         {
             result.VerifyCorrectSolution(problem);
-            result.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And.HaveOrderingStrategy(OrderingStrategy);
-            result.TotalSteps.Should().BeGreaterThan(binaryCsp.Variables);
+            result.SearchMetrics.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And
+                .HaveOrderingStrategy(OrderingStrategy);
+            result.SearchMetrics.TotalSteps.Should().BeGreaterThan(binaryCsp.Variables);
         }
     }
 
@@ -192,9 +199,10 @@ public abstract partial class SilentProblemSolvingTests
         // Assert
         using (new AssertionScope())
         {
-            result.Assignments.Should().BeEmpty();
-            result.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And.HaveOrderingStrategy(OrderingStrategy);
-            result.TotalSteps.Should().BePositive();
+            result.Solution.Should().BeEmpty();
+            result.SearchMetrics.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And
+                .HaveOrderingStrategy(OrderingStrategy);
+            result.SearchMetrics.TotalSteps.Should().BePositive();
         }
     }
 
@@ -214,8 +222,9 @@ public abstract partial class SilentProblemSolvingTests
         using (new AssertionScope())
         {
             result.VerifyCorrectSolution(problem);
-            result.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And.HaveOrderingStrategy(OrderingStrategy);
-            result.TotalSteps.Should().BeGreaterThan(binaryCsp.Variables);
+            result.SearchMetrics.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And
+                .HaveOrderingStrategy(OrderingStrategy);
+            result.SearchMetrics.TotalSteps.Should().BeGreaterThan(binaryCsp.Variables);
         }
     }
 
@@ -234,9 +243,10 @@ public abstract partial class SilentProblemSolvingTests
         // Assert
         using (new AssertionScope())
         {
-            result.Assignments.Should().BeEmpty();
-            result.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And.HaveOrderingStrategy(OrderingStrategy);
-            result.TotalSteps.Should().BePositive();
+            result.Solution.Should().BeEmpty();
+            result.SearchMetrics.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And
+                .HaveOrderingStrategy(OrderingStrategy);
+            result.SearchMetrics.TotalSteps.Should().BePositive();
         }
     }
 
@@ -256,8 +266,9 @@ public abstract partial class SilentProblemSolvingTests
         using (new AssertionScope())
         {
             result.VerifyCorrectSolution(problem);
-            result.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And.HaveOrderingStrategy(OrderingStrategy);
-            result.TotalSteps.Should().BeGreaterThan(binaryCsp.Variables);
+            result.SearchMetrics.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And
+                .HaveOrderingStrategy(OrderingStrategy);
+            result.SearchMetrics.TotalSteps.Should().BeGreaterThan(binaryCsp.Variables);
         }
     }
 
@@ -276,9 +287,10 @@ public abstract partial class SilentProblemSolvingTests
         // Assert
         using (new AssertionScope())
         {
-            result.Assignments.Should().BeEmpty();
-            result.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And.HaveOrderingStrategy(OrderingStrategy);
-            result.TotalSteps.Should().BePositive();
+            result.Solution.Should().BeEmpty();
+            result.SearchMetrics.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And
+                .HaveOrderingStrategy(OrderingStrategy);
+            result.SearchMetrics.TotalSteps.Should().BePositive();
         }
     }
 
@@ -306,7 +318,7 @@ public abstract partial class SilentProblemSolvingTests
         SolvingResult<int, Square> resultForUnsolvableProblem = solver.Solve(binaryCsp);
 
         // Assert
-        resultForUnsolvableProblem.Assignments.Should().BeEmpty();
+        resultForUnsolvableProblem.Solution.Should().BeEmpty();
 
         // Act
         binaryCsp.Clear();

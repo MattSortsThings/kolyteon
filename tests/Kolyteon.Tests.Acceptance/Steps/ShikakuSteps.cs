@@ -104,7 +104,7 @@ internal sealed class ShikakuSteps
 
         SolvingResult<NumberedSquare, Block> result = _solver.Solve(_binaryCsp, searchAlgorithm, CancellationToken.None);
 
-        Block[] proposedSolution = result.Assignments.ToShikakuSolution();
+        Block[] proposedSolution = result.Solution.ToShikakuSolution();
 
         _scenarioContext.Add(Constants.Keys.ProposedSolution, proposedSolution);
     }

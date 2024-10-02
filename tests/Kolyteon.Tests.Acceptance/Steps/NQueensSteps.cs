@@ -101,7 +101,7 @@ internal sealed class NQueensSteps
         SolvingResult<int, Square> result =
             _solver.Solve(_binaryCsp, searchAlgorithm, CancellationToken.None);
 
-        Square[] proposedSolution = result.Assignments.ToNQueensSolution();
+        Square[] proposedSolution = result.Solution.ToNQueensSolution();
 
         _scenarioContext.Add(Constants.Keys.ProposedSolution, proposedSolution);
     }
@@ -114,7 +114,7 @@ internal sealed class NQueensSteps
 
         SolvingResult<int, Square> result = await _verboseSolver.SolveAsync(_binaryCsp, _progressReporter, searchAlgorithm);
 
-        Square[] proposedSolution = result.Assignments.ToNQueensSolution();
+        Square[] proposedSolution = result.Solution.ToNQueensSolution();
 
         _scenarioContext.Add(Constants.Keys.ProposedSolution, proposedSolution);
         _scenarioContext.Add(Constants.Keys.SolvingProgressReports, _progressReporter.Reports.ToArray());

@@ -117,7 +117,7 @@ internal sealed class MapColouringSteps
 
         SolvingResult<Block, Colour> result = _solver.Solve(_binaryCsp, searchAlgorithm, CancellationToken.None);
 
-        Dictionary<Block, Colour> proposedSolution = result.Assignments.ToMapColouringSolution();
+        Dictionary<Block, Colour> proposedSolution = result.Solution.ToMapColouringSolution();
 
         _scenarioContext.Add(Constants.Keys.ProposedSolution, proposedSolution);
     }

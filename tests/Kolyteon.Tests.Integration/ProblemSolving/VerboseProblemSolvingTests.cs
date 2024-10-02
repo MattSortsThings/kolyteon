@@ -49,8 +49,9 @@ public abstract partial class VerboseProblemSolvingTests
         using (new AssertionScope())
         {
             result.VerifyCorrectSolution(problem);
-            result.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And.HaveOrderingStrategy(OrderingStrategy);
-            result.TotalSteps.Should().BeGreaterThan(binaryCsp.Variables);
+            result.SearchMetrics.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And
+                .HaveOrderingStrategy(OrderingStrategy);
+            result.SearchMetrics.TotalSteps.Should().BeGreaterThan(binaryCsp.Variables);
             progressReporter.VerifyEndStateMatchesResult(result);
         }
     }
@@ -72,9 +73,10 @@ public abstract partial class VerboseProblemSolvingTests
         // Assert
         using (new AssertionScope())
         {
-            result.Assignments.Should().BeEmpty();
-            result.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And.HaveOrderingStrategy(OrderingStrategy);
-            result.TotalSteps.Should().BePositive();
+            result.Solution.Should().BeEmpty();
+            result.SearchMetrics.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And
+                .HaveOrderingStrategy(OrderingStrategy);
+            result.SearchMetrics.TotalSteps.Should().BePositive();
             progressReporter.VerifyEndStateMatchesResult(result);
         }
     }
@@ -98,8 +100,9 @@ public abstract partial class VerboseProblemSolvingTests
         using (new AssertionScope())
         {
             result.VerifyCorrectSolution(problem);
-            result.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And.HaveOrderingStrategy(OrderingStrategy);
-            result.TotalSteps.Should().BeGreaterThan(binaryCsp.Variables);
+            result.SearchMetrics.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And
+                .HaveOrderingStrategy(OrderingStrategy);
+            result.SearchMetrics.TotalSteps.Should().BeGreaterThan(binaryCsp.Variables);
             progressReporter.VerifyEndStateMatchesResult(result);
         }
     }
@@ -122,9 +125,10 @@ public abstract partial class VerboseProblemSolvingTests
         // Assert
         using (new AssertionScope())
         {
-            result.Assignments.Should().BeEmpty();
-            result.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And.HaveOrderingStrategy(OrderingStrategy);
-            result.TotalSteps.Should().BePositive();
+            result.Solution.Should().BeEmpty();
+            result.SearchMetrics.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And
+                .HaveOrderingStrategy(OrderingStrategy);
+            result.SearchMetrics.TotalSteps.Should().BePositive();
             progressReporter.VerifyEndStateMatchesResult(result);
         }
     }
@@ -148,8 +152,9 @@ public abstract partial class VerboseProblemSolvingTests
         using (new AssertionScope())
         {
             result.VerifyCorrectSolution(problem);
-            result.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And.HaveOrderingStrategy(OrderingStrategy);
-            result.TotalSteps.Should().BeGreaterThan(binaryCsp.Variables);
+            result.SearchMetrics.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And
+                .HaveOrderingStrategy(OrderingStrategy);
+            result.SearchMetrics.TotalSteps.Should().BeGreaterThan(binaryCsp.Variables);
             progressReporter.VerifyEndStateMatchesResult(result);
         }
     }
@@ -172,9 +177,10 @@ public abstract partial class VerboseProblemSolvingTests
         // Assert
         using (new AssertionScope())
         {
-            result.Assignments.Should().BeEmpty();
-            result.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And.HaveOrderingStrategy(OrderingStrategy);
-            result.TotalSteps.Should().BePositive();
+            result.Solution.Should().BeEmpty();
+            result.SearchMetrics.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And
+                .HaveOrderingStrategy(OrderingStrategy);
+            result.SearchMetrics.TotalSteps.Should().BePositive();
             progressReporter.VerifyEndStateMatchesResult(result);
         }
     }
@@ -197,8 +203,9 @@ public abstract partial class VerboseProblemSolvingTests
         using (new AssertionScope())
         {
             result.VerifyCorrectSolution(problem);
-            result.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And.HaveOrderingStrategy(OrderingStrategy);
-            result.TotalSteps.Should().BeGreaterThan(binaryCsp.Variables);
+            result.SearchMetrics.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And
+                .HaveOrderingStrategy(OrderingStrategy);
+            result.SearchMetrics.TotalSteps.Should().BeGreaterThan(binaryCsp.Variables);
             progressReporter.VerifyEndStateMatchesResult(result);
         }
     }
@@ -220,9 +227,10 @@ public abstract partial class VerboseProblemSolvingTests
         // Assert
         using (new AssertionScope())
         {
-            result.Assignments.Should().BeEmpty();
-            result.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And.HaveOrderingStrategy(OrderingStrategy);
-            result.TotalSteps.Should().BePositive();
+            result.Solution.Should().BeEmpty();
+            result.SearchMetrics.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And
+                .HaveOrderingStrategy(OrderingStrategy);
+            result.SearchMetrics.TotalSteps.Should().BePositive();
             progressReporter.VerifyEndStateMatchesResult(result);
         }
     }
@@ -245,8 +253,9 @@ public abstract partial class VerboseProblemSolvingTests
         using (new AssertionScope())
         {
             result.VerifyCorrectSolution(problem);
-            result.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And.HaveOrderingStrategy(OrderingStrategy);
-            result.TotalSteps.Should().BeGreaterThan(binaryCsp.Variables);
+            result.SearchMetrics.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And
+                .HaveOrderingStrategy(OrderingStrategy);
+            result.SearchMetrics.TotalSteps.Should().BeGreaterThan(binaryCsp.Variables);
             progressReporter.VerifyEndStateMatchesResult(result);
         }
     }
@@ -268,9 +277,10 @@ public abstract partial class VerboseProblemSolvingTests
         // Assert
         using (new AssertionScope())
         {
-            result.Assignments.Should().BeEmpty();
-            result.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And.HaveOrderingStrategy(OrderingStrategy);
-            result.TotalSteps.Should().BePositive();
+            result.Solution.Should().BeEmpty();
+            result.SearchMetrics.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And
+                .HaveOrderingStrategy(OrderingStrategy);
+            result.SearchMetrics.TotalSteps.Should().BePositive();
             progressReporter.VerifyEndStateMatchesResult(result);
         }
     }
@@ -293,8 +303,9 @@ public abstract partial class VerboseProblemSolvingTests
         using (new AssertionScope())
         {
             result.VerifyCorrectSolution(problem);
-            result.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And.HaveOrderingStrategy(OrderingStrategy);
-            result.TotalSteps.Should().BeGreaterThan(binaryCsp.Variables);
+            result.SearchMetrics.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And
+                .HaveOrderingStrategy(OrderingStrategy);
+            result.SearchMetrics.TotalSteps.Should().BeGreaterThan(binaryCsp.Variables);
             progressReporter.VerifyEndStateMatchesResult(result);
         }
     }
@@ -316,9 +327,10 @@ public abstract partial class VerboseProblemSolvingTests
         // Assert
         using (new AssertionScope())
         {
-            result.Assignments.Should().BeEmpty();
-            result.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And.HaveOrderingStrategy(OrderingStrategy);
-            result.TotalSteps.Should().BePositive();
+            result.Solution.Should().BeEmpty();
+            result.SearchMetrics.SearchAlgorithm.Should().HaveCheckingStrategy(CheckingStrategy).And
+                .HaveOrderingStrategy(OrderingStrategy);
+            result.SearchMetrics.TotalSteps.Should().BePositive();
             progressReporter.VerifyEndStateMatchesResult(result);
         }
     }
@@ -355,7 +367,7 @@ public abstract partial class VerboseProblemSolvingTests
         // Assert
         using (new AssertionScope())
         {
-            resultForUnsolvableProblem.Assignments.Should().BeEmpty();
+            resultForUnsolvableProblem.Solution.Should().BeEmpty();
             progressReporter.VerifyEndStateMatchesResult(resultForUnsolvableProblem);
         }
 

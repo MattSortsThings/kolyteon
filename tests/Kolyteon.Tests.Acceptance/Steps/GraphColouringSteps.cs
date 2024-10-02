@@ -122,7 +122,7 @@ internal sealed class GraphColouringSteps
 
         SolvingResult<Node, Colour> result = _solver.Solve(_binaryCsp, searchAlgorithm, CancellationToken.None);
 
-        Dictionary<Node, Colour> proposedSolution = result.Assignments.ToGraphColouringSolution();
+        Dictionary<Node, Colour> proposedSolution = result.Solution.ToGraphColouringSolution();
 
         _scenarioContext.Add(Constants.Keys.ProposedSolution, proposedSolution);
     }

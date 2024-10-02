@@ -107,7 +107,7 @@ internal sealed class SudokuSteps
 
         SolvingResult<Square, int> result = _solver.Solve(_binaryCsp, searchAlgorithm, CancellationToken.None);
 
-        NumberedSquare[] proposedSolution = result.Assignments.ToSudokuSolution();
+        NumberedSquare[] proposedSolution = result.Solution.ToSudokuSolution();
 
         _scenarioContext.Add(Constants.Keys.ProposedSolution, proposedSolution);
     }

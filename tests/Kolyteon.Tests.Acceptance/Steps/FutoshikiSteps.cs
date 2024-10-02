@@ -108,7 +108,7 @@ internal sealed class FutoshikiSteps
 
         SolvingResult<Square, int> result = _solver.Solve(_binaryCsp, searchAlgorithm, CancellationToken.None);
 
-        NumberedSquare[] proposedSolution = result.Assignments.ToFutoshikiSolution();
+        NumberedSquare[] proposedSolution = result.Solution.ToFutoshikiSolution();
 
         _scenarioContext.Add(Constants.Keys.ProposedSolution, proposedSolution);
     }
