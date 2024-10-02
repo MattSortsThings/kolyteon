@@ -43,6 +43,13 @@ public abstract class SolvingProgressReporter<TVariable, TDomainValue> : ISolvin
     public int TotalSteps { get; private set; }
 
     /// <summary>
+    ///     Gets the efficiency of the backtracking search, which is the non-backtracking proportion of the total steps,
+    ///     expressed as a real number in the range (0.0,1.0].
+    /// </summary>
+    /// <value>The default value of this property is 1.0.</value>
+    public double Efficiency { get; private set; }
+
+    /// <summary>
     ///     Gets the index of the root level of the search tree.
     /// </summary>
     /// <remarks>The index of the root level is always -1.</remarks>
@@ -118,10 +125,34 @@ public abstract class SolvingProgressReporter<TVariable, TDomainValue> : ISolvin
         OnReset();
     }
 
+    /// <summary>
+    ///     Performs additional work immediately after this instance has updated its public properties during a
+    ///     <see cref="Reset(int)" /> or <see cref="Reset()" /> method invocation.
+    /// </summary>
+    /// <remarks>
+    ///     This method must be overridden in any <see cref="SolvingProgressReporter{TVariable,TDomainValue}" />
+    ///     derivative. It can be used to trigger an event defined in the derivative, e.g. to re-render the instance's state in
+    ///     the user interface, or for any other purpose. It can also be left empty to do nothing.
+    /// </remarks>
+    protected abstract void OnReset();
+
+    /// <summary>
+    ///     Performs additional work immediately after this instance has updated its public properties during a
+    ///     <see cref="Report" /> method invocation.
+    /// </summary>
+    /// <remarks>
+    ///     This method must be overridden in any <see cref="SolvingProgressReporter{TVariable,TDomainValue}" />
+    ///     derivative. It can be used to trigger an event, e.g. to re-render the instance's state in the user interface, or
+    ///     for any other purpose. It can also be left empty to do nothing.
+    /// </remarks>
+    protected abstract void OnReport();
+
     private void UpdateForAssigningStep(Assignment<TVariable, TDomainValue>? assignment)
     {
         AssigningSteps++;
         TotalSteps++;
+        UpdateEfficiency();
+
         if (assignment.HasValue)
         {
             Assignments.Push(assignment.Value);
@@ -132,6 +163,7 @@ public abstract class SolvingProgressReporter<TVariable, TDomainValue> : ISolvin
     {
         BacktrackingSteps++;
         TotalSteps++;
+        UpdateEfficiency();
 
         int target = Math.Max(SearchLevel, 0);
 
@@ -145,7 +177,10 @@ public abstract class SolvingProgressReporter<TVariable, TDomainValue> : ISolvin
     {
         SimplifyingSteps++;
         TotalSteps++;
+        UpdateEfficiency();
     }
+
+    private void UpdateEfficiency() => Efficiency = (TotalSteps - BacktrackingSteps) / (double)TotalSteps;
 
     private void ResetAllPropertiesToDefaults()
     {
@@ -153,31 +188,10 @@ public abstract class SolvingProgressReporter<TVariable, TDomainValue> : ISolvin
         AssigningSteps = 0;
         BacktrackingSteps = 0;
         SimplifyingSteps = 0;
+        Efficiency = 1.0;
         TotalSteps = 0;
         SearchLevel = RootLevel = Constants.Levels.Root;
         LeafLevel = 0;
         SolvingState = SolvingState.Ready;
     }
-
-    /// <summary>
-    ///     Performs additional work immediately after this instance has updated its public properties during a
-    ///     <see cref="Reset(int)" /> or <see cref="Reset()" /> method invocation.
-    /// </summary>
-    /// <remarks>
-    ///     This method must be overridden in any <see cref="SolvingProgressReporter{TVariable,TDomainValue}" />
-    ///     derivative. It can be used to trigger an event defined in the derivative, e.g. to re-render the instance's state in
-    ///     the user interface, or for any other purpose. It can also be left empty to do nothing.
-    /// </remarks>
-    protected internal abstract void OnReset();
-
-    /// <summary>
-    ///     Performs additional work immediately after this instance has updated its public properties during a
-    ///     <see cref="Report" /> method invocation.
-    /// </summary>
-    /// <remarks>
-    ///     This method must be overridden in any <see cref="SolvingProgressReporter{TVariable,TDomainValue}" />
-    ///     derivative. It can be used to trigger an event, e.g. to re-render the instance's state in the user interface, or
-    ///     for any other purpose. It can also be left empty to do nothing.
-    /// </remarks>
-    protected internal abstract void OnReport();
 }

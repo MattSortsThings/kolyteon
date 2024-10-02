@@ -18,6 +18,7 @@ public static class SolvingProgressReporterExtensions
         reporter.SimplifyingSteps.Should().Be(metrics.SimplifyingSteps);
         reporter.AssigningSteps.Should().Be(metrics.AssigningSteps);
         reporter.BacktrackingSteps.Should().Be(metrics.BacktrackingSteps);
+        reporter.Efficiency.Should().BeApproximately(metrics.Efficiency, 0.000001);
 
         reporter.Assignments.Should().BeEquivalentTo(solution, options => options.WithoutStrictOrdering());
     }
