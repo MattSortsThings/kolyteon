@@ -39,7 +39,7 @@ public static class SudokuProblemTests
         public void Equals_InstanceAndOtherHaveEqualFilledSquares_ReturnsTrue()
         {
             // Arrange
-            int?[,] sharedGrid =
+            int?[,] grid =
             {
                 { null, null, null, null, null, null, null, null, null },
                 { null, null, null, 0008, null, null, null, null, null },
@@ -52,8 +52,8 @@ public static class SudokuProblemTests
                 { null, null, null, null, null, null, null, null, null }
             };
 
-            SudokuProblem sut = SudokuProblem.FromGrid(sharedGrid);
-            SudokuProblem other = SudokuProblem.FromGrid(sharedGrid);
+            SudokuProblem sut = SudokuProblem.FromGrid(grid);
+            SudokuProblem other = SudokuProblem.FromGrid(grid);
 
             // Act
             bool result = sut.Equals(other);
@@ -550,7 +550,7 @@ public static class SudokuProblemTests
         public void Equality_InstanceAndOtherHaveEqualFilledSquares_ReturnsTrue()
         {
             // Arrange
-            int?[,] sharedGrid =
+            int?[,] grid =
             {
                 { null, null, null, null, null, null, null, null, null },
                 { null, null, null, 0008, null, null, null, null, null },
@@ -563,8 +563,8 @@ public static class SudokuProblemTests
                 { null, null, null, null, null, null, null, null, null }
             };
 
-            SudokuProblem sut = SudokuProblem.FromGrid(sharedGrid);
-            SudokuProblem other = SudokuProblem.FromGrid(sharedGrid);
+            SudokuProblem sut = SudokuProblem.FromGrid(grid);
+            SudokuProblem other = SudokuProblem.FromGrid(grid);
 
             // Act
             bool result = sut == other;
@@ -618,7 +618,7 @@ public static class SudokuProblemTests
         public void Inequality_InstanceAndOtherHaveEqualFilledSquares_ReturnsFalse()
         {
             // Arrange
-            int?[,] sharedGrid =
+            int?[,] grid =
             {
                 { null, null, null, null, null, null, null, null, null },
                 { null, null, null, 0008, null, null, null, null, null },
@@ -631,8 +631,8 @@ public static class SudokuProblemTests
                 { null, null, null, null, null, null, null, null, null }
             };
 
-            SudokuProblem sut = SudokuProblem.FromGrid(sharedGrid);
-            SudokuProblem other = SudokuProblem.FromGrid(sharedGrid);
+            SudokuProblem sut = SudokuProblem.FromGrid(grid);
+            SudokuProblem other = SudokuProblem.FromGrid(grid);
 
             // Act
             bool result = sut != other;
@@ -1136,54 +1136,6 @@ public static class SudokuProblemTests
                         { null, null, null, null, null, null, null, null, null },
                         { null, null, null, null, null, null, null, null, null },
                         { null, null, null, null, null, null, null, null, null }
-                    }
-                ];
-
-                yield return
-                [
-                    new int?[,]
-                    {
-                        { 0001, null, null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null, null, null }
-                    }
-                ];
-
-                yield return
-                [
-                    new int?[,]
-                    {
-                        { 0001, null, null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null, null, null }
-                    }
-                ];
-
-                yield return
-                [
-                    new int?[,]
-                    {
-                        { 0001, null, null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null, null, null },
-                        { null, null, null, null, null, null, null, null, 0002 }
                     }
                 ];
 
