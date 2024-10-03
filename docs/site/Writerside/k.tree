@@ -4,7 +4,21 @@
 
 <instance-profile id="k"
                  name="Kolyteon"
-                 start-page="kolyteon.md">
+                 start-page="Kolyteon.md">
 
-    <toc-element topic="kolyteon.md"/>
+    <toc-element topic="Kolyteon.md"/>
+    <toc-element topic="About.md"/>
+    <toc-element topic="Documentation.md"/>
+    <toc-element topic="API-Reference.md">
+        <toc-element topic="Kolyteon-Common.md">
+        </toc-element>
+        <toc-element topic="Kolyteon-Futoshiki.md"/>
+        <toc-element topic="Kolyteon-GraphColouring.md"/>
+        <toc-element topic="Kolyteon-MapColouring.md"/>
+        <toc-element topic="Kolyteon-Modelling.md"/>
+        <toc-element topic="Kolyteon-NQueens.md"/>
+        <toc-element topic="Kolyteon-Shikaku.md"/>
+        <toc-element topic="Kolyteon-Solving.md"/>
+        <toc-element topic="Kolyteon-Sudoku.md"/>
+    </toc-element>
 </instance-profile>

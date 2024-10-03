@@ -6,4 +6,3 @@
 2. Model it as a binary constraint satisfaction problem (binary CSP).
 3. Choose a search algorithm.
 4. Watch the binary CSP get solved.
-
