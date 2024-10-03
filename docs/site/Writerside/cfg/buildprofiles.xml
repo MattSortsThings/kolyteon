@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE buildprofiles SYSTEM "https://resources.jetbrains.com/writerside/1.0/build-profiles.dtd">
+<buildprofiles xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/build-profiles.xsd"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <variables>
+        <primary-color>ruby</primary-color>
+        <link-color>ruby</link-color>
+        <custom-favicons>kolyteon_icon_96x96.png,kolyteon_icon_300x300.png</custom-favicons>
+        <header-logo>kolyteon_icon_300x300.png</header-logo>
+    </variables>
+
+    <footer>
+        <copyright>2024 Matt Tantony</copyright>
+    </footer>
+
+    <build-profile instance="k">
+        <variables>
+            <noindex-content>true</noindex-content>
+        </variables>
+    </build-profile>
+
+</buildprofiles>
